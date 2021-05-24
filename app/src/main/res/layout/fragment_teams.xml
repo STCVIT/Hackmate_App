@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.TeamsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Teams Fragment"
+        android:textSize="20sp"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="top|center"/>
+
+    <Button
+        android:id="@+id/joinTeamDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Join Team Details"/>
+
+    <Button
+        android:id="@+id/joinUsingCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:layout_gravity="center|top"
+        android:text="Join Using Code"/>
+
+
+
+</FrameLayout>

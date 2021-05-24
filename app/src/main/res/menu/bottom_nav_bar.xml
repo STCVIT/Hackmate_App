@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home"
+        android:title="Home"
+        app:cnb_textColor = "@color/white"
+        app:cnb_iconColor = "@color/white"
+        app:cnb_backgroundColor = "#1EA54C"/>
+
+    <item
+        android:id="@+id/nav_teams"
+        android:icon="@drawable/teams"
+        app:cnb_textColor = "@color/white"
+        app:cnb_iconColor = "@color/white"
+        app:cnb_backgroundColor = "#1EA54C"
+        android:title="Teams"/>
+
+    <item
+        android:id="@+id/nav_myTeams"
+        android:icon="@drawable/my_teams"
+        app:cnb_textColor = "@color/white"
+        app:cnb_iconColor = "@color/white"
+        app:cnb_backgroundColor = "#1EA54C"
+        android:title="My Teams"/>
+
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/profile"
+        app:cnb_textColor = "@color/white"
+        app:cnb_iconColor = "@color/white"
+        app:cnb_backgroundColor = "#1EA54C"
+        android:title="Profile"/>
+
+</menu>
