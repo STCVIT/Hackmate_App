@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import com.example.hackmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.ismaeldivita.chipnavigation.ChipNavigationBar;
-
 
 public class EditProfileFragment extends Fragment {
 
@@ -47,7 +45,7 @@ public class EditProfileFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
 
-        ChipNavigationBar bottomNavigation = getActivity().findViewById(R.id.bottom_nav_bar);
+        BottomNavigationView bottomNavigation = getActivity().findViewById(R.id.bottom_nav_bar);
         bottomNavigation.setVisibility(View.VISIBLE);
     }
 

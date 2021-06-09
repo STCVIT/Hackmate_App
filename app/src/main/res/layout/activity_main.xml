@@ -6,17 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.ismaeldivita.chipnavigation.ChipNavigationBar
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav_bar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#1D2833"
-        android:elevation="4dp"
-        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:labelVisibilityMode="labeled"
+        app:itemTextColor="@color/bottom_nav"
+        app:itemIconTint="@color/bottom_nav"
+        app:itemTextAppearanceActive="@style/TextStyle"
+        app:itemTextAppearanceInactive="@style/TextStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:cnb_menuResource="@menu/bottom_nav_bar" />
+        app:menu="@menu/bottom_nav_bar" />
 
     <FrameLayout
         android:id="@+id/nav_host_fragment"

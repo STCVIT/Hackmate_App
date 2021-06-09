@@ -146,22 +146,14 @@
 
         </com.google.android.material.chip.ChipGroup>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/inviteList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchTeammate" />
-
         <Button
             android:id="@+id/sendInviteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="68dp"
-            android:layout_marginTop="308dp"
+            android:layout_marginTop="300dp"
             android:text="Send Invite"
+            app:layout_constraintEnd_toStartOf="@+id/searchTeammate"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/searchTeammate" />
 
@@ -170,10 +162,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|center"
-            android:layout_marginTop="256dp"
+            android:layout_marginTop="252dp"
             android:text="Go TO PROFILE"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.295"
             app:layout_constraintStart_toEndOf="@+id/sendInviteButton"
             app:layout_constraintTop_toBottomOf="@+id/searchTeammate" />
 

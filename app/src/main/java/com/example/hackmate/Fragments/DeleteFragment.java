@@ -13,11 +13,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.hackmate.R;
+import com.google.android.material.button.MaterialButton;
 
 
 public class DeleteFragment extends Fragment {
 
-    Button deleteButton;
+    MaterialButton deleteButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,7 +31,7 @@ public class DeleteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        deleteButton = view.findViewById(R.id.DeleteButton);
+        deleteButton = (MaterialButton) view.findViewById(R.id.DeleteButton);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

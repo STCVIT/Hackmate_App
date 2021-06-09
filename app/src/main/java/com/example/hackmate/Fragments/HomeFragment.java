@@ -13,13 +13,11 @@ import android.widget.Button;
 
 import com.example.hackmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.ismaeldivita.chipnavigation.ChipNavigationBar;
-
 
 public class HomeFragment extends Fragment {
 
-   Button hackInfo;
-   ChipNavigationBar bottomNavigation;
+    Button hackInfo;
+    BottomNavigationView bottomNavigation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

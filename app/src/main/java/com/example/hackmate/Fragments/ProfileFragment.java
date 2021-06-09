@@ -15,12 +15,11 @@ import android.widget.Toast;
 
 import com.example.hackmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class ProfileFragment extends Fragment {
 
     Button addProjectButton,settingsButton, editProfileButton;
-    ChipNavigationBar bottomNavigation;
+    BottomNavigationView bottomNavigation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

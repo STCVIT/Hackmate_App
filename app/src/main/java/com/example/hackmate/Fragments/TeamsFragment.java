@@ -14,14 +14,11 @@ import android.widget.Toast;
 
 import com.example.hackmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.chip.Chip;
-import com.ismaeldivita.chipnavigation.ChipNavigationBar;
-
 
 public class TeamsFragment extends Fragment {
 
     Button joinTeamDetails, joinCode;
-    ChipNavigationBar bottomNavigation;
+    BottomNavigationView bottomNavigation;
     int GET_NAV_CODE = 0;
 
     @Override

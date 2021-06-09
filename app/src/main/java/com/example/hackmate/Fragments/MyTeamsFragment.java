@@ -13,12 +13,11 @@ import android.widget.Button;
 
 import com.example.hackmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class MyTeamsFragment extends Fragment {
 
     Button particularTeam, tallyRequest;
-    ChipNavigationBar bottomNavigation;
+    BottomNavigationView bottomNavigation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
