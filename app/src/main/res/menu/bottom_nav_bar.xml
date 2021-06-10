@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home"
+        android:enabled="true"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/nav_teams"
+        android:icon="@drawable/teams"
+        android:enabled="true"
+        android:title="Search"/>
+
+    <item
+        android:id="@+id/nav_myTeams"
+        android:icon="@drawable/my_teams"
+        android:enabled="true"
+        android:title="Teams"/>
+
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/profile"
+        android:enabled="true"
+        android:title="Profile"/>
+
+</menu>

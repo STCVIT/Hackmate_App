@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.ParticularTeamFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PARTICULAR TEAM FRAGMENT"
+        android:textSize="20sp"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="top|center"/>
+
+    <TextView
+        android:id="@+id/particularTeamDetails"
+        android:layout_width="wrap_content"
+        android:textSize="18dp"
+        android:layout_height="wrap_content"
+        android:text="PARTICULAR TEAM DETAILS"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="120dp"/>
+
+    <Button
+        android:id="@+id/inviteTeammateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="invite Teammate"/>
+
+    <Button
+        android:id="@+id/profileParticipantButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GO TO PROFILE"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="200dp"/>
+
+    <Button
+        android:id="@+id/addProjectTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="200dp"
+        android:text="Add a Project"/>
+
+    <Button
+        android:id="@+id/editProjectButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Project"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="100sp"/>
+
+
+</FrameLayout>
