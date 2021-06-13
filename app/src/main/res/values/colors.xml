@@ -17,4 +17,5 @@
     <color name="text">#E7EFEF</color>
     <color name="card_color">#1D2833</color>
     <color name="pill_color">#1EA54C</color>
+    <color name="link">#53B7FF</color>
 </resources>
