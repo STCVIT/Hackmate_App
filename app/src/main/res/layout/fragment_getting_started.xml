@@ -14,7 +14,7 @@
         android:background="@color/background">
 
         <EditText
-            android:id="@+id/editTextTextMultiLine2"
+            android:id="@+id/about"
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_marginStart="16dp"
@@ -50,7 +50,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName15"
+            android:id="@+id/last_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
@@ -65,11 +65,11 @@
             android:textColorHint="@color/text_secondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName14"
+            app:layout_constraintStart_toEndOf="@+id/first_name"
             app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName14"
+            android:id="@+id/first_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -84,13 +84,13 @@
             android:padding="10dp"
             android:textColor="@color/text"
             android:textColorHint="@color/text_secondary"
-            app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName15"
+            app:layout_constraintEnd_toStartOf="@+id/last_name"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName16"
+            android:id="@+id/username"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -107,10 +107,10 @@
             android:textColorHint="@color/text_secondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName15" />
+            app:layout_constraintTop_toBottomOf="@+id/last_name" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName17"
+            android:id="@+id/university"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -125,10 +125,10 @@
             android:textColorHint="@color/text_secondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName16" />
+            app:layout_constraintTop_toBottomOf="@+id/username" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName6"
+            android:id="@+id/github_link"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -146,7 +146,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName8"
+            android:id="@+id/linkedIn_link"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -164,10 +164,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName6" />
+            app:layout_constraintTop_toBottomOf="@+id/github_link" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName7"
+            android:id="@+id/website"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -185,7 +185,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName8" />
+            app:layout_constraintTop_toBottomOf="@+id/linkedIn_link" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroup"
@@ -256,7 +256,7 @@
         </com.google.android.material.chip.ChipGroup>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/createProfile"
+            android:id="@+id/createProfile_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -270,7 +270,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine2"
+            app:layout_constraintTop_toBottomOf="@+id/about"
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
@@ -286,7 +286,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName7" />
+            app:layout_constraintTop_toBottomOf="@+id/website" />
 
         <ImageView
             android:id="@+id/imageView8"
@@ -329,7 +329,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName17">
+            app:layout_constraintTop_toBottomOf="@+id/university">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout"
