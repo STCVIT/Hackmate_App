@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.hackmate.R;
@@ -21,9 +22,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class SettingsFragment extends Fragment {
 
-    //Button signOut, delete, reset;
     TextView delete,reset;
-    CardView signOut;
+    LinearLayout signOut;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

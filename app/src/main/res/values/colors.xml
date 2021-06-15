@@ -11,5 +11,11 @@
     <color name="greenAlpha">#10439657</color>
     <color name="mediumGrey">#D1D1D1</color>
     <color name="darkGrey">#858585</color>
-    <color name="background">#2E3D4C</color>
+    <color name="background">#23303D</color>
+    <color name="field_fill">#2E3D4C</color>
+    <color name="text_secondary">#979797</color>
+    <color name="text">#E7EFEF</color>
+    <color name="card_color">#1D2833</color>
+    <color name="pill_color">#1EA54C</color>
+    <color name="link">#53B7FF</color>
 </resources>

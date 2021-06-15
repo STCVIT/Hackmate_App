@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +16,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.hackmate.Adapters.InviteAdapter;
 import com.example.hackmate.R;
 import com.google.android.material.chip.ChipGroup;
 
 public class InviteParticipantFragment extends Fragment {
 
-    Button sendInvite, goProfile;
-    LinearLayout filter;
-    ImageView downArrow, upArrow;
-    ChipGroup chips;
+    private LinearLayout filter;
+    private ImageView downArrow, upArrow;
+    private ChipGroup chips;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,10 +37,7 @@ public class InviteParticipantFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        sendInvite = view.findViewById(R.id.sendInviteButton);
-        goProfile = view.findViewById(R.id.participantProfileButton);
         filter = view.findViewById(R.id.domainFilterTeammate);
-
         downArrow = view.findViewById(R.id.downArrow);
         upArrow = view.findViewById(R.id.upArrow);
 
@@ -61,29 +60,11 @@ public class InviteParticipantFragment extends Fragment {
             }
         });
 
-        sendInvite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Invite sent successfully !!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        RecyclerView inviteProfile = view.findViewById(R.id.inviteList);
+        inviteProfile.setLayoutManager(new LinearLayoutManager(getContext()));
+        String[] names = {"Bhavik Agrawal","Yash Jasani"};
+        String[] domains = {"App Dev","Frontend"};
+        inviteProfile.setAdapter(new InviteAdapter(names,domains));
 
-        goProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParticipantProfileFragment frag = new ParticipantProfileFragment();
-
-                Bundle bundle = new Bundle();
-                bundle.putInt("Key", 1);
-                frag.setArguments(bundle);
-
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment,frag)
-                        .addToBackStack(null)
-                        .commit();
-
-            }
-        });
     }
 }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.InviteParticipantFragment"
-    android:background="#23303D">
+    android:background="@color/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="20dp"
-            app:cardBackgroundColor="#2E3D4C"
+            app:cardBackgroundColor="@color/field_fill"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,10 +30,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
                 android:layout_marginLeft="49dp"
-                android:backgroundTint="#2E3D4C"
+                android:backgroundTint="@color/field_fill"
                 android:fontFamily="@font/roboto"
                 android:hint="Search for teammates"
-                android:textColorHint="#DDDDDD"
+                android:textColorHint="@color/text"
                 android:textSize="14dp" />
 
             <ImageView
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:backgroundTint="#23303D"
+            android:backgroundTint="@color/background"
             app:layout_constraintStart_toStartOf="@+id/searchTeammate"
             app:layout_constraintTop_toBottomOf="@+id/searchTeammate">
 
@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Filter"
-                android:textColor="#1EA54C" />
+                android:textColor="@color/pill_color" />
 
             <ImageView
                 android:id="@+id/downArrow"
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
-                android:src="@drawable/down_arrow" />
+                android:src="@drawable/ic_down_arrow" />
 
             <ImageView
                 android:id="@+id/upArrow"
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
-                android:src="@drawable/up_arrow"
+                android:src="@drawable/ic_up_arrow"
                 android:visibility="gone" />
 
         </LinearLayout>
@@ -96,16 +96,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Frontend"
-                app:chipStrokeColor="@color/green"
+                app:chipStrokeColor="@color/pill_color"
                 app:chipStrokeWidth="2dp" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chipDomain"
+                android:id="@+id/chipDomain2"
                 style="@style/CustomChipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Backend"
-                app:chipStrokeColor="@color/green"
+                app:chipStrokeColor="@color/pill_color"
                 app:chipStrokeWidth="2dp" />
 
             <com.google.android.material.chip.Chip
@@ -114,7 +114,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Machine Learning"
-                app:chipStrokeColor="@color/green"
+                app:chipStrokeColor="@color/pill_color"
                 app:chipStrokeWidth="2dp" />
 
             <com.google.android.material.chip.Chip
@@ -123,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="UI/UX Design"
-                app:chipStrokeColor="@color/green"
+                app:chipStrokeColor="@color/pill_color"
                 app:chipStrokeWidth="2dp" />
 
             <com.google.android.material.chip.Chip
@@ -141,32 +141,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="App Development"
-                app:chipStrokeColor="@color/green"
+                app:chipStrokeColor="@color/pill_color"
                 app:chipStrokeWidth="2dp" />
 
         </com.google.android.material.chip.ChipGroup>
 
-        <Button
-            android:id="@+id/sendInviteButton"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/inviteList"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="300dp"
-            android:text="Send Invite"
-            app:layout_constraintEnd_toStartOf="@+id/searchTeammate"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/searchTeammate" />
-
-        <Button
-            android:id="@+id/participantProfileButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center"
-            android:layout_marginTop="252dp"
-            android:text="Go TO PROFILE"
+            android:layout_marginTop="50dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/sendInviteButton"
-            app:layout_constraintTop_toBottomOf="@+id/searchTeammate" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchTeammate" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
