@@ -1,61 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".Fragments.HackInfoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="HACK INFO FRAGMENT"
-        android:textSize="20sp"
-        android:layout_marginTop="50dp"
-        android:layout_gravity="top|center"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
-    <Button
-        android:id="@+id/viewWebsite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="VIEW WEBSITE"
-        android:textSize="18dp"
-        android:layout_marginTop="100dp"
-        android:layout_gravity="top|center"/>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/appBar"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            app:cardBackgroundColor="@color/card_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/participateNow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PARTICIPATE NOW"
-        android:textSize="18dp"
-        android:layout_marginTop="150dp"
-        android:layout_gravity="top|center"/>
 
-    <Button
-        android:id="@+id/createTeam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CREATE TEAM"
-        android:textSize="18dp"
-        android:layout_gravity="top|center"
-        android:layout_marginTop="350dp"/>
-    <Button
-        android:id="@+id/addFrommExisting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ADD FROM EXISTING"
-        android:textSize="18dp"
-        android:layout_marginTop="250dp"
-        android:layout_gravity="top|center"/>
+            <ImageView
+                android:id="@+id/hack_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/ic__hack_profile_"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/joinTeam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|center"
-        android:layout_marginTop="300dp"
-        android:text="JOIN TEAM"
-        android:textSize="18dp" />
+        </androidx.cardview.widget.CardView>
 
-</FrameLayout>
+
+        <ImageView
+            android:id="@+id/hackImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/appBar" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/organiserCard"
+            android:layout_width="match_parent"
+            android:layout_height="102dp"
+            app:layout_constraintTop_toBottomOf="@+id/hackImage">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/card_color">
+
+                <TextView
+                    android:id="@+id/hackName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Devsoc"
+                    android:textColor="@color/text"
+                    android:textSize="24dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="organized by"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12dp"
+                    app:layout_constraintLeft_toLeftOf="@id/hackName"
+                    app:layout_constraintTop_toBottomOf="@id/hackName" />
+
+                <TextView
+                    android:id="@+id/organiserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="9dp"
+                    android:text="Codechef VIT"
+                    android:textColor="@color/text"
+                    app:layout_constraintBottom_toBottomOf="@id/temp"
+                    app:layout_constraintLeft_toRightOf="@id/temp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/hackDetails"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:cardBackgroundColor="@color/card_color"
+            app:layout_constraintTop_toBottomOf="@+id/organiserCard">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="20dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="17.33dp"
+                    android:src="@drawable/ic_time"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="Starts:"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="Ends:"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/dateStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="16dp"
+                    android:text="May 21, 2021"
+                    android:textColor="@color/text"
+                    android:textSize="12dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/dateEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="May 21, 2021"
+                    android:textColor="@color/text"
+                    android:textSize="12dp"
+                    app:layout_constraintLeft_toLeftOf="@id/dateStart"
+                    app:layout_constraintTop_toBottomOf="@id/dateStart" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/hackAbout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/card_color"
+            app:layout_constraintTop_toBottomOf="@id/hackDetails">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="16dp"
+                android:text="About"
+                android:textColor="@color/text_secondary"
+                android:textSize="18dp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="42dp"
+                android:layout_marginBottom="52dp"
+                android:fontFamily="@font/roboto"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Est pulvinar facilisi phasellus magnis. Nec gravida mauris in fusce vitae pellentesque eget urna. Posuere quisque sit eget morbi vitae adipiscing. Sed sem tempor tincidunt amet. Tortor mauris ultrices eget purus diam aenean convallis eu ipsum.
+Diam feugiat auctor varius est cursus. Arcu id sed egestas pellentesque eget sit mi neque."
+                android:textColor="@color/text" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/viewWebsite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/ic_invited"
+            android:text="VISIT WEBSITE"
+            android:textColor="@color/pill_color"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hackAbout" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/participateNow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="37dp"
+            android:background="@drawable/ic_buttongradient"
+            android:text="PARTICIPATE NOW"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewWebsite"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

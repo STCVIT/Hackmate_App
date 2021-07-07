@@ -15,10 +15,19 @@ import android.widget.Toast;
 import com.example.hackmate.R;
 import com.google.android.material.button.MaterialButton;
 
+import java.util.Random;
+
 
 public class DeleteFragment extends Fragment {
 
     AppCompatButton deleteButton;
+    private int code;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        sendEmailVerificationCode();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,5 +47,11 @@ public class DeleteFragment extends Fragment {
                 Toast.makeText(getActivity(), "Account has been deleted successfully !!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void sendEmailVerificationCode()
+    {
+        Random random = new Random();
+        code = random.nextInt(999999);
     }
 }

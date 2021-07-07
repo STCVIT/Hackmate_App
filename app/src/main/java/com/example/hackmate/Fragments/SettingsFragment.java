@@ -1,6 +1,7 @@
 package com.example.hackmate.Fragments;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -14,16 +15,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.hackmate.LoginActivity;
 import com.example.hackmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingsFragment extends Fragment {
 
     TextView delete,reset;
     LinearLayout signOut;
+    private FirebaseAuth mAuth;
+    private String msg;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +45,8 @@ public class SettingsFragment extends Fragment {
         signOut = view.findViewById(R.id.signOutButton);
         delete = view.findViewById(R.id.deleteAccountButton);
         reset = view.findViewById(R.id.resetPasswordButton);
+
+        mAuth = FirebaseAuth.getInstance();
 
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +66,11 @@ public class SettingsFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         alertDialog.dismiss();
+                        mAuth.signOut();
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                        Toast.makeText(getActivity(), "Sign out successfully!!!", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -67,7 +80,7 @@ public class SettingsFragment extends Fragment {
                         alertDialog.dismiss();
                     }
                 });
-                //Toast.makeText(getActivity(), "Confirmation of Sign Out will be asked through Dialog box !!!", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -102,6 +115,25 @@ public class SettingsFragment extends Fragment {
                 sign_out.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        /*
+                        mAuth.sendPasswordResetEmail("bhavikagrawal0902@gmail.com")
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful())
+                                            msg = "Reset link sent to your email !!!";
+                                        else
+                                            msg = "Unable to send reset link...Please try again!!";
+
+                                        Snackbar.make(v,msg,Snackbar.LENGTH_SHORT)
+                                                .setAction("Action",null)
+                                                .setBackgroundTint(Color.parseColor("#DAED10"))
+                                                .setTextColor(Color.BLACK)
+                                                .show();
+                                    }
+                                });
+                        */
+
                         Snackbar.make(v,"Reset link sent to your email !!!",Snackbar.LENGTH_SHORT)
                                 .setAction("Action",null)
                                 .setBackgroundTint(Color.parseColor("#DAED10"))
