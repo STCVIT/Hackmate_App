@@ -35,7 +35,7 @@ public class ParticipantProfileFragment extends Fragment {
             GET_NAV_CODE = bundle.getInt("Key", 0);
         }
 
-        inviteParticipant = view.findViewById(R.id.sendInviteParticipant);
+       /* inviteParticipant = view.findViewById(R.id.sendInviteParticipant);
 
         if(GET_NAV_CODE==1)
             inviteParticipant.setVisibility(View.VISIBLE);
@@ -45,7 +45,7 @@ public class ParticipantProfileFragment extends Fragment {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Invite sent successfully !!", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
     }
 
     @Override
