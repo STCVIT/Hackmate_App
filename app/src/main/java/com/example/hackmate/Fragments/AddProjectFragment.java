@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
 
 import com.example.hackmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -27,7 +30,13 @@ public class AddProjectFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        return inflater.inflate(R.layout.fragment_add_project, container, false);
+       View v = inflater.inflate(R.layout.fragment_add_project, container, false);
+
+
+            Toolbar toolbar = (Toolbar) v.findViewById(R.id.topAppBar);
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            return v;
+
     }
 
     @Override
