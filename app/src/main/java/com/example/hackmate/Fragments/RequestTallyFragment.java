@@ -51,6 +51,7 @@ public class RequestTallyFragment extends Fragment {
         setRecyclerView();
         accept=view.findViewById(R.id.acceptButton);
         reject = view.findViewById(R.id.rejectButton);
+        /*
         accept.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Invite is accepted", Toast.LENGTH_SHORT).show();
@@ -62,6 +63,7 @@ public class RequestTallyFragment extends Fragment {
             }
         });
 
+         */
         /*request = view.findViewById(R.id.requestButton);
         request.setOnClickListener(new View.OnClickListener() {
             @Override
