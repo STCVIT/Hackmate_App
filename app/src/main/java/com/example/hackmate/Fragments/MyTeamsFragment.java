@@ -12,11 +12,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.hackmate.R;
+import com.example.hackmate.Fragments.particularTeam_leaderviewFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MyTeamsFragment extends Fragment {
 
-    Button particularTeam, tallyRequest;
+    Button particularTeam, tallyRequest,particularTeamLeaderView;
     BottomNavigationView bottomNavigation;
 
     @Override
@@ -32,6 +33,7 @@ public class MyTeamsFragment extends Fragment {
 
         particularTeam = view.findViewById(R.id.particularTeamButton);
         tallyRequest = view.findViewById(R.id.requestTally);
+        particularTeamLeaderView = view.findViewById(R.id.particularTeamLeaderview);
         bottomNavigation = getActivity().findViewById(R.id.bottom_nav_bar);
 
         particularTeam.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +57,20 @@ public class MyTeamsFragment extends Fragment {
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.nav_host_fragment,new RequestTallyFragment())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        particularTeamLeaderView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                bottomNavigation.setVisibility(View.GONE);
+
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment,new particularTeam_leaderviewFragment())
                         .addToBackStack(null)
                         .commit();
             }
