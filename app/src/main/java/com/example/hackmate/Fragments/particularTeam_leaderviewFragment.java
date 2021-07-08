@@ -1,4 +1,4 @@
-package com.example.hackmate;
+package com.example.hackmate.Fragments;
 
 import android.os.Bundle;
 
@@ -19,6 +19,10 @@ import android.widget.TextView;
 
 import com.example.hackmate.Fragments.AddProjectFragment;
 import com.example.hackmate.Fragments.EditProjectFragment;
+import com.example.hackmate.Fragments.InviteParticipantFragment;
+import com.example.hackmate.R;
+import com.example.hackmate.teamMember_LeaderAdapter;
+import com.example.hackmate.teamMember_Model;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -30,7 +34,7 @@ public class particularTeam_leaderviewFragment extends Fragment {
 
     ImageView editProject,addProjectIcon;
 
-    TextView addProjectTV;
+    TextView addProjectTV,InviteParticpant;
 
 
 
@@ -56,6 +60,7 @@ public class particularTeam_leaderviewFragment extends Fragment {
         editProject = view.findViewById(R.id.editProject);
         addProjectIcon = view.findViewById(R.id.addProject_Icon);
 addProjectTV=view.findViewById(R.id.addProject_TextView);
+InviteParticpant=view.findViewById(R.id.inviteparticipant_textView);
 // here we have created new array list and added data to it.
         teamModelArrayList = new ArrayList<>();
 
@@ -106,6 +111,16 @@ addProjectTV=view.findViewById(R.id.addProject_TextView);
                         .addToBackStack(null)
                         .commit();
 
+            }
+        });
+        InviteParticpant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment,new InviteParticipantFragment())
+                        .addToBackStack(null)
+                        .commit();
             }
         });
     }
