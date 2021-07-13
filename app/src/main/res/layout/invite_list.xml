@@ -4,12 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:backgroundTint="@color/card_color">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/white"/>
+    android:backgroundTint="@color/card_color"
+    android:layout_marginTop="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/participantProfileButton"

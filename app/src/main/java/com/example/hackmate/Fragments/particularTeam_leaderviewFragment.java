@@ -33,11 +33,8 @@ public class particularTeam_leaderviewFragment extends Fragment {
     private ArrayList<teamMember_Model> teamModelArrayList;
 
     ImageView editProject,addProjectIcon;
-
     TextView addProjectTV,InviteParticpant;
-
-
-
+    int GET_NAV_CODE = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +52,11 @@ public class particularTeam_leaderviewFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            GET_NAV_CODE = bundle.getInt("Key", 0);
+        }
 
         team_LeaderRV = view.findViewById(R.id.rvTeam_Leader);
         editProject = view.findViewById(R.id.editProject);
@@ -129,7 +131,9 @@ InviteParticpant=view.findViewById(R.id.inviteparticipant_textView);
     public void onDestroy() {
         super.onDestroy();
 
-        BottomNavigationView bottomNavigation = getActivity().findViewById(R.id.bottom_nav_bar);
-        bottomNavigation.setVisibility(View.VISIBLE);
+        if(GET_NAV_CODE==0) {
+            BottomNavigationView bottomNavigation = getActivity().findViewById(R.id.bottom_nav_bar);
+            bottomNavigation.setVisibility(View.VISIBLE);
+        }
     }
 }

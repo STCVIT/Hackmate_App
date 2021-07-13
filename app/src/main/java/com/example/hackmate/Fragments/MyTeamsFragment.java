@@ -68,9 +68,15 @@ public class MyTeamsFragment extends Fragment {
 
                 bottomNavigation.setVisibility(View.GONE);
 
+                particularTeam_leaderviewFragment frag = new particularTeam_leaderviewFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("Key", 0);
+                frag.setArguments(bundle);
+
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment,new particularTeam_leaderviewFragment())
+                        .replace(R.id.nav_host_fragment,frag)
                         .addToBackStack(null)
                         .commit();
             }

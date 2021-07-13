@@ -38,7 +38,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:text="@string/first"
+                android:text="@string/left"
                 android:textColor="#1EA54C"
                 android:textSize="24sp"
                 android:textStyle="bold" />

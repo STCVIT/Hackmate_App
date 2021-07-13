@@ -53,6 +53,8 @@ public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ProgramViewHol
             Chip chip = new Chip(context);
             chip.setText(team_domains[i]);
             chip.setChipStrokeColorResource(R.color.pill_color);
+            chip.setChipBackgroundColor(context.getResources().getColorStateList(R.color.chip_background_color));
+            chip.setTextColor(context.getResources().getColorStateList(R.color.chip_text_color));
             chip.setChipStrokeWidth(6);
             chip.setClickable(false);
             holder.domainGrp.addView(chip);

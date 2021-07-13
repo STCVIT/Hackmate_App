@@ -35,7 +35,19 @@ public class CreateTeamsFragment extends Fragment {
         createTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Your team has been created successfully !!!", Toast.LENGTH_SHORT).show();
+
+                particularTeam_leaderviewFragment frag = new particularTeam_leaderviewFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("Key", 1);
+                frag.setArguments(bundle);
+
+
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment,frag)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
     }
