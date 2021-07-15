@@ -16,14 +16,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.hackmate.Adapters.InvitesAdapter;
 import com.example.hackmate.Adapters.RequestsAdapter;
-import com.example.hackmate.InvitesModel;
+import com.example.hackmate.Models.InvitesModel;
 import com.example.hackmate.R;
-import com.example.hackmate.RequestsModel;
-import com.example.hackmate.teamMember_Model;
+import com.example.hackmate.Models.RequestsModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;

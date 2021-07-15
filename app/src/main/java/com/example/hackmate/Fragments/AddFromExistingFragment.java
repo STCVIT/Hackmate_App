@@ -11,13 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.hackmate.Adapters.AddFromExistingAdapter;
-import com.example.hackmate.Adapters.ProjectAdapterMP;
-import com.example.hackmate.AddFromExistingModel;
-import com.example.hackmate.ProjectModel;
+import com.example.hackmate.Models.AddFromExistingModel;
 import com.example.hackmate.R;
 
 import java.util.ArrayList;

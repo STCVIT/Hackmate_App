@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hackmate.R;
-import com.example.hackmate.myTeamsModel;
+import com.example.hackmate.Models.myTeamsModel;
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class myTeamsAdapter extends RecyclerView.Adapter<myTeamsAdapter.Viewhold
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
        myTeamsModel.myTeams_Model model = (myTeamsModel.myTeams_Model) myTeamsArrayList.get(position);
        holder.TeamName_myTeams.setText(model.getTeamName());
-       holder.HackName_myTeams.setText(model.getTeamName());
+       holder.HackName_myTeams.setText(model.getHackName());
        holder.Position_myTeams.setText(model.getTeamPosition());
 
        holder.Domain1.setText(model.getDomain1());

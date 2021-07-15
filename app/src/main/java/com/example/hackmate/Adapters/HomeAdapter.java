@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hackmate.HomeModel;
+import com.example.hackmate.Models.HomeModel;
 import com.example.hackmate.R;
 
 import java.util.ArrayList;

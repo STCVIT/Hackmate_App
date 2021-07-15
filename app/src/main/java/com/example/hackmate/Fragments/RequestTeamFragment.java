@@ -16,9 +16,9 @@ import android.widget.Toast;
 
 import com.example.hackmate.Adapters.MemberAdapter;
 import com.example.hackmate.Adapters.ProjectAdapterRT;
-import com.example.hackmate.ProjectModel;
+import com.example.hackmate.Models.ProjectModel;
 import com.example.hackmate.R;
-import com.example.hackmate.teamMember_Model;
+import com.example.hackmate.Models.teamMember_Model;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;

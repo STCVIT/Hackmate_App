@@ -13,14 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hackmate.Adapters.myTeamsAdapter;
 import com.example.hackmate.R;
-import com.example.hackmate.Fragments.particularTeam_leaderviewFragment;
-import com.example.hackmate.myTeamsModel;
+import com.example.hackmate.Models.myTeamsModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;

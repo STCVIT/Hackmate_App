@@ -1,4 +1,4 @@
-package com.example.hackmate;
+package com.example.hackmate.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.hackmate.R;
+import com.example.hackmate.Models.teamMember_Model;
 
 import java.util.ArrayList;
 

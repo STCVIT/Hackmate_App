@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hackmate.Adapters.ProjectAdapterMP;
-import com.example.hackmate.ProjectModel;
+import com.example.hackmate.Models.ProjectModel;
 import com.example.hackmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.chip.Chip;

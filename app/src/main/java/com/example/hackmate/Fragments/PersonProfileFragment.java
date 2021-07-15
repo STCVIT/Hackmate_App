@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.hackmate.Adapters.ProjectAdapterP;
-import com.example.hackmate.ProjectModel;
+import com.example.hackmate.Models.ProjectModel;
 import com.example.hackmate.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;

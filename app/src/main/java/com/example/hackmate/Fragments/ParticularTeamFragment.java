@@ -15,8 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.hackmate.R;
-import com.example.hackmate.teamMemberAdapter;
-import com.example.hackmate.teamMember_Model;
+import com.example.hackmate.Adapters.teamMemberAdapter;
+import com.example.hackmate.Models.teamMember_Model;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;

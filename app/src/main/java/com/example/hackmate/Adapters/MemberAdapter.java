@@ -1,6 +1,5 @@
 package com.example.hackmate.Adapters;
 
-import android.app.Person;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,17 +10,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hackmate.Fragments.ParticipantProfileFragment;
 import com.example.hackmate.Fragments.PersonProfileFragment;
-import com.example.hackmate.Fragments.TeamsFragment;
 import com.example.hackmate.MainActivity;
 import com.example.hackmate.R;
-import com.example.hackmate.teamMemberAdapter;
-import com.example.hackmate.teamMember_Model;
+import com.example.hackmate.Models.teamMember_Model;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.example.hackmate;
+package com.example.hackmate.Models;
 
 public class HomeModel {
 

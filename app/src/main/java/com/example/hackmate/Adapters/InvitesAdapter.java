@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hackmate.InvitesModel;
+import com.example.hackmate.Models.InvitesModel;
 import com.example.hackmate.R;
 
 import java.util.ArrayList;

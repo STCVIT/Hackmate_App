@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hackmate.Adapters.HomeAdapter;
-import com.example.hackmate.HomeModel;
+import com.example.hackmate.Models.HomeModel;
 import com.example.hackmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
