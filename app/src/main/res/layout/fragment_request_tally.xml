@@ -105,11 +105,9 @@
 
                 <TextView
                     android:id="@+id/Requests_tittleText_reqTally"
-                    android:layout_width="117dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_marginStart="-8dp"
-                    android:layout_marginEnd="229dp"
                     android:layout_marginBottom="15dp"
                     android:layout_toEndOf="@+id/arrowDown_request"
                     android:text="Requests"
