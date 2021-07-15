@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,13 +22,13 @@ import android.widget.TextView;
 import com.example.hackmate.Adapters.JoinAdapter;
 import com.example.hackmate.R;
 import com.google.android.material.chip.ChipGroup;
-
 public class TeamsFragment extends Fragment {
 
     private LinearLayout filter;
     private ImageView downArrow, upArrow;
     private ChipGroup chips;
     private TextView joinUsingCode;
+    private CardView appBar;
 
     int GET_NAV_CODE = 0;
 
@@ -47,12 +48,18 @@ public class TeamsFragment extends Fragment {
             GET_NAV_CODE = bundle.getInt("Key", 0);
         }
 
+        appBar = view.findViewById(R.id.appBarJoin);
         filter = view.findViewById(R.id.domainFilterTeammate);
         downArrow = view.findViewById(R.id.downArrow);
         upArrow = view.findViewById(R.id.upArrow);
 
         chips = view.findViewById(R.id.chips);
         joinUsingCode = view.findViewById(R.id.joinTeamCode);
+
+        if(GET_NAV_CODE==1)
+            appBar.setVisibility(View.VISIBLE);
+        else
+            appBar.setVisibility(View.GONE);
 
         joinUsingCode.setOnClickListener(new View.OnClickListener() {
             @Override
