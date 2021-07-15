@@ -22,51 +22,51 @@
             tools:ignore="MissingConstraints">
 
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/projectAppBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#1D2833"
-            app:title=" "
-            tools:layout_editor_absoluteX="6dp"
-            tools:layout_editor_absoluteY="244dp">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/projectAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="#1D2833"
+                app:title=" "
+                tools:layout_editor_absoluteX="6dp"
+                tools:layout_editor_absoluteY="244dp">
 
-            <TextView
-                android:id="@+id/addProject_title1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:text="@string/first"
-                android:textColor="#1EA54C"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/addProject_title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:text="@string/first"
+                    android:textColor="#1EA54C"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/addProject_title2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:text="Project Name"
-                android:textColor="#E7EFEF"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/addProject_title2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:text="Project Name"
+                    android:textColor="#E7EFEF"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/addProject_title3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:text=">"
-                android:textColor="#1EA54C"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-        </com.google.android.material.appbar.MaterialToolbar>
+                <TextView
+                    android:id="@+id/addProject_title3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:text=">"
+                    android:textColor="#1EA54C"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
         <EditText
@@ -164,116 +164,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/designLinkEdit" />
 
-        <TextView
-            android:id="@+id/addPhotosEdit"
-            android:layout_width="178dp"
-            android:layout_height="22dp"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="20dp"
-            android:text="Add Photos (upto 4)"
-            android:textColor="#E7EFEF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.053"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/demoLinkEdit" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/projectPhotoHolderEdit"
-            android:layout_width="371dp"
-            android:layout_height="156dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/edit_text_border"
-            android:backgroundTint="#2E3D4C "
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addPhotosEdit">
-
-        <RelativeLayout
-            android:layout_width="371dp"
-            android:layout_height="156dp">
-
-
-        <ImageView
-            android:id="@+id/imageHolder1Edit"
-            android:layout_width="100dp"
-            android:layout_height="132dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="14dp"
-            android:layout_marginBottom="13dp"
-            android:background="@drawable/textfields"
-            android:backgroundTint="#c4c4c4"
-            android:paddingTop="20dp"
-            android:paddingBottom="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="12dp" />
-        <ImageView
-            android:id="@+id/imageHolder2"
-            android:layout_width="100dp"
-            android:layout_height="132dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="132dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="13dp"
-            android:layout_toStartOf="@+id/imageHolder3Edit"
-            android:background="@drawable/textfields"
-            android:backgroundTint="#c4c4c4"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.102"
-            app:layout_constraintStart_toEndOf="@+id/imageHolder1Edit"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="12dp" />
-
-        <ImageView
-            android:id="@+id/imageHolder3Edit"
-            android:layout_width="100dp"
-            android:layout_height="132dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="12dp"
-            android:backgroundTint="#1D2833"
-            android:background="@drawable/image_place_holder_border"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.937"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="14dp" />
-
-        <ImageView
-            android:id="@+id/addImageIconEdit"
-            android:layout_width="50dp"
-            android:layout_height="48dp"
-            android:layout_alignEnd="@+id/imageHolder3Edit"
-            android:layout_alignBottom="@+id/imageHolder3Edit"
-            android:layout_marginEnd="25dp"
-            android:layout_marginBottom="41dp"
-            android:src="@drawable/ic_baseline_add_circle_24"
-            app:layout_constraintBottom_toBottomOf="@+id/imageHolder3Edit"
-            app:layout_constraintEnd_toEndOf="@+id/imageHolder3Edit"
-            app:layout_constraintStart_toStartOf="@+id/imageHolder3Edit" />
-        </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveChange"
             android:layout_width="371dp"
             android:layout_height="57dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="250dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="#1EA54C"
             android:text="SUBMIT"
@@ -281,7 +177,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/projectPhotoHolderEdit"
+            app:layout_constraintTop_toBottomOf="@+id/demoLinkEdit"
             app:layout_constraintVertical_bias="1.0"
             tools:ignore="MissingConstraints" />
 
