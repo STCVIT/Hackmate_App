@@ -30,7 +30,7 @@
 
 
             <ImageView
-                android:id="@+id/inviteePhoto"
+                android:id="@+id/RequestPhoto"
                 android:layout_width="77dp"
                 android:layout_height="74dp"
                 android:layout_alignParentStart="true"
@@ -42,7 +42,7 @@
                 app:srcCompat="@drawable/imageholder" />
 
             <TextView
-                android:id="@+id/InviteeName"
+                android:id="@+id/RequestName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -57,7 +57,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/inviteText"
+                android:id="@+id/RequestText_req"
                 android:layout_width="94dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -66,12 +66,12 @@
                 android:layout_marginStart="119dp"
                 android:layout_marginEnd="153dp"
                 android:layout_marginBottom="103dp"
-                android:text="invited you to"
+                android:text="wants to join"
                 android:textColor="#E7EFEF"
                 android:textSize="14dp" />
 
             <TextView
-                android:id="@+id/teamName_invite"
+                android:id="@+id/teamName_req"
                 android:layout_width="124dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -86,7 +86,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/acceptButton"
+                android:id="@+id/acceptButton_req"
                 android:layout_width="116dp"
                 android:layout_height="38dp"
                 android:layout_alignParentStart="true"
@@ -99,7 +99,7 @@
                 android:text="ACCEPT" />
 
             <Button
-                android:id="@+id/rejectButton"
+                android:id="@+id/removeButton_req"
                 android:layout_width="116dp"
                 android:layout_height="38dp"
                 android:layout_alignParentStart="true"
@@ -109,7 +109,7 @@
                 android:layout_marginEnd="30dp"
                 android:layout_marginBottom="27dp"
                 android:backgroundTint="@color/buttonBackground"
-                android:text="REJECT"
+                android:text="REMOVE"
                 android:textColor="#1EA54C"
 
                 />

@@ -1,40 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.MyTeamsFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#2E3D4C">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="mY TEAMS FRAGMENT"
-        android:textSize="20sp"
-        android:layout_marginTop="50dp"
-        android:layout_gravity="top|center"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/myTeamsAppBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
 
-    <Button
-        android:id="@+id/particularTeamButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SHOW PARTICULAR TEAM PROFILE"
-        android:layout_gravity="center|top"
-        android:layout_marginTop="150dp"/>
+            app:liftOnScroll="true"
+            android:background="#2E3D4C"
+            >
 
-    <Button
-        android:id="@+id/requestTally"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Notifications"
-        android:layout_gravity="center"/>
-    
-     <Button
-        android:id="@+id/particularTeamLeaderview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="particular_team _Leaderview"
-        android:layout_gravity="center|top"
-        android:layout_marginTop="256dp"/>
 
-</FrameLayout>
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/myTeamsAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="#1D2833"
+                app:title=" "
+                tools:layout_editor_absoluteX="6dp"
+                tools:layout_editor_absoluteY="244dp">
+
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView4"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="56dp"
+
+            android:background="#1D2833"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="0dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#1D2833">
+
+
+                <TextView
+                    android:id="@+id/newTeam"
+                    android:layout_width="131dp"
+                    android:layout_height="26dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="-1dp"
+                    android:layout_marginTop="19dp"
+                    android:layout_marginEnd="108dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_toStartOf="@+id/imageView10"
+                    android:layout_toEndOf="@+id/imageView9"
+                    android:text="New Team"
+                    android:textColor="#E7EFEF"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="50dp"
+                    android:layout_height="33dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="11dp"
+                    android:src="@drawable/ic_baseline_add_24" />
+
+                <ImageView
+                    android:id="@+id/imageView10"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="29dp"
+                    android:layout_marginBottom="14dp"
+                    android:src="@drawable/ic_baseline_notifications_24" />
+
+                <ImageView
+                    android:id="@+id/imageView11"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="48dp"
+                    android:layout_marginBottom="33dp"
+                    android:src="@drawable/ic_baseline_circle_24" />
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RVTeams"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            android:background="#2E3D4C">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+
+    </RelativeLayout>
+</ScrollView>

@@ -39,7 +39,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:text="@string/left"
+                    android:text="@string/first"
                     android:textColor="#1EA54C"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -85,11 +85,12 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_Leader"
             android:layout_width="match_parent"
-            android:layout_height="105dp"
+            android:layout_height="wrap_content"
             android:backgroundTint="#1D2833"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/particularTeamAppBarLayout_Leader"
             tools:ignore="MissingConstraints">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="120dp">
@@ -135,7 +136,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2_Leader"
             android:layout_width="match_parent"
-            android:layout_height="91dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:backgroundTint="#1D2833"
             app:layout_constraintEnd_toEndOf="parent"
@@ -211,8 +212,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTeam_Leader"
-            android:layout_width="412dp"
-            android:layout_height="368dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:background="#1D2833"
             app:layout_constraintEnd_toEndOf="parent"
@@ -222,7 +223,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/inviteParticipantCard"
-            android:layout_width="411dp"
+            android:layout_width="match_parent"
             android:layout_height="45dp"
             android:backgroundTint="#1D2833"
             app:layout_constraintEnd_toEndOf="parent"
@@ -237,29 +238,26 @@
 
                 <TextView
                     android:id="@+id/inviteparticipant_textView"
-                    android:layout_width="408dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="0dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="3dp"
                     android:gravity="center|left"
-                    android:text="         Invite a teamamte"
+                    android:text="            Invite a teamamte"
                     android:textColor="#E7EFEF"
-                    android:textSize="18sp"
-                    />
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:layout_width="42dp"
                     android:layout_height="35dp"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="366dp"
-                    android:layout_marginBottom="1dp"
-                    android:src="@drawable/ic_baseline_add_24"
-                    android:gravity="center|left"/>
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center|left"
+                    android:src="@drawable/ic_baseline_add_24" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
@@ -280,8 +278,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView3"
-            android:layout_width="410dp"
-            android:layout_height="410dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:backgroundTint="#1D2833"
             app:layout_constraintEnd_toEndOf="parent"
@@ -291,7 +289,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/projetName_TeamProfile_Leader"
@@ -312,18 +310,19 @@
 
                 <ImageView
                     android:id="@+id/editProject"
-                    android:layout_width="37dp"
-                    android:layout_height="44dp"
-                    android:layout_alignParentStart="true"
+                    android:layout_width="74dp"
+                    android:layout_height="46dp"
+                    android:layout_above="@+id/projectDescription_Leader"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="360dp"
-                    android:layout_marginEnd="13dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="-3dp"
+                    android:layout_marginBottom="34dp"
                     android:backgroundTint="#1EA54C"
                     android:src="@drawable/edit_icon" />
 
                 <TextView
                     android:id="@+id/descriptionTitle_Leader"
-                    android:layout_width="99dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/projetName_TeamProfile_Leader"
                     android:layout_alignParentStart="true"
@@ -339,15 +338,15 @@
 
                 <TextView
                     android:id="@+id/projectDescription_Leader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="73dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/descriptionTitle_Leader"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="17dp"
-                    android:text="TextView"
+                    android:layout_marginEnd="18dp"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec massa tellus, rhoncus id turpis eu, ultricies aliquam tortor. Donec nec neque mi. Fusce semper viverra augue, eget mollis sem blandit quis. Aliquam fermentum eros sit amet justo vestibulum bibendum. Praesent eget sapien a erat elementum scelerisque. Suspendisse volutpat lacus vitae maximus blandit. Suspendisse lacinia, odio nec cursus pellentesque, dui nulla aliquam erat, ut pulvinar nunc mi dictum lorem. Sed accumsan ante id molestie tristique. Cras vulputate et nulla eget dictum. Vivamus a ante auctor felis dictum cursus vel a tellus. Aenean pharetra nisl quis velit bibendum, et aliquet lacus ornare. Sed hendrerit nulla non nunc dignissim, a faucibus ante auctor."
                     android:textColor="#E7EFEF"
                     tools:ignore="MissingConstraints" />
 
@@ -360,7 +359,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="0dp"
-                    android:layout_marginEnd="17dp"
+                    android:layout_marginEnd="18dp"
                     android:text="TextView"
                     android:textColor="#53B7FF" />
 
@@ -380,101 +379,17 @@
                 <TextView
                     android:id="@+id/projectLink3_Leader"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_below="@+id/projectLink2_Leader"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="0dp"
-                    android:layout_marginEnd="11dp"
+                    android:layout_marginEnd="12dp"
                     android:text="TextView"
                     android:textColor="#53B7FF" />
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="176dp"
-                    android:layout_below="@+id/projectLink3_Leader"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="9dp"
-                    android:layout_marginEnd="18dp"
-                    android:layout_marginRight="20dp"
-                    android:backgroundTint="#23303D"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="176dp">
-
-                        <ImageView
-                            android:id="@+id/imageHolder1_teamprofile_Leader"
-                            android:layout_width="100dp"
-                            android:layout_height="162dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginStart="18dp"
-                            android:layout_marginTop="18dp"
-                            android:layout_marginBottom="18dp"
-                            android:background="@drawable/textfields"
-                            android:backgroundTint="#c4c4c4"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:src="@drawable/imageholder"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.102"
-                            tools:ignore="MissingConstraints"
-                            tools:layout_editor_absoluteY="12dp" />
-
-                        <ImageView
-                            android:id="@+id/imageHolder2_teamprofile_Leader"
-                            android:layout_width="100dp"
-                            android:layout_height="162dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginStart="138dp"
-                            android:layout_marginTop="18dp"
-                            android:layout_marginEnd="4dp"
-                            android:layout_marginBottom="18dp"
-                            android:background="@drawable/textfields"
-                            android:backgroundTint="#c4c4c4"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:src="@drawable/imageholder"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.102"
-                            tools:ignore="MissingConstraints"
-                            tools:layout_editor_absoluteY="12dp" />
-
-                        <ImageView
-                            android:id="@+id/imageHolder3_teamprofile_Leader"
-                            android:layout_width="100dp"
-                            android:layout_height="162dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginStart="256dp"
-                            android:layout_marginTop="18dp"
-                            android:layout_marginEnd="18dp"
-                            android:layout_marginBottom="18dp"
-                            android:background="@drawable/textfields"
-                            android:backgroundTint="#c4c4c4"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:src="@drawable/imageholder"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.102"
-                            tools:ignore="MissingConstraints"
-                            tools:layout_editor_absoluteY="12dp" />
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
@@ -482,7 +397,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView4_Leader"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:layout_marginBottom="24dp"
             android:backgroundTint="#1D2833"
@@ -501,8 +416,8 @@
                     android:layout_height="45dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="0dp"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginEnd="2dp"
                     android:gravity="center|left"
                     android:text="          Add a project"
                     android:textColor="#E7EFEF"
@@ -510,14 +425,12 @@
 
                 <ImageView
                     android:id="@+id/addProject_Icon"
-                    android:layout_width="33dp"
-                    android:layout_height="85dp"
+                    android:layout_width="31dp"
+                    android:layout_height="45dp"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="11dp"
-                    android:layout_marginEnd="367dp"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginBottom="2dp"
                     android:gravity="center|left"
                     android:src="@drawable/ic_baseline_add_24" />
             </RelativeLayout>

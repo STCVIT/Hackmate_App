@@ -56,7 +56,7 @@ public class GettingStartedFragment extends Fragment {
             }
         });
 
-        AutoCompleteTextView YOG_CompleteTextView = view.findViewById(R.id.year_of_graduation_edit);
+        AutoCompleteTextView YOG_CompleteTextView = view.findViewById(R.id.year_of_graduation);
         String[] years = {"Year of Graduation", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"};
         ArrayAdapter<String> YOG_arrayAdapter = new ArrayAdapter<String>(getContext(),R.layout.option_item, years);
         YOG_CompleteTextView.setText(YOG_arrayAdapter.getItem(0), false);

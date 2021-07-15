@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.hackmate.R;
 import com.example.hackmate.teamMemberAdapter;
@@ -38,7 +36,7 @@ public class ParticularTeamFragment extends Fragment {
         View v =inflater.inflate(R.layout.fragment_particular_team, container, false);
 
 //inflate appbar for this particular fragment
-        Toolbar toolbar = (Toolbar) v.findViewById(R.id.particularTeamAppBar);
+        Toolbar toolbar = (Toolbar) v.findViewById(R.id.particularTeamAppBar_Leader);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         return v;
 

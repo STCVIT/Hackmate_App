@@ -8,7 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="#23303D"
         tools:context=".Fragments.SettingsFragment"
 
@@ -24,7 +24,7 @@
 
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/particularTeamAppBar"
+                android:id="@+id/particularTeamAppBar_Leader"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="#1D2833"
@@ -39,7 +39,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:text="@string/left"
+                    android:text="@string/first"
                     android:textColor="#1EA54C"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -73,7 +73,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
-            android:layout_height="105dp"
+            android:layout_height="wrap_content"
             android:backgroundTint="#1D2833"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/particularTeamAppBarLayout"
@@ -124,7 +124,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
             android:layout_width="match_parent"
-            android:layout_height="91dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:backgroundTint="#1D2833"
             app:layout_constraintEnd_toEndOf="parent"
@@ -200,8 +200,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTeam"
-            android:layout_width="412dp"
-            android:layout_height="368dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:background="#1D2833"
             app:layout_constraintEnd_toEndOf="parent"
@@ -225,10 +225,12 @@
             app:layout_constraintTop_toBottomOf="@+id/rvTeam" />
 
         <androidx.cardview.widget.CardView
-            android:layout_width="410dp"
-            android:layout_height="410dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="40dp"
             android:backgroundTint="#1D2833"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -236,7 +238,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/projetName_TeamProfile"
@@ -271,15 +273,15 @@
 
                 <TextView
                     android:id="@+id/projectDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="73dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/descriptionTitle"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="17dp"
-                    android:text="TextView"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec massa tellus, rhoncus id turpis eu, ultricies aliquam tortor. Donec nec neque mi. Fusce semper viverra augue, eget mollis sem blandit quis. Aliquam fermentum eros sit amet justo vestibulum bibendum. Praesent eget sapien a erat elementum scelerisque. Suspendisse volutpat lacus vitae maximus blandit. Suspendisse lacinia, odio nec cursus pellentesque, dui nulla aliquam erat, ut pulvinar nunc mi dictum lorem. Sed accumsan ante id molestie tristique. Cras vulputate et nulla eget dictum. Vivamus a ante auctor felis dictum cursus vel a tellus. Aenean pharetra nisl quis velit bibendum, et aliquet lacus ornare. Sed hendrerit nulla non nunc dignissim, a faucibus ante auctor."
                     android:textColor="#E7EFEF" />
 
                 <TextView
@@ -320,92 +322,6 @@
                     android:layout_marginEnd="11dp"
                     android:text="TextView"
                     android:textColor="#53B7FF" />
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="176dp"
-                    android:layout_below="@+id/projectLink3"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="9dp"
-                    android:layout_marginEnd="18dp"
-                    android:layout_marginRight="20dp"
-                    android:backgroundTint="#23303D"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="176dp">
-
-                        <ImageView
-                            android:id="@+id/imageHolder1_teamprofile"
-                            android:layout_width="100dp"
-                            android:layout_height="162dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginStart="18dp"
-                            android:layout_marginTop="18dp"
-                            android:layout_marginBottom="18dp"
-                            android:background="@drawable/textfields"
-                            android:backgroundTint="#c4c4c4"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:src="@drawable/imageholder"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.102"
-                            tools:ignore="MissingConstraints"
-                            tools:layout_editor_absoluteY="12dp" />
-
-                        <ImageView
-                            android:id="@+id/imageHolder2_teamprofile"
-                            android:layout_width="100dp"
-                            android:layout_height="162dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginStart="138dp"
-                            android:layout_marginTop="18dp"
-                            android:layout_marginEnd="4dp"
-                            android:layout_marginBottom="18dp"
-                            android:background="@drawable/textfields"
-                            android:backgroundTint="#c4c4c4"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:src="@drawable/imageholder"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.102"
-                            tools:ignore="MissingConstraints"
-                            tools:layout_editor_absoluteY="12dp" />
-
-                        <ImageView
-                            android:id="@+id/imageHolder3_teamprofile"
-                            android:layout_width="100dp"
-                            android:layout_height="162dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginStart="256dp"
-                            android:layout_marginTop="18dp"
-                            android:layout_marginEnd="18dp"
-                            android:layout_marginBottom="18dp"
-                            android:background="@drawable/textfields"
-                            android:backgroundTint="#c4c4c4"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:src="@drawable/imageholder"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.102"
-                            tools:ignore="MissingConstraints"
-                            tools:layout_editor_absoluteY="12dp" />
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
