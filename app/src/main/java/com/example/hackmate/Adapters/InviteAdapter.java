@@ -48,10 +48,6 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ProgramVie
             public void onClick(View v) {
                 PersonProfileFragment frag = new PersonProfileFragment();
 
-                Bundle bundle = new Bundle();
-                bundle.putInt("Key", 1);
-                frag.setArguments(bundle);
-
                 MainActivity activity = (MainActivity) v.getContext();
                 activity.getSupportFragmentManager()
                         .beginTransaction()

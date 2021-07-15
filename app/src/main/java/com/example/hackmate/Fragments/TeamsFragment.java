@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.example.hackmate.Adapters.JoinAdapter;
 import com.example.hackmate.R;
 import com.google.android.material.chip.ChipGroup;
+
 public class TeamsFragment extends Fragment {
 
     private LinearLayout filter;

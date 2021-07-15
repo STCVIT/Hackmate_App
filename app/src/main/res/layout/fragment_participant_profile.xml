@@ -37,11 +37,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
                     android:text="@string/left"
                     android:textColor="#1EA54C"
-                    android:textSize="24sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -49,11 +47,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
                     android:text="My Teams"
                     android:textColor="#E7EFEF"
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -65,7 +61,7 @@
                     android:layout_marginLeft="16dp"
                     android:text=">"
                     android:textColor="#1EA54C"
-                    android:textSize="24sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>

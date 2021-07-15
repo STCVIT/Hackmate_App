@@ -41,7 +41,7 @@
                     android:layout_marginLeft="16dp"
                     android:text="@string/first"
                     android:textColor="#1EA54C"
-                    android:textSize="24sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -53,7 +53,7 @@
                     android:layout_marginLeft="16dp"
                     android:text="My Teams"
                     android:textColor="#E7EFEF"
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -65,7 +65,7 @@
                     android:layout_marginLeft="16dp"
                     android:text=">"
                     android:textColor="#1EA54C"
-                    android:textSize="24sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/deleteTeam"
