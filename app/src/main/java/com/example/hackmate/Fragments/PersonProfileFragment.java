@@ -52,6 +52,9 @@ public class PersonProfileFragment extends Fragment {
 
         if(GET_NAV_CODE==1)
             invite.setVisibility(View.GONE);
+        else
+            invite.setVisibility(View.VISIBLE);
+
 
         invite.setOnClickListener(new View.OnClickListener() {
             @Override

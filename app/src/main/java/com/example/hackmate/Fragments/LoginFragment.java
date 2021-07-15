@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class LoginFragment extends Fragment {
     private LoginActivity loginActivity;
     private FirebaseAuth mAuth;
     private Button login;
+    private ProgressBar progressBar;
 
     @Override
     public void onStart() {
@@ -82,6 +84,7 @@ public class LoginFragment extends Fragment {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar = view.findViewById(R.id.progressBar);
 
                 String emailText = email_login.getText().toString();
                 String passWord = password_login.getText().toString();
@@ -106,6 +109,7 @@ public class LoginFragment extends Fragment {
                     password_login.requestFocus();
                     return;
                 }
+                progressBar.setVisibility(View.VISIBLE);
 
                 loginUser(emailText, passWord);
 
@@ -132,6 +136,7 @@ public class LoginFragment extends Fragment {
 
                     if (!task.isSuccessful()) {
                         Toast.makeText(getContext(), "Invalid Email / Password", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
 
                     } else {
                         checkIfEmailVerified(email);

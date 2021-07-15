@@ -15,6 +15,7 @@ import com.example.hackmate.Fragments.HomeFragment;
 import com.example.hackmate.Fragments.MyTeamsFragment;
 import com.example.hackmate.Fragments.ProfileFragment;
 import com.example.hackmate.Fragments.TeamsFragment;
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private MyTeamsFragment myTeamsFragment = new MyTeamsFragment();
     private TeamsFragment teamsFragment = new TeamsFragment();
     private ProfileFragment profileFragment = new ProfileFragment();
+    BadgeDrawable badge;
 
 
     @Override
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation = findViewById(R.id.bottom_nav_bar);
         bottomNavigation.setVisibility(View.VISIBLE);
 
+        badge = bottomNavigation.getOrCreateBadge(R.id.nav_myTeams);
+        badge.setVisible(true);
         bottomNavigation();
 
     }
