@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
 
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#23303D"
+        android:background="@color/background"
         tools:context=".Fragments.SettingsFragment">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -65,15 +67,17 @@
 
         <EditText
             android:id="@+id/projectNameEdit"
-            android:layout_width="371dp"
-            android:layout_height="51dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:background="@drawable/edit_text_border"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ic_edit_text"
             android:backgroundTint="#2E3D4C "
             android:ems="10"
             android:hint=" Project Name"
             android:inputType="textPersonName"
-            android:text="Project Name"
+            android:padding="10dp"
             android:textColor="#E7EFEF"
             android:textColorHint="#979797"
             app:layout_constraintEnd_toEndOf="parent"
@@ -84,16 +88,17 @@
 
         <EditText
             android:id="@+id/projectDescriptionEdit"
-            android:layout_width="371dp"
-            android:layout_height="100dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/edit_text_border"
+            android:background="@drawable/ic_edit_text"
             android:backgroundTint="#2E3D4C "
             android:ems="10"
             android:hint=" Project Description"
             android:inputType="textMultiLine"
+            android:padding="10dp"
             android:textColor="#E7EFEF"
             android:textColorHint="#979797"
             app:layout_constraintEnd_toEndOf="parent"
@@ -103,16 +108,17 @@
 
         <EditText
             android:id="@+id/githubLinkEdit"
-            android:layout_width="371dp"
-            android:layout_height="51dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/edit_text_border"
+            android:background="@drawable/ic_edit_text"
             android:backgroundTint="#2E3D4C "
             android:ems="10"
             android:hint=" Github Link"
             android:inputType="textPersonName"
+            android:padding="10dp"
             android:textColor="#E7EFEF"
             android:textColorHint="#979797"
             app:layout_constraintEnd_toEndOf="parent"
@@ -122,16 +128,17 @@
 
         <EditText
             android:id="@+id/designLinkEdit"
-            android:layout_width="371dp"
-            android:layout_height="51dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/edit_text_border"
+            android:background="@drawable/ic_edit_text"
             android:backgroundTint="#2E3D4C "
             android:ems="10"
             android:hint=" Design Link"
             android:inputType="textPersonName"
+            android:padding="10dp"
             android:textColor="#E7EFEF"
             android:textColorHint="#979797"
             app:layout_constraintEnd_toEndOf="parent"
@@ -141,16 +148,17 @@
 
         <EditText
             android:id="@+id/demoLinkEdit"
-            android:layout_width="371dp"
-            android:layout_height="51dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/edit_text_border"
+            android:background="@drawable/ic_edit_text"
             android:backgroundTint="#2E3D4C "
             android:ems="10"
             android:hint=" Demo Link"
             android:inputType="textPersonName"
+            android:padding="10dp"
             android:textColor="#E7EFEF"
             android:textColorHint="#979797"
             app:layout_constraintEnd_toEndOf="parent"
@@ -159,15 +167,16 @@
             app:layout_constraintTop_toBottomOf="@+id/designLinkEdit" />
 
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/saveChange"
-            android:layout_width="371dp"
-            android:layout_height="57dp"
-            android:layout_marginTop="250dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="#1EA54C"
+            android:background="@drawable/ic_buttongradient"
             android:text="SUBMIT"
-            android:textSize="16dp"
+            android:textColor="@color/text"
+            android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

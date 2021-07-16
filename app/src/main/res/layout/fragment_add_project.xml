@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
 
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,8 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="#1D2833"
-                app:title=" "
-                >
+                app:title=" ">
+
                 <TextView
                     android:id="@+id/addProject_title1"
                     android:layout_width="wrap_content"
@@ -36,19 +37,19 @@
                     android:text="@string/first"
                     android:textColor="#1EA54C"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/addProject_title2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
                     android:text="Add a project"
                     android:textColor="#E7EFEF"
                     android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/addProject_title3"
@@ -58,22 +59,26 @@
                     android:text=">"
                     android:textColor="#1EA54C"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </com.google.android.material.appbar.MaterialToolbar>
 
 
         </com.google.android.material.appbar.AppBarLayout>
 
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/submitProject"
-            android:layout_width="371dp"
-            android:layout_height="57dp"
-            android:layout_marginTop="250dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="#1EA54C"
+            android:background="@drawable/ic_buttongradient"
             android:text="SUBMIT"
-            android:textSize="16dp"
+            android:textColor="@color/text"
+            android:textSize="18dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -83,99 +88,100 @@
 
         <EditText
             android:id="@+id/projectName"
-            android:layout_width="371dp"
-            android:layout_height="51dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/edit_text_border"
-            android:backgroundTint="#2E3D4C "
+            android:background="@drawable/ic_edit_text"
             android:ems="10"
-            android:hint=" Project Name"
+            android:hint="Project Name"
             android:inputType="textPersonName"
-            android:textColorHint="#979797"
+            android:padding="10dp"
+            android:textColor="@color/text"
+            android:textColorHint="@color/text_secondary"
+            android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-            android:textColor="#E7EFEF"/>
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
         <EditText
             android:id="@+id/githubLink"
-            android:layout_width="371dp"
-            android:layout_height="51dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/edit_text_border"
-            android:backgroundTint="#2E3D4C "
+            android:background="@drawable/ic_edit_text"
             android:ems="10"
-            android:hint=" Github Link"
+            android:hint="Github Link"
             android:inputType="textPersonName"
+            android:padding="10dp"
+            android:textColor="#E7EFEF"
             android:textColorHint="#979797"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/projectDescription"
-            android:textColor="#E7EFEF"/>
+            app:layout_constraintTop_toBottomOf="@+id/projectDescription" />
 
         <EditText
             android:id="@+id/designLink"
-            android:layout_width="371dp"
-            android:layout_height="51dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/edit_text_border"
-            android:backgroundTint="#2E3D4C "
+            android:background="@drawable/ic_edit_text"
             android:ems="10"
-            android:hint=" Design Link"
+            android:hint="Design Link"
             android:inputType="textPersonName"
+            android:padding="10dp"
+            android:textColor="#E7EFEF"
             android:textColorHint="#979797"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/githubLink"
-            android:textColor="#E7EFEF"/>
+            app:layout_constraintTop_toBottomOf="@+id/githubLink" />
 
         <EditText
             android:id="@+id/demoLink"
-            android:layout_width="371dp"
-            android:layout_height="51dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/edit_text_border"
+            android:background="@drawable/ic_edit_text"
             android:backgroundTint="#2E3D4C "
             android:ems="10"
-            android:hint=" Demo Link"
+            android:hint="Demo Link"
             android:inputType="textPersonName"
+            android:padding="10dp"
+            android:textColor="#E7EFEF"
             android:textColorHint="#979797"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            android:textColor="#E7EFEF"
             app:layout_constraintTop_toBottomOf="@+id/designLink" />
 
         <EditText
             android:id="@+id/projectDescription"
-            android:layout_width="371dp"
-            android:layout_height="100dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/edit_text_border"
-            android:backgroundTint="#2E3D4C "
+            android:background="@drawable/ic_edit_text"
             android:ems="10"
-            android:hint=" Project Description"
+            android:hint="Project Description"
             android:inputType="textMultiLine"
+            android:padding="10dp"
+            android:textColor="#E7EFEF"
             android:textColorHint="#979797"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/projectName"
-            android:textColor="#E7EFEF"/>
-
+            app:layout_constraintTop_toBottomOf="@+id/projectName" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
