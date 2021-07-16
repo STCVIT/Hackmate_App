@@ -12,11 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.hackmate.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class TeamCreationFormFragment extends Fragment {
 
     Button createTeam;
+    int GET_NAV_CODE = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,8 +31,12 @@ public class TeamCreationFormFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        createTeam = view.findViewById(R.id.createTeamButtonFilter);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            GET_NAV_CODE = bundle.getInt("Key", 0);
+        }
 
+        createTeam = view.findViewById(R.id.createTeamButtonFilter);
         createTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,5 +55,14 @@ public class TeamCreationFormFragment extends Fragment {
                         .commit();
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(GET_NAV_CODE==1) {
+            BottomNavigationView bottomNavigation = getActivity().findViewById(R.id.bottom_nav_bar);
+            bottomNavigation.setVisibility(View.VISIBLE);
+        }
     }
 }

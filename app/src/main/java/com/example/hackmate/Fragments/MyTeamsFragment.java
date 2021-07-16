@@ -90,9 +90,14 @@ public class MyTeamsFragment extends Fragment implements myTeamsAdapter.OnTeamsL
             public void onClick(View v) {
                 bottomNavigation.setVisibility(View.GONE);
 
+                TeamCreationFormFragment frag = new TeamCreationFormFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("Key", 1);
+                frag.setArguments(bundle);
+
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment,new TeamCreationFormFragment())
+                        .replace(R.id.nav_host_fragment,frag)
                         .addToBackStack(null)
                         .commit();
             }
