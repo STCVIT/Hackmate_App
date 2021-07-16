@@ -21,7 +21,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment implements HomeAdapter.OnHackListerner {
+public class HackListFragment extends Fragment implements HomeAdapter.OnHackListerner {
     private RecyclerView HackRV;
     // Arraylist for storing data
     private ArrayList<HomeModel> HomeArrayList;
@@ -34,7 +34,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.OnHackListerne
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =inflater.inflate(R.layout.fragment_home, container, false);
+        View v =inflater.inflate(R.layout.fragment_hack_list, container, false);
 
 //inflate appbar for this particular fragment
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.HomeAppBar);
@@ -90,7 +90,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.OnHackListerne
         HomeArrayList.get(position);
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.nav_host_fragment,new HackInfoFragment())
+                .replace(R.id.nav_host_fragment,new HackProfileFragment())
                 .addToBackStack(null)
                 .commit();
 

@@ -7,8 +7,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
+import com.example.hackmate.Fragments.SignUpAccountFragment;
 import com.example.hackmate.Fragments.CreateAccountFragment;
-import com.example.hackmate.Fragments.GettingStartedFragment;
 import com.example.hackmate.Fragments.LoginFragment;
 
 public class LoginActivity extends AppCompatActivity {
@@ -21,8 +21,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         fragmentLogin = new LoginFragment();
-        fragmentNewAccount = new CreateAccountFragment();
-        fragmentGettingStarted = new GettingStartedFragment();
+        fragmentNewAccount = new SignUpAccountFragment();
+        fragmentGettingStarted = new CreateAccountFragment();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

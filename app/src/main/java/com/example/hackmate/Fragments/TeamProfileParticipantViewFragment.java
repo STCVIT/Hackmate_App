@@ -23,7 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-public class RequestTeamFragment extends Fragment {
+public class TeamProfileParticipantViewFragment extends Fragment {
 
     Button requestJoin;
     int GET_NAV_CODE = 0;
@@ -33,7 +33,7 @@ public class RequestTeamFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_request_team, container, false);
+        return inflater.inflate(R.layout.fragment_team_profile_participant_view, container, false);
     }
 
     @Override

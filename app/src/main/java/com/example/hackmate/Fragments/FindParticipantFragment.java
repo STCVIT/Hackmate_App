@@ -11,16 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.hackmate.Adapters.InviteAdapter;
 import com.example.hackmate.R;
 import com.google.android.material.chip.ChipGroup;
 
-public class InviteParticipantFragment extends Fragment {
+public class FindParticipantFragment extends Fragment {
 
     private LinearLayout filter;
     private ImageView downArrow, upArrow;
@@ -30,7 +28,7 @@ public class InviteParticipantFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_invite_participant, container, false);
+        return inflater.inflate(R.layout.fragment_find_participant, container, false);
     }
 
     @Override

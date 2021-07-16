@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".Fragments.HackInfoFragment">
+    tools:context=".Fragments.HackProfileFragment">
 
     <ScrollView
         android:layout_width="match_parent"

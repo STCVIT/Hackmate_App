@@ -1,6 +1,5 @@
 package com.example.hackmate.Adapters;
 
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hackmate.Fragments.ParticipantProfileFragment;
-import com.example.hackmate.Fragments.PersonProfileFragment;
+import com.example.hackmate.Fragments.ProfileViewFragment;
 import com.example.hackmate.MainActivity;
 import com.example.hackmate.R;
 import com.google.android.material.chip.Chip;
@@ -46,7 +44,7 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ProgramVie
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PersonProfileFragment frag = new PersonProfileFragment();
+                ProfileViewFragment frag = new ProfileViewFragment();
 
                 MainActivity activity = (MainActivity) v.getContext();
                 activity.getSupportFragmentManager()

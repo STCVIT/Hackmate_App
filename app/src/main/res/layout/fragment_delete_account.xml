@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.DeleteFragment"
+    tools:context=".Fragments.DeleteAccountFragment"
     android:background="@color/background"
     xmlns:android="http://schemas.android.com/apk/res/android">
 

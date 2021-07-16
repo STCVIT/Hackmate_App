@@ -23,7 +23,7 @@ import com.example.hackmate.Adapters.JoinAdapter;
 import com.example.hackmate.R;
 import com.google.android.material.chip.ChipGroup;
 
-public class TeamsFragment extends Fragment {
+public class FindTeamsFragment extends Fragment {
 
     private LinearLayout filter;
     private ImageView downArrow, upArrow;
@@ -37,7 +37,7 @@ public class TeamsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_teams, container, false);
+        return inflater.inflate(R.layout.fragment_find_teams, container, false);
     }
 
     @Override

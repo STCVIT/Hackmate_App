@@ -78,7 +78,7 @@ public class MyTeamsFragment extends Fragment implements myTeamsAdapter.OnTeamsL
 
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment,new RequestTallyFragment())
+                        .replace(R.id.nav_host_fragment,new InviteOrRequestFragment())
                         .addToBackStack(null)
                         .commit();
             }
@@ -92,7 +92,7 @@ public class MyTeamsFragment extends Fragment implements myTeamsAdapter.OnTeamsL
 
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment,new CreateTeamsFragment())
+                        .replace(R.id.nav_host_fragment,new TeamCreationFormFragment())
                         .addToBackStack(null)
                         .commit();
             }
@@ -107,7 +107,7 @@ public class MyTeamsFragment extends Fragment implements myTeamsAdapter.OnTeamsL
             bottomNavigation.setVisibility(View.GONE);
             getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.nav_host_fragment,new particularTeam_leaderviewFragment())
+                    .replace(R.id.nav_host_fragment,new TeamProfileLeaderViewFragment())
                     .addToBackStack(null)
                     .commit();}
         else if (a=="Member" )
@@ -116,7 +116,7 @@ public class MyTeamsFragment extends Fragment implements myTeamsAdapter.OnTeamsL
 
             getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.nav_host_fragment,new ParticularTeamFragment())
+                    .replace(R.id.nav_host_fragment,new TeamProfileMemberViewFragment())
                     .addToBackStack(null)
                     .commit();
         }

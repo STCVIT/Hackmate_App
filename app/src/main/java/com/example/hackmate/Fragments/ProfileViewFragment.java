@@ -24,7 +24,7 @@ import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
 
 
-public class PersonProfileFragment extends Fragment {
+public class ProfileViewFragment extends Fragment {
 
     Button invite;
     private RecyclerView projects_recyclerView;
@@ -36,7 +36,7 @@ public class PersonProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_person_profile, container, false);
+        return inflater.inflate(R.layout.fragment_profile_view, container, false);
     }
 
     @Override

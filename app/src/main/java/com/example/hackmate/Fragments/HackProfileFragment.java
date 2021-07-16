@@ -11,14 +11,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.hackmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class HackInfoFragment extends Fragment {
+public class HackProfileFragment extends Fragment {
 
     AppCompatButton viewWebsite, participateNow;
 
@@ -26,7 +24,7 @@ public class HackInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_hack_info, container, false);
+        return inflater.inflate(R.layout.fragment_hack_profile, container, false);
     }
 
     @Override
@@ -90,7 +88,7 @@ public class HackInfoFragment extends Fragment {
         joinTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TeamsFragment frag = new TeamsFragment();
+                FindTeamsFragment frag = new FindTeamsFragment();
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("Key", 1);
@@ -111,7 +109,7 @@ public class HackInfoFragment extends Fragment {
             public void onClick(View v) {
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment,new CreateTeamsFragment())
+                        .replace(R.id.nav_host_fragment,new TeamCreationFormFragment())
                         .addToBackStack(null)
                         .commit();
                 alertDialog.dismiss();

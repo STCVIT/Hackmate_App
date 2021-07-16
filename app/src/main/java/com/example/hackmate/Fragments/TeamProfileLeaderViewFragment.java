@@ -23,7 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-public class particularTeam_leaderviewFragment extends Fragment {
+public class TeamProfileLeaderViewFragment extends Fragment {
     private RecyclerView team_LeaderRV;
     // Arraylist for storing data
     private ArrayList<teamMember_Model> teamModelArrayList;
@@ -36,7 +36,7 @@ public class particularTeam_leaderviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =inflater.inflate(R.layout.fragment_particular_team_leaderview, container, false);
+        View v =inflater.inflate(R.layout.fragment_team_profile_leader_view, container, false);
 
 //inflate appbar for this particular fragment
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.particularTeamAppBar_Leader);
@@ -116,7 +116,7 @@ public class particularTeam_leaderviewFragment extends Fragment {
             public void onClick(View v) {
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment,new InviteParticipantFragment())
+                        .replace(R.id.nav_host_fragment,new FindParticipantFragment())
                         .addToBackStack(null)
                         .commit();
             }

@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hackmate.Fragments.PersonProfileFragment;
+import com.example.hackmate.Fragments.ProfileViewFragment;
 import com.example.hackmate.MainActivity;
 import com.example.hackmate.R;
 import com.example.hackmate.Models.teamMember_Model;
@@ -51,7 +51,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.Viewholder
         holder.team_member_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PersonProfileFragment frag = new PersonProfileFragment();
+                ProfileViewFragment frag = new ProfileViewFragment();
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("Key", 1);

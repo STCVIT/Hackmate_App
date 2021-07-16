@@ -13,12 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.hackmate.R;
-import com.google.android.material.button.MaterialButton;
 
 import java.util.Random;
 
 
-public class DeleteFragment extends Fragment {
+public class DeleteAccountFragment extends Fragment {
 
     AppCompatButton deleteButton;
     private int code;
@@ -33,7 +32,7 @@ public class DeleteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_delete, container, false);
+        return inflater.inflate(R.layout.fragment_delete_account, container, false);
     }
 
     @Override

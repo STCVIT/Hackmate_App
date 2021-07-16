@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class RequestTallyFragment extends Fragment {
+public class InviteOrRequestFragment extends Fragment {
 
     Button request,accept,reject;
     private RecyclerView RVinvite,RVrequest;
@@ -43,7 +43,7 @@ public class RequestTallyFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View v =inflater.inflate(R.layout.fragment_request_tally, container, false);
+        View v =inflater.inflate(R.layout.fragment_invite_or_request, container, false);
 
 //inflate appbar for this particular fragment
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.InviteAppBar);
