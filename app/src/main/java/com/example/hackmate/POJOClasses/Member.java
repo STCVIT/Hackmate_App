@@ -1,15 +1,23 @@
-package com.example.hackmate.POJOClasses;
+package com.example.hackmate.POJOClassesKavita;
 
-public class Member{
-    public String _id;
-    public String uid;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    public String get_id() {
-        return _id;
+public class Member {
+
+    @SerializedName("_id")
+    @Expose
+    private String id;
+    @SerializedName("uid")
+    @Expose
+    private String uid;
+
+    public String getId() {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUid() {

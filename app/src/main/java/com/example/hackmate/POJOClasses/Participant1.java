@@ -1,27 +1,59 @@
 package com.example.hackmate.POJOClassesKavita;
 
-public class Participant {
 
-    public String _id;
-    public String name;
-    public String college;
-    public String github;
-    public String linkedIn;
-    public String website;
-    public String photo;
-    public String bio;
-    public int graduation_year;
-    public String username;
-    public String uid;
-    public String email;
-    public int __v;
 
-    public String get_id() {
-        return _id;
+        import com.google.gson.annotations.Expose;
+        import com.google.gson.annotations.SerializedName;
+
+
+public class Participant1 {
+
+    @SerializedName("_id")
+    @Expose
+    private String id;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("college")
+    @Expose
+    private String college;
+    @SerializedName("github")
+    @Expose
+    private String github;
+    @SerializedName("linkedIn")
+    @Expose
+    private String linkedIn;
+    @SerializedName("website")
+    @Expose
+    private String website;
+    @SerializedName("photo")
+    @Expose
+    private String photo;
+    @SerializedName("bio")
+    @Expose
+    private String bio;
+    @SerializedName("graduation_year")
+    @Expose
+    private Integer graduationYear;
+    @SerializedName("username")
+    @Expose
+    private String username;
+    @SerializedName("uid")
+    @Expose
+    private String uid;
+    @SerializedName("email")
+    @Expose
+    private String email;
+    @SerializedName("__v")
+    @Expose
+    private Integer v;
+
+    public String getId() {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -80,12 +112,12 @@ public class Participant {
         this.bio = bio;
     }
 
-    public int getGraduation_year() {
-        return graduation_year;
+    public Integer getGraduationYear() {
+        return graduationYear;
     }
 
-    public void setGraduation_year(int graduation_year) {
-        this.graduation_year = graduation_year;
+    public void setGraduationYear(Integer graduationYear) {
+        this.graduationYear = graduationYear;
     }
 
     public String getUsername() {
@@ -112,11 +144,12 @@ public class Participant {
         this.email = email;
     }
 
-    public int get__v() {
-        return __v;
+    public Integer getV() {
+        return v;
     }
 
-    public void set__v(int __v) {
-        this.__v = __v;
+    public void setV(Integer v) {
+        this.v = v;
     }
+
 }
