@@ -84,7 +84,8 @@
                     android:layout_height="70dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="15dp"
-                    app:singleLine="true">
+                    app:singleLine="true"
+                    app:singleSelection="true">
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ALL_Chip"
@@ -94,7 +95,10 @@
                         android:text="All"
                         android:textAlignment="center"
                         app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp" />
+                        app:chipStrokeWidth="2dp"
+                        android:checkable="true"
+                        android:checked="true"
+                       />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ONGOING_Chip"
@@ -104,7 +108,8 @@
                         android:text="Ongoing"
                         android:textAlignment="center"
                         app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp" />
+                        app:chipStrokeWidth="2dp"
+                        android:checkable="true"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/UPCOMING_Chip"
@@ -114,7 +119,8 @@
                         android:text="Upcoming"
                         android:textAlignment="center"
                         app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp" />
+                        app:chipStrokeWidth="2dp"
+                        android:checkable="true"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/POPULAR_Chip"
@@ -124,7 +130,8 @@
                         android:text="Popular"
                         android:textAlignment="center"
                         app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp" />
+                        app:chipStrokeWidth="2dp"
+                        android:checkable="true"/>
 
 
                 </com.google.android.material.chip.ChipGroup>
