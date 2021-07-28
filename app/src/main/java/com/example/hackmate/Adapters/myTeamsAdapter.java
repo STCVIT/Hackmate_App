@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,14 +20,29 @@ public class myTeamsAdapter extends RecyclerView.Adapter<myTeamsAdapter.Viewhold
     public String a;
     private OnTeamsListener mOnteamsListener;
     private Context context;
-    private ArrayList<myTeamsModel> myTeamsArrayList;
+    private  ArrayList<myTeamsModel> myTeamsArrayList;
+   // private List<Final2> myTeamsArrayList;
 
-    public myTeamsAdapter(Context context, ArrayList<myTeamsModel> myTeamsArrayList, OnTeamsListener onTeamsListener) {
+
+    public myTeamsAdapter( Context context, ArrayList<myTeamsModel> myTeamsArrayList,OnTeamsListener mOnteamsListener) {
+
         this.context = context;
         this.myTeamsArrayList = myTeamsArrayList;
-        this.mOnteamsListener=onTeamsListener;
+        this.mOnteamsListener = mOnteamsListener;
     }
 
+
+
+
+    /*public myTeamsAdapter(Context context, List<Final2> myTeamsArrayList, OnTeamsListener onTeamsListener) {
+            this.context = context;
+            this.myTeamsArrayList = myTeamsArrayList;
+            this.mOnteamsListener=onTeamsListener;
+        }
+        public void setmyTeams(List<Final2> final_objs2) {
+            this.myTeamsArrayList = final_objs2;
+            notifyDataSetChanged();
+        }*/
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,12 +53,20 @@ public class myTeamsAdapter extends RecyclerView.Adapter<myTeamsAdapter.Viewhold
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-       myTeamsModel.myTeams_Model model = (myTeamsModel.myTeams_Model) myTeamsArrayList.get(position);
-       holder.TeamName_myTeams.setText(model.getTeamName());
-       holder.HackName_myTeams.setText(model.getHackName());
-       holder.Position_myTeams.setText(model.getTeamPosition());
+        myTeamsModel.myTeams_Model model = (myTeamsModel.myTeams_Model) myTeamsArrayList.get(position);
+        //myTeamsPOJO myTeamsPOJO = myTeamsArrayList.get(position);
+         //////Uncomment when backend to myteams is possible//////
+       /* Final2  finals2 = myTeamsArrayList.get(position);
 
-       holder.Domain1.setText(model.getDomain1());
+
+        holder.TeamName_myTeams.setText(myTeamsArrayList.get(position).getTeam().getName());
+        holder.HackName_myTeams.setText(myTeamsArrayList.get(position).getHackName());
+        holder.Position_myTeams.setText("Leader");*/
+        holder.TeamName_myTeams.setText(model.getTeamName());
+        holder.HackName_myTeams.setText(model.getHackName());
+        holder.Position_myTeams.setText(model.getTeamPosition());
+
+        holder.Domain1.setText(model.getDomain1());
 
         holder.Domain2.setText(model.getDomain2());
 
@@ -53,7 +75,9 @@ public class myTeamsAdapter extends RecyclerView.Adapter<myTeamsAdapter.Viewhold
         holder.Domain4.setText(model.getDomain4());
 
         holder.Domain5.setText(model.getDomain5());
-        holder.nextFragment_myTeams.setImageResource(model.getNextFragment());
+
+
+
 
     }
 
@@ -64,30 +88,30 @@ public class myTeamsAdapter extends RecyclerView.Adapter<myTeamsAdapter.Viewhold
 
     public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private ImageView nextFragment_myTeams;
+
         private TextView TeamName_myTeams, HackName_myTeams,Position_myTeams;
         private Chip Domain1,Domain2,Domain3,Domain4,Domain5;
-OnTeamsListener onTeamsListener;
+        OnTeamsListener onTeamsListener;
 
         public Viewholder(@NonNull View itemView,OnTeamsListener onTeamsListener) {
             super(itemView);
             TeamName_myTeams=itemView.findViewById(R.id.teamName_myTeams);
             HackName_myTeams=itemView.findViewById(R.id.hackName_myTeams);
             Position_myTeams=itemView.findViewById(R.id.Position_myTeams);
-            nextFragment_myTeams=itemView.findViewById(R.id.particularTeam_view);
+
             Domain1=itemView.findViewById(R.id.Domain1_Chip);
             Domain2=itemView.findViewById(R.id.Domain2_Chip);
             Domain3=itemView.findViewById(R.id.Domain3_Chip);
             Domain4=itemView.findViewById(R.id.Domain4_Chip);
             Domain5=itemView.findViewById(R.id.Domain5_Chip);
             this.onTeamsListener=onTeamsListener;
-itemView.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-             a= (String) Position_myTeams.getText();
-onTeamsListener.OnTeamsClick(getAdapterPosition(),a);
+            a= (String) Position_myTeams.getText();
+            onTeamsListener.OnTeamsClick(getAdapterPosition(),a);
 
         }
     }
