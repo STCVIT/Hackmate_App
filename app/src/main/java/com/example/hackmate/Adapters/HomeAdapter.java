@@ -10,23 +10,38 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hackmate.Models.HomeModel;
+
+import com.example.hackmate.POJOClasses.Final;
+import com.example.hackmate.POJOClasses.hackListPOJO;
 import com.example.hackmate.R;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Callback;
+
+
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.Viewholder> {
     private OnHackListerner mOnHackListener;
     private Context context;
-    private ArrayList<HomeModel> HomeArrayList;
+    private List<Final> HomeArrayList;
 
 
-    public HomeAdapter(Context context, ArrayList<HomeModel> homeArrayList, OnHackListerner onHackListerner) {
+   public HomeAdapter(Context context, List<Final> homeArrayList, OnHackListerner onHackListerner) {
         this.context = context;
         HomeArrayList = homeArrayList;
         this.mOnHackListener=onHackListerner;
     }
 
+
+
+   public void setHackList(List<Final> final_objs) {
+       //ArrayList HomeArrayList1 = (ArrayList) HomeAL.finals;
+        this.HomeArrayList = final_objs;
+        notifyDataSetChanged();
+
+    }
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -37,15 +52,22 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.Viewholder> {
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        // to set data to textview and imageview of each card layout
-        // Get the data model based on position
+      Final  finals = HomeArrayList.get(position);
+//Final Final = HomeArrayList.get(position);
+//HomeModel.home_Model model = (HomeModel.home_Model) HomeArrayList.get(position);
 
-        HomeModel.home_Model model = (HomeModel.home_Model) HomeArrayList.get(position);
-        holder.Profilephoto_home.setImageResource(model.getHackphoto());
+           //int photo=Integer.parseInt(HomeArrayList.get(position).getHackPhoto());
+        //holder.Profilephoto_home.setImageResource(photo);
+        holder.HackName.setText(HomeArrayList.get(position).getName());
+        holder.teamSizeMax.setText(String.valueOf(HomeArrayList.get(position).getMaxTeamSize()));
+        holder.teamSizeMin.setText(String.valueOf(HomeArrayList.get(position).getMinTeamSize()));
+        holder.startDate.setText(HomeArrayList.get(position).getStart().substring(0,10));
+        holder.endDate.setText(HomeArrayList.get(position).getEnd().substring(0,10));
+        /*holder.Profilephoto_home.setImageResource(model.getHackphoto());
         holder.HackName.setText(model.getHackName());
         holder.teamSize.setText(model.getTeamSize());
         holder.startDate.setText(model.getStartDate());
-        holder.endDate.setText(model.getEndDate());
+        holder.endDate.setText(model.getEndDate());*/
 
     }
 
@@ -62,17 +84,21 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.Viewholder> {
 
 
         private ImageView Profilephoto_home;
-        private TextView HackName, teamSize, startDate,endDate;
+        private TextView HackName, teamSizeMin,teamSizeMax, startDate,endDate;
         OnHackListerner onHackListerner;
+
 
         public Viewholder(@NonNull View itemView,OnHackListerner onHackListerner) {
             super(itemView);
 
             Profilephoto_home=itemView.findViewById(R.id.HackImage);
             HackName=itemView.findViewById(R.id.HackName_Home);
-            teamSize=itemView.findViewById(R.id.teamSize_input);
+            teamSizeMin=itemView.findViewById(R.id.teamSize__min_input);
+            teamSizeMax=itemView.findViewById(R.id.teamSize_max_input);
             startDate=itemView.findViewById(R.id.startDate_input);
             endDate=itemView.findViewById(R.id.endDate_input);
+
+            //Profilephoto_home.setImageResource(R.drawable.hackimage);
 this.onHackListerner=onHackListerner;
 itemView.setOnClickListener(this);
         }
