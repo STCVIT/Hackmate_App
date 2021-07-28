@@ -72,6 +72,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/hackName_myTeams" />
 
             <com.google.android.material.chip.ChipGroup
+                android:id="@+id/skillGrp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/teamName_myTeams"
@@ -98,7 +99,8 @@
                     android:textAlignment="center"
                     android:textColor="#1EA54C"
                     app:chipStrokeColor="@color/pill_color"
-                    app:chipStrokeWidth="2dp" />
+                    app:chipStrokeWidth="2dp"
+                    android:visibility="gone"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/Domain2_Chip"
@@ -109,7 +111,8 @@
                     android:textAlignment="center"
                     android:textColor="#1EA54C"
                     app:chipStrokeColor="@color/pill_color"
-                    app:chipStrokeWidth="2dp" />
+                    app:chipStrokeWidth="2dp"
+                    android:visibility="gone"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/Domain3_Chip"
@@ -120,7 +123,8 @@
                     android:textAlignment="center"
                     android:textColor="#1EA54C"
                     app:chipStrokeColor="@color/pill_color"
-                    app:chipStrokeWidth="2dp" />
+                    app:chipStrokeWidth="2dp"
+                    android:visibility="gone"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/Domain4_Chip"
@@ -131,7 +135,8 @@
                     android:textAlignment="center"
                     android:textColor="#1EA54C"
                     app:chipStrokeColor="@color/pill_color"
-                    app:chipStrokeWidth="2dp" />
+                    app:chipStrokeWidth="2dp"
+                    android:visibility="gone"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/Domain5_Chip"
@@ -142,7 +147,8 @@
                     android:textAlignment="center"
                     android:textColor="#1EA54C"
                     app:chipStrokeColor="@color/pill_color"
-                    app:chipStrokeWidth="2dp" />
+                    app:chipStrokeWidth="2dp"
+                    android:visibility="gone"/>
 
             </com.google.android.material.chip.ChipGroup>
 
