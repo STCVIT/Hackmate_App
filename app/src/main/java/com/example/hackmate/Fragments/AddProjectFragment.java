@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
+import com.example.hackmate.POJOClassesKavita.addProjectPOJO;
 import com.example.hackmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -55,6 +55,31 @@ public class AddProjectFragment extends Fragment {
                 Toast.makeText(getActivity(), "Project has been added successfully !!!", Toast.LENGTH_SHORT).show();
             }
         });
+        
+        addProject();
+    }
+
+    private void addProject() {
+
+        addProjectPOJO addProjectPOJO = new addProjectPOJO(" Niddhi","zfcxhxfhfgugjfjgcjjfghj");
+
+        /*Call<addProjectPOJO> call= jsonPlaceHolderApi.addProject(addProjectPOJO);
+
+        call.enqueue(new Callback<com.example.hackmate.POJOClasses.addProjectPOJO>() {
+            @Override
+            public void onResponse(Call<com.example.hackmate.POJOClasses.addProjectPOJO> call, Response<com.example.hackmate.POJOClasses.addProjectPOJO> response) {
+
+                if (!response.isSuccessful()){
+                    Log.i("sucess", "sucess");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<com.example.hackmate.POJOClasses.addProjectPOJO> call, Throwable t) {
+                Log.i("error", t.getMessage());
+            }
+        });*/
+
     }
 
     @Override
