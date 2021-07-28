@@ -4,17 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.hackmate.Fragments.HomeFragment;
+import com.example.hackmate.Fragments.HackListFragment;
 import com.example.hackmate.Fragments.MyTeamsFragment;
-import com.example.hackmate.Fragments.ProfileFragment;
-import com.example.hackmate.Fragments.TeamsFragment;
+import com.example.hackmate.Fragments.MyProfileFragment;
+import com.example.hackmate.Fragments.FindTeamsFragment;
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,10 +22,11 @@ public class MainActivity extends AppCompatActivity {
 
     //Fragments
     private Fragment activeFragment;
-    private HomeFragment homeFragment = new HomeFragment();
+    private HackListFragment homeFragment = new HackListFragment();
     private MyTeamsFragment myTeamsFragment = new MyTeamsFragment();
-    private TeamsFragment teamsFragment = new TeamsFragment();
-    private ProfileFragment profileFragment = new ProfileFragment();
+    private FindTeamsFragment findTeamsFragment = new FindTeamsFragment();
+    private MyProfileFragment myProfileFragment = new MyProfileFragment();
+    BadgeDrawable badge;
 
 
     @Override
@@ -37,14 +37,16 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation = findViewById(R.id.bottom_nav_bar);
         bottomNavigation.setVisibility(View.VISIBLE);
 
+        badge = bottomNavigation.getOrCreateBadge(R.id.nav_myTeams);
+        badge.setVisible(true);
         bottomNavigation();
 
     }
 
     private void bottomNavigation() {
         getSupportFragmentManager().beginTransaction().add(R.id.nav_host_fragment,myTeamsFragment).hide(myTeamsFragment).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.nav_host_fragment,teamsFragment).hide(teamsFragment).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.nav_host_fragment,profileFragment).hide(profileFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.nav_host_fragment, findTeamsFragment).hide(findTeamsFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.nav_host_fragment, myProfileFragment).hide(myProfileFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.nav_host_fragment,homeFragment).commit();
 
         activeFragment = homeFragment;
@@ -64,10 +66,10 @@ public class MainActivity extends AppCompatActivity {
                                 selectedFragment = myTeamsFragment;
                                 break;
                             case R.id.nav_teams:
-                                selectedFragment = teamsFragment;
+                                selectedFragment = findTeamsFragment;
                                 break;
                             case R.id.nav_profile:
-                                selectedFragment = profileFragment;
+                                selectedFragment = myProfileFragment;
                                 break;
                         }
                         if(selectedFragment!=activeFragment) {

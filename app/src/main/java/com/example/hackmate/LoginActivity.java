@@ -5,15 +5,18 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.example.hackmate.Fragments.SignUpAccountFragment;
 import com.example.hackmate.Fragments.CreateAccountFragment;
-import com.example.hackmate.Fragments.GettingStartedFragment;
 import com.example.hackmate.Fragments.LoginFragment;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public Fragment fragmentLogin, fragmentNewAccount, fragmentGettingStarted, fragmentHome;
+    public Fragment fragmentLogin, fragmentNewAccount, fragmentCreateAccount;
+    public SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +24,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         fragmentLogin = new LoginFragment();
-        fragmentNewAccount = new CreateAccountFragment();
-        fragmentGettingStarted = new GettingStartedFragment();
+        fragmentNewAccount = new SignUpAccountFragment();
+        fragmentCreateAccount = new CreateAccountFragment();
+
+        preferences = this.getSharedPreferences("package com.example.hackmate", Context.MODE_PRIVATE);
+
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

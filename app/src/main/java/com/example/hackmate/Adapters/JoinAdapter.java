@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hackmate.Fragments.RequestTeamFragment;
+import com.example.hackmate.Fragments.TeamProfileParticipantViewFragment;
 import com.example.hackmate.MainActivity;
 import com.example.hackmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -55,7 +55,7 @@ public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ProgramViewHol
             chip.setChipStrokeColorResource(R.color.pill_color);
             chip.setChipBackgroundColor(context.getResources().getColorStateList(R.color.chip_background_color));
             chip.setTextColor(context.getResources().getColorStateList(R.color.chip_text_color));
-            chip.setChipStrokeWidth(6);
+            chip.setChipStrokeWidth(4);
             chip.setClickable(false);
             holder.domainGrp.addView(chip);
         }
@@ -63,7 +63,7 @@ public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ProgramViewHol
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestTeamFragment frag = new RequestTeamFragment();
+                TeamProfileParticipantViewFragment frag = new TeamProfileParticipantViewFragment();
 
                 if(GET_NAV_CODE==1) {
                     Bundle bundle = new Bundle();

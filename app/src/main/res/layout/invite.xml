@@ -4,59 +4,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="371dp"
-        android:layout_height="wrap_content"
+        android:layout_width="378dp"
+        android:layout_height="183dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
+        app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_goneMarginEnd="20dp"
         tools:ignore="MissingClass,MissingConstraints"
-        app:cardUseCompatPadding="true">
-<LinearLayout
-    android:id="@+id/linear_layout1"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#23303D">
-
-    <TextView
-        android:id="@+id/Invite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Invites"
-        android:textColor="#979797"
-        android:textSize="18dp"
-        android:textStyle="bold" />
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:backgroundTint="#2E3D4C">
+        android:background="#2E3D4C">
 
         <RelativeLayout
-            android:id="@+id/explandable_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:id="@+id/linear_layout1"
+            android:layout_width="378dp"
+            android:layout_height="183dp"
+
+            android:background="#2E3D4C">
 
 
             <ImageView
                 android:id="@+id/inviteePhoto"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+                android:layout_width="77dp"
+                android:layout_height="74dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="22dp"
-                android:layout_marginEnd="267dp"
-                android:layout_marginBottom="70dp"
+                android:layout_marginEnd="272dp"
+                android:layout_marginBottom="83dp"
                 app:srcCompat="@drawable/imageholder" />
 
             <TextView
@@ -68,7 +50,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="112dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="110dp"
+                android:layout_marginBottom="131dp"
                 android:text="Muhammad Muaazz Zuberi"
                 android:textColor="#E7EFEF"
                 android:textSize="18dp"
@@ -81,9 +63,9 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="110dp"
-                android:layout_marginEnd="162dp"
-                android:layout_marginBottom="76dp"
+                android:layout_marginStart="119dp"
+                android:layout_marginEnd="153dp"
+                android:layout_marginBottom="103dp"
                 android:text="invited you to"
                 android:textColor="#E7EFEF"
                 android:textSize="14dp" />
@@ -95,9 +77,9 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="198dp"
-                android:layout_marginEnd="45dp"
-                android:layout_marginBottom="76dp"
+                android:layout_marginStart="209dp"
+                android:layout_marginEnd="34dp"
+                android:layout_marginBottom="100dp"
                 android:text="GreenCoders"
                 android:textColor="#1EA54C"
                 android:textSize="18dp"
@@ -110,11 +92,11 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="63dp"
-                android:layout_marginEnd="187dp"
-                android:layout_marginBottom="18dp"
-                android:text="ACCEPT"
-                android:backgroundTint="#1EA54C"/>
+                android:layout_marginStart="53dp"
+                android:layout_marginEnd="197dp"
+                android:layout_marginBottom="27dp"
+                android:backgroundTint="#1EA54C"
+                android:text="ACCEPT" />
 
             <Button
                 android:id="@+id/rejectButton"
@@ -123,17 +105,16 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="198dp"
-                android:layout_marginEnd="45dp"
-                android:layout_marginBottom="18dp"
+                android:layout_marginStart="213dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="27dp"
+                android:backgroundTint="@color/buttonBackground"
                 android:text="REJECT"
                 android:textColor="#1EA54C"
-                android:backgroundTint="@color/buttonBackground"
 
-               />
+                />
+
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-</LinearLayout>
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

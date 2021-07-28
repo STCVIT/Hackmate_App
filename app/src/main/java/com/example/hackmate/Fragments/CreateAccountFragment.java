@@ -10,18 +10,18 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.hackmate.LoginActivity;
+import com.example.hackmate.MainActivity;
 import com.example.hackmate.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -29,10 +29,9 @@ import com.google.firebase.auth.FirebaseUser;
 public class CreateAccountFragment extends Fragment {
 
     View view;
-    private EditText email_create_your_account, password_create_your_account, password1_create_your_account;
-    private Button login;
-    private LoginActivity loginActivity;
-    private FirebaseAuth mAuth;
+    Button create_profile;
+    LoginActivity loginActivity;
+    private EditText email_create_your_account;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,98 +46,70 @@ public class CreateAccountFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initialise();
+        String email = getArguments().getString("email");
 
-        login.setOnClickListener(new View.OnClickListener() {
+        create_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String emailText = email_create_your_account.getText().toString();
-                String password = password_create_your_account.getText().toString();
-                String password1 = password1_create_your_account.getText().toString();
-
-
-                if(email_create_your_account.getText().toString().isEmpty()) {
-                    email_create_your_account.setError("Email Required");
-                    email_create_your_account.requestFocus();
-                    return;
-                }
-                if(!Patterns.EMAIL_ADDRESS.matcher(email_create_your_account.getText().toString()).matches()) {
-                    email_create_your_account.setError("Valid Email Required");
-                    email_create_your_account.requestFocus();
-                    return;
-                }
-                if(password_create_your_account.getText().toString().isEmpty()) {
-                    password_create_your_account.setError("Password Required");
-                    password_create_your_account.requestFocus();
-                    return;
-                }
-                if(password_create_your_account.getText().toString().length()<6) {
-                    password_create_your_account.setError("Min 6 char required");
-                    password_create_your_account.requestFocus();
-                    return;
-                }
-                if(password1_create_your_account.getText().toString().isEmpty() || !password1_create_your_account.getText().toString().equals(password_create_your_account.getText().toString())) {
-                    password1_create_your_account.setError("Password does not matches !!");
-                    password1_create_your_account.requestFocus();
-                    return;
-                }
-
-                registerUser(emailText,password);
-
+                checkIfEmailVerified(email);
 
             }
         });
+
+        AutoCompleteTextView YOG_CompleteTextView = view.findViewById(R.id.year_of_graduation);
+        String[] years = {"Year of Graduation", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"};
+        ArrayAdapter<String> YOG_arrayAdapter = new ArrayAdapter<String>(getContext(),R.layout.option_item, years);
+        YOG_CompleteTextView.setText(YOG_arrayAdapter.getItem(0), false);
+        YOG_CompleteTextView.setAdapter(YOG_arrayAdapter);
+
+
+
+        AutoCompleteTextView gender_CompleteTextView = view.findViewById(R.id.gender);
+        String[] gender = {"Gender", "Male", "Female", "Other"};
+        ArrayAdapter<String> gender_arrayAdapter = new ArrayAdapter<String>(getContext(),R.layout.option_item, gender);
+        gender_CompleteTextView.setText(gender_arrayAdapter.getItem(0).toString(), false);
+        gender_CompleteTextView.setAdapter(gender_arrayAdapter);
 
     }
 
     public void initialise()
     {
-        email_create_your_account = view.findViewById(R.id.email_create_account);
-        password1_create_your_account = view.findViewById(R.id.password1_create_account);
-        password_create_your_account = view.findViewById(R.id.password_create_account);
-        mAuth = FirebaseAuth.getInstance();
+        create_profile = view.findViewById(R.id.createProfile_button);
         loginActivity = (LoginActivity) getActivity();
-        login = view.findViewById(R.id.login);
+//        email_create_your_account = view.findViewById(R.id.email_create_account);
     }
 
-    public void registerUser(String email, String password) {
+    public void checkIfEmailVerified(String email)
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()) {
+        assert user != null;
+        if (user.isEmailVerified())
+        {
+            loginActivity.preferences.edit().putInt("response" , 200).apply();
+            Log.i("responsexx" , String.valueOf(loginActivity.preferences.getInt("response" , 0)));
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.putExtra("Email", email);
+            startActivity(intent);
+            loginActivity.finish();
+            Toast.makeText(getContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            // email is not verified, so just prompt the message to the user and restart this activity.
+            // NOTE: don't forget to log out the user.
+            Toast.makeText(getContext(), "Please Verify your Email to continue", Toast.LENGTH_SHORT).show();
+            FragmentManager fragmentManager = loginActivity.getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.bodyFragment, loginActivity.fragmentLogin)
+                    .addToBackStack(null)
+                    .commit();
+            FirebaseAuth.getInstance().signOut();
 
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            //restart this activity
 
-                        user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(getContext(), "Please verify email to continue", Toast.LENGTH_SHORT).show();
-                                FragmentManager fragmentManager = loginActivity.getSupportFragmentManager();
-                                Bundle args = new Bundle();
-                                args.putString("email", email_create_your_account.getText().toString());
-                                loginActivity.fragmentGettingStarted.setArguments(args);
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                fragmentTransaction.replace(R.id.bodyFragment, loginActivity.fragmentGettingStarted)
-                                        .addToBackStack(null)
-                                        .commit();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.i("failure" , "Email not sent" + e.getMessage());
-                            }
-                        });
-
-//                        //SignUp success
-//                        Intent intent = new Intent(SignUpActivity.this,HomeActivity.class);
-//                        intent.putExtra("Email",email);
-//                        startActivity(intent);
-//                        finish();
-                    }
-                    else {
-                        Toast.makeText(getContext(), "Email ID already exists..", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        }
     }
 
 }

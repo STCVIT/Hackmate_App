@@ -1,25 +1,29 @@
 package com.example.hackmate.Adapters;
 
-import android.os.Bundle;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hackmate.Fragments.ParticipantProfileFragment;
+import com.example.hackmate.Fragments.ProfileViewFragment;
 import com.example.hackmate.MainActivity;
 import com.example.hackmate.R;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ProgramViewHolder>{
 
-    private String[] names,domains;
-    public InviteAdapter(String[] names, String[] domains) {
+    private String[] names;
+    private String[][] domains;
+    private Context context;
+    public InviteAdapter(String[] names, String[][] domains) {
         //this.images=images;
         this.names=names;
         this.domains=domains;
@@ -27,29 +31,37 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ProgramVie
 
     @NonNull
     @Override
-    public ProgramViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public InviteAdapter.ProgramViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.invite_list,parent,false);
-        return new ProgramViewHolder(view);
+        context = parent.getContext();
+        return new InviteAdapter.ProgramViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProgramViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull InviteAdapter.ProgramViewHolder holder, int position) {
         //String showImg = images[position];
         String showName = names[position];
-        String showDomain = domains[position];
+        String[] pt_domains = domains[position];
 
         holder.name.setText(showName);
-        holder.domain.setText(showDomain);
+
+        for(int i=0;i<pt_domains.length;i++)
+        {
+            Chip chip = new Chip(context);
+            chip.setText(pt_domains[i]);
+            chip.setChipStrokeColorResource(R.color.pill_color);
+            chip.setChipBackgroundColor(context.getResources().getColorStateList(R.color.chip_background_color));
+            chip.setTextColor(context.getResources().getColorStateList(R.color.chip_text_color));
+            chip.setChipStrokeWidth(4);
+            chip.setClickable(false);
+            holder.domainGrp.addView(chip);
+        };
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParticipantProfileFragment frag = new ParticipantProfileFragment();
-
-                Bundle bundle = new Bundle();
-                bundle.putInt("Key", 1);
-                frag.setArguments(bundle);
+                ProfileViewFragment frag = new ProfileViewFragment();
 
                 MainActivity activity = (MainActivity) v.getContext();
                 activity.getSupportFragmentManager()
@@ -68,13 +80,16 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ProgramVie
                     holder.invite.setText("INVITED");
                     holder.invite.setTextColor(ContextCompat.getColor(v.getContext(),R.color.pill_color));
                     holder.invite.setBackground(ContextCompat.getDrawable(v.getContext(),R.drawable.ic_invited));
+                    Toast.makeText(context, "Invitation Sent !!", Toast.LENGTH_SHORT).show();
                 }
-                else
+                /*else
                 {
                     holder.invite.setText("INVITE");
                     holder.invite.setTextColor(ContextCompat.getColor(v.getContext(),R.color.text));
                     holder.invite.setBackground(ContextCompat.getDrawable(v.getContext(),R.drawable.ic_buttongradient));
                 }
+
+                 */
             }
         });
     }
@@ -87,13 +102,13 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ProgramVie
     public class ProgramViewHolder extends RecyclerView.ViewHolder {
         //ImageView imgIcon;
         TextView name;
-        Chip domain;
+        ChipGroup domainGrp;
         AppCompatButton invite;
         public ProgramViewHolder(@NonNull View itemView) {
             super(itemView);
             //imgIcon = itemView.findViewById(R.id.inviteImg);
             name = itemView.findViewById(R.id.inviteName);
-            domain = itemView.findViewById(R.id.inviteDomain);
+            domainGrp = itemView.findViewById(R.id.chipGrp);
             invite = itemView.findViewById(R.id.sendInviteButton);
         }
     }
