@@ -24,7 +24,7 @@
 
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/particularTeamAppBar_Leader"
+                android:id="@+id/particularTeamAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="#1D2833"
@@ -45,7 +45,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/addProject_title2"
+                    android:id="@+id/editProject_title2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -243,104 +243,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/projectsTitle">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ProjectRV_participant"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/projetName_TeamProfile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="20dp"
-
-                    android:layout_marginTop="16dp"
-                    android:text="Nidhi"
-                    android:textColor="#E7EFEF"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/descriptionTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/projetName_TeamProfile"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="12dp"
-                    android:text="Description:"
-                    android:textColor="#979797"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/projetName_TeamProfile" />
-
-                <TextView
-                    android:id="@+id/projectDescription"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/descriptionTitle"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="20dp"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec massa tellus, rhoncus id turpis eu, ultricies aliquam tortor. Donec nec neque mi. Fusce semper viverra augue, eget mollis sem blandit quis. Aliquam fermentum eros sit amet justo vestibulum bibendum. Praesent eget sapien a erat elementum scelerisque. Suspendisse volutpat lacus vitae maximus blandit. Suspendisse lacinia, odio nec cursus pellentesque, dui nulla aliquam erat, ut pulvinar nunc mi dictum lorem. Sed accumsan ante id molestie tristique. Cras vulputate et nulla eget dictum. Vivamus a ante auctor felis dictum cursus vel a tellus. Aenean pharetra nisl quis velit bibendum, et aliquet lacus ornare. Sed hendrerit nulla non nunc dignissim, a faucibus ante auctor."
-                    android:textColor="#E7EFEF"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/descriptionTitle" />
-
-                <TextView
-                    android:id="@+id/projectLink1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/projectDescription"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="12dp"
-                    android:text="www.projectwebsite.com"
-                    android:textColor="#53B7FF"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/projectDescription" />
-
-                <TextView
-                    android:id="@+id/projectLink2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/projectLink1"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="4dp"
-                    android:text="www.projectwebsite.com"
-                    android:textColor="#53B7FF"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/projectLink1" />
-
-                <TextView
-                    android:id="@+id/projectLink3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/projectLink2"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="www.projectwebsite.com"
-                    android:textColor="#53B7FF"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/projectLink2" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="wrap_content" />
         </androidx.cardview.widget.CardView>
 
 
