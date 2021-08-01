@@ -2,6 +2,7 @@ package com.example.hackmate.JSONPlaceholders;
 
 import com.example.hackmate.POJOClasses.DomainTeamsHack.DomainTeamsHackPOJO;
 import com.example.hackmate.POJOClasses.FindParticipant.invitePOJO;
+import com.example.hackmate.POJOClasses.FindPtByName.FindPtByNamePOJO;
 import com.example.hackmate.POJOClasses.JoinHackTeams.JoinHackTeamPOJO;
 import com.example.hackmate.POJOClasses.SearchAndJoinHack.SearchAndJoinHackPOJO;
 import com.example.hackmate.POJOClasses.hackProfilePOJO;
@@ -25,9 +26,9 @@ public interface API {
                                     @Query("skill") String skill);
 
     @GET("participant/get/userName")
-    Call<Response<Void>> getHacks(@Header("Authorization") String token,
-                                  @Query("name") String name,
-                                  @Query("page") int page);
+    Call<FindPtByNamePOJO> getPtByName(@Header("Authorization") String token,
+                                     @Query("name") String name,
+                                     @Query("page") int page);
 
     @GET("getHacks/{id}")
     Call<hackProfilePOJO> hackProfile(@Header("Authorization") String token, @Path("id") String hackID);

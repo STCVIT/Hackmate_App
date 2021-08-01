@@ -32,12 +32,14 @@
                 app:cardBackgroundColor="@color/field_fill">
 
                 <EditText
+                    android:id="@+id/findPtByName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|left"
                     android:layout_marginLeft="49dp"
                     android:backgroundTint="@color/field_fill"
                     android:fontFamily="@font/roboto"
+                    android:inputType="textAutoComplete"
                     android:hint="Search for teammates"
                     android:textColorHint="@color/text"
                     android:textSize="14dp" />
