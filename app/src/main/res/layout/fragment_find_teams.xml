@@ -75,6 +75,7 @@
                 app:cardBackgroundColor="@color/field_fill">
 
                 <EditText
+                    android:id="@+id/searchTeamJoin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|left"
@@ -82,6 +83,7 @@
                     android:backgroundTint="@color/field_fill"
                     android:fontFamily="@font/roboto"
                     android:hint="Search for teams"
+                    android:inputType="textAutoComplete"
                     android:textColorHint="@color/text"
                     android:textSize="14dp" />
 
@@ -150,6 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="16dp"
+                app:singleSelection="true"
                 android:visibility="gone">
 
                 <com.google.android.material.chip.Chip
@@ -175,7 +178,7 @@
                     style="@style/CustomChipStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ML/DS"
+                    android:text="ML"
                     app:chipStrokeColor="@color/pill_color"
                     app:chipStrokeWidth="2dp" />
 
@@ -206,10 +209,28 @@
                     app:chipStrokeColor="@color/pill_color"
                     app:chipStrokeWidth="2dp" />
 
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipDomain7"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cybersecurity"
+                    app:chipStrokeColor="@color/pill_color"
+                    app:chipStrokeWidth="2dp" />
+
             </com.google.android.material.chip.ChipGroup>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <ProgressBar
+        android:id="@+id/progressBarLoad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/joinList"

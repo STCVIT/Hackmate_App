@@ -14,19 +14,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hackmate.Fragments.ProfileViewFragment;
 import com.example.hackmate.MainActivity;
+import com.example.hackmate.POJOClasses.PtSkill;
 import com.example.hackmate.R;
-import com.example.hackmate.Models.teamMember_Model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.Viewholder> {
 
     private Context context;
-    private ArrayList<teamMember_Model> teamMemberModelArrayList;
+    private List<PtSkill> ptSkills;
 
-    public MemberAdapter(Context context, ArrayList<teamMember_Model> teamMemberModelArrayList) {
+    public MemberAdapter(Context context, List<PtSkill> ptSkills) {
         this.context = context;
-        this.teamMemberModelArrayList = teamMemberModelArrayList;
+        this.ptSkills = ptSkills;
+    }
+
+    public void setJoinTeam(List<PtSkill> ptSkills) {
+        this.ptSkills = ptSkills;
     }
 
 
@@ -41,12 +46,12 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.Viewholder
     @Override
     public void onBindViewHolder(@NonNull MemberAdapter.Viewholder holder, int position) {
 
-        teamMember_Model.TeamMemberModel model = (teamMember_Model.TeamMemberModel) teamMemberModelArrayList.get(position);
-        holder.number_textView.setText(model.getSerialNo());
-        holder.nameTextView.setText(model.getMemName());
-        holder.email_textView.setText(model.getMemEmail());
-        holder.designation_textView.setText(model.getMemPosition());
-        holder.profile_imageView.setImageResource(model.getProfilephoto());
+        PtSkill ptSkill = ptSkills.get(position);
+        holder.number_textView.setText(String.valueOf(position+1));
+        holder.nameTextView.setText(ptSkill.getParticipant().getName());
+        holder.email_textView.setText(ptSkill.getParticipant().getEmail());
+//        holder.designation_textView.setText(model.getMemPosition());
+//        holder.profile_imageView.setImageResource(model.getProfilephoto());
 
         holder.team_member_card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,13 +60,14 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.Viewholder
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("Key", 1);
+                bundle.putString("id", ptSkill.getParticipant().get_id());
                 frag.setArguments(bundle);
 
                 MainActivity activity = (MainActivity) v.getContext();
 
                 activity.getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment,frag)
+                        .replace(R.id.nav_host_fragment, frag)
                         .addToBackStack(null)
                         .commit();
             }
@@ -70,12 +76,12 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.Viewholder
 
     @Override
     public int getItemCount() {
-        return teamMemberModelArrayList.size();
+        return ptSkills.size();
     }
 
-    public class Viewholder extends RecyclerView.ViewHolder{
+    public class Viewholder extends RecyclerView.ViewHolder {
 
-        private TextView number_textView,nameTextView,designation_textView,email_textView;
+        private TextView number_textView, nameTextView, designation_textView, email_textView;
         private ImageView profile_imageView;
         CardView team_member_card;
 
@@ -86,7 +92,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.Viewholder
             designation_textView = itemView.findViewById(R.id.designation_textView);
             email_textView = itemView.findViewById(R.id.email_textView);
             team_member_card = itemView.findViewById(R.id.team_member_card);
-            profile_imageView=itemView.findViewById(R.id.profile_imageView);
+            profile_imageView = itemView.findViewById(R.id.profile_imageView);
         }
     }
 

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +16,30 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hackmate.Adapters.ProjectAdapterEP;
+import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.Models.ProjectModel;
+import com.example.hackmate.POJOClasses.ProjectPOJO;
+import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class EditProfileFragment extends Fragment {
 
@@ -31,6 +48,11 @@ public class EditProfileFragment extends Fragment {
     AutoCompleteTextView YOG_CompleteEditText;
     private RecyclerView projects_recyclerView;
     ImageView profile_pic_EP;
+    TextView name_EP, username_EP, email_EP, college_EP, bio_EP, github_EP, linkedIn_EP, personal_website_EP;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    String idToken, id;
+    Retrofit retrofit;
+    private loginAPI loginAPI;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,8 +77,6 @@ public class EditProfileFragment extends Fragment {
 
         String[] years1 = {"2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"};
         ArrayAdapter<String> YOG_arrayAdapter1 = new ArrayAdapter<String>(getContext(),R.layout.option_item, years1);
-        YOG_CompleteEditText.setText("2024", false);
-        YOG_CompleteEditText.setAdapter(YOG_arrayAdapter1);
 
         projects_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ProjectModel model2 = new ProjectModel("Hackmate",
@@ -73,6 +93,79 @@ public class EditProfileFragment extends Fragment {
         projects_recyclerView.setAdapter(new ProjectAdapterEP(getContext(), arrayList1));
 
         profile_pic_EP.setImageResource(R.drawable.bhavik);
+
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient okHttpClient =new OkHttpClient.Builder()
+                //.addInterceptor(loggingInterceptor)
+                .addNetworkInterceptor(loggingInterceptor)
+                .build();
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl("https://hackportalbackend.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+
+        mAuth.getCurrentUser().getIdToken(true)
+                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            idToken = task.getResult().getToken();
+                            Log.i("xx", idToken);
+
+                            loginAPI = retrofit.create(loginAPI.class);
+
+
+                            Call<loginPOJO> call = loginAPI.getParticipant("Bearer " + idToken);
+                            call.enqueue(new Callback<loginPOJO>() {
+                                @Override
+                                public void onResponse(Call<loginPOJO> call, Response<loginPOJO> response) {
+
+                                    Log.i("response22", String.valueOf(response.body().getGraduation_year()));
+                                    name_EP.setText(response.body().getName());
+                                    username_EP.setText(response.body().getUsername());
+                                    email_EP.setText(response.body().getEmail());
+                                    college_EP.setText(response.body().getCollege());
+                                    bio_EP.setText(response.body().getBio());
+                                    github_EP.setText(response.body().getGithub());
+                                    linkedIn_EP.setText(response.body().getLinkedIn());
+                                    id = String.valueOf(response.body().getId());
+                                    Log.i("id22" , id);
+                                    Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + idToken, id);
+                                    Log.i("tag" , "tag");
+                                    caller.enqueue(new Callback<ProjectPOJO>() {
+                                        @Override
+                                        public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
+                                            Log.i("project_response" , String.valueOf(response.body()));
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<ProjectPOJO> call, Throwable t) {
+                                            Log.i("error" , t.getMessage());
+                                        }
+                                    });
+
+                                    YOG_CompleteEditText.setText(String.valueOf(response.body().getGraduation_year()), false);
+                                    YOG_CompleteEditText.setAdapter(YOG_arrayAdapter1);
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<loginPOJO> call, Throwable t) {
+                                    Log.i("error", t.getMessage());
+                                    YOG_CompleteEditText.setText("Year of Graduation", false);
+                                    YOG_CompleteEditText.setAdapter(YOG_arrayAdapter1);
+                                }
+                            });
+
+
+                        }
+                    }
+                });
+
+
     }
 
     @Override
@@ -89,6 +182,14 @@ public class EditProfileFragment extends Fragment {
         YOG_CompleteEditText = getView().findViewById(R.id.year_of_graduation_edit);
         projects_recyclerView = getView().findViewById(R.id.projects_recyclerView_EP);
         profile_pic_EP = getView().findViewById(R.id.profile_pic_EP);
+        name_EP = getView().findViewById(R.id.name_EP);
+        username_EP = getView().findViewById(R.id.username_EP);
+        email_EP = getView().findViewById(R.id.email_EP);
+        college_EP = getView().findViewById(R.id.college_EP);
+        github_EP = getView().findViewById(R.id.github_EP);
+        bio_EP = getView().findViewById(R.id.bio_EP);
+        linkedIn_EP = getView().findViewById(R.id.linkedIn_EP);
+        personal_website_EP = getView().findViewById(R.id.personal_website_EP);
     }
 
 }

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import android.widget.Toast;
 
 import com.example.hackmate.LoginActivity;
 import com.example.hackmate.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -28,7 +31,7 @@ public class SettingsFragment extends Fragment {
     TextView delete,reset;
     LinearLayout signOut;
     private FirebaseAuth mAuth;
-    private String msg;
+    private String email,msg ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +47,9 @@ public class SettingsFragment extends Fragment {
         signOut = view.findViewById(R.id.signOutButton);
         delete = view.findViewById(R.id.deleteAccountButton);
         reset = view.findViewById(R.id.resetPasswordButton);
+        Bundle bundle = new Bundle();
+        email = bundle.getString("email"," n");
+        Log.i("email",email);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -114,7 +120,7 @@ public class SettingsFragment extends Fragment {
                 sign_out.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        /*
+
                         mAuth.sendPasswordResetEmail("bhavikagrawal0902@gmail.com")
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
@@ -122,7 +128,7 @@ public class SettingsFragment extends Fragment {
                                         if(task.isSuccessful())
                                             msg = "Reset link sent to your email !!!";
                                         else
-                                            msg = "Unable to send reset link...Please try again!!";
+                                            msg = "Unable to send reset link...Please try again later!!";
 
                                         Snackbar.make(v,msg,Snackbar.LENGTH_SHORT)
                                                 .setAction("Action",null)
@@ -131,13 +137,6 @@ public class SettingsFragment extends Fragment {
                                                 .show();
                                     }
                                 });
-                        */
-
-                        Snackbar.make(v,"Reset link sent to your email !!!",Snackbar.LENGTH_SHORT)
-                                .setAction("Action",null)
-                                .setBackgroundTint(Color.parseColor("#DAED10"))
-                                .setTextColor(Color.BLACK)
-                                .show();
 
                         alertDialog.dismiss();
                     }

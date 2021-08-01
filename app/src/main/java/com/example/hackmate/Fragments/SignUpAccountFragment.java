@@ -17,12 +17,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.LoginActivity;
+import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class SignUpAccountFragment extends Fragment {
@@ -32,6 +43,10 @@ public class SignUpAccountFragment extends Fragment {
     private Button login;
     private LoginActivity loginActivity;
     private FirebaseAuth mAuth;
+    String idToken = "Bearer ";
+    int responses, ans;
+    private loginAPI loginAPI;
+    Retrofit retrofit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +62,11 @@ public class SignUpAccountFragment extends Fragment {
 
         initialise();
 
+        retrofit = new Retrofit.Builder()
+                .baseUrl("https://hackportalbackend.herokuapp.com/participant/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,33 +76,33 @@ public class SignUpAccountFragment extends Fragment {
                 String password1 = password1_create_your_account.getText().toString();
 
 
-                if(email_create_your_account.getText().toString().isEmpty()) {
+                if (email_create_your_account.getText().toString().isEmpty()) {
                     email_create_your_account.setError("Email Required");
                     email_create_your_account.requestFocus();
                     return;
                 }
-                if(!Patterns.EMAIL_ADDRESS.matcher(email_create_your_account.getText().toString()).matches()) {
+                if (!Patterns.EMAIL_ADDRESS.matcher(email_create_your_account.getText().toString()).matches()) {
                     email_create_your_account.setError("Valid Email Required");
                     email_create_your_account.requestFocus();
                     return;
                 }
-                if(password_create_your_account.getText().toString().isEmpty()) {
+                if (password_create_your_account.getText().toString().isEmpty()) {
                     password_create_your_account.setError("Password Required");
                     password_create_your_account.requestFocus();
                     return;
                 }
-                if(password_create_your_account.getText().toString().length()<6) {
+                if (password_create_your_account.getText().toString().length() < 6) {
                     password_create_your_account.setError("Min 6 char required");
                     password_create_your_account.requestFocus();
                     return;
                 }
-                if(password1_create_your_account.getText().toString().isEmpty() || !password1_create_your_account.getText().toString().equals(password_create_your_account.getText().toString())) {
+                if (password1_create_your_account.getText().toString().isEmpty() || !password1_create_your_account.getText().toString().equals(password_create_your_account.getText().toString())) {
                     password1_create_your_account.setError("Password does not matches !!");
                     password1_create_your_account.requestFocus();
                     return;
                 }
 
-                registerUser(emailText,password);
+                registerUser(emailText, password);
 
 
             }
@@ -90,8 +110,7 @@ public class SignUpAccountFragment extends Fragment {
 
     }
 
-    public void initialise()
-    {
+    public void initialise() {
         email_create_your_account = view.findViewById(R.id.email_create_account);
         password1_create_your_account = view.findViewById(R.id.password1_create_account);
         password_create_your_account = view.findViewById(R.id.password_create_account);
@@ -104,7 +123,7 @@ public class SignUpAccountFragment extends Fragment {
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()) {
+                    if (task.isSuccessful()) {
 
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -112,32 +131,65 @@ public class SignUpAccountFragment extends Fragment {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(getContext(), "Please verify email to continue", Toast.LENGTH_SHORT).show();
-                                FragmentManager fragmentManager = loginActivity.getSupportFragmentManager();
-                                Bundle args = new Bundle();
-                                args.putString("email", email_create_your_account.getText().toString());
-                                loginActivity.fragmentGettingStarted.setArguments(args);
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                fragmentTransaction.replace(R.id.bodyFragment, loginActivity.fragmentGettingStarted)
-                                        .addToBackStack(null)
-                                        .commit();
+
+                                mAuth.getCurrentUser().getIdToken(true)
+                                        .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                            public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                                if (task.isSuccessful()) {
+                                                    idToken += task.getResult().getToken();
+                                                    Log.i("xx", idToken);
+                                                    // Send token to your backend via HTTPS
+                                                    // ...
+
+                                                    loginAPI = retrofit.create(loginAPI.class);
+
+                                                    responses = NewAccount();
+                                                    Log.i("response", String.valueOf(responses));
+
+                                                    FragmentManager fragmentManager = loginActivity.getSupportFragmentManager();
+                                                    Bundle args = new Bundle();
+                                                    args.putString("email", email_create_your_account.getText().toString());
+                                                    loginActivity.fragmentLogin.setArguments(args);
+                                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                                    fragmentTransaction.replace(R.id.bodyFragment, loginActivity.fragmentLogin)
+                                                            .addToBackStack(null)
+                                                            .commit();
+                                                }
+                                            }
+                                        });
+
+
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.i("failure" , "Email not sent" + e.getMessage());
+                                Log.i("failure", "Email not sent" + e.getMessage());
                             }
                         });
 
-//                        //SignUp success
-//                        Intent intent = new Intent(SignUpActivity.this,HomeActivity.class);
-//                        intent.putExtra("Email",email);
-//                        startActivity(intent);
-//                        finish();
-                    }
-                    else {
+                    } else {
                         Toast.makeText(getContext(), "Email ID already exists..", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    public int NewAccount() {
+
+        Call<Response<Void>> call = loginAPI.getLoginStatus("Bearer " + idToken);
+        call.enqueue(new Callback<Response<Void>>() {
+            @Override
+            public void onResponse(Call<Response<Void>> call, Response<Response<Void>> response) {
+                ans = response.code();
+                Log.i("response code", String.valueOf(ans));
+            }
+
+            @Override
+            public void onFailure(Call<Response<Void>> call, Throwable t) {
+                Log.i("error", t.getMessage());
+            }
+        });
+
+        return ans;
     }
 
 }

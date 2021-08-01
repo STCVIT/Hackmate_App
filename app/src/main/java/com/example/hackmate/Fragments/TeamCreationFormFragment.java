@@ -18,7 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class TeamCreationFormFragment extends Fragment {
 
     Button createTeam;
-    int GET_NAV_CODE = 0;
+    private int GET_NAV_CODE = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,12 +31,13 @@ public class TeamCreationFormFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        createTeam = view.findViewById(R.id.createTeamButtonFilter);
+
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            GET_NAV_CODE = bundle.getInt("Key", 0);
+            GET_NAV_CODE = bundle.getInt("Keys", 0);
         }
 
-        createTeam = view.findViewById(R.id.createTeamButtonFilter);
         createTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +61,8 @@ public class TeamCreationFormFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(GET_NAV_CODE==1) {
+
+        if (GET_NAV_CODE == 0) {
             BottomNavigationView bottomNavigation = getActivity().findViewById(R.id.bottom_nav_bar);
             bottomNavigation.setVisibility(View.VISIBLE);
         }

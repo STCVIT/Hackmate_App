@@ -42,15 +42,10 @@
                 android:textColor="@color/text"
                 android:textSize="18dp" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/inviteDomain"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGrp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/background"
-                android:text="App Dev"
-                android:textColor="@color/pill_color"
-                app:chipStrokeColor="@color/pill_color"
-                app:chipStrokeWidth="2dp" />
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

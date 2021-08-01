@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,23 +18,43 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hackmate.Adapters.ProjectAdapterMP;
+import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.Models.ProjectModel;
+import com.example.hackmate.POJOClasses.ProjectPOJO;
+import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyProfileFragment extends Fragment {
 
     BottomNavigationView bottomNavigation;
     ImageView settingsImageView, editProfileImageView, addImageView, profile_pic;
-    TextView editProfileTextView, addProjectTextView;
+    TextView editProfileTextView, addProjectTextView, name_MP, username_MP, email_MP, college_MP, bio_MP,
+    github_MP, linkedIn_MP, personal_website_MP, yog_MP;
     ConstraintLayout add_project_constraint;
     CardView add_project_card;
     private RecyclerView projects_recyclerView;
     ChipGroup chipGroup;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    String idToken, id = "yash";
+    private loginAPI loginAPI;
+    Retrofit retrofit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +83,90 @@ public class MyProfileFragment extends Fragment {
 
         addImageView.setOnClickListener(v -> addProjectFrag());
 
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient okHttpClient =new OkHttpClient.Builder()
+                //.addInterceptor(loggingInterceptor)
+                .addNetworkInterceptor(loggingInterceptor)
+                .build();
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl("https://hackportalbackend.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+
+        mAuth.getCurrentUser().getIdToken(true)
+                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            idToken = task.getResult().getToken();
+                            Log.i("xx", idToken);
+
+                            loginAPI = retrofit.create(loginAPI.class);
+
+
+                            Call<loginPOJO> call = loginAPI.getParticipant("Bearer " + idToken);
+                            call.enqueue(new Callback<loginPOJO>() {
+                                @Override
+                                public void onResponse(Call<loginPOJO> call, Response<loginPOJO> response) {
+
+                                    Log.i("response22", String.valueOf(response.body().getId()));
+                                    name_MP.setText(response.body().getName());
+                                    username_MP.setText(response.body().getUsername());
+                                    email_MP.setText(response.body().getEmail());
+                                    college_MP.setText(response.body().getCollege());
+                                    yog_MP.setText(String.valueOf(response.body().getGraduation_year()));
+                                    bio_MP.setText(response.body().getBio());
+                                    github_MP.setText(response.body().getGithub());
+                                    linkedIn_MP.setText(response.body().getLinkedIn());
+                                    id = String.valueOf(response.body().getId());
+                                    Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + idToken, id);
+                                    Log.i("tag" , "tag");
+                                    caller.enqueue(new Callback<ProjectPOJO>() {
+                                        @Override
+                                        public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
+                                            Log.i("project_response" , String.valueOf(response.body()));
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<ProjectPOJO> call, Throwable t) {
+                                            Log.i("error" , t.getMessage());
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onFailure(Call<loginPOJO> call, Throwable t) {
+                                    Log.i("error", t.getMessage());
+                                }
+                            });
+
+
+
+
+//                            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+//                            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//
+//                            OkHttpClient okHttpClient =new OkHttpClient.Builder()
+//                                    //.addInterceptor(loggingInterceptor)
+//                                    .addNetworkInterceptor(loggingInterceptor)
+//                                    .build();
+//
+//                            retrofit = new Retrofit.Builder()
+//                                    .baseUrl("https://hackportalbackend.herokuapp.com/")
+//                                    .addConverterFactory(GsonConverterFactory.create())
+//                                    .client(okHttpClient)
+//                                    .build();
+
+
+
+
+                        }
+                    }
+                });
+
         projects_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ProjectModel model2 = new ProjectModel("Hackmate",
                 "Project for team building for hackathons",
@@ -70,7 +175,7 @@ public class MyProfileFragment extends Fragment {
                         "At odio sociis venenatis ut commodo. Aliquet eget morbi faucibus nisl " +
                         "nec quis suscipit ut. Mus vestibulum risus at ante lorem volutpat. " +
                         "In vitae vitae, tortor a ipsum ipsum. Ipsum cras eu odio natoque blandit commodo aliquam.",
-                "abc@gmail.com", "abc@gmail.com","abc@gmail.com");
+                "abc@gmail.com", "abc@gmail.com", "abc@gmail.com");
         ArrayList arrayList1 = new ArrayList<ProjectModel>();
         arrayList1.add(model2);
         arrayList1.add(model2);
@@ -78,8 +183,7 @@ public class MyProfileFragment extends Fragment {
 
         String[] team_domains = {"App Development", "UI/UX"};
 
-        for(int i=0;i<team_domains.length;i++)
-        {
+        for (int i = 0; i < team_domains.length; i++) {
             Chip chip = new Chip(getContext());
             chip.setText(team_domains[i]);
             chip.setChipStrokeColorResource(R.color.pill_color);
@@ -93,8 +197,7 @@ public class MyProfileFragment extends Fragment {
         profile_pic.setImageResource(R.drawable.bhavik);
     }
 
-    public void initialise()
-    {
+    public void initialise() {
         settingsImageView = getView().findViewById(R.id.settings_image);
         editProfileImageView = getView().findViewById(R.id.edit_profile_image);
         addImageView = getView().findViewById(R.id.add_image);
@@ -104,35 +207,41 @@ public class MyProfileFragment extends Fragment {
         add_project_card = getView().findViewById(R.id.cardView7);
         bottomNavigation = getActivity().findViewById(R.id.bottom_nav_bar);
         projects_recyclerView = getView().findViewById(R.id.projects_recyclerView_MP);
-        chipGroup = getView().findViewById(R.id.chipGroup2);
+        chipGroup = getView().findViewById(R.id.skills_MP);
         profile_pic = getView().findViewById(R.id.profile_pic_MP);
+        name_MP = getView().findViewById(R.id.name_MP);
+        username_MP = getView().findViewById(R.id.username_MP);
+        email_MP = getView().findViewById(R.id.email_MP);
+        college_MP = getView().findViewById(R.id.college_MP);
+        yog_MP = getView().findViewById(R.id.year_of_graduation_MP);
+        bio_MP = getView().findViewById(R.id.bio_MP);
+        github_MP = getView().findViewById(R.id.github_MP);
+        linkedIn_MP = getView().findViewById(R.id.linkedIn_MP);
+        personal_website_MP = getView().findViewById(R.id.personal_website_MP);
 
     }
 
-    public void editProfileFrag()
-    {
+    public void editProfileFrag() {
         bottomNavigation.setVisibility(View.GONE);
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.nav_host_fragment,new EditProfileFragment())
+                .replace(R.id.nav_host_fragment, new EditProfileFragment())
                 .addToBackStack(null)
                 .commit();
     }
 
-    public void settingsFrag()
-    {
+    public void settingsFrag() {
         bottomNavigation.setVisibility(View.GONE);
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.nav_host_fragment,new SettingsFragment())
+                .replace(R.id.nav_host_fragment, new SettingsFragment())
                 .addToBackStack(null)
                 .commit();
     }
 
-    public void addProjectFrag()
-    {
+    public void addProjectFrag() {
         AddProjectFragment frag = new AddProjectFragment();
 
         Bundle bundle = new Bundle();
@@ -143,7 +252,7 @@ public class MyProfileFragment extends Fragment {
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.nav_host_fragment,frag)
+                .replace(R.id.nav_host_fragment, frag)
                 .addToBackStack(null)
                 .commit();
     }

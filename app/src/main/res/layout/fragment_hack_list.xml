@@ -98,7 +98,7 @@
                         app:chipStrokeWidth="2dp"
                         android:checkable="true"
                         android:checked="true"
-                       />
+                        />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ONGOING_Chip"

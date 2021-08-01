@@ -16,8 +16,15 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
+import com.example.hackmate.POJOClasses.Kavita.addProjectPOJO;
 import com.example.hackmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
 
 
 public class AddProjectFragment extends Fragment {
@@ -30,12 +37,12 @@ public class AddProjectFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-       View v = inflater.inflate(R.layout.fragment_add_project, container, false);
+        View v = inflater.inflate(R.layout.fragment_add_project, container, false);
 
 
-            Toolbar toolbar = (Toolbar) v.findViewById(R.id.topAppBar);
-            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            return v;
+        Toolbar toolbar = (Toolbar) v.findViewById(R.id.topAppBar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        return v;
 
     }
 
@@ -55,6 +62,31 @@ public class AddProjectFragment extends Fragment {
                 Toast.makeText(getActivity(), "Project has been added successfully !!!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        addProject();
+    }
+
+    private void addProject() {
+
+        addProjectPOJO addProjectPOJO = new addProjectPOJO(" Niddhi","zfcxhxfhfgugjfjgcjjfghj");
+
+        /*Call<addProjectPOJO> call= jsonPlaceHolderApi.addProject(addProjectPOJO);
+
+        call.enqueue(new Callback<com.example.hackmate.POJOClasses.addProjectPOJO>() {
+            @Override
+            public void onResponse(Call<com.example.hackmate.POJOClasses.addProjectPOJO> call, Response<com.example.hackmate.POJOClasses.addProjectPOJO> response) {
+
+                if (!response.isSuccessful()){
+                    Log.i("sucess", "sucess");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<com.example.hackmate.POJOClasses.addProjectPOJO> call, Throwable t) {
+                Log.i("error", t.getMessage());
+            }
+        });*/
+
     }
 
     @Override

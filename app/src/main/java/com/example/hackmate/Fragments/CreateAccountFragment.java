@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +87,8 @@ public class CreateAccountFragment extends Fragment {
         assert user != null;
         if (user.isEmailVerified())
         {
+            loginActivity.preferences.edit().putInt("response" , 200).apply();
+            Log.i("responsexx" , String.valueOf(loginActivity.preferences.getInt("response" , 0)));
             Intent intent = new Intent(getActivity(), MainActivity.class);
             intent.putExtra("Email", email);
             startActivity(intent);

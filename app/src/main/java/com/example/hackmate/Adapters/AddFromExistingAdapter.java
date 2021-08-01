@@ -11,19 +11,27 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.Models.AddFromExistingModel;
 import com.example.hackmate.MainActivity;
 import com.example.hackmate.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+
+import retrofit2.Retrofit;
 
 public class AddFromExistingAdapter extends RecyclerView.Adapter<AddFromExistingAdapter.Viewholder> {
 
     private Context context;
     private ArrayList<AddFromExistingModel> addFromExistingModelArrayList;
     String domains[][];
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    Retrofit retrofit;
+    private loginAPI loginApi;
+    String idToken, id;
 
     public AddFromExistingAdapter(Context context, ArrayList<AddFromExistingModel> addFromExistingModelArrayList, String[][] domains) {
         this.context = context;

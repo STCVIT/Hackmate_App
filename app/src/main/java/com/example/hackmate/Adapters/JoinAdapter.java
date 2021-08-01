@@ -20,16 +20,18 @@ import com.google.android.material.chip.ChipGroup;
 
 public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ProgramViewHolder>{
 
-    String[] teamNames;
-    String[][] domains;
+    private String[] teamNames;
+    private String[][] domains;
     private BottomNavigationView bottomNavigation;
     int GET_NAV_CODE;
     private Context context;
+    private String hackName;
 
-    public JoinAdapter(String[] teamNames, String[][] domains,int GET_NAV_CODE) {
+    public JoinAdapter(String[] teamNames, String[][] domains,int GET_NAV_CODE,String hackName) {
         this.teamNames=teamNames;
         this.domains=domains;
         this.GET_NAV_CODE=GET_NAV_CODE;
+        this.hackName=hackName;
     }
 
     @NonNull
@@ -47,6 +49,12 @@ public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ProgramViewHol
         String[] team_domains = domains[position];
 
         holder.teamName.setText(showName);
+        if(hackName==null)
+            holder.hackNaming.setVisibility(View.GONE);
+        else {
+            holder.hackNaming.setVisibility(View.VISIBLE);
+            holder.hackNaming.setText(hackName);
+        }
 
         for(int i=0;i<team_domains.length;i++)
         {
@@ -90,7 +98,7 @@ public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ProgramViewHol
     }
 
     public class ProgramViewHolder extends RecyclerView.ViewHolder {
-        TextView teamName;
+        TextView teamName, hackNaming;
         ChipGroup domainGrp;
         ImageView detailsArrow;
         public ProgramViewHolder(@NonNull View itemView) {
@@ -98,6 +106,7 @@ public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ProgramViewHol
             teamName = itemView.findViewById(R.id.teamName);
             domainGrp = itemView.findViewById(R.id.chipsGroup);
             detailsArrow = itemView.findViewById(R.id.joinTeamDetails);
+            hackNaming = itemView.findViewById(R.id.hackNaming);
         }
     }
 }

@@ -24,7 +24,7 @@
             tools:src="@tools:sample/avatars" />
 
         <EditText
-            android:id="@+id/textView114"
+            android:id="@+id/name_EP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -39,7 +39,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView10" />
 
         <EditText
-            android:id="@+id/textView115"
+            android:id="@+id/username_EP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -49,7 +49,7 @@
             android:text="username"
             android:textColor="@color/text"
             app:layout_constraintStart_toEndOf="@+id/profile_pic_EP"
-            app:layout_constraintTop_toBottomOf="@+id/textView114" />
+            app:layout_constraintTop_toBottomOf="@+id/name_EP" />
 
         <TextView
             android:id="@+id/textView116"
@@ -60,17 +60,17 @@
             android:text="Email : "
             android:textColor="@color/text_secondary"
             app:layout_constraintStart_toEndOf="@+id/profile_pic_EP"
-            app:layout_constraintTop_toBottomOf="@+id/textView115" />
+            app:layout_constraintTop_toBottomOf="@+id/username_EP" />
 
         <TextView
-            android:id="@+id/textView117"
+            android:id="@+id/email_EP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="jasaniyash13@gmail.com"
             android:textColor="@color/text"
             app:layout_constraintStart_toEndOf="@+id/textView116"
-            app:layout_constraintTop_toBottomOf="@+id/textView115" />
+            app:layout_constraintTop_toBottomOf="@+id/username_EP" />
 
         <TextView
             android:id="@+id/textView118"
@@ -183,7 +183,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/textView122"
+                    android:id="@+id/college_EP"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -295,7 +295,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/textView126"
+                    android:id="@+id/github_EP"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -346,7 +346,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/textView128"
+                    android:id="@+id/linkedIn_EP"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -396,7 +396,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/textView130"
+                    android:id="@+id/personal_website_EP"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -445,7 +445,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/textView132"
+                    android:id="@+id/bio_EP"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
