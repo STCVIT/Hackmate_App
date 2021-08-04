@@ -56,6 +56,7 @@ public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ProgramViewHol
             holder.hackNaming.setText(hackName);
         }
 
+        holder.domainGrp.removeAllViews();
         for(int i=0;i<team_domains.length;i++)
         {
             Chip chip = new Chip(context);
@@ -93,7 +94,19 @@ public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ProgramViewHol
     }
 
     @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
     public int getItemCount() {
+        if(teamNames==null)
+            return 0;
         return teamNames.length;
     }
 

@@ -1,18 +1,23 @@
 package com.example.hackmate.JSONPlaceholders;
 
-import com.example.hackmate.POJOClasses.DomainTeamsHack.DomainTeamsHackPOJO;
+import com.example.hackmate.POJOClasses.AddSkill;
+import com.example.hackmate.POJOClasses.CreateTeamResponse;
+import com.example.hackmate.POJOClasses.POST.Code;
 import com.example.hackmate.POJOClasses.FindParticipant.invitePOJO;
 import com.example.hackmate.POJOClasses.FindPtByName.FindPtByNamePOJO;
 import com.example.hackmate.POJOClasses.JoinHackTeams.JoinHackTeamPOJO;
-import com.example.hackmate.POJOClasses.SearchAndJoinHack.SearchAndJoinHackPOJO;
+import com.example.hackmate.POJOClasses.POST.CreateTeam;
+import com.example.hackmate.POJOClasses.SearchAndJoinHackPOJO;
 import com.example.hackmate.POJOClasses.hackProfilePOJO;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -25,7 +30,7 @@ public interface API {
                                     @Query("page") int pageNum,
                                     @Query("skill") String skill);
 
-    @GET("participant/get/userName")
+    @GET("participant/get/userName/null")
     Call<FindPtByNamePOJO> getPtByName(@Header("Authorization") String token,
                                      @Query("name") String name,
                                      @Query("page") int page);
@@ -34,7 +39,8 @@ public interface API {
     Call<hackProfilePOJO> hackProfile(@Header("Authorization") String token, @Path("id") String hackID);
 
     @GET("DN_Team/all/{id}?page=1")
-    Call<JoinHackTeamPOJO> getHackTeams(@Header("Authorization") String token, @Path("id") String hackID);
+    Call<JoinHackTeamPOJO> getHackTeams(@Header("Authorization") String token,
+                                        @Path("id") String hackID);
 
     @GET("DN_Team/teamName/{hackId}")
     Call<List<SearchAndJoinHackPOJO>> searchTeamHack(@Header("Authorization") String token,
@@ -42,8 +48,17 @@ public interface API {
                                            @Query("name") String name);
 
     @GET("DN_Team/teamSkills/{hackID}")
-    Call<DomainTeamsHackPOJO> domainTeamHack(@Header("Authorization") String token,
+    Call<JoinHackTeamPOJO> domainTeamHack(@Header("Authorization") String token,
                                          @Path("hackID") String hackId,
                                          @Query("page") int pageNum,
                                          @Query("skill") String skill);
+
+    @POST("DN_Team/code/{hackID}")
+    Call<Response<Void>> getTeam(@Header("Authorization") String token, @Body Code code, @Path("hackID") String hackId);
+
+    @POST("Dn_Team/createTeam/{hackID}")
+    Call<CreateTeamResponse> createTeam(@Header("Authorization") String token, @Body CreateTeam createTeam, @Path("hackID") String hackId);
+
+    @POST("DN_Team/addSkills/{id}")
+    Call<Response<Void>> addSkill(@Header("Authorization") String token, @Body AddSkill addSkill, @Path("id") String teamId);
 }

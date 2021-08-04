@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.telecom.Call;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigation;
     private static String idToken=null;
-    public String Mainid;
+
     //Fragments
     private Fragment activeFragment;
     private HackListFragment homeFragment = new HackListFragment();
@@ -36,36 +37,21 @@ public class MainActivity extends AppCompatActivity {
     private FindTeamsFragment findTeamsFragment = new FindTeamsFragment();
     private MyProfileFragment myProfileFragment = new MyProfileFragment();
     BadgeDrawable badge;
-    public static final String id="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        idToken = getIntent().getStringExtra("idToken");
         bottomNavigation = findViewById(R.id.bottom_nav_bar);
         bottomNavigation.setVisibility(View.VISIBLE);
-
         badge = bottomNavigation.getOrCreateBadge(R.id.nav_myTeams);
         badge.setVisible(true);
-        getidToken();
         bottomNavigation();
 
     }
     public static String getidToken() {
         return idToken;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        FirebaseAuth.getInstance().getCurrentUser().getIdToken(true)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        idToken = "Bearer "+ task.getResult().getToken();
-                        Log.i("xx", idToken);
-                    }
-                });
     }
 
     private void bottomNavigation() {

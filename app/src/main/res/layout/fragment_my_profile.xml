@@ -13,12 +13,15 @@
         android:layout_height="match_parent"
         android:background="@color/background">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/settings_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="22dp"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:background="@android:color/transparent"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="@dimen/margin_medium"
             android:src="@drawable/ic_baseline_settings_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -27,7 +30,7 @@
             android:id="@+id/profile_pic_MP"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="55dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -37,7 +40,7 @@
             android:id="@+id/name_MP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="55dp"
             android:text="Yash Jasani"
             android:textColor="@color/text"
@@ -50,7 +53,7 @@
             android:id="@+id/username_MP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="8dp"
             android:text="username"
             android:textColor="@color/text"
@@ -61,8 +64,8 @@
             android:id="@+id/textView16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
             android:text="Email : "
             android:textColor="@color/text_secondary"
             app:layout_constraintStart_toEndOf="@+id/profile_pic_MP"
@@ -72,11 +75,11 @@
             android:id="@+id/email_MP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:text="jasaniyash13@gmail.com"
             android:textColor="@color/text"
             app:layout_constraintStart_toEndOf="@+id/textView16"
-            app:layout_constraintTop_toBottomOf="@+id/username_MP" />
+            app:layout_constraintTop_toTopOf="@+id/textView16"
+            app:layout_constraintBottom_toBottomOf="@+id/textView16" />
 
         <TextView
             android:id="@+id/textView18"
@@ -94,22 +97,18 @@
             android:id="@+id/edit_profile_click"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="144dp"
             android:layout_marginEnd="8dp"
+            android:drawableEnd="@drawable/ic_edit_profile"
+            android:drawablePadding="@dimen/margin_small"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="@dimen/margin_small"
             android:text="Edit Profile"
             android:textColor="@color/green"
-            app:layout_constraintEnd_toStartOf="@+id/edit_profile_image"
-            app:layout_constraintTop_toBottomOf="@+id/settings_image" />
-
-        <ImageView
-            android:id="@+id/edit_profile_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="149dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_edit_profile"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_image" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/textView18"
+            app:layout_constraintTop_toTopOf="@+id/textView18" />
+
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/skills_MP"

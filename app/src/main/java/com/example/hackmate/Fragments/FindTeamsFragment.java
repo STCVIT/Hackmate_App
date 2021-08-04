@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,9 +25,9 @@ import android.widget.Toast;
 
 import com.example.hackmate.Adapters.JoinAdapter;
 import com.example.hackmate.JSONPlaceholders.API;
-import com.example.hackmate.POJOClasses.DomainTeamsHack.DomainTeamsHackPOJO;
+import com.example.hackmate.POJOClasses.POST.Code;
 import com.example.hackmate.POJOClasses.JoinHackTeams.JoinHackTeamPOJO;
-import com.example.hackmate.POJOClasses.SearchAndJoinHack.SearchAndJoinHackPOJO;
+import com.example.hackmate.POJOClasses.SearchAndJoinHackPOJO;
 import com.example.hackmate.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -66,7 +65,7 @@ public class FindTeamsFragment extends Fragment {
     private String idToken;
     private Retrofit retrofit;
     private ProgressBar progressBar;
-    Chip frontend, backend, ml, ui_ux, management, appdev, cybersecurity;
+    private Chip frontend, backend, ml, ui_ux, management, appdev, cybersecurity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,6 +101,7 @@ public class FindTeamsFragment extends Fragment {
         chips = view.findViewById(R.id.chips);
         joinUsingCode = view.findViewById(R.id.joinTeamCode);
         progressBar = view.findViewById(R.id.progressBarLoad);
+        joinTeamList = view.findViewById(R.id.joinList);
 
         if (GET_NAV_CODE == 1) {
             appBar.setVisibility(View.VISIBLE);
@@ -112,6 +112,10 @@ public class FindTeamsFragment extends Fragment {
             appBar.setVisibility(View.GONE);
             hackId = "null";
         }
+
+        joinTeamList.setLayoutManager(new LinearLayoutManager(getContext()));
+        joinTeamList.setAdapter(new JoinAdapter(team_name,domains,GET_NAV_CODE,hackName));
+
         retrofit();
         getIDToken();
         chipOnClick();
@@ -158,9 +162,6 @@ public class FindTeamsFragment extends Fragment {
                 }
             }
         });
-
-        joinTeamList = view.findViewById(R.id.joinList);
-        joinTeamList.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     public void chipOnClick() {
@@ -193,10 +194,10 @@ public class FindTeamsFragment extends Fragment {
     }
 
     public void getDomainHackTeams(String domain) {
-        Call<DomainTeamsHackPOJO> call = api.domainTeamHack(idToken, hackId, 1, domain);
-        call.enqueue(new Callback<DomainTeamsHackPOJO>() {
+        Call<JoinHackTeamPOJO> call = api.domainTeamHack(idToken, hackId, 1, domain);
+        call.enqueue(new Callback<JoinHackTeamPOJO>() {
             @Override
-            public void onResponse(Call<DomainTeamsHackPOJO> call, Response<DomainTeamsHackPOJO> response) {
+            public void onResponse(Call<JoinHackTeamPOJO> call, Response<JoinHackTeamPOJO> response) {
                 if (response.isSuccessful()) {
                     int length_team = response.body().getLength();
                     if (length_team > 8)
@@ -226,7 +227,7 @@ public class FindTeamsFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<DomainTeamsHackPOJO> call, Throwable t) {
+            public void onFailure(Call<JoinHackTeamPOJO> call, Throwable t) {
 
             }
         });
@@ -349,6 +350,34 @@ public class FindTeamsFragment extends Fragment {
         joinTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Code code = new Code();
+                code.setCode(teamCode.getText().toString().trim());
+
+                Call<Response<Void>> call = api.getTeam(idToken,code,hackId);
+                call.enqueue(new Callback<Response<Void>>() {
+                    @Override
+                    public void onResponse(Call<Response<Void>> call, Response<Response<Void>> response) {
+                        String message;
+                        if(response.isSuccessful())
+                        {
+                            if(response.code()==201)
+                                message = "You have been successfully added to the team";
+                            else if(response.code()==200)
+                                message = "Duplicate entry in team is not allowed";
+                            else
+                                message = "Invalid code...Please check and try again";
+                        }
+                        else
+                            message = "Invalid code...Please check and try again";
+
+                        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response<Void>> call, Throwable t) {
+                        Toast.makeText(getContext(), "Try again later !!", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 alertDialog.dismiss();
             }
         });

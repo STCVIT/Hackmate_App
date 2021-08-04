@@ -1,5 +1,7 @@
 package com.example.hackmate.POJOClasses.FindPtByName;
 
+import com.example.hackmate.POJOClasses.Participant;
+import com.example.hackmate.POJOClasses.Skill;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

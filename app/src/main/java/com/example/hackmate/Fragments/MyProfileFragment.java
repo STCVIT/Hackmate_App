@@ -44,7 +44,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MyProfileFragment extends Fragment {
 
     BottomNavigationView bottomNavigation;
-    ImageView settingsImageView, editProfileImageView, addImageView, profile_pic;
+    ImageView settingsImageView, addImageView, profile_pic;
     TextView editProfileTextView, addProjectTextView, name_MP, username_MP, email_MP, college_MP, bio_MP,
     github_MP, linkedIn_MP, personal_website_MP, yog_MP;
     ConstraintLayout add_project_constraint;
@@ -71,7 +71,7 @@ public class MyProfileFragment extends Fragment {
 
         settingsImageView.setOnClickListener(v -> settingsFrag());
 
-        editProfileImageView.setOnClickListener(v -> editProfileFrag());
+        //editProfileImageView.setOnClickListener(v -> editProfileFrag());
 
         editProfileTextView.setOnClickListener(v -> editProfileFrag());
 
@@ -199,7 +199,7 @@ public class MyProfileFragment extends Fragment {
 
     public void initialise() {
         settingsImageView = getView().findViewById(R.id.settings_image);
-        editProfileImageView = getView().findViewById(R.id.edit_profile_image);
+        //editProfileImageView = getView().findViewById(R.id.edit_profile_image);
         addImageView = getView().findViewById(R.id.add_image);
         editProfileTextView = getView().findViewById(R.id.edit_profile_click);
         addProjectTextView = getView().findViewById(R.id.add_a_project);

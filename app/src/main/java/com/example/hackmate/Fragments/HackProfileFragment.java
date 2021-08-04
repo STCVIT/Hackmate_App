@@ -18,8 +18,10 @@ import android.widget.Toast;
 
 import com.example.hackmate.JSONPlaceholders.API;
 import com.example.hackmate.LoginActivity;
+import com.example.hackmate.MainActivity;
 import com.example.hackmate.POJOClasses.hackProfilePOJO;
 import com.example.hackmate.R;
+import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -38,7 +40,7 @@ public class HackProfileFragment extends Fragment {
     private AppCompatButton viewWebsite, participateNow;
     private TextView hackName,start,end,min,max,venue,prize,description;
     private API hackProfileApi;
-    private String website;
+    private String website, idToken;
     private String hackID, hackNaming;
 
     @Override
@@ -63,8 +65,8 @@ public class HackProfileFragment extends Fragment {
         viewWebsite = view.findViewById(R.id.viewWebsite);
         participateNow = view.findViewById(R.id.participateNow);
 
-        retrofit();
-        getIDToken();
+        idToken = MainActivity.getidToken();
+        showData();
 
         viewWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,34 +95,9 @@ public class HackProfileFragment extends Fragment {
         bottomNavigation.setVisibility(View.VISIBLE);
     }
 
-    public void retrofit()
+    public void showData()
     {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://hackportalbackend.herokuapp.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        hackProfileApi = retrofit.create(API.class);
-    }
-
-    public void getIDToken()
-    {
-        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
-        mUser.getIdToken(true)
-                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<GetTokenResult> task) {
-                        if(task.isSuccessful()) {
-                            String idToken = "Bearer " + task.getResult().getToken();
-                            showData(idToken);
-                        }
-                    }
-                });
-    }
-
-    public void showData(String idToken)
-    {
+        hackProfileApi = RetrofitInstance.getRetrofitInstance().create(API.class);
         Bundle bundle = this.getArguments();
         hackID = bundle.getString("ID", null);
 
@@ -205,6 +182,7 @@ public class HackProfileFragment extends Fragment {
                 TeamCreationFormFragment frag = new TeamCreationFormFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("Keys", 1);
+                bundle.putString("HackId",hackID);
                 frag.setArguments(bundle);
 
                 getFragmentManager()

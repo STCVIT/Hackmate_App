@@ -1,5 +1,7 @@
-package com.example.hackmate.POJOClasses.SearchAndJoinHack;
+package com.example.hackmate.POJOClasses;
 
+import com.example.hackmate.POJOClasses.Skill;
+import com.example.hackmate.POJOClasses.Team;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

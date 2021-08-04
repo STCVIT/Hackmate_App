@@ -1,4 +1,4 @@
-package com.example.hackmate.POJOClasses.JoinHackTeams;
+package com.example.hackmate.POJOClasses;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -11,9 +11,9 @@ public class Skill {
     @SerializedName("skill")
     @Expose
     private String skill;
-    @SerializedName("team_id")
+    @SerializedName("participant_id")
     @Expose
-    private String teamId;
+    private String participantId;
     @SerializedName("__v")
     @Expose
     private Integer v;
@@ -34,12 +34,12 @@ public class Skill {
         this.skill = skill;
     }
 
-    public String getTeamId() {
-        return teamId;
+    public String getParticipantId() {
+        return participantId;
     }
 
-    public void setTeamId(String teamId) {
-        this.teamId = teamId;
+    public void setParticipantId(String participantId) {
+        this.participantId = participantId;
     }
 
     public Integer getV() {

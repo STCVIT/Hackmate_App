@@ -41,7 +41,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class HackListFragment extends Fragment implements HomeAdapter.OnHackListerner {
+public class HackListFragment extends Fragment {
     private RecyclerView HackRV;
     // Arraylist for storing data
     private List<Final> HomeArrayList;
@@ -68,6 +68,12 @@ public class HackListFragment extends Fragment implements HomeAdapter.OnHackList
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        idToken = MainActivity.getidToken();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bottomNavigation = getActivity().findViewById(R.id.bottom_nav_bar);
@@ -88,7 +94,7 @@ public class HackListFragment extends Fragment implements HomeAdapter.OnHackList
         HackRV = view.findViewById(R.id.RVHack);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         HackRV.setLayoutManager(layoutManager);
-        HomeAdapter homeAdapter = new HomeAdapter(getContext(), HomeArrayList, this);
+        HomeAdapter homeAdapter = new HomeAdapter(getContext(), HomeArrayList);
         HackRV.setAdapter(homeAdapter);
 
         HttpLoggingInterceptor loggingInterceptor1 = new HttpLoggingInterceptor();
@@ -317,41 +323,5 @@ public class HackListFragment extends Fragment implements HomeAdapter.OnHackList
                 });
             }
         });
-    }
-
-
-
-
-
-
-
-    /*@Override
-    public void OnHackClick(int position) {
-        bottomNavigation.setVisibility(View.GONE);
-        HomeArrayList.get(position);
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.nav_host_fragment,new HackProfileFragment())
-                .addToBackStack(null)
-                .commit();
-
-    }*/
-
-    @Override
-    public void OnHackClick(int position) {
-//      HomeArrayList.get(position);
-        HackProfileFragment frag = new HackProfileFragment();
-        Log.i("hackId", String.valueOf(getId()));
-        Bundle bundle = new Bundle();
-        bundle.putString("ID", String.valueOf(getId()));
-        frag.setArguments(bundle);
-
-        bottomNavigation.setVisibility(View.GONE);
-
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.nav_host_fragment, frag)
-                .addToBackStack(null)
-                .commit();
     }
 }

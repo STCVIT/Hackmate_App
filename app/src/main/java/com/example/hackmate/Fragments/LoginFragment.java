@@ -207,8 +207,7 @@ public class LoginFragment extends Fragment {
                 activity.preferences.edit().putInt("response" , responses).apply();
                 Log.i("responsesxx" , String.valueOf(activity.preferences.getInt("response", 0)));
                 Intent intent = new Intent(getActivity(), MainActivity.class);
-                intent.putExtra("Email", email);
-                intent.putExtra("Token", idToken);
+                intent.putExtra("idToken", idToken);
                 startActivity(intent);
                 loginActivity.finish();
                 Toast.makeText(getContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();

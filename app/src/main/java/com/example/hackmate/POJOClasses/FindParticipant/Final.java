@@ -1,5 +1,7 @@
 package com.example.hackmate.POJOClasses.FindParticipant;
 
+import com.example.hackmate.POJOClasses.Participant;
+import com.example.hackmate.POJOClasses.Skill;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,17 +11,17 @@ public class Final {
 
     @SerializedName("pt")
     @Expose
-    private Pt pt;
+    private Participant participant;
     @SerializedName("skills")
     @Expose
     private List<Skill> skills = null;
 
-    public Pt getPt() {
-        return pt;
+    public Participant getParticipant() {
+        return participant;
     }
 
-    public void setPt(Pt pt) {
-        this.pt = pt;
+    public void setParticipant(Participant participant) {
+        this.participant = participant;
     }
 
     public List<Skill> getSkills() {

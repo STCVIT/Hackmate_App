@@ -151,6 +151,15 @@
             app:chipStrokeColor="@color/pill_color"
             app:chipStrokeWidth="2dp" />
 
+        <com.google.android.material.chip.Chip
+            android:id="@+id/cyberr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CustomChipStyle"
+            android:text="Cybersecurity"
+            app:chipStrokeWidth="2dp"
+            app:chipStrokeColor="@color/green"/>
+
     </com.google.android.material.chip.ChipGroup>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -162,9 +171,20 @@
         android:text="CREATE TEAM"
         android:textSize="18dp"
         android:textColor="@color/white"
+        android:foreground="?android:attr/selectableItemBackground"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chipsGroup" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

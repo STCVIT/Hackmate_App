@@ -46,6 +46,7 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ProgramVie
 
         holder.name.setText(showName);
 
+        holder.domainGrp.removeAllViews();
         for(int i=0;i<pt_domains.length;i++)
         {
             Chip chip = new Chip(context);
@@ -92,6 +93,16 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ProgramVie
                  */
             }
         });
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     @Override

@@ -52,6 +52,7 @@ public class FindParticipantFragment extends Fragment {
     private RecyclerView inviteProfile;
     private EditText findPtByName;
     private String idToken;
+    private int count=0,page=1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -110,6 +111,7 @@ public class FindParticipantFragment extends Fragment {
         inviteProfile = view.findViewById(R.id.inviteList);
         inviteProfile.setLayoutManager(new LinearLayoutManager(getContext()));
 
+
     }
 
     public void retrofit() {
@@ -141,13 +143,13 @@ public class FindParticipantFragment extends Fragment {
         call.enqueue(new Callback<invitePOJO>() {
             @Override
             public void onResponse(Call<invitePOJO> call, Response<invitePOJO> response) {
-                names = new String[6];
-                domains = new String[6][];
+                names = new String[12];
+                domains = new String[12][];
 
                 String skills[];
 
-                for (int i = 0; i < 6; i++) {
-                    names[i] = response.body().getFinal().get(i).getPt().getName();
+                for (int i = 0; i < 12; i++) {
+                    names[i] = response.body().getFinal().get(i).getParticipant().getName();
                     int length_skills = response.body().getFinal().get(i).getSkills().size();
                     if (length_skills >= 2)
                         skills = new String[2];
@@ -176,7 +178,7 @@ public class FindParticipantFragment extends Fragment {
         call.enqueue(new Callback<FindPtByNamePOJO>() {
             @Override
             public void onResponse(Call<FindPtByNamePOJO> call, Response<FindPtByNamePOJO> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.message()!=null) {
                     int length_team = response.body().getLength();
                     if (length_team > 8)
                         length_team = 8;
