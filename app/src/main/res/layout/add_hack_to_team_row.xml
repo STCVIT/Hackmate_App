@@ -24,18 +24,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/description_AFE"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="8dp"
-            android:text="Code2Create"
-            android:textColor="@color/text_secondary"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/projectName_AFE" />
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/addHack_button_AFE"
             android:layout_width="wrap_content"
@@ -43,7 +31,7 @@
             android:layout_marginTop="44dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/ic_add_hack_button"
-            android:text="+ Add Hack"
+            android:text="+ Add Team"
             android:textColor="@color/green"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +46,7 @@
             android:text="Leader"
             android:textColor="@color/text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description_AFE" />
+            app:layout_constraintTop_toBottomOf="@+id/projectName_AFE" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/domaingrp"

@@ -10,18 +10,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hackmate.Models.ProjectModel;
+import com.example.hackmate.POJOClasses.IndividualProject;
 import com.example.hackmate.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProjectAdapterEP extends RecyclerView.Adapter<ProjectAdapterEP.Viewholder> {
 
     private Context context;
-    private ArrayList<ProjectModel> projectModelArrayList;
+    private List<IndividualProject> individualProjectsList;
 
-    public ProjectAdapterEP(Context context, ArrayList<ProjectModel> projectModelArrayList) {
+    public ProjectAdapterEP(Context context, List<IndividualProject> individualProjectsList) {
         this.context = context;
-        this.projectModelArrayList = projectModelArrayList;
+        this.individualProjectsList = individualProjectsList;
+    }
+
+    public void setGetProjectEP(List<IndividualProject> individualProjectsList) {
+        this.individualProjectsList = individualProjectsList;
     }
 
     @NonNull
@@ -34,19 +40,19 @@ public class ProjectAdapterEP extends RecyclerView.Adapter<ProjectAdapterEP.View
     @Override
     public void onBindViewHolder(@NonNull ProjectAdapterEP.Viewholder holder, int position) {
 
-        ProjectModel model = projectModelArrayList.get(position);
-        holder.project_nameTextView.setText(model.getProjectName());
-        holder.descriptionTextView.setText(model.getDescription());
-        holder.bio_textView.setText(model.getBio());
-        holder.link1_textView.setText(model.getLink1());
-        holder.link2_textView.setText(model.getLink2());
-        holder.link3_textView.setText(model.getLink3());
+        IndividualProject individualProject = individualProjectsList.get(position);
+        holder.project_nameTextView.setText(individualProject.getNames());
+        holder.descriptionTextView.setText("");
+        holder.bio_textView.setText(individualProject.getDescriptions());
+        holder.link1_textView.setText(individualProject.getDesign());
+        holder.link2_textView.setText(individualProject.getDemonstration());
+        holder.link3_textView.setText("");
 
     }
 
     @Override
     public int getItemCount() {
-        return projectModelArrayList.size();
+        return individualProjectsList.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder{

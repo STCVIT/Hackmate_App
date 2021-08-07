@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.hackmate.Adapters.MemberAdapter;
 import com.example.hackmate.Adapters.ProjectAdapterRT;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
+import com.example.hackmate.MainActivity;
 import com.example.hackmate.Models.ProjectModel;
 import com.example.hackmate.POJOClasses.JoinTeamPOJO;
 import com.example.hackmate.POJOClasses.ProjectPOJO;
@@ -26,6 +27,7 @@ import com.example.hackmate.POJOClasses.PtSkill;
 import com.example.hackmate.POJOClasses.Team;
 import com.example.hackmate.R;
 import com.example.hackmate.Models.teamMember_Model;
+import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -107,68 +109,45 @@ public class TeamProfileParticipantViewFragment extends Fragment {
         arrayList1.add(model2);
         projects_recyclerView.setAdapter(new ProjectAdapterRT(getContext(), arrayList1));
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                //.addInterceptor(loggingInterceptor)
-                .addNetworkInterceptor(loggingInterceptor)
-                .build();
+        loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl("https://hackportalbackend.herokuapp.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .build();
-
-        mAuth.getCurrentUser().getIdToken(true)
-                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                    public void onComplete(@NonNull Task<GetTokenResult> task) {
-                        if (task.isSuccessful()) {
-                            idToken = task.getResult().getToken();
-                            Log.i("xx", idToken);
-
-                            loginAPI = retrofit.create(com.example.hackmate.JSONPlaceholders.loginAPI.class);
-
-                            Call<JoinTeamPOJO> call = loginAPI.getTeam("Bearer " + idToken, "60f92e19366cd000159bc89c");//will get id from previous fragment
-                            call.enqueue(new Callback<JoinTeamPOJO>() {
-                                @Override
-                                public void onResponse(Call<JoinTeamPOJO> call, Response<JoinTeamPOJO> response) {
-                                    JoinTeamPOJO joinTeamPOJO = response.body();
-                                    Log.i("abc" , joinTeamPOJO.getTeam().getName().toString());
-                                    List<PtSkill> pt_skills = joinTeamPOJO.getPt_skills();
-                                    Log.i("pt_skill" , String.valueOf(pt_skills.get(0).getParticipant().getName()));
-                                    MemberAdapter memberAdapter = new MemberAdapter(getContext(), pt_skills);
-                                    participants_recyclerView.setAdapter(memberAdapter);
-                                    memberAdapter.setJoinTeam(pt_skills);
+        Call<JoinTeamPOJO> call = loginAPI.getTeam("Bearer " + MainActivity.getidToken(), "60f92e19366cd000159bc89c");//will get id from previous fragment
+        call.enqueue(new Callback<JoinTeamPOJO>() {
+            @Override
+            public void onResponse(Call<JoinTeamPOJO> call, Response<JoinTeamPOJO> response) {
+                JoinTeamPOJO joinTeamPOJO = response.body();
+                Log.i("abc", joinTeamPOJO.getTeam().getName().toString());
+                List<PtSkill> pt_skills = joinTeamPOJO.getPt_skills();
+                Log.i("pt_skill", String.valueOf(pt_skills.get(0).getParticipant().getName()));
+                MemberAdapter memberAdapter = new MemberAdapter(getContext(), pt_skills);
+                participants_recyclerView.setAdapter(memberAdapter);
+                memberAdapter.setJoinTeam(pt_skills);
 
 //                                    Log.i("response33", String.valueOf());
-                                }
+            }
 
-                                @Override
-                                public void onFailure(Call<JoinTeamPOJO> call, Throwable t) {
-                                    Log.i("error33", t.getMessage());
-                                }
-                            });
+            @Override
+            public void onFailure(Call<JoinTeamPOJO> call, Throwable t) {
+                Log.i("error33", t.getMessage());
+            }
+        });
 
-                            Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + idToken, "60f92e19366cd000159bc89c");//will get id from previous fragment
-                            Log.i("tag44", "tag44");
-                            caller.enqueue(new Callback<ProjectPOJO>() {
-                                @Override
-                                public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
-                                    Log.i("project_response44", String.valueOf(response.body()));
-                                }
+        Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getidToken());
+        Log.i("tag44", "tag44");
+        caller.enqueue(new Callback<ProjectPOJO>() {
+            @Override
+            public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
+                Log.i("project_response44", String.valueOf(response.body()));
+            }
 
-                                @Override
-                                public void onFailure(Call<ProjectPOJO> call, Throwable t) {
-                                    Log.i("error44", t.getMessage());
-                                }
-                            });
+            @Override
+            public void onFailure(Call<ProjectPOJO> call, Throwable t) {
+                Log.i("error44", t.getMessage());
+            }
+        });
 
 
-                        }
-                    }
-                });
     }
 
     @Override

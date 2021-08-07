@@ -20,11 +20,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hackmate.Adapters.ProjectAdapterEP;
+import com.example.hackmate.Adapters.ProjectAdapterMP;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
+import com.example.hackmate.MainActivity;
 import com.example.hackmate.Models.ProjectModel;
+import com.example.hackmate.POJOClasses.IndividualProject;
 import com.example.hackmate.POJOClasses.ProjectPOJO;
+import com.example.hackmate.POJOClasses.TeamProject;
 import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
+import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -32,6 +37,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -76,97 +82,81 @@ public class EditProfileFragment extends Fragment {
 
 
         String[] years1 = {"2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"};
-        ArrayAdapter<String> YOG_arrayAdapter1 = new ArrayAdapter<String>(getContext(),R.layout.option_item, years1);
+        ArrayAdapter<String> YOG_arrayAdapter1 = new ArrayAdapter<String>(getContext(), R.layout.option_item, years1);
 
         projects_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ProjectModel model2 = new ProjectModel("Hackmate",
-                "Project for team building for hackathons",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tristique mauris, " +
-                        "nec vitae cursus phasellus a proin et. Sit in velit duis iaculis est. " +
-                        "At odio sociis venenatis ut commodo. Aliquet eget morbi faucibus nisl " +
-                        "nec quis suscipit ut. Mus vestibulum risus at ante lorem volutpat. " +
-                        "In vitae vitae, tortor a ipsum ipsum. Ipsum cras eu odio natoque blandit commodo aliquam.",
-                "abc@gmail.com", "abc@gmail.com","abc@gmail.com");
-        ArrayList arrayList1 = new ArrayList<ProjectModel>();
-        arrayList1.add(model2);
-        arrayList1.add(model2);
-        projects_recyclerView.setAdapter(new ProjectAdapterEP(getContext(), arrayList1));
+//        ProjectModel model2 = new ProjectModel("Hackmate",
+//                "Project for team building for hackathons",
+//                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tristique mauris, " +
+//                        "nec vitae cursus phasellus a proin et. Sit in velit duis iaculis est. " +
+//                        "At odio sociis venenatis ut commodo. Aliquet eget morbi faucibus nisl " +
+//                        "nec quis suscipit ut. Mus vestibulum risus at ante lorem volutpat. " +
+//                        "In vitae vitae, tortor a ipsum ipsum. Ipsum cras eu odio natoque blandit commodo aliquam.",
+//                "abc@gmail.com", "abc@gmail.com", "abc@gmail.com");
+//        ArrayList arrayList1 = new ArrayList<ProjectModel>();
+//        arrayList1.add(model2);
+//        arrayList1.add(model2);
+//        projects_recyclerView.setAdapter(new ProjectAdapterEP(getContext(), arrayList1));
 
         profile_pic_EP.setImageResource(R.drawable.bhavik);
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient okHttpClient =new OkHttpClient.Builder()
-                //.addInterceptor(loggingInterceptor)
-                .addNetworkInterceptor(loggingInterceptor)
-                .build();
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl("https://hackportalbackend.herokuapp.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .build();
-
-        mAuth.getCurrentUser().getIdToken(true)
-                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                    public void onComplete(@NonNull Task<GetTokenResult> task) {
-                        if (task.isSuccessful()) {
-                            idToken = task.getResult().getToken();
-                            Log.i("xx", idToken);
-
-                            loginAPI = retrofit.create(loginAPI.class);
+        loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
 
 
-                            Call<loginPOJO> call = loginAPI.getParticipant("Bearer " + idToken);
-                            call.enqueue(new Callback<loginPOJO>() {
-                                @Override
-                                public void onResponse(Call<loginPOJO> call, Response<loginPOJO> response) {
+        Call<loginPOJO> call = loginAPI.getParticipant("Bearer " + MainActivity.getidToken());
+        call.enqueue(new Callback<loginPOJO>() {
+            @Override
+            public void onResponse(Call<loginPOJO> call, Response<loginPOJO> response) {
 
-                                    Log.i("response22", String.valueOf(response.body().getGraduation_year()));
-                                    name_EP.setText(response.body().getName());
-                                    username_EP.setText(response.body().getUsername());
-                                    email_EP.setText(response.body().getEmail());
-                                    college_EP.setText(response.body().getCollege());
-                                    bio_EP.setText(response.body().getBio());
-                                    github_EP.setText(response.body().getGithub());
-                                    linkedIn_EP.setText(response.body().getLinkedIn());
-                                    id = String.valueOf(response.body().getId());
-                                    Log.i("id22" , id);
-                                    Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + idToken, id);
-                                    Log.i("tag" , "tag");
-                                    caller.enqueue(new Callback<ProjectPOJO>() {
-                                        @Override
-                                        public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
-                                            Log.i("project_response" , String.valueOf(response.body()));
-                                        }
+                Log.i("response22", String.valueOf(response.body().getGraduation_year()));
+                name_EP.setText(response.body().getName());
+                username_EP.setText(response.body().getUsername());
+                email_EP.setText(response.body().getEmail());
+                college_EP.setText(response.body().getCollege());
+                bio_EP.setText(response.body().getBio());
+                github_EP.setText(response.body().getGithub());
+                linkedIn_EP.setText(response.body().getLinkedIn());
+                id = String.valueOf(response.body().getId());
+                Log.i("id22", id);
+                Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getidToken());
+                Log.i("tag", "tag");
+                caller.enqueue(new Callback<ProjectPOJO>() {
+                    @Override
+                    public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
+                        ProjectPOJO projectPOJO = response.body();
+//                        Log.i("abc", projectPOJO.getTeam().getName().toString());
+                        List<IndividualProject> individualProjectsList = projectPOJO.getIndividualProjects();
+//                        Log.i("pt_skill", String.valueOf(pt_skills.get(0).getParticipant().getName()));
+                        List<TeamProject> teamProjectsList = projectPOJO.getTeams();
+                        ProjectAdapterEP projectAdapterEP = new ProjectAdapterEP(getContext(), individualProjectsList);
+                        projects_recyclerView.setAdapter(projectAdapterEP);
+                        projectAdapterEP.setGetProjectEP(individualProjectsList);
 
-                                        @Override
-                                        public void onFailure(Call<ProjectPOJO> call, Throwable t) {
-                                            Log.i("error" , t.getMessage());
-                                        }
-                                    });
+                    }
 
-                                    YOG_CompleteEditText.setText(String.valueOf(response.body().getGraduation_year()), false);
-                                    YOG_CompleteEditText.setAdapter(YOG_arrayAdapter1);
-
-                                }
-
-                                @Override
-                                public void onFailure(Call<loginPOJO> call, Throwable t) {
-                                    Log.i("error", t.getMessage());
-                                    YOG_CompleteEditText.setText("Year of Graduation", false);
-                                    YOG_CompleteEditText.setAdapter(YOG_arrayAdapter1);
-                                }
-                            });
-
-
-                        }
+                    @Override
+                    public void onFailure(Call<ProjectPOJO> call, Throwable t) {
+                        Log.i("error", t.getMessage());
                     }
                 });
 
+                YOG_CompleteEditText.setText(String.valueOf(response.body().getGraduation_year()), false);
+                YOG_CompleteEditText.setAdapter(YOG_arrayAdapter1);
+
+            }
+
+            @Override
+            public void onFailure(Call<loginPOJO> call, Throwable t) {
+                Log.i("error", t.getMessage());
+                YOG_CompleteEditText.setText("Year of Graduation", false);
+                YOG_CompleteEditText.setAdapter(YOG_arrayAdapter1);
+            }
+        });
+
 
     }
+
 
     @Override
     public void onDestroy() {
@@ -175,8 +165,7 @@ public class EditProfileFragment extends Fragment {
         bottomNavigation.setVisibility(View.VISIBLE);
     }
 
-    public void initialise()
-    {
+    public void initialise() {
         saveButton = getView().findViewById(R.id.saveChangeButton);
         bottomNavigation = getActivity().findViewById(R.id.bottom_nav_bar);
         YOG_CompleteEditText = getView().findViewById(R.id.year_of_graduation_edit);

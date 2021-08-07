@@ -1,5 +1,6 @@
 package com.example.hackmate.JSONPlaceholders;
 
+import com.example.hackmate.POJOClasses.GetMyTeamPOJO;
 import com.example.hackmate.POJOClasses.GetParticipantPOJO;
 import com.example.hackmate.POJOClasses.JoinTeamPOJO;
 import com.example.hackmate.POJOClasses.ProjectPOJO;
@@ -32,8 +33,8 @@ public interface loginAPI {
     Call<GetParticipantPOJO> getParticipantByID(@Header("Authorization") String token, @Path("id") String id);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @GET("projects/get/{id}")
-    Call<ProjectPOJO> getProject(@Header("Authorization") String token, @Path("id") String id);
+    @GET("projects/getAll")
+    Call<ProjectPOJO> getProject(@Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("skills/mySkills")
@@ -42,5 +43,9 @@ public interface loginAPI {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("DN_Team/{id}")
     Call<JoinTeamPOJO> getTeam(@Header("Authorization") String token, @Path("id") String id);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("DN_Team/myTeams?page=1")
+    Call<GetMyTeamPOJO> getMyTeam(@Header("Authorization") String token);
 
 }

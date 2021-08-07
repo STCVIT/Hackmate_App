@@ -176,6 +176,23 @@ public class LoginFragment extends Fragment {
                                             responses = getLoginStatus(email);
                                             Log.i("response", String.valueOf(responses));
 
+                                            Call<Response<Void>> call = loginAPI.getLoginStatus("Bearer " + idToken);
+                                            call.enqueue(new Callback<Response<Void>>() {
+                                                @Override
+                                                public void onResponse(Call<Response<Void>> call, Response<Response<Void>> response) {
+
+                                                    ans = response.code();
+                                                    Log.i("response code", response.toString());
+                                                    Log.i("ans" , String.valueOf(ans));
+                                                    checkIfEmailVerified(email, ans);
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<Response<Void>> call, Throwable t) {
+                                                    Log.i("error", t.getMessage());
+                                                }
+                                            });
+
 
                                         }
                                     }
@@ -227,22 +244,7 @@ public class LoginFragment extends Fragment {
     public int getLoginStatus(String email){
 
 
-        Call<Response<Void>> call = loginAPI.getLoginStatus("Bearer " + idToken);
-        call.enqueue(new Callback<Response<Void>>() {
-            @Override
-            public void onResponse(Call<Response<Void>> call, Response<Response<Void>> response) {
 
-                    ans = response.code();
-                    Log.i("response code", response.toString());
-                    Log.i("ans" , String.valueOf(ans));
-                    checkIfEmailVerified(email, ans);
-            }
-
-            @Override
-            public void onFailure(Call<Response<Void>> call, Throwable t) {
-                Log.i("error", t.getMessage());
-            }
-        });
 
         return ans;
     }

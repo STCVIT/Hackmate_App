@@ -17,12 +17,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.hackmate.Adapters.MemberAdapter;
 import com.example.hackmate.Adapters.ProjectAdapterMP;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
+import com.example.hackmate.MainActivity;
 import com.example.hackmate.Models.ProjectModel;
+import com.example.hackmate.POJOClasses.IndividualProject;
+import com.example.hackmate.POJOClasses.JoinTeamPOJO;
 import com.example.hackmate.POJOClasses.ProjectPOJO;
+import com.example.hackmate.POJOClasses.PtSkill;
+import com.example.hackmate.POJOClasses.TeamProject;
 import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
+import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -32,6 +39,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -46,15 +54,13 @@ public class MyProfileFragment extends Fragment {
     BottomNavigationView bottomNavigation;
     ImageView settingsImageView, addImageView, profile_pic;
     TextView editProfileTextView, addProjectTextView, name_MP, username_MP, email_MP, college_MP, bio_MP,
-    github_MP, linkedIn_MP, personal_website_MP, yog_MP;
+            github_MP, linkedIn_MP, personal_website_MP, yog_MP;
     ConstraintLayout add_project_constraint;
     CardView add_project_card;
     private RecyclerView projects_recyclerView;
     ChipGroup chipGroup;
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    String idToken, id = "yash";
+    String id = "yash";
     private loginAPI loginAPI;
-    Retrofit retrofit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,67 +89,54 @@ public class MyProfileFragment extends Fragment {
 
         addImageView.setOnClickListener(v -> addProjectFrag());
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient okHttpClient =new OkHttpClient.Builder()
-                //.addInterceptor(loggingInterceptor)
-                .addNetworkInterceptor(loggingInterceptor)
-                .build();
+        loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl("https://hackportalbackend.herokuapp.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .build();
+        projects_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mAuth.getCurrentUser().getIdToken(true)
-                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                    public void onComplete(@NonNull Task<GetTokenResult> task) {
-                        if (task.isSuccessful()) {
-                            idToken = task.getResult().getToken();
-                            Log.i("xx", idToken);
+        Call<loginPOJO> call = loginAPI.getParticipant("Bearer " + MainActivity.getidToken());
+        call.enqueue(new Callback<loginPOJO>() {
+            @Override
+            public void onResponse(Call<loginPOJO> call, Response<loginPOJO> response) {
 
-                            loginAPI = retrofit.create(loginAPI.class);
+                Log.i("response22", String.valueOf(response.body().getId()));
+                name_MP.setText(response.body().getName());
+                username_MP.setText(response.body().getUsername());
+                email_MP.setText(response.body().getEmail());
+                college_MP.setText(response.body().getCollege());
+                yog_MP.setText(String.valueOf(response.body().getGraduation_year()));
+                bio_MP.setText(response.body().getBio());
+                github_MP.setText(response.body().getGithub());
+                linkedIn_MP.setText(response.body().getLinkedIn());
+                id = String.valueOf(response.body().getId());
+                Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getidToken());
+                Log.i("tag", "tag");
+                caller.enqueue(new Callback<ProjectPOJO>() {
+                    @Override
+                    public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
+                        Log.i("project_response", String.valueOf(response.body()));
+                        ProjectPOJO projectPOJO = response.body();
+//                        Log.i("abc", projectPOJO.getTeam().getName().toString());
+                        List<IndividualProject> individualProjectsList = projectPOJO.getIndividualProjects();
+//                        Log.i("pt_skill", String.valueOf(pt_skills.get(0).getParticipant().getName()));
+                        List<TeamProject> teamProjectsList = projectPOJO.getTeams();
+                        ProjectAdapterMP projectAdapterMP = new ProjectAdapterMP(getContext(), individualProjectsList);
+                        projects_recyclerView.setAdapter(projectAdapterMP);
+                        projectAdapterMP.setGetProjectMP(individualProjectsList);
+                    }
 
+                    @Override
+                    public void onFailure(Call<ProjectPOJO> call, Throwable t) {
+                        Log.i("error", t.getMessage());
+                    }
+                });
+            }
 
-                            Call<loginPOJO> call = loginAPI.getParticipant("Bearer " + idToken);
-                            call.enqueue(new Callback<loginPOJO>() {
-                                @Override
-                                public void onResponse(Call<loginPOJO> call, Response<loginPOJO> response) {
-
-                                    Log.i("response22", String.valueOf(response.body().getId()));
-                                    name_MP.setText(response.body().getName());
-                                    username_MP.setText(response.body().getUsername());
-                                    email_MP.setText(response.body().getEmail());
-                                    college_MP.setText(response.body().getCollege());
-                                    yog_MP.setText(String.valueOf(response.body().getGraduation_year()));
-                                    bio_MP.setText(response.body().getBio());
-                                    github_MP.setText(response.body().getGithub());
-                                    linkedIn_MP.setText(response.body().getLinkedIn());
-                                    id = String.valueOf(response.body().getId());
-                                    Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + idToken, id);
-                                    Log.i("tag" , "tag");
-                                    caller.enqueue(new Callback<ProjectPOJO>() {
-                                        @Override
-                                        public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
-                                            Log.i("project_response" , String.valueOf(response.body()));
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<ProjectPOJO> call, Throwable t) {
-                                            Log.i("error" , t.getMessage());
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void onFailure(Call<loginPOJO> call, Throwable t) {
-                                    Log.i("error", t.getMessage());
-                                }
-                            });
-
-
+            @Override
+            public void onFailure(Call<loginPOJO> call, Throwable t) {
+                Log.i("error", t.getMessage());
+            }
+        });
 
 
 //                            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
@@ -161,25 +154,19 @@ public class MyProfileFragment extends Fragment {
 //                                    .build();
 
 
-
-
-                        }
-                    }
-                });
-
-        projects_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ProjectModel model2 = new ProjectModel("Hackmate",
-                "Project for team building for hackathons",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tristique mauris, " +
-                        "nec vitae cursus phasellus a proin et. Sit in velit duis iaculis est. " +
-                        "At odio sociis venenatis ut commodo. Aliquet eget morbi faucibus nisl " +
-                        "nec quis suscipit ut. Mus vestibulum risus at ante lorem volutpat. " +
-                        "In vitae vitae, tortor a ipsum ipsum. Ipsum cras eu odio natoque blandit commodo aliquam.",
-                "abc@gmail.com", "abc@gmail.com", "abc@gmail.com");
-        ArrayList arrayList1 = new ArrayList<ProjectModel>();
-        arrayList1.add(model2);
-        arrayList1.add(model2);
-        projects_recyclerView.setAdapter(new ProjectAdapterMP(getContext(), arrayList1));
+//        projects_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        ProjectModel model2 = new ProjectModel("Hackmate",
+//                "Project for team building for hackathons",
+//                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tristique mauris, " +
+//                        "nec vitae cursus phasellus a proin et. Sit in velit duis iaculis est. " +
+//                        "At odio sociis venenatis ut commodo. Aliquet eget morbi faucibus nisl " +
+//                        "nec quis suscipit ut. Mus vestibulum risus at ante lorem volutpat. " +
+//                        "In vitae vitae, tortor a ipsum ipsum. Ipsum cras eu odio natoque blandit commodo aliquam.",
+//                "abc@gmail.com", "abc@gmail.com", "abc@gmail.com");
+//        ArrayList arrayList1 = new ArrayList<ProjectModel>();
+//        arrayList1.add(model2);
+//        arrayList1.add(model2);
+//        projects_recyclerView.setAdapter(new ProjectAdapterMP(getContext(), arrayList1));
 
         String[] team_domains = {"App Development", "UI/UX"};
 
