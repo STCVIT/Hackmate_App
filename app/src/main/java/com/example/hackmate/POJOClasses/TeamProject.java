@@ -15,11 +15,11 @@ public class TeamProject{
     public List<Member> members;
     public int __vp;
     public String project_name;
+    @SerializedName("code")
+    @Expose
     public String codes;
     public String demonstration;
     public String design;
-    @SerializedName("description")
-    @Expose
     public String project_description;
 
     public TeamProject(String _idp, String names, String admin_id, String team_code,

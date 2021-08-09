@@ -1,9 +1,18 @@
 package com.example.hackmate.POJOClasses;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class IndividualProject{
     public String _ids;
+    @SerializedName("name")
+    @Expose
     public String names;
+    @SerializedName("description")
+    @Expose
     public String descriptions;
+    @SerializedName("code")
+    @Expose
     public String codes;
     public String participant_id;
     public int __vs;

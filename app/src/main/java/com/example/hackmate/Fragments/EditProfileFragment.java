@@ -129,9 +129,9 @@ public class EditProfileFragment extends Fragment {
                         List<IndividualProject> individualProjectsList = projectPOJO.getIndividualProjects();
 //                        Log.i("pt_skill", String.valueOf(pt_skills.get(0).getParticipant().getName()));
                         List<TeamProject> teamProjectsList = projectPOJO.getTeams();
-                        ProjectAdapterEP projectAdapterEP = new ProjectAdapterEP(getContext(), individualProjectsList);
+                        ProjectAdapterEP projectAdapterEP = new ProjectAdapterEP(getContext(), individualProjectsList, teamProjectsList);
                         projects_recyclerView.setAdapter(projectAdapterEP);
-                        projectAdapterEP.setGetProjectEP(individualProjectsList);
+                        projectAdapterEP.setGetProjectEP(individualProjectsList, teamProjectsList);
 
                     }
 

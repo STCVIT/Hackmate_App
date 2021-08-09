@@ -48,4 +48,8 @@ public interface loginAPI {
     @GET("DN_Team/myTeams?page=1")
     Call<GetMyTeamPOJO> getMyTeam(@Header("Authorization") String token);
 
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("projects/getAll/{id}")
+    Call<ProjectPOJO> getProjectP(@Header("Authorization") String token, @Path("id") String id);
+
 }

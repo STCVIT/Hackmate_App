@@ -120,9 +120,9 @@ public class MyProfileFragment extends Fragment {
                         List<IndividualProject> individualProjectsList = projectPOJO.getIndividualProjects();
 //                        Log.i("pt_skill", String.valueOf(pt_skills.get(0).getParticipant().getName()));
                         List<TeamProject> teamProjectsList = projectPOJO.getTeams();
-                        ProjectAdapterMP projectAdapterMP = new ProjectAdapterMP(getContext(), individualProjectsList);
+                        ProjectAdapterMP projectAdapterMP = new ProjectAdapterMP(getContext(), individualProjectsList,teamProjectsList);
                         projects_recyclerView.setAdapter(projectAdapterMP);
-                        projectAdapterMP.setGetProjectMP(individualProjectsList);
+                        projectAdapterMP.setGetProjectMP(individualProjectsList, teamProjectsList);
                     }
 
                     @Override

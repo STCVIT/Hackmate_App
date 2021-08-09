@@ -17,12 +17,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hackmate.Adapters.ProjectAdapterMP;
 import com.example.hackmate.Adapters.ProjectAdapterP;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.MainActivity;
 import com.example.hackmate.Models.ProjectModel;
 import com.example.hackmate.POJOClasses.GetParticipantPOJO;
+import com.example.hackmate.POJOClasses.IndividualProject;
 import com.example.hackmate.POJOClasses.ProjectPOJO;
+import com.example.hackmate.POJOClasses.TeamProject;
 import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
 import com.example.hackmate.util.RetrofitInstance;
@@ -34,6 +37,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -93,18 +97,18 @@ public class ProfileViewFragment extends Fragment {
         });
 
         projects_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ProjectModel model2 = new ProjectModel("Hackmate",
-                "Project for team building for hackathons",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tristique mauris, " +
-                        "nec vitae cursus phasellus a proin et. Sit in velit duis iaculis est. " +
-                        "At odio sociis venenatis ut commodo. Aliquet eget morbi faucibus nisl " +
-                        "nec quis suscipit ut. Mus vestibulum risus at ante lorem volutpat. " +
-                        "In vitae vitae, tortor a ipsum ipsum. Ipsum cras eu odio natoque blandit commodo aliquam.",
-                "abc@gmail.com", "abc@gmail.com", "abc@gmail.com");
-        ArrayList arrayList1 = new ArrayList<ProjectModel>();
-        arrayList1.add(model2);
-        arrayList1.add(model2);
-        projects_recyclerView.setAdapter(new ProjectAdapterP(getContext(), arrayList1));
+//        ProjectModel model2 = new ProjectModel("Hackmate",
+//                "Project for team building for hackathons",
+//                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tristique mauris, " +
+//                        "nec vitae cursus phasellus a proin et. Sit in velit duis iaculis est. " +
+//                        "At odio sociis venenatis ut commodo. Aliquet eget morbi faucibus nisl " +
+//                        "nec quis suscipit ut. Mus vestibulum risus at ante lorem volutpat. " +
+//                        "In vitae vitae, tortor a ipsum ipsum. Ipsum cras eu odio natoque blandit commodo aliquam.",
+//                "abc@gmail.com", "abc@gmail.com", "abc@gmail.com");
+//        ArrayList arrayList1 = new ArrayList<ProjectModel>();
+//        arrayList1.add(model2);
+//        arrayList1.add(model2);
+//        projects_recyclerView.setAdapter(new ProjectAdapterP(getContext(), arrayList1));
 
         String[] team_domains = {"App Development", "UI/UX", "Machine Learning"};
 
@@ -133,7 +137,7 @@ public class ProfileViewFragment extends Fragment {
             @Override
             public void onResponse(Call<GetParticipantPOJO> call, Response<GetParticipantPOJO> response) {
 
-                Log.i("response22", String.valueOf(response.body().participant.getName()));
+                Log.i("response22", String.valueOf(response.body().participant.get_id()));
                 name_PV.setText(response.body().participant.getName());
                 username_PV.setText(response.body().participant.getUsername());
                 email_PV.setText(response.body().participant.getEmail());
@@ -143,12 +147,21 @@ public class ProfileViewFragment extends Fragment {
                 github_PV.setText(response.body().participant.getGithub());
                 linkedIn_PV.setText(response.body().participant.getLinkedIn());
 //                                    id = String.valueOf(response.body().participant.getId());
-                Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getidToken());//new route for this will be made
-                Log.i("tag", "tag");
+                Call<ProjectPOJO> caller = loginAPI.getProjectP("Bearer " + MainActivity.getidToken(), id);//new route for this will be made
+//                Log.i("tag", "tag");
                 caller.enqueue(new Callback<ProjectPOJO>() {
                     @Override
                     public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
-                        Log.i("project_response", String.valueOf(response.body()));
+                        Log.i("projectsssssss", String.valueOf(response.body()));
+//                        Log.i("project_response", String.valueOf(response.body()));
+                        ProjectPOJO projectPOJO = response.body();
+//                        Log.i("abc", projectPOJO.getTeam().getName().toString());
+                        List<IndividualProject> individualProjectsList = projectPOJO.getIndividualProjects();
+//                        Log.i("pt_skill", String.valueOf(pt_skills.get(0).getParticipant().getName()));
+                        List<TeamProject> teamProjectsList = projectPOJO.getTeams();
+                        ProjectAdapterP projectAdapterP = new ProjectAdapterP(getContext(), individualProjectsList,teamProjectsList);
+                        projects_recyclerView.setAdapter(projectAdapterP);
+                        projectAdapterP.setGetProjectP(individualProjectsList, teamProjectsList);
                     }
 
                     @Override
