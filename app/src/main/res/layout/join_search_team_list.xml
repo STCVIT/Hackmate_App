@@ -22,11 +22,23 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
+        <TextView
+            android:id="@+id/hackNaming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Brew"
+            android:textSize="12dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/text_secondary"
+            app:layout_constraintTop_toBottomOf="@id/teamName"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"/>
+
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipsGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/teamName"
+            app:layout_constraintTop_toBottomOf="@id/hackNaming"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="8dp"/>
 

@@ -22,11 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hackmate.Adapters.ProjectAdapterTPL;
+import com.example.hackmate.Fragments.FindParticipant.FindParticipantFragment;
 import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
 import com.example.hackmate.Models.ProjectModel;
-import com.example.hackmate.POJOClassesKavita.PtSkill;
-import com.example.hackmate.POJOClassesKavita.hackByIdPOJO;
-import com.example.hackmate.POJOClassesKavita.teamIdPOJO;
+import com.example.hackmate.POJOClasses.PtSkill;
+import com.example.hackmate.POJOClasses.Kavita.hackByIdPOJO;
+import com.example.hackmate.POJOClasses.Kavita.teamIdPOJO;
 import com.example.hackmate.R;
 import com.example.hackmate.Adapters.teamMember_LeaderAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -203,7 +204,7 @@ public class TeamProfileLeaderViewFragment extends Fragment {
 
                                     Log.i("Response body3", "list sending to adapter sucessfull");
 
-                                   // JSONPlaceHolderAPI jsonPlaceHolderAPI = retrofit1.create(JSONPlaceHolderAPI.class);
+                                    // JSONPlaceHolderAPI jsonPlaceHolderAPI = retrofit1.create(JSONPlaceHolderAPI.class);
                                     //hackListAPI hackListAPI1 = retrofit1.create(hackListAPI.class);
 
                                     Log.i("callback problem", "error");

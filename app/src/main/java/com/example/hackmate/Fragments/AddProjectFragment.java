@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,15 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-import com.example.hackmate.POJOClassesKavita.addProjectPOJO;
+import com.example.hackmate.POJOClasses.Kavita.addProjectPOJO;
 import com.example.hackmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
 
 
 public class AddProjectFragment extends Fragment {
@@ -30,12 +37,12 @@ public class AddProjectFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-       View v = inflater.inflate(R.layout.fragment_add_project, container, false);
+        View v = inflater.inflate(R.layout.fragment_add_project, container, false);
 
 
-            Toolbar toolbar = (Toolbar) v.findViewById(R.id.topAppBar);
-            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            return v;
+        Toolbar toolbar = (Toolbar) v.findViewById(R.id.topAppBar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        return v;
 
     }
 
@@ -55,7 +62,7 @@ public class AddProjectFragment extends Fragment {
                 Toast.makeText(getActivity(), "Project has been added successfully !!!", Toast.LENGTH_SHORT).show();
             }
         });
-        
+
         addProject();
     }
 

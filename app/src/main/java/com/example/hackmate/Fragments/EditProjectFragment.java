@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
-import com.example.hackmate.POJOClassesKavita.editProjectPOJO;
+import com.example.hackmate.POJOClasses.Kavita.editProjectPOJO;
 import com.example.hackmate.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class EditProjectFragment extends Fragment {
-private TextView ProjectName,ProjectDescription,githubLink,designLink,demoLink,appBarTitle;
+    private TextView ProjectName,ProjectDescription,githubLink,designLink,demoLink,appBarTitle;
     Button saveButton;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private String idToken = "Bearer ";
@@ -72,10 +72,10 @@ private TextView ProjectName,ProjectDescription,githubLink,designLink,demoLink,a
         ProjectDescription=view.findViewById(R.id.projectDescriptionEdit);
         githubLink=view.findViewById(R.id.githubLinkEdit);
         designLink=view.findViewById(R.id.designLinkEdit);
-       demoLink=view.findViewById(R.id.designLinkEdit);
-       appBarTitle=view.findViewById(R.id.editProject_title2);
+        demoLink=view.findViewById(R.id.designLinkEdit);
+        appBarTitle=view.findViewById(R.id.editProject_title2);
 
-       getRetrofit();
+        getRetrofit();
 
     }
 

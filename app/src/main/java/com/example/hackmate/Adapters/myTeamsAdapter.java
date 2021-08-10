@@ -4,16 +4,23 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hackmate.Fragments.MyTeamsFragment;
+import com.example.hackmate.POJOClasses.Kavita.Final;
+import com.example.hackmate.POJOClasses.Kavita.Final2;
+import com.example.hackmate.POJOClasses.Kavita.hackListPOJO;
+import com.example.hackmate.POJOClasses.Kavita.myTeamsPOJO;
 import com.example.hackmate.R;
 import com.example.hackmate.Models.myTeamsModel;
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class myTeamsAdapter extends RecyclerView.Adapter<myTeamsAdapter.Viewholder> {
 
@@ -21,7 +28,7 @@ public class myTeamsAdapter extends RecyclerView.Adapter<myTeamsAdapter.Viewhold
     private OnTeamsListener mOnteamsListener;
     private Context context;
     private  ArrayList<myTeamsModel> myTeamsArrayList;
-   // private List<Final2> myTeamsArrayList;
+    // private List<Final2> myTeamsArrayList;
 
 
     public myTeamsAdapter( Context context, ArrayList<myTeamsModel> myTeamsArrayList,OnTeamsListener mOnteamsListener) {
@@ -53,9 +60,9 @@ public class myTeamsAdapter extends RecyclerView.Adapter<myTeamsAdapter.Viewhold
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        myTeamsModel.myTeams_Model model = (myTeamsModel.myTeams_Model) myTeamsArrayList.get(position);
+        myTeamsModel model = (myTeamsModel) myTeamsArrayList.get(position);
         //myTeamsPOJO myTeamsPOJO = myTeamsArrayList.get(position);
-         //////Uncomment when backend to myteams is possible//////
+        //////Uncomment when backend to myteams is possible//////
        /* Final2  finals2 = myTeamsArrayList.get(position);
 
 

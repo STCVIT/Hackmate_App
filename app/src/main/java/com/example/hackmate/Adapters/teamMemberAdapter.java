@@ -11,10 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hackmate.POJOClassesKavita.PtSkill;
+import com.example.hackmate.POJOClasses.PtSkill;
 import com.example.hackmate.R;
+import com.example.hackmate.Models.teamMember_Model;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class teamMemberAdapter extends RecyclerView.Adapter<teamMemberAdapter.Viewholder> {

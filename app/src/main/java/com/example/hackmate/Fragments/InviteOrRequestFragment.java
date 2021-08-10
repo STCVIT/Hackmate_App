@@ -21,9 +21,9 @@ import android.widget.TextView;
 import com.example.hackmate.Adapters.InvitesAdapter;
 import com.example.hackmate.Adapters.RequestsAdapter;
 import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
-import com.example.hackmate.POJOClassesKavita.Received;
-import com.example.hackmate.POJOClassesKavita.Sent;
-import com.example.hackmate.POJOClassesKavita.invitePOJO;
+import com.example.hackmate.POJOClasses.Kavita.Received;
+import com.example.hackmate.POJOClasses.Kavita.Sent;
+import com.example.hackmate.POJOClasses.Kavita.invitePOJO;
 import com.example.hackmate.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -49,7 +49,7 @@ public class InviteOrRequestFragment extends Fragment {
 
     Button request,accept,reject;
     private RecyclerView RVinvite,RVrequest;
-  public List<Received>  InvitesArrayList;
+    public List<Received>  InvitesArrayList;
     private List<Sent> RequestsArrayList;
     private TextView Invites,Requests;
     private ImageView arrowDown_Invite,arrowDown_Req;
@@ -134,7 +134,7 @@ public class InviteOrRequestFragment extends Fragment {
                                         return;
                                     }
 
-                                   invitePOJO invitePOJOS =  (invitePOJO) response5.body();
+                                    invitePOJO invitePOJOS =  (invitePOJO) response5.body();
                                     Log.i("Response body",invitePOJOS.toString());
                                     List<Received> recieved_objs =invitePOJOS.getReceived();
                                     Log.i("Response body1",String.valueOf(recieved_objs.get(0).getTeamId()));
@@ -165,13 +165,13 @@ public class InviteOrRequestFragment extends Fragment {
                                             Log.i("failed5", t.getMessage());
                                         }
                                     });
-                                            //InvitesArrayList = (ArrayList<invitePOJO>) response5.body();
+                                    //InvitesArrayList = (ArrayList<invitePOJO>) response5.body();
 
 
 
-                                       // Log.d("problem5",InvitesArrayList.toString());
+                                    // Log.d("problem5",InvitesArrayList.toString());
 
-                                        //invitesAdapter.setMyInvites(InvitesArrayList);
+                                    //invitesAdapter.setMyInvites(InvitesArrayList);
 
                                 }
 
@@ -230,13 +230,13 @@ public class InviteOrRequestFragment extends Fragment {
 
 
 
-                //InvitesArrayList = (ArrayList<invitePOJO>) response5.body();
+        //InvitesArrayList = (ArrayList<invitePOJO>) response5.body();
 
 
 
-                // Log.d("problem5",InvitesArrayList.toString());
+        // Log.d("problem5",InvitesArrayList.toString());
 
-                //invitesAdapter.setMyInvites(InvitesArrayList);
+        //invitesAdapter.setMyInvites(InvitesArrayList);
 
 
 

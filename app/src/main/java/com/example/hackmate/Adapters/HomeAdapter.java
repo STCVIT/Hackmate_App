@@ -1,6 +1,8 @@
 package com.example.hackmate.Adapters;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,33 +13,30 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.hackmate.POJOClasses.Final;
-import com.example.hackmate.POJOClasses.hackListPOJO;
+import com.example.hackmate.Fragments.HackProfile.HackProfileFragment;
+import com.example.hackmate.MainActivity;
+import com.example.hackmate.POJOClasses.Kavita.Final;
 import com.example.hackmate.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Callback;
-
 
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.Viewholder> {
-    private OnHackListerner mOnHackListener;
     private Context context;
     private List<Final> HomeArrayList;
+    private String id;
 
 
-   public HomeAdapter(Context context, List<Final> homeArrayList, OnHackListerner onHackListerner) {
+    public HomeAdapter(Context context, List<Final> homeArrayList) {
         this.context = context;
         HomeArrayList = homeArrayList;
-        this.mOnHackListener=onHackListerner;
     }
 
 
 
-   public void setHackList(List<Final> final_objs) {
-       //ArrayList HomeArrayList1 = (ArrayList) HomeAL.finals;
+    public void setHackList(List<Final> final_objs) {
+        //ArrayList HomeArrayList1 = (ArrayList) HomeAL.finals;
         this.HomeArrayList = final_objs;
         notifyDataSetChanged();
 
@@ -47,17 +46,18 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.Viewholder> {
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // to inflate the layout for each item of recycler view.
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_hack_info_rv_layout, parent, false);
-        return new Viewholder(view,mOnHackListener);
+        return new Viewholder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-      Final  finals = HomeArrayList.get(position);
-//Final Final = HomeArrayList.get(position);
+        Final  finals = HomeArrayList.get(position);
+//FinalPt FinalPt = HomeArrayList.get(position);
 //HomeModel.home_Model model = (HomeModel.home_Model) HomeArrayList.get(position);
 
-           //int photo=Integer.parseInt(HomeArrayList.get(position).getHackPhoto());
+        //int photo=Integer.parseInt(HomeArrayList.get(position).getHackPhoto());
         //holder.Profilephoto_home.setImageResource(photo);
+
         holder.HackName.setText(HomeArrayList.get(position).getName());
         holder.teamSizeMax.setText(String.valueOf(HomeArrayList.get(position).getMaxTeamSize()));
         holder.teamSizeMin.setText(String.valueOf(HomeArrayList.get(position).getMinTeamSize()));
@@ -68,6 +68,29 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.Viewholder> {
         holder.teamSize.setText(model.getTeamSize());
         holder.startDate.setText(model.getStartDate());
         holder.endDate.setText(model.getEndDate());*/
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                id = HomeArrayList.get(position).getId();
+                HackProfileFragment frag = new HackProfileFragment();
+                Log.i("hackId", id);
+                Bundle bundle = new Bundle();
+                bundle.putString("ID", id);
+                frag.setArguments(bundle);
+
+                MainActivity activity = (MainActivity) v.getContext();
+
+                BottomNavigationView bottomNavigation = activity.findViewById(R.id.bottom_nav_bar);;
+                bottomNavigation.setVisibility(View.GONE);
+
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, frag)
+                        .addToBackStack(null)
+                        .commit();
+
+            }
+        });
 
     }
 
@@ -80,15 +103,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.Viewholder> {
     }
 
 
-    public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class Viewholder extends RecyclerView.ViewHolder  {
 
 
         private ImageView Profilephoto_home;
         private TextView HackName, teamSizeMin,teamSizeMax, startDate,endDate;
-        OnHackListerner onHackListerner;
 
 
-        public Viewholder(@NonNull View itemView,OnHackListerner onHackListerner) {
+        public Viewholder(@NonNull View itemView) {
             super(itemView);
 
             Profilephoto_home=itemView.findViewById(R.id.HackImage);
@@ -99,19 +121,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.Viewholder> {
             endDate=itemView.findViewById(R.id.endDate_input);
 
             //Profilephoto_home.setImageResource(R.drawable.hackimage);
-this.onHackListerner=onHackListerner;
-itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-onHackListerner.OnHackClick(getAdapterPosition());
         }
     }
 
+    /*
     public interface OnHackListerner{
         void OnHackClick(int position); //using this interface to interpret the click and then send  to fragment to get position of that clicked item
     }
+
+     */
 
 
 }

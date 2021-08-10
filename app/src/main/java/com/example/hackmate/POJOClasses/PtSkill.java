@@ -1,8 +1,8 @@
-package com.example.hackmate.POJOClassesKavita;
+package com.example.hackmate.POJOClasses;
 
 import java.util.List;
 
-public class PtSkill {
+public class PtSkill{
     public Participant participant;
     public List<Object> skills;
 

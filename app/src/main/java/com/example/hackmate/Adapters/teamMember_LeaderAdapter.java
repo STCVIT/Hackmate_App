@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hackmate.POJOClassesKavita.PtSkill;
+import com.example.hackmate.POJOClasses.PtSkill;
 import com.example.hackmate.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -46,7 +46,7 @@ public class teamMember_LeaderAdapter extends RecyclerView.Adapter<teamMember_Le
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         // to set data to textview and imageview of each card layout
         // Get the data model based on position
-PtSkill ptSkills= teamMemberLeaderArrayList.get(position);
+        PtSkill ptSkills= teamMemberLeaderArrayList.get(position);
         //teamMember_Model.TeamMemberModel model = (teamMember_Model.TeamMemberModel) teamMemberLeaderArrayList.get(position);
 
 
@@ -60,7 +60,7 @@ PtSkill ptSkills= teamMemberLeaderArrayList.get(position);
         holder.MemName.setText(ptSkills.getParticipant().getName());
         holder.MemEmail.setText(ptSkills.getParticipant().getEmail());
         holder.MemPosition.setText(id.equals(adminId)?"Leader":"");
-       // holder.Profilephoto.setImageResource(model.getProfilephoto());
+        // holder.Profilephoto.setImageResource(model.getProfilephoto());
         holder.LeaveOption.setText(id.equals(adminId)? "leave":"Remove");
     }
 

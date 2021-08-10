@@ -1,9 +1,7 @@
-package com.example.hackmate.POJOClassesKavita;
-
+package com.example.hackmate.POJOClasses;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 
 public class Skill {
 

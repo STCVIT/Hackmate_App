@@ -1,19 +1,17 @@
 package com.example.hackmate.JSONPlaceholders;
 
-import com.example.hackmate.POJOClasses.addProjectPOJO;
-import com.example.hackmate.POJOClasses.editProjectPOJO;
-import com.example.hackmate.POJOClasses.hackByIdPOJO;
-import com.example.hackmate.POJOClasses.hackListPOJO;
-import com.example.hackmate.POJOClasses.invitePOJO;
-import com.example.hackmate.POJOClasses.loginPOJO;
-import com.example.hackmate.POJOClasses.myTeamsPOJO;
-import com.example.hackmate.POJOClasses.participantPOJO;
-import com.example.hackmate.POJOClasses.teamIdPOJO;
+import com.example.hackmate.POJOClasses.Kavita.addProjectPOJO;
+import com.example.hackmate.POJOClasses.Kavita.editProjectPOJO;
+import com.example.hackmate.POJOClasses.Kavita.hackByIdPOJO;
+import com.example.hackmate.POJOClasses.Kavita.hackListPOJO;
+import com.example.hackmate.POJOClasses.Kavita.invitePOJO;
+import com.example.hackmate.POJOClasses.Kavita.myTeamsPOJO;
+import com.example.hackmate.POJOClasses.Kavita.participantPOJO;
+import com.example.hackmate.POJOClasses.Kavita.teamIdPOJO;
 
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;

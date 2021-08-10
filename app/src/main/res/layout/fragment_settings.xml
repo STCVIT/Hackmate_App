@@ -60,8 +60,9 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/ic_edit_text"
+        android:foreground="?android:attr/selectableItemBackground"
         android:fontFamily="@font/roboto"
-        android:padding="16sp"
+        android:padding="@dimen/margin_medium"
         android:text="Reset Password"
         android:textColor="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,8 +77,9 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/ic_edit_text"
+        android:foreground="?android:attr/selectableItemBackground"
         android:fontFamily="@font/roboto"
-        android:padding="16sp"
+        android:padding="@dimen/margin_medium"
         android:text="Delete Account"
         android:textColor="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +93,8 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/ic_edit_text"
-        android:padding="16dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:padding="@dimen/margin_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,13 +105,9 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
             android:text="Log Out"
+            android:drawableRight="@drawable/ic_log_out"
+            android:drawablePadding="@dimen/margin_small"
             android:textColor="@color/text" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="7dp"
-            android:src="@drawable/ic_log_out" />
 
     </LinearLayout>
 

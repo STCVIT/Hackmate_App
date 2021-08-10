@@ -13,9 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
-import com.example.hackmate.POJOClassesKavita.PtSkill;
-import com.example.hackmate.POJOClassesKavita.Received;
-import com.example.hackmate.POJOClassesKavita.teamIdPOJO;
+import com.example.hackmate.POJOClasses.PtSkill;
+import com.example.hackmate.POJOClasses.Kavita.Received;
+import com.example.hackmate.POJOClasses.Kavita.teamIdPOJO;
 import com.example.hackmate.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -93,7 +93,7 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
                             Log.i("xx", idToken);
                             // Send token to your backend via HTTPS
                             // ...
-                           // myTeamsAPI myTeamsAPI = retrofit1.create(myTeamsAPI.class);
+                            // myTeamsAPI myTeamsAPI = retrofit1.create(myTeamsAPI.class);
                             JSONPlaceHolderAPI jsonPlaceHolderAPI = retrofit1.create(JSONPlaceHolderAPI.class);
                             Call<teamIdPOJO> call1 = jsonPlaceHolderAPI.getTeamId(idToken, recieveds.getTeamId());
                             Log.i("callback problemmyTeams", "errorMyTeams");

@@ -70,12 +70,12 @@ public class ProfileViewFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             GET_NAV_CODE = bundle.getInt("Key", 0);
-            id = bundle.getString("id" , "yash");
+            id = bundle.getString("id", "yash");
         }
 
         initialise();
 
-        if(GET_NAV_CODE==1)
+        if (GET_NAV_CODE == 1)
             invite.setVisibility(View.GONE);
         else
             invite.setVisibility(View.VISIBLE);
@@ -98,7 +98,7 @@ public class ProfileViewFragment extends Fragment {
                         "At odio sociis venenatis ut commodo. Aliquet eget morbi faucibus nisl " +
                         "nec quis suscipit ut. Mus vestibulum risus at ante lorem volutpat. " +
                         "In vitae vitae, tortor a ipsum ipsum. Ipsum cras eu odio natoque blandit commodo aliquam.",
-                "abc@gmail.com", "abc@gmail.com","abc@gmail.com");
+                "abc@gmail.com", "abc@gmail.com", "abc@gmail.com");
         ArrayList arrayList1 = new ArrayList<ProjectModel>();
         arrayList1.add(model2);
         arrayList1.add(model2);
@@ -106,8 +106,7 @@ public class ProfileViewFragment extends Fragment {
 
         String[] team_domains = {"App Development", "UI/UX", "Machine Learning"};
 
-        for(int i=0;i<team_domains.length;i++)
-        {
+        for (int i = 0; i < team_domains.length; i++) {
             Chip chip = new Chip(getContext());
             chip.setText(team_domains[i]);
             chip.setChipStrokeColorResource(R.color.pill_color);
@@ -123,7 +122,7 @@ public class ProfileViewFragment extends Fragment {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient okHttpClient =new OkHttpClient.Builder()
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 //.addInterceptor(loggingInterceptor)
                 .addNetworkInterceptor(loggingInterceptor)
                 .build();
@@ -148,34 +147,42 @@ public class ProfileViewFragment extends Fragment {
                             call.enqueue(new Callback<GetParticipantPOJO>() {
                                 @Override
                                 public void onResponse(Call<GetParticipantPOJO> call, Response<GetParticipantPOJO> response) {
-
-                                    Log.i("response22", String.valueOf(response.body().participant.getName()));
-                                    name_PV.setText(response.body().participant.getName());
-                                    username_PV.setText(response.body().participant.getUsername());
-                                    email_PV.setText(response.body().participant.getEmail());
-                                    college_PV.setText(response.body().participant.getCollege());
-                                    yog_PV.setText(String.valueOf(response.body().participant.getGraduation_year()));
-                                    bio_PV.setText(response.body().participant.getBio());
-                                    github_PV.setText(response.body().participant.getGithub());
-                                    linkedIn_PV.setText(response.body().participant.getLinkedIn());
+                                    if (response.isSuccessful() && response.body() != null) {
+                                        /*
+                                        Log.i("response22", String.valueOf(response.body().participant.getName()));
+                                        name_PV.setText(response.body().participant.getName());
+                                        username_PV.setText(response.body().participant.getUsername());
+                                        email_PV.setText(response.body().participant.getEmail());
+                                        college_PV.setText(response.body().participant.getCollege());
+                                        yog_PV.setText(String.valueOf(response.body().participant.getGraduation_year()));
+                                        bio_PV.setText(response.body().participant.getBio());
+                                        github_PV.setText(response.body().participant.getGithub());
+                                        linkedIn_PV.setText(response.body().participant.getLinkedIn());
 //                                    id = String.valueOf(response.body().participant.getId());
-                                    Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + idToken, id);
-                                    Log.i("tag", "tag");
-                                    caller.enqueue(new Callback<ProjectPOJO>() {
-                                        @Override
-                                        public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
-                                            Log.i("project_response", String.valueOf(response.body()));
-                                        }
 
-                                        @Override
-                                        public void onFailure(Call<ProjectPOJO> call, Throwable t) {
-                                            Log.i("error", t.getMessage());
-                                        }
-                                    });
+                                        Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + idToken, id);
+                                        Log.i("tag", "tag");
+                                        caller.enqueue(new Callback<ProjectPOJO>() {
+                                            @Override
+                                            public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
+                                                Log.i("project_response", String.valueOf(response.body()));
+                                            }
+
+
+                                            @Override
+                                            public void onFailure(Call<ProjectPOJO> call, Throwable t) {
+                                                Log.i("error", t.getMessage());
+                                            }
+                                        });
+                                    }
+
+                                         */
+                                    }
                                 }
 
                                 @Override
-                                public void onFailure(Call<GetParticipantPOJO> call, Throwable t) {
+                                public void onFailure
+                                        (Call<GetParticipantPOJO> call, Throwable t) {
                                     Log.i("error", t.getMessage());
                                 }
                             });
@@ -187,7 +194,7 @@ public class ProfileViewFragment extends Fragment {
     }
 
 
-    public void initialise(){
+    public void initialise() {
 
         invite = getView().findViewById(R.id.invite_button);
         projects_recyclerView = getView().findViewById(R.id.projects_recyclerView_P);

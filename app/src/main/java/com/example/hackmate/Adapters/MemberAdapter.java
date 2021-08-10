@@ -59,7 +59,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.Viewholder
                 ProfileViewFragment frag = new ProfileViewFragment();
 
                 Bundle bundle = new Bundle();
-                bundle.putInt("key", 1);
+                bundle.putInt("Key", 1);
                 bundle.putString("id", ptSkill.getParticipant().get_id());
                 frag.setArguments(bundle);
 

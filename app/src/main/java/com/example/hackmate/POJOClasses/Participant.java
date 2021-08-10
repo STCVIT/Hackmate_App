@@ -1,7 +1,6 @@
-package com.example.hackmate.POJOClassesKavita;
+package com.example.hackmate.POJOClasses;
 
-public class Participant {
-
+public class Participant{
     public String _id;
     public String name;
     public String college;

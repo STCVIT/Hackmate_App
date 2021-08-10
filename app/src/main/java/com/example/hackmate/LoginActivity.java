@@ -29,7 +29,6 @@ public class LoginActivity extends AppCompatActivity {
 
         preferences = this.getSharedPreferences("package com.example.hackmate", Context.MODE_PRIVATE);
 
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.bodyFragment, fragmentLogin).commit();

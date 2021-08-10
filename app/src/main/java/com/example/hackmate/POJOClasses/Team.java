@@ -1,41 +1,22 @@
-package com.example.hackmate.POJOClassesKavita;
-
-
-
+package com.example.hackmate.POJOClasses;
 
 import java.util.List;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+public class Team{
+    public String _id;
+    public String name;
+    public String admin_id;
+    public String team_code;
+    public List<Member> members;
+    public String hack_id;
+    public int __v;
 
-
-public class Team {
-
-    @SerializedName("_id")
-    @Expose
-    private String id;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("admin_id")
-    @Expose
-    private String adminId;
-    @SerializedName("team_code")
-    @Expose
-    private String teamCode;
-    @SerializedName("members")
-    @Expose
-    private List<Member> members = null;
-    @SerializedName("__v")
-    @Expose
-    private Integer v;
-
-    public String getId() {
-        return id;
+    public String get_id() {
+        return _id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getName() {
@@ -46,20 +27,20 @@ public class Team {
         this.name = name;
     }
 
-    public String getAdminId() {
-        return adminId;
+    public String getAdmin_id() {
+        return admin_id;
     }
 
-    public void setAdminId(String adminId) {
-        this.adminId = adminId;
+    public void setAdmin_id(String admin_id) {
+        this.admin_id = admin_id;
     }
 
-    public String getTeamCode() {
-        return teamCode;
+    public String getTeam_code() {
+        return team_code;
     }
 
-    public void setTeamCode(String teamCode) {
-        this.teamCode = teamCode;
+    public void setTeam_code(String team_code) {
+        this.team_code = team_code;
     }
 
     public List<Member> getMembers() {
@@ -70,12 +51,19 @@ public class Team {
         this.members = members;
     }
 
-    public Integer getV() {
-        return v;
+    public String getHack_id() {
+        return hack_id;
     }
 
-    public void setV(Integer v) {
-        this.v = v;
+    public void setHack_id(String hack_id) {
+        this.hack_id = hack_id;
     }
 
+    public int get__v() {
+        return __v;
+    }
+
+    public void set__v(int __v) {
+        this.__v = __v;
+    }
 }

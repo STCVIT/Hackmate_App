@@ -13,9 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
-import com.example.hackmate.POJOClassesKavita.Sent;
-import com.example.hackmate.POJOClassesKavita.participantPOJO;
-import com.example.hackmate.POJOClassesKavita.teamIdPOJO;
+import com.example.hackmate.POJOClasses.Kavita.Sent;
+import com.example.hackmate.POJOClasses.Kavita.participantPOJO;
+import com.example.hackmate.POJOClasses.Kavita.teamIdPOJO;
 import com.example.hackmate.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -119,7 +119,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Viewho
                                             participantPOJO participantPOJOS = response2.body();
                                             Log.i("response sucess", String.valueOf(teamIdPOJOS));
 
-                                           UserName1=participantPOJOS.getParticipant1().getName();
+                                            UserName1=participantPOJOS.getParticipant1().getName();
                                             //UserName1 = response1.body().getPt_skills().get(position).getParticipant().getName();
 
                                             Log.i("Response body3", "list sending to adapter sucessfull");
@@ -134,13 +134,13 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Viewho
                                         }
                                     });
 
-                                   // List<PtSkill> skill_objs2 = teamIdPOJOS.getPt_skills();
-                                   // adminID = skill_objs2.get(position).getParticipant().get_id();
+                                    // List<PtSkill> skill_objs2 = teamIdPOJOS.getPt_skills();
+                                    // adminID = skill_objs2.get(position).getParticipant().get_id();
                                     //if(adminID==id1)
                                     //UserName1 = response1.body().getPt_skills().get(position).getParticipant().getName();
 
                                     //Log.i("Response body3", "list sending to adapter sucessfull");
-                                   // holder.ParticipantName_req.setText(RequestsArrayList.get(position).getParticipantId());
+                                    // holder.ParticipantName_req.setText(RequestsArrayList.get(position).getParticipantId());
                                     //Log.i("hope not null", UserName1);
                                     holder.InviteeTeamName_req.setText(ParticiapntName1);
                                     Log.i("hope not null", ParticiapntName1);
@@ -171,13 +171,13 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Viewho
 
     public class Viewholder extends RecyclerView.ViewHolder {
 
-       // private ImageView participantProfilePhoto_req;
+        // private ImageView participantProfilePhoto_req;
         private TextView ParticipantName_req,InviteeTeamName_req;
         private Button Accept_req,Remove_req;
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 
-           // participantProfilePhoto_req=itemView.findViewById(R.id.RequestPhoto);
+            // participantProfilePhoto_req=itemView.findViewById(R.id.RequestPhoto);
             ParticipantName_req=itemView.findViewById(R.id.RequestName);
 
             InviteeTeamName_req=itemView.findViewById(R.id.teamName_req);

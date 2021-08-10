@@ -8,17 +8,17 @@ import java.util.List;
 public class invitePOJO {
     @SerializedName("final")
     @Expose
-    private List<Final> _final = null;
+    private List<FinalPt> _finalPt = null;
     @SerializedName("length")
     @Expose
     private Integer length;
 
-    public List<Final> getFinal() {
-        return _final;
+    public List<FinalPt> getFinal() {
+        return _finalPt;
     }
 
-    public void setFinal(List<Final> _final) {
-        this._final = _final;
+    public void setFinal(List<FinalPt> _finalPt) {
+        this._finalPt = _finalPt;
     }
 
     public Integer getLength() {
