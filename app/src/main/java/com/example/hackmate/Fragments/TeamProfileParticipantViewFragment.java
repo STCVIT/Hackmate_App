@@ -73,8 +73,8 @@ public class TeamProfileParticipantViewFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             GET_NAV_CODE = bundle.getInt("Key", 0);
-            id = bundle.getString("id", id);
-            name = bundle.getString("name", "");
+            id = bundle.getString("teamId", id);
+            name = bundle.getString("hackName", "");
         }
 
         initialise();
@@ -83,7 +83,7 @@ public class TeamProfileParticipantViewFragment extends Fragment {
 
         loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
 
-        Call<JoinTeamPOJO> call = loginAPI.getTeam("Bearer " + MainActivity.getidToken(), "610bbd55b89a2c00158cff9f");//will get id from previous fragment
+        Call<JoinTeamPOJO> call = loginAPI.getTeam("Bearer " + MainActivity.getIdToken(), id);//will get id from previous fragment
         call.enqueue(new Callback<JoinTeamPOJO>() {
             @Override
             public void onResponse(Call<JoinTeamPOJO> call, Response<JoinTeamPOJO> response) {
@@ -129,7 +129,7 @@ public class TeamProfileParticipantViewFragment extends Fragment {
             }
         });
 
-        Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getidToken());
+        Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getIdToken());
         Log.i("tag44", "tag44");
         caller.enqueue(new Callback<ProjectPOJO>() {
             @Override
@@ -149,7 +149,7 @@ public class TeamProfileParticipantViewFragment extends Fragment {
 
                 patchTeamDetails = new PatchTeamDetails();
 
-                Call<PatchTeamDetails> call1 = loginAPI.postTeamCode("Bearer " + MainActivity.getidToken(),
+                Call<PatchTeamDetails> call1 = loginAPI.postTeamCode("Bearer " + MainActivity.getIdToken(),
                         "joinTeamPOJO.getTeam().get_id()");
                 Log.i("team id", joinTeamPOJO.getTeam().get_id());
                 call1.enqueue(new Callback<PatchTeamDetails>() {

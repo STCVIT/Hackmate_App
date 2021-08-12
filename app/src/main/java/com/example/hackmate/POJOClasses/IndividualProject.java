@@ -3,7 +3,7 @@ package com.example.hackmate.POJOClasses;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class IndividualProject{
+public class IndividualProject {
     public String _ids;
     @SerializedName("name")
     @Expose

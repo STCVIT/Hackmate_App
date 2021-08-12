@@ -24,11 +24,13 @@ import com.example.hackmate.Adapters.ProjectAdapterMP;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.MainActivity;
 import com.example.hackmate.Models.ProjectModel;
+
 import com.example.hackmate.POJOClasses.IndividualProject;
 import com.example.hackmate.POJOClasses.POST.PatchDetails;
 import com.example.hackmate.POJOClasses.POST.PostSkills;
 import com.example.hackmate.POJOClasses.ProjectPOJO;
 import com.example.hackmate.POJOClasses.Skill;
+
 import com.example.hackmate.POJOClasses.TeamProject;
 import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
@@ -80,6 +82,7 @@ public class EditProfileFragment extends Fragment {
 
         initialise();
 
+        YOG_CompleteEditText.setDropDownBackgroundResource(R.color.field_fill);
 
         String[] years1 = {"2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"};
         ArrayAdapter<String> YOG_arrayAdapter1 = new ArrayAdapter<String>(getContext(), R.layout.option_item, years1);
@@ -91,7 +94,7 @@ public class EditProfileFragment extends Fragment {
         loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
 
 
-        Call<loginPOJO> call = loginAPI.getParticipant("Bearer " + MainActivity.getidToken());
+        Call<loginPOJO> call = loginAPI.getParticipant("Bearer " + MainActivity.getIdToken());
         call.enqueue(new Callback<loginPOJO>() {
             @Override
             public void onResponse(Call<loginPOJO> call, Response<loginPOJO> response) {
@@ -124,7 +127,7 @@ public class EditProfileFragment extends Fragment {
             }
         });
 
-        Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getidToken());
+        Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getIdToken());
         Log.i("tag", "tag");
         caller.enqueue(new Callback<ProjectPOJO>() {
             @Override
@@ -148,7 +151,7 @@ public class EditProfileFragment extends Fragment {
             }
         });
 
-        Call<List<Skill>> call1 = loginAPI.getSkills("Bearer " + MainActivity.getidToken());
+        Call<List<Skill>> call1 = loginAPI.getSkills("Bearer " + MainActivity.getIdToken());
         call1.enqueue(new Callback<List<Skill>>() {
             @Override
             public void onResponse(Call<List<Skill>> call1, Response<List<Skill>> response) {
@@ -250,7 +253,7 @@ public class EditProfileFragment extends Fragment {
                 patchDetails.setGraduation_year(Integer.parseInt(YOG_CompleteEditText.getText().toString()));
 
                 Call<Response<Map<String, String>>> call1 = loginAPI.patchProfile("Bearer " +
-                        MainActivity.getidToken(), patchDetails);
+                        MainActivity.getIdToken(), patchDetails);
                 call1.enqueue(new Callback<Response<Map<String, String>>>() {
                     @Override
                     public void onResponse(Call<Response<Map<String, String>>> call1, Response<Response<Map<String, String>>> response) {
@@ -265,7 +268,7 @@ public class EditProfileFragment extends Fragment {
                 });
 
                 Call<Void> call2 = loginAPI.postSkills("Bearer " +
-                        MainActivity.getidToken(), postSkills);
+                        MainActivity.getIdToken(), postSkills);
                 call2.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call2, Response<Void> response) {

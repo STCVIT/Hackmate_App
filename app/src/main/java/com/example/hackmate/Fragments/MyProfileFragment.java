@@ -96,7 +96,7 @@ public class MyProfileFragment extends Fragment {
 
         projects_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        Call<loginPOJO> call = loginAPI.getParticipant("Bearer " + MainActivity.getidToken());
+        Call<loginPOJO> call = loginAPI.getParticipant("Bearer " + MainActivity.getIdToken());
         call.enqueue(new Callback<loginPOJO>() {
             @Override
             public void onResponse(Call<loginPOJO> call, Response<loginPOJO> response) {
@@ -122,7 +122,7 @@ public class MyProfileFragment extends Fragment {
             }
         });
 
-        Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getidToken());
+        Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getIdToken());
         Log.i("tag", "tag");
         caller.enqueue(new Callback<ProjectPOJO>() {
             @Override
@@ -146,7 +146,7 @@ public class MyProfileFragment extends Fragment {
             }
         });
 
-        Call<List<Skill>> call1 = loginAPI.getSkills("Bearer " + MainActivity.getidToken());
+        Call<List<Skill>> call1 = loginAPI.getSkills("Bearer " + MainActivity.getIdToken());
         call1.enqueue(new Callback<List<Skill>>() {
             @Override
             public void onResponse(Call<List<Skill>> call1, Response<List<Skill>> response) {
@@ -228,7 +228,7 @@ public class MyProfileFragment extends Fragment {
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.nav_host_fragment, new SettingsFragment())
+                .replace(R.id.nav_host_fragment, new SettingsFragment(email_MP.getText().toString()))
                 .addToBackStack(null)
                 .commit();
     }

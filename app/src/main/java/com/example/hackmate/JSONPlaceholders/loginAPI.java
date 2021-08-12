@@ -1,6 +1,6 @@
 package com.example.hackmate.JSONPlaceholders;
 
-import com.example.hackmate.POJOClasses.GetMyTeamPOJO;
+
 import com.example.hackmate.POJOClasses.GetParticipantPOJO;
 import com.example.hackmate.POJOClasses.JoinTeamPOJO;
 import com.example.hackmate.POJOClasses.POST.Code;
@@ -89,7 +89,7 @@ public interface loginAPI {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @PATCH("DN_Team/update/{id}")
     Call<Void> patchTeamDetails(@Header("Authorization") String token, @Path("id") String id,
-    @Body PatchTeamDetails patchTeamDetails);
+                                @Body PatchTeamDetails patchTeamDetails);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("requests/request/{id}")

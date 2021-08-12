@@ -19,7 +19,7 @@ import com.example.hackmate.POJOClasses.JoinTeamPOJO;
 import com.example.hackmate.POJOClasses.POST.PatchTeamDetails;
 import com.example.hackmate.POJOClasses.PtSkill;
 import com.example.hackmate.POJOClasses.Team;
-import com.example.hackmate.POJOClasses.TeamDetails;
+
 import com.example.hackmate.R;
 import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.material.chip.Chip;
@@ -79,7 +79,7 @@ public class AddFromExistingAdapter extends RecyclerView.Adapter<AddFromExisting
             public void onClick(View v) {
                 MainActivity activity = (MainActivity) v.getContext();
 
-                Call<Void> call = loginAPI.patchTeamDetails("Bearer " + MainActivity.getidToken(),
+                Call<Void> call = loginAPI.patchTeamDetails("Bearer " + MainActivity.getIdToken(),
                         teamDetail.getTeam().get_id(), patchTeamDetails);
                 call.enqueue(new Callback<Void>() {
                     @Override

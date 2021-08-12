@@ -84,11 +84,10 @@
             android:id="@+id/go_to_profile_imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="289dp"
+
             android:layout_marginEnd="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cardView3"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_arrow" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,8 +19,8 @@ import com.example.hackmate.MainActivity;
 import com.example.hackmate.Models.AddFromExistingModel;
 import com.example.hackmate.POJOClasses.JoinTeamPOJO;
 import com.example.hackmate.POJOClasses.Team;
-import com.example.hackmate.POJOClasses.TeamDetails;
-import com.example.hackmate.POJOClasses.GetMyTeamPOJO;
+
+
 import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
 import com.example.hackmate.util.RetrofitInstance;
@@ -39,6 +39,11 @@ public class AddFromExistingFragment extends Fragment {
 
     RecyclerView addHackToTeam;
     private loginAPI loginAPI;
+    private String hackId;
+
+    public AddFromExistingFragment(String hackId) {
+        this.hackId = hackId;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +59,7 @@ public class AddFromExistingFragment extends Fragment {
 
         initialise();
 
+        Log.i("HACKID_SDVSV",hackId);
         addHackToTeam.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
@@ -62,15 +68,15 @@ public class AddFromExistingFragment extends Fragment {
 
         loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
 
-        Call<loginPOJO> call1 = loginAPI.getParticipant("Bearer " + MainActivity.getidToken());
+        Call<loginPOJO> call1 = loginAPI.getParticipant("Bearer " + MainActivity.getIdToken());
         call1.enqueue(new Callback<loginPOJO>() {
             @Override
             public void onResponse(Call<loginPOJO> call1, Response<loginPOJO> response1) {
                 String id = String.valueOf(response1.body().getId());
                 Log.i("idd", id);
 
-                Call<List<JoinTeamPOJO>> call = loginAPI.getMyTeam("Bearer " + MainActivity.getidToken(),
-                        "60fba32eaf9e9200151548d3");//will get id from previous fragment
+                Call<List<JoinTeamPOJO>> call = loginAPI.getMyTeam("Bearer " + MainActivity.getIdToken(),
+                        hackId);//will get id from previous fragment
                 call.enqueue(new Callback<List<JoinTeamPOJO>>() {
                     @Override
                     public void onResponse(Call<List<JoinTeamPOJO>> call, Response<List<JoinTeamPOJO>> response) {
@@ -80,7 +86,7 @@ public class AddFromExistingFragment extends Fragment {
 //                            Log.i("team details", String.valueOf(teamList.get(0).getTeam().getMembers().get(0).get_id()));
                             AddFromExistingAdapter existingAdapter = new AddFromExistingAdapter(getContext(), teamList);
                             addHackToTeam.setAdapter(existingAdapter);
-                            existingAdapter.setGetTeams(teamList, "60fab0b0c3f6450015f31794");
+                            existingAdapter.setGetTeams(teamList, hackId);
 
 
                         }

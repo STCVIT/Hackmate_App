@@ -27,11 +27,15 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingsFragment extends Fragment {
-
-    TextView delete,reset;
+    private static final String TAG = "SettingsFragment";
+    TextView delete, reset;
     LinearLayout signOut;
     private FirebaseAuth mAuth;
-    private String email,msg ;
+    private String email, msg;
+
+    public SettingsFragment(String email) {
+        this.email = email;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,9 +51,6 @@ public class SettingsFragment extends Fragment {
         signOut = view.findViewById(R.id.signOutButton);
         delete = view.findViewById(R.id.deleteAccountButton);
         reset = view.findViewById(R.id.resetPasswordButton);
-        Bundle bundle = new Bundle();
-        email = bundle.getString("email"," n");
-        Log.i("email",email);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -57,9 +58,9 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                View mView = getLayoutInflater().inflate(R.layout.custom_dialog_box,null);
-                MaterialButton sign_out = (MaterialButton)mView.findViewById(R.id.signOut);
-                MaterialButton cancel = (MaterialButton)mView.findViewById(R.id.No);
+                View mView = getLayoutInflater().inflate(R.layout.custom_dialog_box, null);
+                MaterialButton sign_out = (MaterialButton) mView.findViewById(R.id.signOut);
+                MaterialButton cancel = (MaterialButton) mView.findViewById(R.id.No);
 
                 alert.setView(mView);
 
@@ -94,7 +95,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment,new DeleteAccountFragment())
+                        .replace(R.id.nav_host_fragment, new DeleteAccountFragment(email))
                         .addToBackStack(null)
                         .commit();
             }
@@ -104,10 +105,10 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                View mView = getLayoutInflater().inflate(R.layout.custom_dialog_box,null);
+                View mView = getLayoutInflater().inflate(R.layout.custom_dialog_box, null);
                 TextView text = mView.findViewById(R.id.dialogText);
-                MaterialButton sign_out = (MaterialButton)mView.findViewById(R.id.signOut);
-                MaterialButton cancel = (MaterialButton)mView.findViewById(R.id.No);
+                MaterialButton sign_out = (MaterialButton) mView.findViewById(R.id.signOut);
+                MaterialButton cancel = (MaterialButton) mView.findViewById(R.id.No);
 
                 text.setText("Are you sure you want to reset password ?");
                 sign_out.setText("RESET");
@@ -121,17 +122,17 @@ public class SettingsFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        mAuth.sendPasswordResetEmail("bhavikagrawal0902@gmail.com")
+                        mAuth.sendPasswordResetEmail(email)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful())
+                                        if (task.isSuccessful())
                                             msg = "Reset link sent to your email !!!";
                                         else
                                             msg = "Unable to send reset link...Please try again later!!";
 
-                                        Snackbar.make(v,msg,Snackbar.LENGTH_SHORT)
-                                                .setAction("Action",null)
+                                        Snackbar.make(v, msg, Snackbar.LENGTH_SHORT)
+                                                .setAction("Action", null)
                                                 .setBackgroundTint(Color.parseColor("#DAED10"))
                                                 .setTextColor(Color.BLACK)
                                                 .show();

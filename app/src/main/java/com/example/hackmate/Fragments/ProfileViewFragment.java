@@ -120,7 +120,7 @@ public class ProfileViewFragment extends Fragment {
         loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
 
 
-        Call<GetParticipantPOJO> call = loginAPI.getParticipantByID("Bearer " + MainActivity.getidToken(), id);//replace with participant id getting from previous fragment 60f2c642c28f930015dc3de3
+        Call<GetParticipantPOJO> call = loginAPI.getParticipantByID("Bearer " + MainActivity.getIdToken(), id);//replace with participant id getting from previous fragment 60f2c642c28f930015dc3de3
         call.enqueue(new Callback<GetParticipantPOJO>() {
             @Override
             public void onResponse(Call<GetParticipantPOJO> call, Response<GetParticipantPOJO> response) {
@@ -135,7 +135,7 @@ public class ProfileViewFragment extends Fragment {
                 github_PV.setText(response.body().participant.getGithub());
                 linkedIn_PV.setText(response.body().participant.getLinkedIn());
                 id = String.valueOf(response.body().participant.get_id());
-                Call<ProjectPOJO> caller = loginAPI.getProjectP("Bearer " + MainActivity.getidToken(), id);//new route for this will be made
+                Call<ProjectPOJO> caller = loginAPI.getProjectP("Bearer " + MainActivity.getIdToken(), id);//new route for this will be made
                 Log.i("tag", id);
                 caller.enqueue(new Callback<ProjectPOJO>() {
                     @Override

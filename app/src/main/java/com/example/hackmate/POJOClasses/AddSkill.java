@@ -1,9 +1,12 @@
 package com.example.hackmate.POJOClasses;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class AddSkill {
-    private List<String> skills = null;
+    @SerializedName("skills")
+    private List<String> skills;
 
     public List<String> getSkills() {
         return skills;

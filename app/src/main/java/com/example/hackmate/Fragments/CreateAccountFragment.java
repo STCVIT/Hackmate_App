@@ -76,11 +76,13 @@ public class CreateAccountFragment extends Fragment {
         String[] years = {"Year of Graduation", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"};
         ArrayAdapter<String> YOG_arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.option_item, years);
         YOG_CompleteTextView.setText(YOG_arrayAdapter.getItem(0), false);
+        YOG_CompleteTextView.setDropDownBackgroundResource(R.color.field_fill);
         YOG_CompleteTextView.setAdapter(YOG_arrayAdapter);
 
         AutoCompleteTextView gender_CompleteTextView = view.findViewById(R.id.gender);
         String[] gender = {"Gender", "Male", "Female", "Other"};
         ArrayAdapter<String> gender_arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.option_item, gender);
+        gender_CompleteTextView.setDropDownBackgroundResource(R.color.field_fill);
         gender_CompleteTextView.setText(gender_arrayAdapter.getItem(0).toString(), false);
         gender_CompleteTextView.setAdapter(gender_arrayAdapter);
 

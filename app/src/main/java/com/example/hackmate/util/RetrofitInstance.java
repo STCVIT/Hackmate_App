@@ -2,7 +2,6 @@ package com.example.hackmate.util;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -10,7 +9,6 @@ import static com.example.hackmate.util.Constants.BASE_URL;
 
 public class RetrofitInstance {
     private static Retrofit retrofit;
-//    NullOnEmptyConverterFactory nullOnEmptyConverterFactory = new NullOnEmptyConverterFactory();
 
     public static Retrofit getRetrofitInstance() {
 
