@@ -3,10 +3,12 @@ package com.example.hackmate.Fragments;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -23,41 +25,45 @@ import android.widget.Toast;
 
 import com.example.hackmate.Adapters.ProjectAdapterTPL;
 import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
+import com.example.hackmate.JSONPlaceholders.loginAPI;
+import com.example.hackmate.MainActivity;
 import com.example.hackmate.Models.ProjectModel;
+import com.example.hackmate.POJOClasses.IndividualProjectYash;
+import com.example.hackmate.POJOClasses.Kavita.Projects.IndividualProject;
+import com.example.hackmate.POJOClasses.Kavita.Projects.TeamProject;
+import com.example.hackmate.POJOClasses.Kavita.Projects.getProjectPOJO;
+import com.example.hackmate.POJOClasses.ProjectPOJO;
 import com.example.hackmate.POJOClasses.PtSkill;
 import com.example.hackmate.POJOClasses.Kavita.hackByIdPOJO;
 import com.example.hackmate.POJOClasses.Kavita.teamIdPOJO;
+import com.example.hackmate.POJOClasses.TeamProjectYash;
+import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
 import com.example.hackmate.Adapters.teamMember_LeaderAdapter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TeamProfileLeaderViewFragment extends Fragment {
     private RecyclerView team_LeaderRV, projectRV;
     // Arraylist for storing data
     //private ArrayList<teamMember_Model> teamModelArrayList;
     private List<PtSkill> teamModelArrayList;
-    private ArrayList<ProjectModel> projectModelArrayList;
+    //private ArrayList<ProjectModel> projectModelArrayList;
+    private List<TeamProject> projectModelArrayList;
     ImageView editProject, addProjectIcon;
-    TextView addProjectTV, InviteParticpant, TeamName_Leader, Hackname_Leader, teamCode_Leader,deleteTeam;
+    TextView addProjectTV, InviteParticpant, TeamName_Leader, Hackname_Leader, teamCode_Leader, deleteTeam,Remove;
     int GET_NAV_CODE = 0;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private String idToken = "Bearer ";
-    public String admin, hackID;
+    public String admin, hackID, id3,teamID,TeamName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,6 +78,7 @@ public class TeamProfileLeaderViewFragment extends Fragment {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -90,6 +97,7 @@ public class TeamProfileLeaderViewFragment extends Fragment {
         Hackname_Leader = view.findViewById(R.id.HackName_Leader);
         teamCode_Leader = view.findViewById(R.id.teamCode_Leader);
         deleteTeam = view.findViewById(R.id.deleteTeam);
+        Remove=view.findViewById(R.id.leaveOption);
 // here we have created new array list and added data to it.
         teamModelArrayList = new ArrayList<>();
 
@@ -107,52 +115,36 @@ public class TeamProfileLeaderViewFragment extends Fragment {
         // in below two lines we are setting layoutmanager and adapter to our recycler view.
         team_LeaderRV.setLayoutManager(linearLayoutManager);
         team_LeaderRV.setAdapter(teamMember_LeaderAdapter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            teamModelArrayList.sort((o1, o2) -> (o1.getParticipant().get_id().equals(admin) ? "Leader" : "").compareTo((o2.getParticipant().get_id().equals(admin) ? "Leader" : "")));
+        }
 
+        addProjectIcon.setOnClickListener(v -> getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.nav_host_fragment, new AddProjectFragment())
+                .addToBackStack(null)
+                .commit());
+        addProjectTV.setOnClickListener(v -> getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.nav_host_fragment, new AddProjectFragment())
+                .addToBackStack(null)
+                .commit());
+        InviteParticpant.setOnClickListener(v -> getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.nav_host_fragment, new FindParticipantFragment())
+                .addToBackStack(null)
+                .commit());
+        teamCode_Leader.setOnClickListener(v -> {
+            ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Team Code", teamCode_Leader.getText());
+            clipboard.setPrimaryClip(clip);
 
-        addProjectIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, new AddProjectFragment())
-                        .addToBackStack(null)
-                        .commit();
-
-            }
-        });
-        addProjectTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, new AddProjectFragment())
-                        .addToBackStack(null)
-                        .commit();
-
-            }
-        });
-        InviteParticpant.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, new FindParticipantFragment())
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
-        teamCode_Leader.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Team Code", teamCode_Leader.getText());
-                clipboard.setPrimaryClip(clip);
-
-                Toast.makeText(getActivity(), "Team Code copied to clipboard", Toast.LENGTH_LONG).show();
-            }
+            Toast.makeText(getActivity(), "Team Code copied to clipboard", Toast.LENGTH_LONG).show();
         });
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        idToken = MainActivity.getidToken();
+        JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
+       /* HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient okHttpClient1 = new OkHttpClient.Builder()
@@ -163,118 +155,127 @@ public class TeamProfileLeaderViewFragment extends Fragment {
                 .baseUrl("https://hackportalbackend.herokuapp.com/")
                 .client(okHttpClient1)
                 .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        mAuth.getCurrentUser().getIdToken(true)
+                .build();*/
+
+
+        /*mAuth.getCurrentUser().getIdToken(true)
                 .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
                     public void onComplete(@NonNull Task<GetTokenResult> task) {
                         if (task.isSuccessful()) {
                             idToken += task.getResult().getToken();
-                            Log.i("xx", idToken);
-                            // Send token to your backend via HTTPS
-                            // ...
-                            //myTeamsAPI myTeamsAPI = retrofit1.create(myTeamsAPI.class);
-                            JSONPlaceHolderAPI jsonPlaceHolderAPI = retrofit1.create(JSONPlaceHolderAPI.class);
+                            Log.i("xx", idToken);*/
+        // Send token to your backend via HTTPS
+        // ...
+        //myTeamsAPI myTeamsAPI = retrofit1.create(myTeamsAPI.class);
+        // JSONPlaceHolderAPI jsonPlaceHolderAPI = retrofit1.create(JSONPlaceHolderAPI.class);
 
-                            Call<teamIdPOJO> call1 = jsonPlaceHolderAPI.getTeamId(idToken, "60f647fd7aa44d77a0dc2805");
-                            Log.i("callback problemLeader", "errorLeader");
-                            call1.enqueue(new Callback<teamIdPOJO>() {
-                                @Override
-                                public void onResponse(Call<teamIdPOJO> call1, Response<teamIdPOJO> response1) {
-                                    Log.i("callback problem3MT", "error3MT");
-                                    if (!response1.isSuccessful()) {
-                                        Log.i("not sucess1", "code: " + response1.code());
-                                        return;
-                                    }
-                                    teamIdPOJO teamIdPOJOS = response1.body();
-                                    Log.i("response sucess", String.valueOf(teamIdPOJOS));
-                                    TeamName_Leader.setText(teamIdPOJOS.getTeam1().getName());
-                                    hackID = teamIdPOJOS.getTeam1().getHack_id();
-                                    teamCode_Leader.setText(teamIdPOJOS.getTeam1().getTeam_code());
-                                    admin = teamIdPOJOS.getTeam1().getAdmin_id();
-                                    Log.i("checkAdminId", admin);
-                                    List<PtSkill> member_objs2 = teamIdPOJOS.getPt_skills();
-                                    // adminID2=teamIdPOJOS.getTeam1().getAdmin_id();
-                                    teamMember_LeaderAdapter.setMemberLeaderList(member_objs2, admin);
-                                    //myTeamsPOJO myTeamsPOJOS =  response1.body();
-                                    //Log.i("Response body",ParticiapntName);
-                                    //List<Final2> final_objs2 = myTeamsPOJOS.getFinal2();
-
-
-
-                                    Log.i("Response body3", "list sending to adapter sucessfull");
-
-                                    // JSONPlaceHolderAPI jsonPlaceHolderAPI = retrofit1.create(JSONPlaceHolderAPI.class);
-                                    //hackListAPI hackListAPI1 = retrofit1.create(hackListAPI.class);
-
-                                    Log.i("callback problem", "error");
-                                    Call<hackByIdPOJO> call5 = jsonPlaceHolderAPI.getHackById(idToken, hackID);
-                                    //Call<hackByIdPOJO> call5 = hackListAPI1.getHackById(idToken, hackID);
-                                    Log.i("callback problem2", "error2");
-                                    call5.enqueue(new Callback<hackByIdPOJO>() {
-                                        @Override
-                                        public void onResponse(Call<hackByIdPOJO> call5, Response<hackByIdPOJO> response5) {
-                                            Log.i("callback problem3", "error3");
-                                            if (!response5.isSuccessful()) {
-                                                Log.i("not sucess5", "code: " + response5.code());
-                                                return;
-                                            }
-
-                                            Hackname_Leader.setText(response5.body().getName());
-                                            Log.i("Response body3", "list sending to adapter sucessfull");
+        //Call<teamIdPOJO> call1 = jsonPlaceHolderAPI.getTeamId(idToken, "60f647fd7aa44d77a0dc2805");
+        Call<teamIdPOJO> call1 = jsonPlaceHolderAPI.getTeamId(idToken, getArguments().getString("teamID"));
+        Log.i("callback problemLeader", "errorLeader");
+        call1.enqueue(new Callback<teamIdPOJO>() {
+            @Override
+            public void onResponse(Call<teamIdPOJO> call1, Response<teamIdPOJO> response1) {
+                Log.i("callback problem3MT", "error3MT");
+                if (!response1.isSuccessful()) {
+                    Log.i("not sucess1", "code: " + response1.code());
+                    return;
+                }
+                teamIdPOJO teamIdPOJOS = response1.body();
+                Log.i("response sucess", String.valueOf(teamIdPOJOS));
+                TeamName_Leader.setText(teamIdPOJOS.getTeam1().getName());
+                hackID = teamIdPOJOS.getTeam1().getHackId();
+                teamCode_Leader.setText(teamIdPOJOS.getTeam1().getTeamCode());
+                admin = teamIdPOJOS.getTeam1().getAdminId();
+                teamID= teamIdPOJOS.getTeam1().getId();
+                TeamName=teamIdPOJOS.getTeam1().getName();
+                Log.i("checkAdminId", admin);
+                List<PtSkill> member_objs2 = teamIdPOJOS.getPt_skills();
+                // adminID2=teamIdPOJOS.getTeam1().getAdmin_id();
+                teamMember_LeaderAdapter.setMemberLeaderList(member_objs2, admin,teamID);
+                //myTeamsPOJO myTeamsPOJOS =  response1.body();
+                //Log.i("Response body",ParticiapntName);
+                //List<Final2> final_objs2 = myTeamsPOJOS.getFinal2();
 
 
-                                        }
+                Log.i("Response body3", "list sending to adapter sucessfull");
 
-                                        @Override
-                                        public void onFailure(Call<hackByIdPOJO> call5, Throwable t) {
-                                            Log.i("failed5", t.getMessage());
-                                        }
-                                    });
+                // JSONPlaceHolderAPI jsonPlaceHolderAPI = retrofit1.create(JSONPlaceHolderAPI.class);
+                //hackListAPI hackListAPI1 = retrofit1.create(hackListAPI.class);
 
-                                    deleteTeam.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-
-                                            Log.i("callback problem81", "error81");
-                                            Call<teamIdPOJO> call8 = jsonPlaceHolderAPI.deleteTeam(idToken, teamIdPOJOS.team1.get_id());
-                                            Log.i("callback problem82", "error82");
-                                            call8.enqueue(new Callback<teamIdPOJO>() {
-                                                @Override
-                                                public void onResponse(Call<teamIdPOJO> call8, Response<teamIdPOJO> response8) {
-                                                    Log.i("callback problem83", "error83");
-                                                    if (!response8.isSuccessful()) {
-                                                        Log.i("not sucess8", "code: " + response8.code());
-                                                        return;
-                                                    }
-
-                                                    Log.i("deleteTeam", "delete Team works");
-                                                    Log.i("Response body3", "list sending to adapter sucessfull");
-
-
-                                                }
-
-                                                @Override
-                                                public void onFailure(Call<teamIdPOJO> call8, Throwable t) {
-                                                    Log.i("failed8", t.getMessage());
-                                                }
-                                            });
-
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void onFailure(Call<teamIdPOJO> call1, Throwable t) {
-                                    Log.i("failed1", t.getMessage());
-                                }
-                            });
-
-
+                Log.i("callback problem", "error");
+                Call<hackByIdPOJO> call5 = jsonPlaceHolderAPI.getHackById(idToken, hackID);
+                //Call<hackByIdPOJO> call5 = hackListAPI1.getHackById(idToken, hackID);
+                Log.i("callback problem2", "error2");
+                call5.enqueue(new Callback<hackByIdPOJO>() {
+                    @Override
+                    public void onResponse(Call<hackByIdPOJO> call5, Response<hackByIdPOJO> response5) {
+                        Log.i("callback problem3", "error3");
+                        if (!response5.isSuccessful()) {
+                            Log.i("not sucess5", "code: " + response5.code());
+                            return;
                         }
+
+                        Hackname_Leader.setText(response5.body().getName());
+                        Log.i("Response body3", "list sending to adapter sucessfull");
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<hackByIdPOJO> call5, Throwable t) {
+                        Log.i("failed5", t.getMessage());
                     }
                 });
-        /*   ////////////Uncomment once mauth is is universal or is delecraled in mainactivity///////////////
-        Hackname_Leader.setOnClickListener(new View.OnClickListener() {
+
+                deleteTeam.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Log.i("callback problem81", "error81");
+                        Call<Void> call8 = jsonPlaceHolderAPI.deleteTeam(idToken, teamIdPOJOS.team1.getId());
+                        Log.i("callback problem82", "error82");
+                        call8.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call8, Response<Void> response8) {
+                                Log.i("callback problem83", "error83");
+                                if (!response8.isSuccessful()) {
+                                    Log.i("not sucess8", "code: " + response8.code());
+                                    return;
+                                }
+
+                                Log.i("deleteTeam", "delete Team works");
+                                Log.i("Response body3", String.valueOf(response8.body()));
+
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call8, Throwable t) {
+                                Log.i("failed8", t.getMessage());
+                            }
+                        });
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<teamIdPOJO> call1, Throwable t) {
+                Log.i("failed1", t.getMessage());
+            }
+        });
+
+        /*Remove.setOnClickListener(v -> {
+            if(Remove.getText()=="Remove")
+            {
+
+//                removeParticipant(teamID,participantID);}
+        });*/
+        //}
+        //}
+        //});
+           ////////////Uncomment once mauth is is universal or is delecraled in mainactivity///////////////
+     /*   Hackname_Leader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 HackProfileFragment frag = new HackProfileFragment();
@@ -294,7 +295,7 @@ public class TeamProfileLeaderViewFragment extends Fragment {
 
         projectRV = view.findViewById(R.id.ProjectRV);
         projectModelArrayList = new ArrayList<>();
-        projectModelArrayList.add(new ProjectModel("Hackmate", "Project for team building for hackathons", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tristique mauris, " +
+        /*projectModelArrayList.add(new ProjectModel("Hackmate", "Project for team building for hackathons", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tristique mauris, " +
                 "nec vitae cursus phasellus a proin et. Sit in velit duis iaculis est. " +
                 "At odio sociis venenatis ut commodo. Aliquet eget morbi faucibus nisl " +
                 "nec quis suscipit ut. Mus vestibulum risus at ante lorem volutpat. " +
@@ -306,14 +307,89 @@ public class TeamProfileLeaderViewFragment extends Fragment {
                 "At odio sociis venenatis ut commodo. Aliquet eget morbi faucibus nisl " +
                 "nec quis suscipit ut. Mus vestibulum risus at ante lorem volutpat. " +
                 "In vitae vitae, tortor a ipsum ipsum. Ipsum cras eu odio natoque blandit commodo aliquam.",
-                "abc@gmail.com", "abc@gmail.com", "abc@gmail.com"));
+                "abc@gmail.com", "abc@gmail.com", "abc@gmail.com"));*/
         ProjectAdapterTPL projectAdapterTPL = new ProjectAdapterTPL(getContext(), projectModelArrayList);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
         projectRV.setLayoutManager(linearLayoutManager1);
         projectRV.setAdapter(projectAdapterTPL);
 
+        loginAPI loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
+        Call<loginPOJO> call2 = loginAPI.getParticipant(idToken);
+        Log.i("myTeamsLogin", "errorLogin");
+        call2.enqueue(new Callback<loginPOJO>() {
+            @Override
+            public void onResponse(Call<loginPOJO> call2, Response<loginPOJO> response1) {
+                Log.i("callback problem3MT", "error3MT");
+                if (!response1.isSuccessful()) {
+                    Log.i("not sucess1", "code: " + response1.code());
+                    return;
+                }
+                loginPOJO loginPOJOS = response1.body();
+                Log.i("Response bodykAVITA", loginPOJOS.getId());
+                id3 = loginPOJOS.getId();
+            }
+                public void onFailure (Call < loginPOJO > call2, Throwable t){
+                    Log.i("failed1", t.getMessage());
+                }
+
+        });
+        Log.i("TeamProfileLederView",getArguments().getString("teamID"));
+        Call<getProjectPOJO> call5 = jsonPlaceHolderAPI.getProject1(idToken, id3);
+        Log.i("callback problem3", "call happening");
+        call5.enqueue(new Callback<getProjectPOJO>() {
+            @Override
+            public void onResponse(Call<getProjectPOJO> call5, Response<getProjectPOJO> response5) {
+                Log.i("callback problem3", "error3");
+                if (!response5.isSuccessful()) {
+                    Log.i("not sucess5", "code: " + response5.code());
+                    return;
+                }
+getProjectPOJO getProjectPOJOS=response5.body();
+                List<IndividualProject> individualProjects= getProjectPOJOS.getIndividualProjects();
+                List<TeamProject> teamProjects=getProjectPOJOS.getTeams();
+              Log.i("TeamProfileLeader",individualProjects.get(0).getName());
+                Log.i("TeamProfileLeader",teamProjects.get(0).getProjectName());
+                Log.i("TeamProfileLeader",teamID);
+            projectAdapterTPL.setProjects(teamProjects, TeamName);
+                Log.i("Response body3", "list sending to adapter sucessfull");
+
+            }
+
+            @Override
+            public void onFailure(Call<getProjectPOJO> call5, Throwable t) {
+                Log.i("failed5", t.getMessage());
+            }
+        });
+
     }
+
+    /*private void removeParticipant(String TeamID, String participantID) {
+        com.example.hackmate.POJOClasses.Kavita.Remove remove1 = new Remove(teamID,);
+        //addProjectPOJO addProjectPOJO = new addProjectPOJO(projectName.getText().toString(),projectDescription.getText().toString(),gitHubLink.getText().toString(),designLink.getText().toString(),demoLink.getText().toString());
+
+        JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
+        Call<Remove> call= jsonPlaceHolderAPI.removeMember(idToken,remove1);
+
+        call.enqueue(new Callback<Remove>() {
+            @Override
+            public void onResponse(Call<Remove> call, Response<Remove> response) {
+
+                if (!response.isSuccessful()){
+                    Log.i("sucess", "sucess");
+                }
+                Remove remove = response.body();
+                Log.i("remove", String.valueOf(response.code()));
+
+            }
+
+            @Override
+            public void onFailure(Call<Remove> call, Throwable t) {
+                Log.i("error", t.getMessage());
+            }
+        });*/
+
+    
 
     @Override
     public void onDestroy() {

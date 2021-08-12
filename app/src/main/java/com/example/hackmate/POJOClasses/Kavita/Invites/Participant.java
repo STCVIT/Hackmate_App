@@ -1,4 +1,4 @@
-package com.example.hackmate.POJOClasses.Kavita;
+package com.example.hackmate.POJOClasses.Kavita.Invites;
 
 public class Participant {
 

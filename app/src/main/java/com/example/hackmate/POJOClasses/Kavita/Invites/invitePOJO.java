@@ -1,4 +1,4 @@
-package com.example.hackmate.POJOClasses.Kavita;
+package com.example.hackmate.POJOClasses.Kavita.Invites;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

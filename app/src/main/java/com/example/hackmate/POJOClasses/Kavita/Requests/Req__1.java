@@ -1,11 +1,13 @@
-package com.example.hackmate.POJOClasses.Kavita;
+package com.example.hackmate.POJOClasses.Kavita.Requests;
 
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 
-public class Received {
+        import com.google.gson.annotations.Expose;
+        import com.google.gson.annotations.SerializedName;
+
+
+public class Req__1 {
 
     @SerializedName("_id")
     @Expose

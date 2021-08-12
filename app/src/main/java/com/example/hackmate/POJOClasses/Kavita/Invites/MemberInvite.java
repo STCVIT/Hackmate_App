@@ -1,9 +1,7 @@
-package com.example.hackmate.POJOClasses.Kavita;
-
+package com.example.hackmate.POJOClasses.Kavita.Invites;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-public class Member {
+public class MemberInvite {
 
     @SerializedName("_id")
     @Expose
@@ -27,4 +25,5 @@ public class Member {
     public void setUid(String uid) {
         this.uid = uid;
     }
+
 }

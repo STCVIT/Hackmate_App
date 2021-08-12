@@ -1,14 +1,12 @@
-package com.example.hackmate.POJOClasses.Kavita;
-
-
-import com.example.hackmate.POJOClasses.Member;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+package com.example.hackmate.POJOClasses.Kavita.Requests;
 
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-public class Team {
+public class TeamRequest {
+
 
     @SerializedName("_id")
     @Expose
@@ -24,7 +22,10 @@ public class Team {
     private String teamCode;
     @SerializedName("members")
     @Expose
-    private List<com.example.hackmate.POJOClasses.Member> members = null;
+    private List<MemberRequest> members = null;
+    @SerializedName("hack_id")
+    @Expose
+    private String hackId;
     @SerializedName("__v")
     @Expose
     private Integer v;
@@ -61,12 +62,20 @@ public class Team {
         this.teamCode = teamCode;
     }
 
-    public List<com.example.hackmate.POJOClasses.Member> getMembers() {
+    public List<MemberRequest> getMembers() {
         return members;
     }
 
-    public void setMembers(List<Member> members) {
+    public void setMembers(List<MemberRequest> members) {
         this.members = members;
+    }
+
+    public String getHackId() {
+        return hackId;
+    }
+
+    public void setHackId(String hackId) {
+        this.hackId = hackId;
     }
 
     public Integer getV() {

@@ -1,5 +1,6 @@
 package com.example.hackmate.POJOClasses.Kavita;
 
+import com.example.hackmate.POJOClasses.Kavita.Invites.Team1;
 import com.example.hackmate.POJOClasses.PtSkill;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,6 +10,11 @@ public class teamIdPOJO {
     @SerializedName(("team"))
     public Team1 team1;
     public List<PtSkill> pt_skills;
+
+    public teamIdPOJO(Team1 team1, List<PtSkill> pt_skills) {
+        this.team1 = team1;
+        this.pt_skills = pt_skills;
+    }
 
     public Team1 getTeam1() {
 

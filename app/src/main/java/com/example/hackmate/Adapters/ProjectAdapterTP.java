@@ -10,20 +10,31 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hackmate.Models.ProjectModel;
+import com.example.hackmate.POJOClasses.Kavita.Projects.TeamProject;
 import com.example.hackmate.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ProjectAdapterTP extends RecyclerView.Adapter<ProjectAdapterTP.Viewholder> {
 
     private Context context;
-    private ArrayList<ProjectModel> projectParticipantModelArrayList;
-
-    public ProjectAdapterTP(Context context, ArrayList<ProjectModel> projectParticipantModelArrayList) {
+    //private ArrayList<ProjectModel> projectParticipantModelArrayList;
+    private List<TeamProject> projectParticipantModelArrayList;
+    public  String teamName;
+    public ProjectAdapterTP(Context context, List<TeamProject> projectParticipantModelArrayList) {
         this.context = context;
         this.projectParticipantModelArrayList = projectParticipantModelArrayList;
     }
+
+    public void setProjectMember(List<TeamProject> projectList, String teamname) {
+        this.projectParticipantModelArrayList = projectList;
+
+        this.teamName=teamname;
+        notifyDataSetChanged();
+    }
+
 
     @NonNull
     @Override
@@ -35,13 +46,23 @@ public class ProjectAdapterTP extends RecyclerView.Adapter<ProjectAdapterTP.View
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
 
-        ProjectModel model = projectParticipantModelArrayList.get(position);
-        holder.project_nameTextView.setText(model.getProjectName());
+       // ProjectModel model = projectParticipantModelArrayList.get(position);
+        TeamProject teamProject = projectParticipantModelArrayList.get(position);
+        if(teamProject.getName().equals(teamName)) {
+
+            holder.project_nameTextView.setText(teamProject.getName());
+            holder.descriptionTextView.setText(teamProject.getProjectDescription());
+            holder.bio_textView.setText(teamProject.getProjectDescription());
+            holder.link1_textView.setText(teamProject.getCode());
+            holder.link2_textView.setText(teamProject.getDesign());
+            holder.link3_textView.setText(teamProject.getDemonstration());
+        }
+        /*holder.project_nameTextView.setText(model.getProjectName());
         holder.descriptionTextView.setText(model.getDescription());
         holder.bio_textView.setText(model.getBio());
         holder.link1_textView.setText(model.getLink1());
         holder.link2_textView.setText(model.getLink2());
-        holder.link3_textView.setText(model.getLink3());
+        holder.link3_textView.setText(model.getLink3());*/
 
     }
 
