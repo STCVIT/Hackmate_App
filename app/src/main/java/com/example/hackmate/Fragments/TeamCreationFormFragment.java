@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,7 +50,7 @@ public class TeamCreationFormFragment extends Fragment {
     private API api;
     private ProgressBar progressBar;
     private AddSkill addSkill;
-    private Chip frontend, backend, ml, ui, management, appdev, cyber;
+    private Chip frontend, backend, ml, ui, management, appdev, cyber,blockchain;
     private ArrayList<String> list;
 
     @Override
@@ -72,7 +73,8 @@ public class TeamCreationFormFragment extends Fragment {
         ui = view.findViewById(R.id.chipDomain4);
         management = view.findViewById(R.id.chipDomain5);
         appdev = view.findViewById(R.id.chipDomain6);
-        cyber = view.findViewById(R.id.cyberr);
+        cyber = view.findViewById(R.id.chipDomain7);
+        blockchain = view.findViewById(R.id.chipDomain8);
 
         Bundle bundle = this.getArguments();
         if (bundle != null)
@@ -85,7 +87,7 @@ public class TeamCreationFormFragment extends Fragment {
 
         Log.i("HackID",hackId);
 
-        idToken = MainActivity.getidToken();
+        idToken = MainActivity.getIdToken();
         api = RetrofitInstance.getRetrofitInstance().create(API.class);
 
 
@@ -99,7 +101,7 @@ public class TeamCreationFormFragment extends Fragment {
 
                 list = new ArrayList<String>();
                 if (frontend.isChecked() || backend.isChecked() || ml.isChecked() || ui.isChecked() ||
-                        management.isChecked() || appdev.isChecked() || cyber.isChecked()) {
+                        management.isChecked() || appdev.isChecked() || cyber.isChecked() || blockchain.isChecked()) {
                     if (frontend.isChecked())
                         list.add("frontend");
                     if (backend.isChecked())
@@ -114,6 +116,8 @@ public class TeamCreationFormFragment extends Fragment {
                         list.add("management");
                     if (appdev.isChecked())
                         list.add("appdev");
+                    if (blockchain.isChecked())
+                        list.add("blockchain");
                 }
                 else {
                     Toast.makeText(getContext(), "Please choose the skill required", Toast.LENGTH_SHORT).show();
@@ -141,13 +145,14 @@ public class TeamCreationFormFragment extends Fragment {
                     Log.i("teamId",id);
                     addSkill = new AddSkill();
                     addSkill.setSkills(list);
-
                     addSkillToTeam();
                 }
-                else {
+                else if(response.code()==403){
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Already going to the same Hack..", Toast.LENGTH_SHORT).show();
                 }
+                else
+                    Toast.makeText(getContext(), "Error !1", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -160,30 +165,30 @@ public class TeamCreationFormFragment extends Fragment {
 
     public void addSkillToTeam()
     {
-        Call<Response<Void>> responseCall = api.addSkill(idToken,addSkill,id);
-        responseCall.enqueue(new Callback<Response<Void>>() {
+        Call<List<CreateTeamResponse>> responseCall = api.addSkill(idToken,addSkill,id);
+        responseCall.enqueue(new Callback<List<CreateTeamResponse>>() {
             @Override
-            public void onResponse(Call<Response<Void>> call, Response<Response<Void>> response) {
+            public void onResponse(Call<List<CreateTeamResponse>> call, Response<List<CreateTeamResponse>> response) {
+                progressBar.setVisibility(View.GONE);
+                TeamProfileLeaderViewFragment frag = new TeamProfileLeaderViewFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("Key", 1);
+                frag.setArguments(bundle);
+
+
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment,frag)
+                        .addToBackStack(null)
+                        .commit();
             }
 
             @Override
-            public void onFailure(Call<Response<Void>> call, Throwable t) {
+            public void onFailure(Call<List<CreateTeamResponse>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error in adding skill !!", Toast.LENGTH_SHORT).show();
             }
         });
-
-        progressBar.setVisibility(View.GONE);
-        TeamProfileLeaderViewFragment frag = new TeamProfileLeaderViewFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putInt("Key", 1);
-        frag.setArguments(bundle);
-
-
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.nav_host_fragment,frag)
-                .addToBackStack(null)
-                .commit();
     }
 
     @Override

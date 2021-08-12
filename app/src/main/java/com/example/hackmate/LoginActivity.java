@@ -17,11 +17,15 @@ public class LoginActivity extends AppCompatActivity {
 
     public Fragment fragmentLogin, fragmentNewAccount, fragmentCreateAccount;
     public SharedPreferences preferences;
+    private static String idToken = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        idToken = getIntent().getStringExtra("idToken");
+
 
         fragmentLogin = new LoginFragment();
         fragmentNewAccount = new SignUpAccountFragment();
@@ -34,15 +38,17 @@ public class LoginActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.bodyFragment, fragmentLogin).commit();
     }
 
+    public static String getidToken() {
+        return idToken;
+    }
+
     @Override
     public void onBackPressed() {
-        if(getFragmentManager().getBackStackEntryCount() == 0) {
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
             super.onBackPressed();
-        }
-        else if(getFragmentManager().getBackStackEntryCount() == 1) {
+        } else if (getFragmentManager().getBackStackEntryCount() == 1) {
             moveTaskToBack(false);
-        }
-        else {
+        } else {
             getFragmentManager().popBackStack();
         }
     }

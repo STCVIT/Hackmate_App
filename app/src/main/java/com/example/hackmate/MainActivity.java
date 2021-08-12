@@ -4,26 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.telecom.Call;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.hackmate.Fragments.HackListFragment;
 import com.example.hackmate.Fragments.MyTeamsFragment;
 import com.example.hackmate.Fragments.MyProfileFragment;
-import com.example.hackmate.Fragments.FindTeamsFragment;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.hackmate.Fragments.FindTeams.FindTeamsFragment;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GetTokenResult;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,7 +27,13 @@ public class MainActivity extends AppCompatActivity {
     private MyTeamsFragment myTeamsFragment = new MyTeamsFragment();
     private FindTeamsFragment findTeamsFragment = new FindTeamsFragment();
     private MyProfileFragment myProfileFragment = new MyProfileFragment();
+
+
     BadgeDrawable badge;
+
+    public static void setIdToken(String token) {
+        idToken = token;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation();
 
     }
-    public static String getidToken() {
+    public static String getIdToken() {
         return idToken;
     }
 

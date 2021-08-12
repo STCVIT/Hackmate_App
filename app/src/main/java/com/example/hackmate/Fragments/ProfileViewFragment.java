@@ -17,13 +17,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hackmate.Adapters.ProjectAdapterMP;
 import com.example.hackmate.Adapters.ProjectAdapterP;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
+import com.example.hackmate.MainActivity;
 import com.example.hackmate.Models.ProjectModel;
 import com.example.hackmate.POJOClasses.GetParticipantPOJO;
+import com.example.hackmate.POJOClasses.IndividualProject;
 import com.example.hackmate.POJOClasses.ProjectPOJO;
+import com.example.hackmate.POJOClasses.Skill;
+import com.example.hackmate.POJOClasses.TeamProject;
 import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
+import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
@@ -32,6 +38,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -70,12 +77,12 @@ public class ProfileViewFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             GET_NAV_CODE = bundle.getInt("Key", 0);
-            id = bundle.getString("id" , "yash");
+            id = bundle.getString("id", "yash");
         }
 
         initialise();
 
-        if(GET_NAV_CODE==1)
+        if (GET_NAV_CODE == 1)
             invite.setVisibility(View.GONE);
         else
             invite.setVisibility(View.VISIBLE);
@@ -90,24 +97,10 @@ public class ProfileViewFragment extends Fragment {
             }
         });
 
-        projects_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ProjectModel model2 = new ProjectModel("Hackmate",
-                "Project for team building for hackathons",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tristique mauris, " +
-                        "nec vitae cursus phasellus a proin et. Sit in velit duis iaculis est. " +
-                        "At odio sociis venenatis ut commodo. Aliquet eget morbi faucibus nisl " +
-                        "nec quis suscipit ut. Mus vestibulum risus at ante lorem volutpat. " +
-                        "In vitae vitae, tortor a ipsum ipsum. Ipsum cras eu odio natoque blandit commodo aliquam.",
-                "abc@gmail.com", "abc@gmail.com","abc@gmail.com");
-        ArrayList arrayList1 = new ArrayList<ProjectModel>();
-        arrayList1.add(model2);
-        arrayList1.add(model2);
-        projects_recyclerView.setAdapter(new ProjectAdapterP(getContext(), arrayList1));
 
         String[] team_domains = {"App Development", "UI/UX", "Machine Learning"};
 
-        for(int i=0;i<team_domains.length;i++)
-        {
+        for (int i = 0; i < team_domains.length; i++) {
             Chip chip = new Chip(getContext());
             chip.setText(team_domains[i]);
             chip.setChipStrokeColorResource(R.color.pill_color);
@@ -123,71 +116,63 @@ public class ProfileViewFragment extends Fragment {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient okHttpClient =new OkHttpClient.Builder()
-                //.addInterceptor(loggingInterceptor)
-                .addNetworkInterceptor(loggingInterceptor)
-                .build();
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl("https://hackportalbackend.herokuapp.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .build();
-
-        mAuth.getCurrentUser().getIdToken(true)
-                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                    public void onComplete(@NonNull Task<GetTokenResult> task) {
-                        if (task.isSuccessful()) {
-                            idToken = task.getResult().getToken();
-                            Log.i("xx", idToken);
-
-                            loginAPI = retrofit.create(loginAPI.class);
+        loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
 
 
-                            Call<GetParticipantPOJO> call = loginAPI.getParticipantByID("Bearer " + idToken, id);//replace with participant id getting from previous fragment 60f2c642c28f930015dc3de3
-                            call.enqueue(new Callback<GetParticipantPOJO>() {
-                                @Override
-                                public void onResponse(Call<GetParticipantPOJO> call, Response<GetParticipantPOJO> response) {
+        Call<GetParticipantPOJO> call = loginAPI.getParticipantByID("Bearer " + MainActivity.getIdToken(), id);//replace with participant id getting from previous fragment 60f2c642c28f930015dc3de3
+        call.enqueue(new Callback<GetParticipantPOJO>() {
+            @Override
+            public void onResponse(Call<GetParticipantPOJO> call, Response<GetParticipantPOJO> response) {
 
-                                    Log.i("response22", String.valueOf(response.body().participant.getName()));
-                                    name_PV.setText(response.body().participant.getName());
-                                    username_PV.setText(response.body().participant.getUsername());
-                                    email_PV.setText(response.body().participant.getEmail());
-                                    college_PV.setText(response.body().participant.getCollege());
-                                    yog_PV.setText(String.valueOf(response.body().participant.getGraduation_year()));
-                                    bio_PV.setText(response.body().participant.getBio());
-                                    github_PV.setText(response.body().participant.getGithub());
-                                    linkedIn_PV.setText(response.body().participant.getLinkedIn());
-//                                    id = String.valueOf(response.body().participant.getId());
-                                    Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + idToken, id);
-                                    Log.i("tag", "tag");
-                                    caller.enqueue(new Callback<ProjectPOJO>() {
-                                        @Override
-                                        public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
-                                            Log.i("project_response", String.valueOf(response.body()));
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<ProjectPOJO> call, Throwable t) {
-                                            Log.i("error", t.getMessage());
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void onFailure(Call<GetParticipantPOJO> call, Throwable t) {
-                                    Log.i("error", t.getMessage());
-                                }
-                            });
-
-
+                Log.i("response22", String.valueOf(response.body().participant.get_id()));
+                name_PV.setText(response.body().participant.getName());
+                username_PV.setText(response.body().participant.getUsername());
+                email_PV.setText(response.body().participant.getEmail());
+                college_PV.setText(response.body().participant.getCollege());
+                yog_PV.setText(String.valueOf(response.body().participant.getGraduation_year()));
+                bio_PV.setText(response.body().participant.getBio());
+                github_PV.setText(response.body().participant.getGithub());
+                linkedIn_PV.setText(response.body().participant.getLinkedIn());
+                id = String.valueOf(response.body().participant.get_id());
+                Call<ProjectPOJO> caller = loginAPI.getProjectP("Bearer " + MainActivity.getIdToken(), id);//new route for this will be made
+                Log.i("tag", id);
+                caller.enqueue(new Callback<ProjectPOJO>() {
+                    @Override
+                    public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
+                        Log.i("projectsssssss", String.valueOf(response.body()));
+                        projects_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                        if (response.body() != null) {
+                            ProjectPOJO projectPOJO = response.body();
+//                        Log.i("abc", projectPOJO.getTeam().getName().toString());
+                            List<IndividualProject> individualProjectsList = projectPOJO.getIndividualProjects();
+//                        Log.i("pt_skill", String.valueOf(pt_skills.get(0).getParticipant().getName()));
+                            List<TeamProject> teamProjectsList = projectPOJO.getTeams();
+                            ProjectAdapterP projectAdapterP = new ProjectAdapterP(getContext(), individualProjectsList, teamProjectsList);
+                            projects_recyclerView.setAdapter(projectAdapterP);
+                            projectAdapterP.setGetProjectP(individualProjectsList, teamProjectsList);
                         }
                     }
+
+                    @Override
+                    public void onFailure(Call<ProjectPOJO> call, Throwable t) {
+                        Log.i("error", t.getMessage());
+                    }
                 });
+
+            }
+
+            @Override
+            public void onFailure(Call<GetParticipantPOJO> call, Throwable t) {
+                Log.i("error", t.getMessage());
+            }
+        });
+
+
     }
 
 
-    public void initialise(){
+    public void initialise() {
 
         invite = getView().findViewById(R.id.invite_button);
         projects_recyclerView = getView().findViewById(R.id.projects_recyclerView_P);

@@ -65,47 +65,38 @@
             android:orientation="vertical"
             android:paddingBottom="16dp">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/searchTeammate"
+            <EditText
+                android:id="@+id/searchTeamJoin"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="20dp"
-                app:cardBackgroundColor="@color/field_fill">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:background="@color/field_fill"
+                android:fontFamily="@font/roboto"
+                android:inputType="textAutoComplete"
+                android:padding="@dimen/margin_medium"
+                android:drawablePadding="@dimen/margin_small"
+                android:drawableStart="@drawable/ic_baseline_search_24"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginHorizontal="20dp"
+                android:hint="Search for teams"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text"
+                android:textSize="14dp" />
 
-                <EditText
-                    android:id="@+id/searchTeamJoin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|left"
-                    android:layout_marginLeft="49dp"
-                    android:backgroundTint="@color/field_fill"
-                    android:fontFamily="@font/roboto"
-                    android:hint="Search for teams"
-                    android:inputType="textAutoComplete"
-                    android:textColorHint="@color/text"
-                    android:textSize="14dp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|left"
-                    android:layout_marginLeft="16sp"
-                    android:src="@drawable/ic_baseline_search_24" />
-            </androidx.cardview.widget.CardView>
+
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="@dimen/margin_small">
 
                 <LinearLayout
                     android:id="@+id/domainFilterTeammate"
                     android:layout_width="wrap_content"
-                    android:padding="8dp"
+                    android:padding="@dimen/margin_small"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/background"
                     app:layout_constraintTop_toTopOf="parent"
@@ -125,15 +116,6 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="8dp"
                         android:src="@drawable/ic_down_arrow" />
-
-                    <ImageView
-                        android:id="@+id/upArrow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="8dp"
-                        android:src="@drawable/ic_up_arrow"
-                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -222,19 +204,19 @@
                     app:chipStrokeColor="@color/pill_color"
                     app:chipStrokeWidth="2dp" />
 
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipDomain8"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Blockchain"
+                    app:chipStrokeColor="@color/pill_color"
+                    app:chipStrokeWidth="2dp" />
+
             </com.google.android.material.chip.ChipGroup>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
-    <ProgressBar
-        android:id="@+id/progressBarLoad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/joinList"

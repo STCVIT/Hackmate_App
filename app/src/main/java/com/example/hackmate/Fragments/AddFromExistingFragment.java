@@ -15,27 +15,35 @@ import android.view.ViewGroup;
 
 import com.example.hackmate.Adapters.AddFromExistingAdapter;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
+import com.example.hackmate.MainActivity;
 import com.example.hackmate.Models.AddFromExistingModel;
+import com.example.hackmate.POJOClasses.JoinTeamPOJO;
+import com.example.hackmate.POJOClasses.Team;
+
+
+import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.hackmate.util.RetrofitInstance;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddFromExistingFragment extends Fragment {
 
     RecyclerView addHackToTeam;
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    String idToken;
     private loginAPI loginAPI;
-    Retrofit retrofit;
+    private String hackId;
+
+    public AddFromExistingFragment(String hackId) {
+        this.hackId = hackId;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,47 +59,55 @@ public class AddFromExistingFragment extends Fragment {
 
         initialise();
 
+        Log.i("HACKID_SDVSV",hackId);
         addHackToTeam.setLayoutManager(new LinearLayoutManager(getContext()));
-        AddFromExistingModel model2 = new AddFromExistingModel("Desiderata", "Hello there",
-                "Leader");
-        AddFromExistingModel model3 = new AddFromExistingModel("Desiderata", "Hello there",
-                "Member");
-        ArrayList arrayList1 = new ArrayList<AddFromExistingModel>();
-        arrayList1.add(model2);
-        arrayList1.add(model3);
-        String[][] domains = {{"App Dev","Frontend","Backend"},{"Frontend","Backend"}};
-        addHackToTeam.setAdapter(new AddFromExistingAdapter(getContext(), arrayList1, domains));
+
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient okHttpClient =new OkHttpClient.Builder()
-                //.addInterceptor(loggingInterceptor)
-                .addNetworkInterceptor(loggingInterceptor)
-                .build();
+        loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl("https://hackportalbackend.herokuapp.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .build();
+        Call<loginPOJO> call1 = loginAPI.getParticipant("Bearer " + MainActivity.getIdToken());
+        call1.enqueue(new Callback<loginPOJO>() {
+            @Override
+            public void onResponse(Call<loginPOJO> call1, Response<loginPOJO> response1) {
+                String id = String.valueOf(response1.body().getId());
+                Log.i("idd", id);
 
-        mAuth.getCurrentUser().getIdToken(true)
-                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                    public void onComplete(@NonNull Task<GetTokenResult> task) {
-                        if (task.isSuccessful()) {
-                            idToken = task.getResult().getToken();
-                            Log.i("xx", idToken);
-
-                            loginAPI = retrofit.create(loginAPI.class);
+                Call<List<JoinTeamPOJO>> call = loginAPI.getMyTeam("Bearer " + MainActivity.getIdToken(),
+                        hackId);//will get id from previous fragment
+                call.enqueue(new Callback<List<JoinTeamPOJO>>() {
+                    @Override
+                    public void onResponse(Call<List<JoinTeamPOJO>> call, Response<List<JoinTeamPOJO>> response) {
+                        List<JoinTeamPOJO> teamList = response.body();
+                        if (response.body() != null) {
+                            Log.i("String value of", String.valueOf(teamList));
+//                            Log.i("team details", String.valueOf(teamList.get(0).getTeam().getMembers().get(0).get_id()));
+                            AddFromExistingAdapter existingAdapter = new AddFromExistingAdapter(getContext(), teamList);
+                            addHackToTeam.setAdapter(existingAdapter);
+                            existingAdapter.setGetTeams(teamList, hackId);
 
 
                         }
                     }
+
+                    @Override
+                    public void onFailure(Call<List<JoinTeamPOJO>> call, Throwable t) {
+                        Log.i("error33", t.getMessage());
+                    }
                 });
+
+            }
+
+            @Override
+            public void onFailure(Call<loginPOJO> call, Throwable t) {
+
+            }
+        });
     }
 
-    public void initialise(){
+    public void initialise() {
 
         addHackToTeam = getView().findViewById(R.id.addHackToTeam_recyclerView);
     }

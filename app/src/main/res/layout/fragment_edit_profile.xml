@@ -64,11 +64,13 @@
 
         <TextView
             android:id="@+id/email_EP"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="20dp"
             android:text="jasaniyash13@gmail.com"
             android:textColor="@color/text"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView116"
             app:layout_constraintTop_toBottomOf="@+id/username_EP" />
 
@@ -97,7 +99,7 @@
 
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip19"
+                android:id="@+id/FrontedWebChip19"
                 style="@style/CustomChipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,7 +108,7 @@
                 app:chipStrokeWidth="1dp" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip18"
+                android:id="@+id/BackendWebChip18"
                 style="@style/CustomChipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -115,7 +117,7 @@
                 app:chipStrokeWidth="1dp" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip17"
+                android:id="@+id/MLChip17"
                 style="@style/CustomChipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -124,7 +126,7 @@
                 app:chipStrokeWidth="1dp" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip16"
+                android:id="@+id/UIUXChip16"
                 style="@style/CustomChipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -133,7 +135,7 @@
                 app:chipStrokeWidth="1dp" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip15"
+                android:id="@+id/ManagementChip15"
                 style="@style/CustomChipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -142,7 +144,7 @@
                 app:chipStrokeWidth="1dp" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip14"
+                android:id="@+id/AppChip14"
                 style="@style/CustomChipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

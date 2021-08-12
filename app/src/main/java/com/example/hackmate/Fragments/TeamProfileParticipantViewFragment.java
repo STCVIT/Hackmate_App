@@ -19,13 +19,17 @@ import android.widget.Toast;
 import com.example.hackmate.Adapters.MemberAdapter;
 import com.example.hackmate.Adapters.ProjectAdapterRT;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
+import com.example.hackmate.MainActivity;
 import com.example.hackmate.Models.ProjectModel;
 import com.example.hackmate.POJOClasses.JoinTeamPOJO;
+import com.example.hackmate.POJOClasses.POST.PatchTeamDetails;
 import com.example.hackmate.POJOClasses.ProjectPOJO;
 import com.example.hackmate.POJOClasses.PtSkill;
+import com.example.hackmate.POJOClasses.Skill;
 import com.example.hackmate.POJOClasses.Team;
 import com.example.hackmate.R;
 import com.example.hackmate.Models.teamMember_Model;
+import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -48,11 +52,12 @@ public class TeamProfileParticipantViewFragment extends Fragment {
     Button requestJoin;
     int GET_NAV_CODE = 0;
     RecyclerView participants_recyclerView, projects_recyclerView;
-    TextView team_name, hack_names;
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    Retrofit retrofit;
+    TextView team_name, hack_names, project_name, project_description, project_team_name, project_link1, project_link2,
+            project_link3;
     private loginAPI loginAPI;
-    String idToken, id;
+    String id, name = "";
+    PatchTeamDetails patchTeamDetails;
+    JoinTeamPOJO joinTeamPOJO;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,107 +73,106 @@ public class TeamProfileParticipantViewFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             GET_NAV_CODE = bundle.getInt("Key", 0);
-            id = bundle.getString("id", id);
+            id = bundle.getString("teamId", id);
+            name = bundle.getString("hackName", "");
         }
 
         initialise();
 
-        requestJoin.setOnClickListener(new View.OnClickListener() {
+        participants_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
+
+        Call<JoinTeamPOJO> call = loginAPI.getTeam("Bearer " + MainActivity.getIdToken(), id);//will get id from previous fragment
+        call.enqueue(new Callback<JoinTeamPOJO>() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Request Sent !!", Toast.LENGTH_SHORT).show();
-                requestJoin.setBackground(getResources().getDrawable(R.drawable.ic_button_border_bg));
-                requestJoin.setTextColor(getResources().getColor(R.color.green));
+            public void onResponse(Call<JoinTeamPOJO> call, Response<JoinTeamPOJO> response) {
+                if (response.body() != null) {
+                    joinTeamPOJO = response.body();
+                    Log.i("abc", joinTeamPOJO.getTeam().getName());
+                    team_name.setText(joinTeamPOJO.getTeam().getName());
+
+                    hack_names.setText(name);
+                    if (joinTeamPOJO.getTeam().getProject_name() != null) {
+                        project_name.setText(joinTeamPOJO.getTeam().getProject_name());
+                        project_team_name.setText(joinTeamPOJO.getTeam().getName());
+                    } else
+                        project_name.setText("");
+                    project_team_name.setText("");
+                    if (joinTeamPOJO.getTeam().getProject_description() != null)
+                        project_description.setText(joinTeamPOJO.getTeam().getProject_description());
+                    else
+                        project_description.setText("");
+                    if (joinTeamPOJO.getTeam().getProject_name() != null)
+                        project_link1.setText(joinTeamPOJO.getTeam().getCode());
+                    else
+                        project_link1.setText("");
+                    if (joinTeamPOJO.getTeam().getProject_name() != null)
+                        project_link2.setText(joinTeamPOJO.getTeam().getDemonstration());
+                    else
+                        project_link2.setText("");
+                    if (joinTeamPOJO.getTeam().getProject_name() != null)
+                        project_link3.setText(joinTeamPOJO.getTeam().getDesign());
+                    else
+                        project_link3.setText("");
+                    List<PtSkill> pt_skills = joinTeamPOJO.getPt_skills();
+                    Log.i("pt_skill", String.valueOf(pt_skills.get(0).getParticipant().getName()));
+                    MemberAdapter memberAdapter = new MemberAdapter(getContext(), pt_skills);
+                    participants_recyclerView.setAdapter(memberAdapter);
+                    memberAdapter.setJoinTeam(pt_skills);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JoinTeamPOJO> call, Throwable t) {
+                Log.i("error33", t.getMessage());
             }
         });
 
-        participants_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        teamMember_Model.TeamMemberModel model = new teamMember_Model.TeamMemberModel("1.", "yash", "yash@gmail.com", "leader", R.drawable.bhavik, true);
-//        teamMember_Model.TeamMemberModel model1 = new teamMember_Model.TeamMemberModel("2.", "bhavik", "bhavik@gmail.com", "", R.drawable.bhavik, true);
-//        ArrayList arrayList = new ArrayList<PtSkill>();
-//        arrayList.add(model);
-//        arrayList.add(model1);
-//        arrayList.add(model);
-//        arrayList.add(model1);
+        Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getIdToken());
+        Log.i("tag44", "tag44");
+        caller.enqueue(new Callback<ProjectPOJO>() {
+            @Override
+            public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
+                Log.i("project_response44", String.valueOf(response.body()));
+            }
 
+            @Override
+            public void onFailure(Call<ProjectPOJO> call, Throwable t) {
+                Log.i("error44", t.getMessage());
+            }
+        });
 
-        projects_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        requestJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        ProjectModel model2 = new ProjectModel("Hackmate",
-                "Project for team building for hackathons",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tristique mauris, " +
-                        "nec vitae cursus phasellus a proin et. Sit in velit duis iaculis est. " +
-                        "At odio sociis venenatis ut commodo. Aliquet eget morbi faucibus nisl " +
-                        "nec quis suscipit ut. Mus vestibulum risus at ante lorem volutpat. " +
-                        "In vitae vitae, tortor a ipsum ipsum. Ipsum cras eu odio natoque blandit commodo aliquam.",
-                "abc@gmail.com", "abc@gmail.com", "abc@gmail.com");
-        ArrayList arrayList1 = new ArrayList<ProjectModel>();
-        arrayList1.add(model2);
-        arrayList1.add(model2);
-        projects_recyclerView.setAdapter(new ProjectAdapterRT(getContext(), arrayList1));
+                patchTeamDetails = new PatchTeamDetails();
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                //.addInterceptor(loggingInterceptor)
-                .addNetworkInterceptor(loggingInterceptor)
-                .build();
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl("https://hackportalbackend.herokuapp.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .build();
-
-        mAuth.getCurrentUser().getIdToken(true)
-                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                    public void onComplete(@NonNull Task<GetTokenResult> task) {
-                        if (task.isSuccessful()) {
-                            idToken = task.getResult().getToken();
-                            Log.i("xx", idToken);
-
-                            loginAPI = retrofit.create(com.example.hackmate.JSONPlaceholders.loginAPI.class);
-
-                            Call<JoinTeamPOJO> call = loginAPI.getTeam("Bearer " + idToken, "60f92e19366cd000159bc89c");//will get id from previous fragment
-                            call.enqueue(new Callback<JoinTeamPOJO>() {
-                                @Override
-                                public void onResponse(Call<JoinTeamPOJO> call, Response<JoinTeamPOJO> response) {
-                                    JoinTeamPOJO joinTeamPOJO = response.body();
-                                    Log.i("abc" , joinTeamPOJO.getTeam().getName().toString());
-                                    List<PtSkill> pt_skills = joinTeamPOJO.getPt_skills();
-                                    Log.i("pt_skill" , String.valueOf(pt_skills.get(0).getParticipant().getName()));
-                                    MemberAdapter memberAdapter = new MemberAdapter(getContext(), pt_skills);
-                                    participants_recyclerView.setAdapter(memberAdapter);
-                                    memberAdapter.setJoinTeam(pt_skills);
-
-//                                    Log.i("response33", String.valueOf());
-                                }
-
-                                @Override
-                                public void onFailure(Call<JoinTeamPOJO> call, Throwable t) {
-                                    Log.i("error33", t.getMessage());
-                                }
-                            });
-
-                            Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + idToken, "60f92e19366cd000159bc89c");//will get id from previous fragment
-                            Log.i("tag44", "tag44");
-                            caller.enqueue(new Callback<ProjectPOJO>() {
-                                @Override
-                                public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
-                                    Log.i("project_response44", String.valueOf(response.body()));
-                                }
-
-                                @Override
-                                public void onFailure(Call<ProjectPOJO> call, Throwable t) {
-                                    Log.i("error44", t.getMessage());
-                                }
-                            });
-
-
+                Call<PatchTeamDetails> call1 = loginAPI.postTeamCode("Bearer " + MainActivity.getIdToken(),
+                        "joinTeamPOJO.getTeam().get_id()");
+                Log.i("team id", joinTeamPOJO.getTeam().get_id());
+                call1.enqueue(new Callback<PatchTeamDetails>() {
+                    @Override
+                    public void onResponse(Call<PatchTeamDetails> call, Response<PatchTeamDetails> response) {
+                        if (response.code() == 400) {
+                            Toast.makeText(getActivity(), "Request has already been sent!", Toast.LENGTH_SHORT).show();
+                        } else if (response.code() == 201) {
+                            Toast.makeText(getActivity(), "Request Sent !!", Toast.LENGTH_SHORT).show();
+                            requestJoin.setBackground(getResources().getDrawable(R.drawable.ic_button_border_bg));
+                            requestJoin.setTextColor(getResources().getColor(R.color.green));
                         }
                     }
+
+                    @Override
+                    public void onFailure(Call<PatchTeamDetails> call, Throwable t) {
+
+                    }
                 });
+
+            }
+        });
+
     }
 
     @Override
@@ -183,8 +187,13 @@ public class TeamProfileParticipantViewFragment extends Fragment {
     public void initialise() {
         requestJoin = getView().findViewById(R.id.requestJoinTeam);
         participants_recyclerView = getView().findViewById(R.id.participants_recyclerView);
-        projects_recyclerView = getView().findViewById(R.id.projects_recyclerView_RT);
         team_name = getView().findViewById(R.id.team_name);
         hack_names = getView().findViewById(R.id.hack_names);
+        project_name = getView().findViewById(R.id.project_nameTextView_abc);
+        project_description = getView().findViewById(R.id.bio_textView_abc);
+        project_team_name = getView().findViewById(R.id.descriptionTextView_abc);
+        project_link1 = getView().findViewById(R.id.link1_textView_abc);
+        project_link2 = getView().findViewById(R.id.link2_textView_abc);
+        project_link3 = getView().findViewById(R.id.link3_textView_abc);
     }
 }

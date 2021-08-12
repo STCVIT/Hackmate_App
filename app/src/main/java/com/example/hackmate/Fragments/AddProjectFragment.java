@@ -13,11 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
+import com.example.hackmate.MainActivity;
 import com.example.hackmate.POJOClasses.Kavita.addProjectPOJO;
 import com.example.hackmate.R;
+import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import retrofit2.Call;
@@ -28,8 +32,9 @@ import static android.content.ContentValues.TAG;
 
 
 public class AddProjectFragment extends Fragment {
-
+    public String idToken;
     Button submitProject;
+    TextView projectName,projectDescription,gitHubLink,designLink,demoLink;
     int GET_NAV_CODE = 0;
 
     @Override
@@ -49,43 +54,58 @@ public class AddProjectFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        idToken=MainActivity.getIdToken();
+
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             GET_NAV_CODE = bundle.getInt("Key", 0);
         }
-
+        projectName= view.findViewById(R.id.projectName);
+        projectDescription= view.findViewById(R.id.projectDescription);
+        gitHubLink= view.findViewById(R.id.githubLink);
+        designLink= view.findViewById(R.id.designLink);
+        demoLink= view.findViewById(R.id.demoLink);
         submitProject = view.findViewById(R.id.submitProject);
         submitProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                addProject();
                 Toast.makeText(getActivity(), "Project has been added successfully !!!", Toast.LENGTH_SHORT).show();
             }
         });
 
-        addProject();
+
     }
 
     private void addProject() {
 
-        addProjectPOJO addProjectPOJO = new addProjectPOJO(" Niddhi","zfcxhxfhfgugjfjgcjjfghj");
+        // addProjectPOJO addProjectPOJO = new addProjectPOJO(" Niddhi","zfcxhxfhfgugjfjgcjjfghj","gfasdgfjszbf","jdhiasudgiuad","hdvuasd");
+        addProjectPOJO addProjectPOJO = new addProjectPOJO(projectName.getText().toString(),projectDescription.getText().toString(),gitHubLink.getText().toString(),designLink.getText().toString(),demoLink.getText().toString());
+        JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
+        Call<addProjectPOJO> call= jsonPlaceHolderAPI.addProject(idToken,addProjectPOJO);
 
-        /*Call<addProjectPOJO> call= jsonPlaceHolderApi.addProject(addProjectPOJO);
-
-        call.enqueue(new Callback<com.example.hackmate.POJOClasses.addProjectPOJO>() {
+        call.enqueue(new Callback<com.example.hackmate.POJOClasses.Kavita.addProjectPOJO>() {
             @Override
-            public void onResponse(Call<com.example.hackmate.POJOClasses.addProjectPOJO> call, Response<com.example.hackmate.POJOClasses.addProjectPOJO> response) {
+            public void onResponse(Call<com.example.hackmate.POJOClasses.Kavita.addProjectPOJO> call, Response<com.example.hackmate.POJOClasses.Kavita.addProjectPOJO> response) {
 
                 if (!response.isSuccessful()){
                     Log.i("sucess", "sucess");
                 }
+                com.example.hackmate.POJOClasses.Kavita.addProjectPOJO addProjectPOJOResponse = response.body();
+                Log.i("addProject", String.valueOf(response.code()));
+                projectName.setText(addProjectPOJO.getProjectName());
+                projectDescription.setText(addProjectPOJO.getDescription());
+                gitHubLink.setText(addProjectPOJO.getGithubLink());
+                designLink.setText(addProjectPOJO.getDesignLink());
+                demoLink.setText(addProjectPOJO.getDemoLink());
             }
 
             @Override
-            public void onFailure(Call<com.example.hackmate.POJOClasses.addProjectPOJO> call, Throwable t) {
+            public void onFailure(Call<com.example.hackmate.POJOClasses.Kavita.addProjectPOJO> call, Throwable t) {
                 Log.i("error", t.getMessage());
             }
-        });*/
+        });
 
     }
 
