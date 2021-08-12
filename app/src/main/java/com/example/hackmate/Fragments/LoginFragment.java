@@ -24,6 +24,7 @@ import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.LoginActivity;
 import com.example.hackmate.MainActivity;
 import com.example.hackmate.R;
+import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,10 +53,8 @@ public class LoginFragment extends Fragment {
     private Button login;
     private ProgressBar progressBar;
     private loginAPI loginAPI;
-    int responses = 0, ans;
+    int ans;
     String idToken;
-    Retrofit retrofit;
-    LoginActivity activity;
 
     @Override
     public void onStart() {
@@ -66,10 +65,20 @@ public class LoginFragment extends Fragment {
                 Toast.makeText(getContext(), "Please Verify your Email to continue", Toast.LENGTH_SHORT).show();
                 FirebaseAuth.getInstance().signOut();
 
-            } else if(activity.preferences.getInt("response", 0) == 200){
+            } else if(loginActivity.preferences.getInt("response", 0) == 200){
                 Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("idToken", LoginActivity.getidToken());
                 startActivity(intent);
                 loginActivity.finish();
+            } else if(loginActivity.preferences.getInt("response", 0) == 404){
+                Bundle args = new Bundle();
+                args.putString("response", LoginActivity.getidToken());
+                loginActivity.fragmentCreateAccount.setArguments(args);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.bodyFragment, loginActivity.fragmentCreateAccount)
+                        .addToBackStack(null)
+                        .commit();
             }
         }
         super.onStart();
@@ -89,10 +98,6 @@ public class LoginFragment extends Fragment {
 
         initialise();
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl("https://hackportalbackend.herokuapp.com/participant/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
         newAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,9 +154,9 @@ public class LoginFragment extends Fragment {
         email_login = view.findViewById(R.id.email_login);
         password_login = view.findViewById(R.id.password_login);
         mAuth = FirebaseAuth.getInstance();
-        loginActivity = (LoginActivity) getActivity();
         login = view.findViewById(R.id.login_button);
-        activity = (LoginActivity) getActivity();
+        loginActivity = (LoginActivity) getActivity();
+        loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
     }
 
     public void loginUser(String email, String password) {
@@ -171,10 +176,7 @@ public class LoginFragment extends Fragment {
                                             idToken = task.getResult().getToken();
                                             Log.i("xx", idToken);
 
-                                            loginAPI = retrofit.create(loginAPI.class);
 
-                                            responses = getLoginStatus(email);
-                                            Log.i("response", String.valueOf(responses));
 
                                             Call<Response<Void>> call = loginAPI.getLoginStatus("Bearer " + idToken);
                                             call.enqueue(new Callback<Response<Void>>() {
@@ -190,6 +192,8 @@ public class LoginFragment extends Fragment {
                                                 @Override
                                                 public void onFailure(Call<Response<Void>> call, Throwable t) {
                                                     Log.i("error", t.getMessage());
+                                                    FirebaseAuth.getInstance().signOut();
+                                                    progressBar.setVisibility(View.GONE);
                                                 }
                                             });
 
@@ -208,21 +212,21 @@ public class LoginFragment extends Fragment {
         if (user.isEmailVerified()) {
             if(responses == 404) {
 
-                activity.preferences.edit().putInt("response" , responses).apply();
-                Log.i("responsesxx" , String.valueOf(activity.preferences.getInt("response", 0)));
+                loginActivity.preferences.edit().putInt("response" , responses).apply();
+                Log.i("responsesxx" , String.valueOf(loginActivity.preferences.getInt("response", 0)));
                 Bundle args = new Bundle();
                 args.putString("email" , email);
-                activity.fragmentCreateAccount.setArguments(args);
+                loginActivity.fragmentCreateAccount.setArguments(args);
                 assert getFragmentManager() != null;
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.bodyFragment, activity.fragmentCreateAccount)
+                        .replace(R.id.bodyFragment, loginActivity.fragmentCreateAccount)
                         .addToBackStack(null)
                         .commit();
             }
             else if(responses == 200){
-                activity.preferences.edit().putInt("response" , responses).apply();
-                Log.i("responsesxx" , String.valueOf(activity.preferences.getInt("response", 0)));
+                loginActivity.preferences.edit().putInt("response" , responses).apply();
+                Log.i("responsesxx" , String.valueOf(loginActivity.preferences.getInt("response", 0)));
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 intent.putExtra("idToken", idToken);
                 startActivity(intent);
@@ -235,19 +239,13 @@ public class LoginFragment extends Fragment {
             // NOTE: don't forget to log out the user.
             Toast.makeText(getContext(), "Please Verify your Email to continue", Toast.LENGTH_SHORT).show();
             FirebaseAuth.getInstance().signOut();
+            progressBar.setVisibility(View.GONE);
 
             //restart this activity
 
         }
     }
 
-    public int getLoginStatus(String email){
-
-
-
-
-        return ans;
-    }
 
 
 }

@@ -17,6 +17,8 @@ import com.example.hackmate.Adapters.AddFromExistingAdapter;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.MainActivity;
 import com.example.hackmate.Models.AddFromExistingModel;
+import com.example.hackmate.POJOClasses.JoinTeamPOJO;
+import com.example.hackmate.POJOClasses.Team;
 import com.example.hackmate.POJOClasses.TeamDetails;
 import com.example.hackmate.POJOClasses.GetMyTeamPOJO;
 import com.example.hackmate.POJOClasses.loginPOJO;
@@ -36,10 +38,7 @@ import retrofit2.Retrofit;
 public class AddFromExistingFragment extends Fragment {
 
     RecyclerView addHackToTeam;
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    String idToken;
     private loginAPI loginAPI;
-    Retrofit retrofit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,14 +55,6 @@ public class AddFromExistingFragment extends Fragment {
         initialise();
 
         addHackToTeam.setLayoutManager(new LinearLayoutManager(getContext()));
-//        AddFromExistingModel model2 = new AddFromExistingModel("Desiderata", "Hello there",
-//                "Leader");
-//        AddFromExistingModel model3 = new AddFromExistingModel("Desiderata", "Hello there",
-//                "Member");
-//        ArrayList arrayList1 = new ArrayList<AddFromExistingModel>();
-//        arrayList1.add(model2);
-//        arrayList1.add(model3);
-//        String[][] domains = {{"App Dev", "Frontend", "Backend"}, {"Frontend", "Backend"}};
 
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
@@ -74,39 +65,29 @@ public class AddFromExistingFragment extends Fragment {
         Call<loginPOJO> call1 = loginAPI.getParticipant("Bearer " + MainActivity.getidToken());
         call1.enqueue(new Callback<loginPOJO>() {
             @Override
-            public void onResponse(Call<loginPOJO> call1, Response<loginPOJO> response) {
-                String id = String.valueOf(response.body().getId());
+            public void onResponse(Call<loginPOJO> call1, Response<loginPOJO> response1) {
+                String id = String.valueOf(response1.body().getId());
                 Log.i("idd", id);
 
-                Call<GetMyTeamPOJO> call = loginAPI.getMyTeam("Bearer " + MainActivity.getidToken());//will get id from previous fragment
-                call.enqueue(new Callback<GetMyTeamPOJO>() {
+                Call<List<JoinTeamPOJO>> call = loginAPI.getMyTeam("Bearer " + MainActivity.getidToken(),
+                        "60fba32eaf9e9200151548d3");//will get id from previous fragment
+                call.enqueue(new Callback<List<JoinTeamPOJO>>() {
                     @Override
-                    public void onResponse(Call<GetMyTeamPOJO> call, Response<GetMyTeamPOJO> response) {
-                        GetMyTeamPOJO getMyTeamPOJO = response.body();
-                        Log.i("teams_length", String.valueOf(getMyTeamPOJO.getLength()));
-                        List<TeamDetails> teamDetailsList = getMyTeamPOJO.getTeamDetails();
-                        List<TeamDetails> teamDetails = new ArrayList<>();
-                        for (int i = 0; i < teamDetailsList.size(); i++) {
+                    public void onResponse(Call<List<JoinTeamPOJO>> call, Response<List<JoinTeamPOJO>> response) {
+                        List<JoinTeamPOJO> teamList = response.body();
+                        if (response.body() != null) {
+                            Log.i("String value of", String.valueOf(teamList));
+//                            Log.i("team details", String.valueOf(teamList.get(0).getTeam().getMembers().get(0).get_id()));
+                            AddFromExistingAdapter existingAdapter = new AddFromExistingAdapter(getContext(), teamList);
+                            addHackToTeam.setAdapter(existingAdapter);
+                            existingAdapter.setGetTeams(teamList, "60fab0b0c3f6450015f31794");
 
-                            if (teamDetailsList.get(i).getTeam().getHack_id() == null) {
-                                Log.i("admin id", teamDetailsList.get(i).getTeam().getAdmin_id());
-                                if(teamDetailsList.get(i).getTeam().getAdmin_id().equals(id)){
-                                    teamDetails.add(teamDetailsList.get(i));
-                                    Log.i("space", "aabb");
-                                    Log.i("hack names", String.valueOf(teamDetailsList.get(i).getTeam().getHack_id()));
-                                }
-                            }
+
                         }
-
-                        Log.i("String value of", String.valueOf(teamDetailsList));
-                        Log.i("team details", String.valueOf(teamDetailsList.get(0).getTeam().getMembers().get(0).get_id()));
-                        AddFromExistingAdapter existingAdapter = new AddFromExistingAdapter(getContext(), teamDetailsList);
-                        addHackToTeam.setAdapter(existingAdapter);
-                        existingAdapter.setGetTeams(teamDetails);
                     }
 
                     @Override
-                    public void onFailure(Call<GetMyTeamPOJO> call, Throwable t) {
+                    public void onFailure(Call<List<JoinTeamPOJO>> call, Throwable t) {
                         Log.i("error33", t.getMessage());
                     }
                 });

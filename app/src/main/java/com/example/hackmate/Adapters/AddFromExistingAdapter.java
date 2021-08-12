@@ -15,9 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.Models.AddFromExistingModel;
 import com.example.hackmate.MainActivity;
+import com.example.hackmate.POJOClasses.JoinTeamPOJO;
+import com.example.hackmate.POJOClasses.POST.PatchTeamDetails;
 import com.example.hackmate.POJOClasses.PtSkill;
+import com.example.hackmate.POJOClasses.Team;
 import com.example.hackmate.POJOClasses.TeamDetails;
 import com.example.hackmate.R;
+import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,24 +29,30 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class AddFromExistingAdapter extends RecyclerView.Adapter<AddFromExistingAdapter.Viewholder> {
 
     private Context context;
-    private ArrayList<AddFromExistingModel> addFromExistingModelArrayList;
-    String domains[][] = {{"App Dev", "Frontend", "Backend"}, {"Frontend", "Backend"}};
-    List<TeamDetails> teamDetails;
+    List<JoinTeamPOJO> teamDetails;
+    loginAPI loginAPI;
+    PatchTeamDetails patchTeamDetails;
+    String hack_id;
 
 
-    public AddFromExistingAdapter(Context context, List<TeamDetails> teamDetails) {
+    public AddFromExistingAdapter(Context context, List<JoinTeamPOJO> teamDetails) {
         this.context = context;
         this.teamDetails = teamDetails;
     }
 
-    public void setGetTeams(List<TeamDetails> teamDetails) {
+    public void setGetTeams(List<JoinTeamPOJO> teamDetails, String hack_id) {
         this.teamDetails = teamDetails;
+        this.hack_id = hack_id;
     }
+
 
     @NonNull
     @Override
@@ -54,19 +64,37 @@ public class AddFromExistingAdapter extends RecyclerView.Adapter<AddFromExisting
     @Override
     public void onBindViewHolder(@NonNull AddFromExistingAdapter.Viewholder holder, int position) {
 
-        TeamDetails teamDetail = teamDetails.get(position);
+        JoinTeamPOJO teamDetail = teamDetails.get(position);
         holder.projectName_AFE.setText(teamDetail.getTeam().getName());
+        Log.i("team name", teamDetail.getTeam().getName().toString());
 //        holder.description_AFE.setText(teamDetail.);
 //        holder.designation_AFE.setText(model.getDesignation());
+
+        loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
+        patchTeamDetails = new PatchTeamDetails();
+        patchTeamDetails.setHack_id(hack_id);
 
         holder.addHack_button_AFE.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity activity = (MainActivity) v.getContext();
-                holder.addHack_button_AFE.setBackground(activity.getResources().getDrawable(R.drawable.ic_added_button));
-                holder.addHack_button_AFE.setTextColor(activity.getResources().getColor(R.color.text));
-                holder.addHack_button_AFE.setText("Added");
-                Toast.makeText(activity, "Hack has been added to Team Profile !!", Toast.LENGTH_SHORT).show();
+
+                Call<Void> call = loginAPI.patchTeamDetails("Bearer " + MainActivity.getidToken(),
+                        teamDetail.getTeam().get_id(), patchTeamDetails);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        Toast.makeText(activity, "Team has been added to Hack!!", Toast.LENGTH_SHORT).show();
+                        holder.addHack_button_AFE.setBackground(activity.getResources().getDrawable(R.drawable.ic_added_button));
+                        holder.addHack_button_AFE.setTextColor(activity.getResources().getColor(R.color.text));
+                        holder.addHack_button_AFE.setText("Added");
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Log.i("nhi huaaaaa", t.getMessage());
+                    }
+                });
             }
         });
 

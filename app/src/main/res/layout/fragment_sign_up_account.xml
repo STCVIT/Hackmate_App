@@ -25,7 +25,7 @@
         app:srcCompat="@drawable/ic_create_your_account" />
 
     <EditText
-        android:id="@+id/password_create_account"
+        android:id="@+id/password_create_your_account"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -40,10 +40,10 @@
         android:textColorHint="@color/text_secondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_create_account" />
+        app:layout_constraintTop_toBottomOf="@+id/email_create_your_account" />
 
     <EditText
-        android:id="@+id/password1_create_account"
+        android:id="@+id/password1_create_your_account"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -58,7 +58,7 @@
         android:textColorHint="@color/text_secondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_create_account" />
+        app:layout_constraintTop_toBottomOf="@+id/password_create_your_account" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login"
@@ -74,10 +74,10 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password1_create_account" />
+        app:layout_constraintTop_toBottomOf="@+id/password1_create_your_account" />
 
     <EditText
-        android:id="@+id/email_create_account"
+        android:id="@+id/email_create_your_account"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

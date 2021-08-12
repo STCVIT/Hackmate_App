@@ -25,6 +25,7 @@ import com.example.hackmate.Models.ProjectModel;
 import com.example.hackmate.POJOClasses.GetParticipantPOJO;
 import com.example.hackmate.POJOClasses.IndividualProject;
 import com.example.hackmate.POJOClasses.ProjectPOJO;
+import com.example.hackmate.POJOClasses.Skill;
 import com.example.hackmate.POJOClasses.TeamProject;
 import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
@@ -96,19 +97,6 @@ public class ProfileViewFragment extends Fragment {
             }
         });
 
-        projects_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        ProjectModel model2 = new ProjectModel("Hackmate",
-//                "Project for team building for hackathons",
-//                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tristique mauris, " +
-//                        "nec vitae cursus phasellus a proin et. Sit in velit duis iaculis est. " +
-//                        "At odio sociis venenatis ut commodo. Aliquet eget morbi faucibus nisl " +
-//                        "nec quis suscipit ut. Mus vestibulum risus at ante lorem volutpat. " +
-//                        "In vitae vitae, tortor a ipsum ipsum. Ipsum cras eu odio natoque blandit commodo aliquam.",
-//                "abc@gmail.com", "abc@gmail.com", "abc@gmail.com");
-//        ArrayList arrayList1 = new ArrayList<ProjectModel>();
-//        arrayList1.add(model2);
-//        arrayList1.add(model2);
-//        projects_recyclerView.setAdapter(new ProjectAdapterP(getContext(), arrayList1));
 
         String[] team_domains = {"App Development", "UI/UX", "Machine Learning"};
 
@@ -146,22 +134,24 @@ public class ProfileViewFragment extends Fragment {
                 bio_PV.setText(response.body().participant.getBio());
                 github_PV.setText(response.body().participant.getGithub());
                 linkedIn_PV.setText(response.body().participant.getLinkedIn());
-//                                    id = String.valueOf(response.body().participant.getId());
+                id = String.valueOf(response.body().participant.get_id());
                 Call<ProjectPOJO> caller = loginAPI.getProjectP("Bearer " + MainActivity.getidToken(), id);//new route for this will be made
-//                Log.i("tag", "tag");
+                Log.i("tag", id);
                 caller.enqueue(new Callback<ProjectPOJO>() {
                     @Override
                     public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
                         Log.i("projectsssssss", String.valueOf(response.body()));
-//                        Log.i("project_response", String.valueOf(response.body()));
-                        ProjectPOJO projectPOJO = response.body();
+                        projects_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                        if (response.body() != null) {
+                            ProjectPOJO projectPOJO = response.body();
 //                        Log.i("abc", projectPOJO.getTeam().getName().toString());
-                        List<IndividualProject> individualProjectsList = projectPOJO.getIndividualProjects();
+                            List<IndividualProject> individualProjectsList = projectPOJO.getIndividualProjects();
 //                        Log.i("pt_skill", String.valueOf(pt_skills.get(0).getParticipant().getName()));
-                        List<TeamProject> teamProjectsList = projectPOJO.getTeams();
-                        ProjectAdapterP projectAdapterP = new ProjectAdapterP(getContext(), individualProjectsList,teamProjectsList);
-                        projects_recyclerView.setAdapter(projectAdapterP);
-                        projectAdapterP.setGetProjectP(individualProjectsList, teamProjectsList);
+                            List<TeamProject> teamProjectsList = projectPOJO.getTeams();
+                            ProjectAdapterP projectAdapterP = new ProjectAdapterP(getContext(), individualProjectsList, teamProjectsList);
+                            projects_recyclerView.setAdapter(projectAdapterP);
+                            projectAdapterP.setGetProjectP(individualProjectsList, teamProjectsList);
+                        }
                     }
 
                     @Override
@@ -169,6 +159,7 @@ public class ProfileViewFragment extends Fragment {
                         Log.i("error", t.getMessage());
                     }
                 });
+
             }
 
             @Override

@@ -10,6 +10,11 @@ public class Team{
     public List<Member> members;
     public String hack_id;
     public int __v;
+    public String project_name;
+    public String code;
+    public String demonstration;
+    public String design;
+    public String project_description;
 
     public String get_id() {
         return _id;
@@ -65,5 +70,45 @@ public class Team{
 
     public void set__v(int __v) {
         this.__v = __v;
+    }
+
+    public String getProject_name() {
+        return project_name;
+    }
+
+    public void setProject_name(String project_name) {
+        this.project_name = project_name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getDemonstration() {
+        return demonstration;
+    }
+
+    public void setDemonstration(String demonstration) {
+        this.demonstration = demonstration;
+    }
+
+    public String getDesign() {
+        return design;
+    }
+
+    public void setDesign(String design) {
+        this.design = design;
+    }
+
+    public String getProject_description() {
+        return project_description;
+    }
+
+    public void setProject_description(String project_description) {
+        this.project_description = project_description;
     }
 }

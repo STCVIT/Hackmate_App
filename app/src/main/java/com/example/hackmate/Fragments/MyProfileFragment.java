@@ -26,6 +26,8 @@ import com.example.hackmate.POJOClasses.IndividualProject;
 import com.example.hackmate.POJOClasses.JoinTeamPOJO;
 import com.example.hackmate.POJOClasses.ProjectPOJO;
 import com.example.hackmate.POJOClasses.PtSkill;
+import com.example.hackmate.POJOClasses.Skill;
+import com.example.hackmate.POJOClasses.SkillPerson;
 import com.example.hackmate.POJOClasses.TeamProject;
 import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
@@ -109,27 +111,9 @@ public class MyProfileFragment extends Fragment {
                 github_MP.setText(response.body().getGithub());
                 linkedIn_MP.setText(response.body().getLinkedIn());
                 id = String.valueOf(response.body().getId());
-                Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getidToken());
-                Log.i("tag", "tag");
-                caller.enqueue(new Callback<ProjectPOJO>() {
-                    @Override
-                    public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
-                        Log.i("project_response", String.valueOf(response.body()));
-                        ProjectPOJO projectPOJO = response.body();
-//                        Log.i("abc", projectPOJO.getTeam().getName().toString());
-                        List<IndividualProject> individualProjectsList = projectPOJO.getIndividualProjects();
-//                        Log.i("pt_skill", String.valueOf(pt_skills.get(0).getParticipant().getName()));
-                        List<TeamProject> teamProjectsList = projectPOJO.getTeams();
-                        ProjectAdapterMP projectAdapterMP = new ProjectAdapterMP(getContext(), individualProjectsList,teamProjectsList);
-                        projects_recyclerView.setAdapter(projectAdapterMP);
-                        projectAdapterMP.setGetProjectMP(individualProjectsList, teamProjectsList);
-                    }
-
-                    @Override
-                    public void onFailure(Call<ProjectPOJO> call, Throwable t) {
-                        Log.i("error", t.getMessage());
-                    }
-                });
+                if (response.body().getWebsite() != null) {
+                    personal_website_MP.setText(response.body().getWebsite());
+                }
             }
 
             @Override
@@ -138,48 +122,69 @@ public class MyProfileFragment extends Fragment {
             }
         });
 
+        Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getidToken());
+        Log.i("tag", "tag");
+        caller.enqueue(new Callback<ProjectPOJO>() {
+            @Override
+            public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
+                Log.i("project_response", String.valueOf(response.body()));
+                if (response.body() != null) {
+                    ProjectPOJO projectPOJO = response.body();
+//                        Log.i("abc", projectPOJO.getTeam().getName().toString());
+                    List<IndividualProject> individualProjectsList = projectPOJO.getIndividualProjects();
+//                        Log.i("pt_skill", String.valueOf(pt_skills.get(0).getParticipant().getName()));
+                    List<TeamProject> teamProjectsList = projectPOJO.getTeams();
+                    ProjectAdapterMP projectAdapterMP = new ProjectAdapterMP(getContext(), individualProjectsList, teamProjectsList);
+                    projects_recyclerView.setAdapter(projectAdapterMP);
+                    projectAdapterMP.setGetProjectMP(individualProjectsList, teamProjectsList);
+                }
+            }
 
-//                            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-//                            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-//
-//                            OkHttpClient okHttpClient =new OkHttpClient.Builder()
-//                                    //.addInterceptor(loggingInterceptor)
-//                                    .addNetworkInterceptor(loggingInterceptor)
-//                                    .build();
-//
-//                            retrofit = new Retrofit.Builder()
-//                                    .baseUrl("https://hackportalbackend.herokuapp.com/")
-//                                    .addConverterFactory(GsonConverterFactory.create())
-//                                    .client(okHttpClient)
-//                                    .build();
+            @Override
+            public void onFailure(Call<ProjectPOJO> call, Throwable t) {
+                Log.i("error", t.getMessage());
+            }
+        });
 
+        Call<List<Skill>> call1 = loginAPI.getSkills("Bearer " + MainActivity.getidToken());
+        call1.enqueue(new Callback<List<Skill>>() {
+            @Override
+            public void onResponse(Call<List<Skill>> call1, Response<List<Skill>> response) {
+                Log.i("skilssssss", response.body().toString());
+                if (response.body() != null) {
+                    List<Skill> skillList = response.body();
+                    for (int i = 0; i < skillList.size(); i++) {
+                        Log.i("SKILLS", skillList.get(i).getSkill());
 
-//        projects_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        ProjectModel model2 = new ProjectModel("Hackmate",
-//                "Project for team building for hackathons",
-//                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tristique mauris, " +
-//                        "nec vitae cursus phasellus a proin et. Sit in velit duis iaculis est. " +
-//                        "At odio sociis venenatis ut commodo. Aliquet eget morbi faucibus nisl " +
-//                        "nec quis suscipit ut. Mus vestibulum risus at ante lorem volutpat. " +
-//                        "In vitae vitae, tortor a ipsum ipsum. Ipsum cras eu odio natoque blandit commodo aliquam.",
-//                "abc@gmail.com", "abc@gmail.com", "abc@gmail.com");
-//        ArrayList arrayList1 = new ArrayList<ProjectModel>();
-//        arrayList1.add(model2);
-//        arrayList1.add(model2);
-//        projects_recyclerView.setAdapter(new ProjectAdapterMP(getContext(), arrayList1));
+                        Chip chip = new Chip(getContext());
+                        if (skillList.get(i).getSkill().equals("ml")) {
+                            chip.setText("Machine Learning");
+                        } else if (skillList.get(i).getSkill().equals("frontend")) {
+                            chip.setText("Frontend");
+                        } else if (skillList.get(i).getSkill().equals("backend")) {
+                            chip.setText("Backend");
+                        } else if (skillList.get(i).getSkill().equals("ui/ux")) {
+                            chip.setText("UI/UX Design");
+                        } else if (skillList.get(i).getSkill().equals("management")) {
+                            chip.setText("Management");
+                        } else if (skillList.get(i).getSkill().equals("appdev")) {
+                            chip.setText("App Development");
+                        }
+                        chip.setChipStrokeColorResource(R.color.pill_color);
+                        chip.setChipBackgroundColor(getResources().getColorStateList(R.color.pill_color));
+                        chip.setTextColor(getResources().getColorStateList(R.color.text));
+                        chip.setChipStrokeWidth(4);
+                        chip.setClickable(false);
+                        chipGroup.addView(chip);
+                    }
+                }
+            }
 
-        String[] team_domains = {"App Development", "UI/UX"};
-
-        for (int i = 0; i < team_domains.length; i++) {
-            Chip chip = new Chip(getContext());
-            chip.setText(team_domains[i]);
-            chip.setChipStrokeColorResource(R.color.pill_color);
-            chip.setChipBackgroundColor(getResources().getColorStateList(R.color.pill_color));
-            chip.setTextColor(getResources().getColorStateList(R.color.text));
-            chip.setChipStrokeWidth(4);
-            chip.setClickable(false);
-            chipGroup.addView(chip);
-        }
+            @Override
+            public void onFailure(Call<List<Skill>> call1, Throwable t) {
+                Log.i("nhi hua", "nhi hua :((((");
+            }
+        });
 
         profile_pic.setImageResource(R.drawable.bhavik);
     }
