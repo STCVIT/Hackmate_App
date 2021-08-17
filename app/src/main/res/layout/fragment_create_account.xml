@@ -333,11 +333,11 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                app:boxStrokeWidth="0dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.6"
                 android:background="@drawable/ic_edit_text"
-                android:hint="Year of Graduation"
                 android:textColorHint="@color/text_secondary">
 
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
@@ -354,12 +354,12 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout1"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                app:boxStrokeWidth="0dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_weight="0.4"
                 android:background="@drawable/ic_edit_text"
-                android:hint="Gender"
                 android:textColorHint="@color/text_secondary">
 
 

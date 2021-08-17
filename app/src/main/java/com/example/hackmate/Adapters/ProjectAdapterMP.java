@@ -48,7 +48,7 @@ public class ProjectAdapterMP extends RecyclerView.Adapter<ProjectAdapterMP.View
         if(position - individualProjectsList.size() < 0) {
             IndividualProject individualProject = individualProjectsList.get(position);
             holder.project_nameTextView.setText(individualProject.getNames());
-            holder.descriptionTextView.setText("");
+            holder.descriptionTextView.setText("Individual Project");
             holder.bio_textView.setText(individualProject.getDescriptions());
             holder.link1_textView.setText(individualProject.getCodes());
             holder.link2_textView.setText(individualProject.getDemonstration());

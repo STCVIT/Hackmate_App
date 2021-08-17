@@ -1,12 +1,15 @@
 package com.example.hackmate.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hackmate.Models.ProjectModel;
@@ -45,16 +48,15 @@ public class ProjectAdapterEP extends RecyclerView.Adapter<ProjectAdapterEP.View
     @Override
     public void onBindViewHolder(@NonNull ProjectAdapterEP.Viewholder holder, int position) {
 
-        if(position - individualProjectsList.size() < 0) {
+        if (position - individualProjectsList.size() < 0) {
             IndividualProject individualProject = individualProjectsList.get(position);
             holder.project_nameTextView.setText(individualProject.getNames());
-            holder.descriptionTextView.setText("");
+            holder.descriptionTextView.setText("Individual Project");
             holder.bio_textView.setText(individualProject.getDescriptions());
             holder.link1_textView.setText(individualProject.getCodes());
             holder.link2_textView.setText(individualProject.getDemonstration());
             holder.link3_textView.setText(individualProject.getDesign());
-        }
-        else{
+        } else {
             TeamProject teamProject = teamProjectList.get(position - individualProjectsList.size());
             holder.project_nameTextView.setText(teamProject.getProject_name());
             holder.descriptionTextView.setText(teamProject.getNames());
@@ -64,6 +66,11 @@ public class ProjectAdapterEP extends RecyclerView.Adapter<ProjectAdapterEP.View
             holder.link3_textView.setText(teamProject.getDesign());
         }
 
+//        holder.cardView.setOnLongClickListener(v -> {
+//            Log.i("long click", "long click successful!");
+//            return false;
+//        });
+
     }
 
     @Override
@@ -71,9 +78,12 @@ public class ProjectAdapterEP extends RecyclerView.Adapter<ProjectAdapterEP.View
         return individualProjectsList.size() + teamProjectList.size();
     }
 
-    public class Viewholder extends RecyclerView.ViewHolder{
+
+    public class Viewholder extends RecyclerView.ViewHolder {
 
         TextView project_nameTextView, descriptionTextView, bio_textView, link1_textView, link2_textView, link3_textView;
+        CardView cardView;
+
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 
@@ -83,6 +93,7 @@ public class ProjectAdapterEP extends RecyclerView.Adapter<ProjectAdapterEP.View
             link1_textView = itemView.findViewById(R.id.link1_textView);
             link2_textView = itemView.findViewById(R.id.link2_textView);
             link3_textView = itemView.findViewById(R.id.link3_textView);
+            cardView = itemView.findViewById(R.id.cardView_Projects);
 
         }
     }

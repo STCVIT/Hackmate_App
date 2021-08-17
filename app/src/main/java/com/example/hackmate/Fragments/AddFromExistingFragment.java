@@ -12,6 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hackmate.Adapters.AddFromExistingAdapter;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
@@ -40,6 +43,8 @@ public class AddFromExistingFragment extends Fragment {
     RecyclerView addHackToTeam;
     private loginAPI loginAPI;
     private String hackId;
+    TextView goingForHackTextView;
+    ProgressBar progressBar;
 
     public AddFromExistingFragment(String hackId) {
         this.hackId = hackId;
@@ -58,6 +63,8 @@ public class AddFromExistingFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initialise();
+
+        goingForHackTextView.setVisibility(View.GONE);
 
         Log.i("HACKID_SDVSV",hackId);
         addHackToTeam.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -88,13 +95,19 @@ public class AddFromExistingFragment extends Fragment {
                             addHackToTeam.setAdapter(existingAdapter);
                             existingAdapter.setGetTeams(teamList, hackId);
 
-
+                        } else{
+                            goingForHackTextView.setVisibility(View.VISIBLE);
+                            goingForHackTextView.setText("All teams are registered for a hack, please make a new team to register for this hack!!!");
+//                            Toast.makeText(getActivity(), "No teams exist which is not going for this hack!", Toast.LENGTH_SHORT).show();
                         }
+                        progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onFailure(Call<List<JoinTeamPOJO>> call, Throwable t) {
                         Log.i("error33", t.getMessage());
+                        Toast.makeText(getActivity(), "Failed To Fetch!", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
 
@@ -110,5 +123,7 @@ public class AddFromExistingFragment extends Fragment {
     public void initialise() {
 
         addHackToTeam = getView().findViewById(R.id.addHackToTeam_recyclerView);
+        goingForHackTextView = getView().findViewById(R.id.going_for_hack_textView);
+        progressBar = getView().findViewById(R.id.progressBar_AFE);
     }
 }

@@ -24,14 +24,16 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.Viewholder
 
     private Context context;
     private List<PtSkill> ptSkills;
+    String admin_id;
 
     public MemberAdapter(Context context, List<PtSkill> ptSkills) {
         this.context = context;
         this.ptSkills = ptSkills;
     }
 
-    public void setJoinTeam(List<PtSkill> ptSkills) {
+    public void setJoinTeam(List<PtSkill> ptSkills, String admin_id) {
         this.ptSkills = ptSkills;
+        this.admin_id = admin_id;
     }
 
 
@@ -50,6 +52,12 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.Viewholder
         holder.number_textView.setText(String.valueOf(position+1));
         holder.nameTextView.setText(ptSkill.getParticipant().getName());
         holder.email_textView.setText(ptSkill.getParticipant().getEmail());
+        if(ptSkill.getParticipant().get_id().equals(admin_id)){
+            holder.designation_textView.setText("Leader");
+        } else{
+            holder.designation_textView.setText("");
+        }
+//        if(ptSkill.getParticipant())
 //        holder.designation_textView.setText(model.getMemPosition());
 //        holder.profile_imageView.setImageResource(model.getProfilephoto());
 

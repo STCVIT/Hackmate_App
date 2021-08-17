@@ -13,6 +13,18 @@
         android:layout_height="match_parent"
         android:background="@color/background">
 
+        <ProgressBar
+            android:id="@+id/progressBarP"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.196" />
+
         <ImageView
             android:id="@+id/profile_pic_P"
             android:layout_width="100dp"
@@ -29,7 +41,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
-            android:text="Yash Jasani"
             android:textColor="@color/text"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -42,7 +53,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
-            android:text="username"
             android:textColor="@color/text"
             app:layout_constraintStart_toEndOf="@+id/profile_pic_P"
             app:layout_constraintTop_toBottomOf="@+id/name_PV" />
@@ -63,7 +73,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="jasaniyash13@gmail.com"
             android:textColor="@color/text"
             app:layout_constraintStart_toEndOf="@+id/textView16"
             app:layout_constraintTop_toBottomOf="@+id/username_PV" />
@@ -82,10 +91,12 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroup112"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="12dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView18">
 
@@ -128,7 +139,6 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="15dp"
-                    android:text="VIT"
                     android:textColor="@color/text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -174,7 +184,6 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="15dp"
-                    android:text="2024"
                     android:textColor="@color/text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -220,7 +229,6 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="15dp"
-                    android:text="www.github.com"
                     android:textColor="@color/text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -267,7 +275,6 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="15dp"
-                    android:text="www.linkedin.in"
                     android:textColor="@color/text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -313,7 +320,6 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="15dp"
-                    android:text="---"
                     android:textColor="@color/text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -357,7 +363,6 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="16dp"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus phasellus elit, ullamcorper sed rutrum nulla sagittis odio nisl. Pretium sit nibh a non. Diam amet lacus sit fermentum urna augue. Ac tempor id tortor, pellentesque lacus, sit a vulputate."
                     android:textColor="@color/text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

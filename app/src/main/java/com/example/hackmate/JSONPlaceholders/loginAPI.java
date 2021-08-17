@@ -35,10 +35,6 @@ public interface loginAPI {
     Call<Response<Void>> getLoginStatus(@Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("login")
-    Call<Response<Void>> NewAccount(@Header("Authorization") String token);
-
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("participant/login")
     Call<loginPOJO> getParticipant(@Header("Authorization") String token);
 
@@ -84,7 +80,7 @@ public interface loginAPI {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("skills/mySkills")
-    Call<List<Skill>> getSkillsP(@Header("Authorization") String token, @Query("id") String id);
+    Call<List<Skill>> getSkillsP(@Header("Authorization") String token, @Query("participant_id") String id);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @PATCH("DN_Team/update/{id}")
@@ -93,6 +89,6 @@ public interface loginAPI {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("requests/request/{id}")
-    Call<PatchTeamDetails> postTeamCode(@Header("Authorization") String token, @Path("id") String id);
+    Call<Map<String,Object>> postTeamCode(@Header("Authorization") String token, @Path("id") String id);
 
 }
