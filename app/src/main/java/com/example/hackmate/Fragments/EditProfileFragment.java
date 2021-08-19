@@ -1,13 +1,6 @@
 package com.example.hackmate.Fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,18 +13,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.hackmate.Adapters.ProjectAdapterEP;
-import com.example.hackmate.Adapters.ProjectAdapterMP;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.MainActivity;
-import com.example.hackmate.Models.ProjectModel;
-
 import com.example.hackmate.POJOClasses.IndividualProject;
 import com.example.hackmate.POJOClasses.POST.PatchDetails;
 import com.example.hackmate.POJOClasses.POST.PostSkills;
 import com.example.hackmate.POJOClasses.ProjectPOJO;
 import com.example.hackmate.POJOClasses.Skill;
-
 import com.example.hackmate.POJOClasses.TeamProject;
 import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
@@ -40,26 +35,17 @@ import com.example.hackmate.util.Constants;
 import com.example.hackmate.util.Functions;
 import com.example.hackmate.util.RecyclerTouchListener;
 import com.example.hackmate.util.RetrofitInstance;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class EditProfileFragment extends Fragment {
@@ -67,16 +53,17 @@ public class EditProfileFragment extends Fragment {
     Button saveButton;
     BottomNavigationView bottomNavigation;
     AutoCompleteTextView YOG_CompleteEditText;
-    private RecyclerView projects_recyclerView;
     ImageView profile_pic_EP;
     TextView name_EP, username_EP, email_EP, college_EP, bio_EP, github_EP, linkedIn_EP, personal_website_EP;
     String id;
-    private loginAPI loginAPI;
     PatchDetails patchDetails;
     ChipGroup chipGroup;
     PostSkills postSkills;
-    private ProgressBar progressBar;
     ArrayAdapter<String> YOG_arrayAdapter1;
+    private RecyclerView projects_recyclerView;
+    private loginAPI loginAPI;
+    private ProgressBar progressBar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,13 +82,13 @@ public class EditProfileFragment extends Fragment {
 
         projects_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        profile_pic_EP.setImageResource(R.drawable.bhavik);
+//        profile_pic_EP.setImageResource(R.drawable.bhavik);
 
         loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
         fetchData(view);
     }
 
-    void fetchData(View view){
+    void fetchData(View view) {
         Call<loginPOJO> call = loginAPI.getParticipant("Bearer " + MainActivity.getIdToken());
         call.enqueue(new Callback<loginPOJO>() {
             @Override
@@ -118,7 +105,7 @@ public class EditProfileFragment extends Fragment {
                 github_EP.setText(response.body().getGithub());
                 linkedIn_EP.setText(response.body().getLinkedIn());
                 id = String.valueOf(response.body().getId());
-                if(response.body().getWebsite() != null) {
+                if (response.body().getWebsite() != null) {
                     personal_website_EP.setText(response.body().getWebsite());
                 }
                 Log.i("id22", id);
@@ -157,14 +144,36 @@ public class EditProfileFragment extends Fragment {
                     projects_recyclerView.addOnItemTouchListener(new RecyclerTouchListener(requireContext(), projects_recyclerView, new ClickListener() {
                         @Override
                         public void onClick(View view, int position) {
-                            Log.e(TAG, "onClick: single tap" );
+                            Log.e(TAG, "onClick: single tap");
                         }
 
                         @Override
                         public void onLongClick(View view, int position) {
-                            Log.e(TAG, "onLongClick: long tap" + position + "=>" + individualProjectsList.get(position)._ids);
-//                            projectAdapterEP.notifyItemRemoved(position);
+                            if (position < individualProjectsList.size()) {
+                                Log.e(TAG, "onLongClick: long tap" + position + "=>" + individualProjectsList.get(position).get_ids());
+
+                                Call<Map<String, Object>> call1 = loginAPI.delProject("Bearer " + MainActivity.getIdToken(),
+                                        individualProjectsList.get(position).get_ids());
+                                call1.enqueue(new Callback<Map<String, Object>>() {
+                                    @Override
+                                    public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                                        Log.i(TAG, "Del proj" + String.valueOf(response.body()));
+                                        individualProjectsList.remove(position);
+                                        projectAdapterEP.notifyItemRemoved(position);
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+
+                                    }
+                                });
+                            } else {
+                                Log.e(TAG, "onLongClick: long tap on team" + position);
+                                Toast.makeText(getActivity(), "Team projects cannot be deleted from here!!", Toast.LENGTH_SHORT).show();
+                            }
                         }
+
                     }));
                     projectAdapterEP.setGetProjectEP(individualProjectsList, teamProjectsList);
                 }
@@ -190,7 +199,7 @@ public class EditProfileFragment extends Fragment {
             public void onResponse(Call<List<Skill>> call1, Response<List<Skill>> response) {
                 if (response.body() != null) {
                     List<Skill> skillList = response.body();
-                    for (Skill skill:skillList) {
+                    for (Skill skill : skillList) {
 //                        Log.i("SKILLS", skillList.get(i).getSkill());
                         for (int j = 0; j < chipGroup.getChildCount(); j++) {
                             Chip chip = (Chip) chipGroup.getChildAt(j);
@@ -221,8 +230,8 @@ public class EditProfileFragment extends Fragment {
             }
         });
         saveButton.setOnClickListener(v -> {
-            List<String> skill =  new ArrayList<>();
-            for(int id:chipGroup.getCheckedChipIds()){
+            List<String> skill = new ArrayList<>();
+            for (int id : chipGroup.getCheckedChipIds()) {
                 Chip chip = view.findViewById(id);
                 skill.add(Constants.skills.get(chip.getText().toString()));
             }
@@ -255,7 +264,7 @@ public class EditProfileFragment extends Fragment {
 
             patchDetails = new PatchDetails((name_EP.getText().toString()), college_EP.getText().toString(),
                     bio_EP.getText().toString(), github_EP.getText().toString(), linkedIn_EP.getText().toString(),
-                    personal_website_EP.getText().toString(), username_EP.getText().toString(),2024);
+                    personal_website_EP.getText().toString(), username_EP.getText().toString(), 2024);
             patchDetails.setName(name_EP.getText().toString());
             patchDetails.setCollege(college_EP.getText().toString());
             patchDetails.setBio(bio_EP.getText().toString());
@@ -297,7 +306,6 @@ public class EditProfileFragment extends Fragment {
 
 
     }
-
 
 
     @Override

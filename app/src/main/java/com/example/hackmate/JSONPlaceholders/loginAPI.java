@@ -21,6 +21,7 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -91,4 +92,7 @@ public interface loginAPI {
     @POST("requests/request/{id}")
     Call<Map<String,Object>> postTeamCode(@Header("Authorization") String token, @Path("id") String id);
 
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @DELETE("projects/delete/{id}")
+    Call<Map<String,Object>> delProject(@Header("Authorization") String token, @Path("id") String id);
 }

@@ -111,7 +111,7 @@ public class ProfileViewFragment extends Fragment {
 //            chipGroup.addView(chip);
 //        }
 
-        profile_pic.setImageResource(R.drawable.bhavik);
+//        profile_pic.setImageResource(R.drawable.bhavik);
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

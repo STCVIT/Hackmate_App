@@ -204,7 +204,7 @@ public class MyProfileFragment extends Fragment {
             }
         });
 
-        profile_pic.setImageResource(R.drawable.bhavik);
+//        profile_pic.setImageResource(R.drawable.bhavik);
     }
 
     public void initialise() {
