@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class Received {
+/*public class Received {
 
     @SerializedName("inv")
     @Expose
@@ -40,7 +40,7 @@ public class Received {
     public void setTeam(TeamInvite team) {
         this.team = team;
     }
-
+}*/
  /*   @SerializedName("_id")
     @Expose
     private String id;
@@ -85,5 +85,42 @@ public class Received {
     public void setV(Integer v) {
         this.v = v;
     }*/
+
+
+public class Received {
+
+    @SerializedName("team")
+    @Expose
+    private TeamInvite team;
+    @SerializedName("leader")
+    @Expose
+    private LeaderInvite leader;
+    @SerializedName("inv")
+    @Expose
+    private String inv;
+
+    public TeamInvite getTeam() {
+        return team;
+    }
+
+    public void setTeam(TeamInvite team) {
+        this.team = team;
+    }
+
+    public LeaderInvite getLeader() {
+        return leader;
+    }
+
+    public void setLeader(LeaderInvite leader) {
+        this.leader = leader;
+    }
+
+    public String getInv() {
+        return inv;
+    }
+
+    public void setInv(String inv) {
+        this.inv = inv;
+    }
 
 }

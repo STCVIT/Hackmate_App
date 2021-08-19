@@ -17,29 +17,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
-import com.example.hackmate.POJOClasses.Kavita.editProjectPOJO;
+import com.example.hackmate.JSONPlaceholders.loginAPI;
+import com.example.hackmate.MainActivity;
+import com.example.hackmate.POJOClasses.JoinTeamPOJO;
+import com.example.hackmate.POJOClasses.Kavita.Projects.addOReditProject.editProjectPOJO;
 import com.example.hackmate.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.hackmate.util.RetrofitInstance;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GetTokenResult;
 
-import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class EditProjectFragment extends Fragment {
-    private TextView ProjectName,ProjectDescription,githubLink,designLink,demoLink,appBarTitle;
+    private TextView ProjectName, ProjectDescription, githubLink, designLink, demoLink, appBarTitle;
     Button saveButton;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private String idToken = "Bearer ";
+    public String ProjectIDEdit, teamID;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,17 +59,30 @@ public class EditProjectFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Changes saved !!!", Toast.LENGTH_SHORT).show();
+                if (ProjectName.getText().toString().isEmpty() ) {
+                    ProjectName.setError("Project Name  Required");
+                    ProjectName.requestFocus();
+                    return;        }
+                else if (ProjectDescription.getText().toString().isEmpty()) {
+                    ProjectDescription.setError("Project Description  Required");
+                    ProjectDescription.requestFocus();
+                    return;
+                }
+                updateProject();
+
 
             }
         });
 
-        ProjectName=view.findViewById(R.id.projectNameEdit);
-        ProjectDescription=view.findViewById(R.id.projectDescriptionEdit);
-        githubLink=view.findViewById(R.id.githubLinkEdit);
-        designLink=view.findViewById(R.id.designLinkEdit);
-        demoLink=view.findViewById(R.id.designLinkEdit);
-        appBarTitle=view.findViewById(R.id.editProject_title2);
+        ProjectName = view.findViewById(R.id.projectNameEdit);
+        ProjectDescription = view.findViewById(R.id.projectDescriptionEdit);
+        githubLink = view.findViewById(R.id.githubLinkEdit);
+        designLink = view.findViewById(R.id.designLinkEdit);
+        demoLink = view.findViewById(R.id.demoLinkEdit);
+        appBarTitle = view.findViewById(R.id.editProject_title2);
+        Bundle bundle = this.getArguments();
+        ProjectIDEdit = bundle.getString("ProjectID", "");
+        teamID = bundle.getString("teamID", "");
 
         getRetrofit();
 
@@ -81,63 +90,88 @@ public class EditProjectFragment extends Fragment {
 
     private void getRetrofit() {
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                //.addInterceptor(loggingInterceptor)
-                .addNetworkInterceptor(loggingInterceptor)
-                .build();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://hackportalbackend.herokuapp.com/")
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        idToken = MainActivity.getIdToken();
+        JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
+        loginAPI loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
+        Log.i("EDitProject", ProjectIDEdit);
+        // Call<List<editProjectPOJO>> call5 = jsonPlaceHolderAPI.getEditProject(idToken, ProjectIDEdit);
+        Call<JoinTeamPOJO> call3 = loginAPI.getTeam("Bearer " + MainActivity.getIdToken(), getArguments().getString("teamID"));
+        call3.enqueue(new Callback<JoinTeamPOJO>() {
+            @Override
+            public void onResponse(Call<JoinTeamPOJO> call3, Response<JoinTeamPOJO> response5) {
+                if (!response5.isSuccessful()) {
+                    Log.i("not sucess5", "code: " + response5.code());
+                    return;
+                }
 
-        mAuth.getCurrentUser().getIdToken(true)
-                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                    public void onComplete(@NonNull Task<GetTokenResult> task) {
-                        if (task.isSuccessful()) {
-                            idToken += task.getResult().getToken();
-                            Log.i("xx", idToken);
-                            // Send token to your backend via HTTPS
-                            // ...
-                            //editProjectAPI editProjectAPI = retrofit.create(editProjectAPI.class);
-                            JSONPlaceHolderAPI jsonPlaceHolderAPI = retrofit.create(JSONPlaceHolderAPI.class);
-                            Call<List<editProjectPOJO>> call5 = jsonPlaceHolderAPI.getEditProject(idToken,"60e865e12d9a640015411630");
-                            call5.enqueue(new Callback<List<editProjectPOJO>>() {
-                                @Override
-                                public void onResponse(Call<List<editProjectPOJO>> call5, Response<List<editProjectPOJO>> response5) {
-                                    if (!response5.isSuccessful()) {
-                                        Log.i("not sucess5", "code: " + response5.code());
-                                        return;
-                                    }
+                ProjectName.setText(response5.body().getTeam().getProject_name());
 
-                                    List<editProjectPOJO> editProjectPOJOS = response5.body();
+                ProjectDescription.setText(response5.body().getTeam().getProject_description());
 
-                                    for(editProjectPOJO editProjectPOJO : editProjectPOJOS){
-                                        String u = editProjectPOJO.getProjectName();
-                                        ProjectName.setText(u);
-                                        String v = editProjectPOJO.getDescription();
-                                        ProjectDescription.setText(v);
-                                        String w = editProjectPOJO.getGithubLink();
-                                        githubLink.setText(w);
-                                        String x = editProjectPOJO.getDesignLink();
-                                        designLink.setText(x);
-                                        String y = editProjectPOJO.getDemoLink();
-                                        demoLink.setText(y);
-                                        String z = editProjectPOJO.getProjectName();
-                                        appBarTitle.setText(z);
-                                    }
-                                }
+                githubLink.setText(response5.body().getTeam().getCode());
 
-                                @Override
-                                public void onFailure(Call<List<editProjectPOJO>> call5, Throwable t) {
-                                    Log.i("failed5", t.getMessage());
-                                }
-                            });
-                        }
-                    }
-                });
+                designLink.setText(response5.body().getTeam().getDesign());
+
+                demoLink.setText(response5.body().getTeam().getDemonstration());
+
+                appBarTitle.setText(response5.body().getTeam().getProject_name());
+
+            }
+
+            @Override
+            public void onFailure(Call<JoinTeamPOJO> call3, Throwable t) {
+                Log.i("failed5", t.getMessage());
+            }
+        });
     }
+
+    private void updateProject() {
+        editProjectPOJO editProjectPOJO = new editProjectPOJO(ProjectName.getText().toString(), ProjectDescription.getText().toString(), githubLink.getText().toString(), designLink.getText().toString(), demoLink.getText().toString());
+        JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
+
+        Call<editProjectPOJO> call = jsonPlaceHolderAPI.updateProject(idToken, teamID, editProjectPOJO);
+        call.enqueue(new Callback<editProjectPOJO>() {
+            @Override
+            public void onResponse(Call<editProjectPOJO> call, Response<editProjectPOJO> response) {
+
+                if (!response.isSuccessful()) {
+                    Log.i("sucess", "sucess");
+                }
+                editProjectPOJO editProjectPOJOResponse = response.body();
+                Log.i("editProject", String.valueOf(response.code()));
+               /*Log.i("editProjectname",editProjectPOJOResponse.getProjectName());
+                Log.i("editProjectdescription",editProjectPOJOResponse.getDescription());
+                Log.i("editProjectGitHUB",editProjectPOJOResponse.getGithubLink());
+                Log.i("editProjectDesign",editProjectPOJOResponse.getDesignLink());
+                Log.i("editProjectDemo",editProjectPOJOResponse.getDemoLink());*/
+                Toast.makeText(getContext(), "Changes Saved !!!", Toast.LENGTH_LONG).show();
+                /*TeamProfileLeaderViewFragment frag = new TeamProfileLeaderViewFragment();
+
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("Keys", 1);
+               *//* bundle.putString("ProjectId",ProjectIDEdit);
+                bundle.putString("display","yes");*//*
+                bundle.putString("teamID",teamID);
+                frag.setArguments(bundle);
+
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment,frag)
+                        .addToBackStack(null)
+                        .commit();*/
+            }
+
+            @Override
+            public void onFailure(Call<editProjectPOJO> call, Throwable t) {
+                Log.i("error", t.getMessage());
+            }
+        });
+    }
+
+
+
 }
+
+

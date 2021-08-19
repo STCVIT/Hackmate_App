@@ -34,6 +34,17 @@ public class hackProfilePOJO {
     @SerializedName("website")
     public String website;
 
+    @SerializedName("poster")
+    public String poster;
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
     public String getId() {
         return id;
     }

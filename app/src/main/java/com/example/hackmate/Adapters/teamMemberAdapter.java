@@ -1,18 +1,24 @@
 package com.example.hackmate.Adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hackmate.Fragments.ProfileViewFragment;
 import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
-import com.example.hackmate.POJOClasses.Kavita.teamIdPOJO;
+import com.example.hackmate.MainActivity;
+
+import com.example.hackmate.POJOClasses.JoinTeamPOJO;
 import com.example.hackmate.POJOClasses.PtSkill;
 import com.example.hackmate.R;
 import com.example.hackmate.Models.teamMember_Model;
@@ -77,23 +83,42 @@ public class teamMemberAdapter extends RecyclerView.Adapter<teamMemberAdapter.Vi
                 @Override
                 public void onClick(View v) {
                     JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
-                    Call<Void> call = jsonPlaceHolderAPI.leaveTeam(idToken, TeamId);
-                    call.enqueue(new Callback<Void>() {
+                    Call<JoinTeamPOJO> call = jsonPlaceHolderAPI.leaveTeam(MainActivity.getIdToken(), TeamId);
+                    call.enqueue(new Callback<JoinTeamPOJO>() {
                         @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
+                        public void onResponse(Call<JoinTeamPOJO> call, Response<JoinTeamPOJO> response) {
                             Log.i("teamMemberAdapter", "code: " + response.code());
                             Log.i("teamMemberAdapter", "body: " + response.body());
+                            Toast.makeText(context, "Leave successful !!", Toast.LENGTH_SHORT).show();
 
                         }
 
                         @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
+                        public void onFailure(Call<JoinTeamPOJO> call, Throwable t) {
                             Log.i("failed1", t.getMessage());
                         }
                     });
                 }
             });
         }
+
+        holder.teamMembercard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileViewFragment frag3 = new ProfileViewFragment();
+                Log.i("IdCheck",id);
+                Bundle bundle3 = new Bundle();
+                bundle3.putString("id", teamMemberArrayList.get(position).getParticipant().get_id());
+                frag3.setArguments(bundle3);
+
+                MainActivity activity = (MainActivity) v.getContext();
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, frag3)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
         //holder.LeaveOption.setText(id.equals(adminId)? "":"leave");
         //teamMember_Model.TeamMemberModel model = (teamMember_Model.TeamMemberModel) teamMemberArrayList.get(position);
        /* holder.SerialNo.setText(model.getSerialNo());
@@ -117,7 +142,7 @@ public class teamMemberAdapter extends RecyclerView.Adapter<teamMemberAdapter.Vi
 
         private TextView SerialNo, MemName, MemEmail, MemPosition, LeaveOption;
         private ImageView Profilephoto;
-
+        private CardView teamMembercard;
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             SerialNo = itemView.findViewById(R.id.serialNo);
@@ -126,6 +151,7 @@ public class teamMemberAdapter extends RecyclerView.Adapter<teamMemberAdapter.Vi
             MemPosition = itemView.findViewById(R.id.memberPosition);
             Profilephoto = itemView.findViewById(R.id.profilePhoto);
             LeaveOption = itemView.findViewById(R.id.leaveOption);
+            teamMembercard=itemView.findViewById(R.id.TeamMember);
             /*////////////Uncomment once mauth is is universal or is delecraled in mainactivity///////////////
             MemName.setOnClickListener(new View.OnClickListener() {
                 @Override

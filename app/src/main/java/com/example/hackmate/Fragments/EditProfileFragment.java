@@ -1,13 +1,6 @@
 package com.example.hackmate.Fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,58 +9,60 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.hackmate.Adapters.ProjectAdapterEP;
-import com.example.hackmate.Adapters.ProjectAdapterMP;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.MainActivity;
-import com.example.hackmate.Models.ProjectModel;
-
 import com.example.hackmate.POJOClasses.IndividualProject;
 import com.example.hackmate.POJOClasses.POST.PatchDetails;
 import com.example.hackmate.POJOClasses.POST.PostSkills;
 import com.example.hackmate.POJOClasses.ProjectPOJO;
 import com.example.hackmate.POJOClasses.Skill;
-
 import com.example.hackmate.POJOClasses.TeamProject;
 import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
+import com.example.hackmate.util.ClickListener;
+import com.example.hackmate.util.Constants;
+import com.example.hackmate.util.Functions;
+import com.example.hackmate.util.RecyclerTouchListener;
 import com.example.hackmate.util.RetrofitInstance;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.internal.EverythingIsNonNull;
 
 public class EditProfileFragment extends Fragment {
-
+    private static final String TAG = "EditProfileFragment";
     Button saveButton;
     BottomNavigationView bottomNavigation;
     AutoCompleteTextView YOG_CompleteEditText;
-    private RecyclerView projects_recyclerView;
     ImageView profile_pic_EP;
     TextView name_EP, username_EP, email_EP, college_EP, bio_EP, github_EP, linkedIn_EP, personal_website_EP;
     String id;
-    private loginAPI loginAPI;
     PatchDetails patchDetails;
     ChipGroup chipGroup;
     PostSkills postSkills;
+    ArrayAdapter<String> YOG_arrayAdapter1;
+    private RecyclerView projects_recyclerView;
+    private loginAPI loginAPI;
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,25 +76,27 @@ public class EditProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initialise();
-
-        YOG_CompleteEditText.setDropDownBackgroundResource(R.color.field_fill);
-
         String[] years1 = {"2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"};
-        ArrayAdapter<String> YOG_arrayAdapter1 = new ArrayAdapter<String>(getContext(), R.layout.option_item, years1);
+        YOG_arrayAdapter1 = new ArrayAdapter<String>(requireContext(), R.layout.option_item, years1);
+        YOG_CompleteEditText.setAdapter(YOG_arrayAdapter1);
 
         projects_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        profile_pic_EP.setImageResource(R.drawable.bhavik);
+//        profile_pic_EP.setImageResource(R.drawable.bhavik);
 
         loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
+        fetchData(view);
+    }
 
-
+    void fetchData(View view) {
         Call<loginPOJO> call = loginAPI.getParticipant("Bearer " + MainActivity.getIdToken());
         call.enqueue(new Callback<loginPOJO>() {
             @Override
+            @EverythingIsNonNull
             public void onResponse(Call<loginPOJO> call, Response<loginPOJO> response) {
-
-                Log.i("response22", String.valueOf(response.body().getGraduation_year()));
+                if (response.code() == 401)
+                    Functions.fetchToken(requireActivity(), () -> fetchData(view));
+                Log.i(TAG, String.valueOf(response.body().getGraduation_year()));
                 name_EP.setText(response.body().getName());
                 username_EP.setText(response.body().getUsername());
                 email_EP.setText(response.body().getEmail());
@@ -108,24 +105,28 @@ public class EditProfileFragment extends Fragment {
                 github_EP.setText(response.body().getGithub());
                 linkedIn_EP.setText(response.body().getLinkedIn());
                 id = String.valueOf(response.body().getId());
-                if(response.body().getWebsite() != null) {
+                if (response.body().getWebsite() != null) {
                     personal_website_EP.setText(response.body().getWebsite());
                 }
                 Log.i("id22", id);
-
-
                 YOG_CompleteEditText.setText(String.valueOf(response.body().getGraduation_year()), false);
                 YOG_CompleteEditText.setAdapter(YOG_arrayAdapter1);
+                progressBar.setVisibility(View.GONE);
 
             }
 
             @Override
+            @EverythingIsNonNull
             public void onFailure(Call<loginPOJO> call, Throwable t) {
                 Log.i("error", t.getMessage());
                 YOG_CompleteEditText.setText("Year of Graduation", false);
                 YOG_CompleteEditText.setAdapter(YOG_arrayAdapter1);
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "Failed To Fetch!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        progressBar.setVisibility(View.VISIBLE);
 
         Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getIdToken());
         Log.i("tag", "tag");
@@ -140,48 +141,71 @@ public class EditProfileFragment extends Fragment {
                     List<TeamProject> teamProjectsList = projectPOJO.getTeams();
                     ProjectAdapterEP projectAdapterEP = new ProjectAdapterEP(getContext(), individualProjectsList, teamProjectsList);
                     projects_recyclerView.setAdapter(projectAdapterEP);
+                    projects_recyclerView.addOnItemTouchListener(new RecyclerTouchListener(requireContext(), projects_recyclerView, new ClickListener() {
+                        @Override
+                        public void onClick(View view, int position) {
+                            Log.e(TAG, "onClick: single tap");
+                        }
+
+                        @Override
+                        public void onLongClick(View view, int position) {
+                            if (position < individualProjectsList.size()) {
+                                Log.e(TAG, "onLongClick: long tap" + position + "=>" + individualProjectsList.get(position).get_ids());
+
+                                Call<Map<String, Object>> call1 = loginAPI.delProject("Bearer " + MainActivity.getIdToken(),
+                                        individualProjectsList.get(position).get_ids());
+                                call1.enqueue(new Callback<Map<String, Object>>() {
+                                    @Override
+                                    public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                                        Log.i(TAG, "Del proj" + String.valueOf(response.body()));
+                                        individualProjectsList.remove(position);
+                                        projectAdapterEP.notifyItemRemoved(position);
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+
+                                    }
+                                });
+                            } else {
+                                Log.e(TAG, "onLongClick: long tap on team" + position);
+                                Toast.makeText(getActivity(), "Team projects cannot be deleted from here!!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                    }));
                     projectAdapterEP.setGetProjectEP(individualProjectsList, teamProjectsList);
                 }
+                progressBar.setVisibility(View.GONE);
 
             }
 
             @Override
+            @EverythingIsNonNull
             public void onFailure(Call<ProjectPOJO> call, Throwable t) {
                 Log.i("error", t.getMessage());
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "Failed To Fetch!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        progressBar.setVisibility(View.VISIBLE);
 
         Call<List<Skill>> call1 = loginAPI.getSkills("Bearer " + MainActivity.getIdToken());
         call1.enqueue(new Callback<List<Skill>>() {
             @Override
+            @EverythingIsNonNull
             public void onResponse(Call<List<Skill>> call1, Response<List<Skill>> response) {
-                Log.i("skilssssss", response.body().toString());
                 if (response.body() != null) {
                     List<Skill> skillList = response.body();
-                    for (int i = 0; i < skillList.size(); i++) {
+                    for (Skill skill : skillList) {
 //                        Log.i("SKILLS", skillList.get(i).getSkill());
-
                         for (int j = 0; j < chipGroup.getChildCount(); j++) {
                             Chip chip = (Chip) chipGroup.getChildAt(j);
-
-                            if (skillList.get(i).getSkill().equals("ml")) {
-                                if (chip.getText().equals("Machine Learning"))
-                                    chip.setChecked(true);
-                            } else if (skillList.get(i).getSkill().equals("frontend")) {
-                                if (chip.getText().equals("Frontend"))
-                                    chip.setChecked(true);
-                            } else if (skillList.get(i).getSkill().equals("backend")) {
-                                if (chip.getText().equals("Backend"))
-                                    chip.setChecked(true);
-                            } else if (skillList.get(i).getSkill().equals("ui/ux")) {
-                                if (chip.getText().equals("UI/UX Design"))
-                                    chip.setChecked(true);
-                            } else if (skillList.get(i).getSkill().equals("management")) {
-                                if (chip.getText().equals("Management"))
-                                    chip.setChecked(true);
-                            } else if (skillList.get(i).getSkill().equals("appdev")) {
-                                if (chip.getText().equals("App Development"))
-                                    chip.setChecked(true);
+                            if (Constants.skills.get(skill.getSkill())
+                                    .equalsIgnoreCase(chip.getText().toString())) {
+                                chip.setChecked(true);
                             }
 
 //                        chip.setChipStrokeColorResource(R.color.pill_color);
@@ -190,103 +214,98 @@ public class EditProfileFragment extends Fragment {
 //                        chip.setChipStrokeWidth(4);
 //                        chip.setClickable(false);
 //                        chipGroup.addView(chip);
+
+
                         }
                     }
+                    progressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Skill>> call1, Throwable t) {
-                Log.i("nhi hua", "nhi hua :((((");
+                Log.i(TAG, "nhi hua :((((");
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "Failed To Fetch!", Toast.LENGTH_SHORT).show();
             }
         });
-
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                List<String> skill =  new ArrayList<>();
-
-                for (int i=0; i<chipGroup.getChildCount();i++){
-                    Chip chip = (Chip)chipGroup.getChildAt(i);
-                    String chipText = chip.getText().toString();
-                    if(chip.isChecked()){
-                        if(chipText.equals("Machine Learning")){
-                            skill.add("ml");
-                        }
-                        else if(chipText.equals("Frontend")){
-                            skill.add("frontend");
-                        }
-                        else if(chipText.equals("Backend")){
-                            skill.add("backend");
-                        }
-                        else if(chipText.equals("UI/UX Design")){
-                            skill.add("ui/ux");
-                        }
-                        else if(chipText.equals("Management")){
-                            skill.add("management");
-                        }
-                        else if(chipText.equals("App Development")){
-                            skill.add("appdev");
-                        }
+        saveButton.setOnClickListener(v -> {
+            List<String> skill = new ArrayList<>();
+            for (int id : chipGroup.getCheckedChipIds()) {
+                Chip chip = view.findViewById(id);
+                skill.add(Constants.skills.get(chip.getText().toString()));
+            }
+            /*for (int i=0; i<chipGroup.getChildCount();i++){
+                Chip chip = (Chip)chipGroup.getChildAt(i);
+                String chipText = chip.getText().toString();
+                if(chip.isChecked()){
+                    if(chipText.equals("Machine Learning")){
+                        skill.add("ml");
                     }
-                    // Do something
+                    else if(chipText.equals("UI/UX Design")){
+                        skill.add("ui/ux");
+                    }
+                    else if(chipText.equals("App Development")){
+                        skill.add("appdev");
+                    }else{
+                        skill.add(chipText.toLowerCase());
+                    }
+
+                }
+                // Do something
+            }*/
+
+            postSkills = new PostSkills(skill);
+            postSkills.setSkills(skill);
+
+            Log.i("skills", String.valueOf(skill));
+
+            Log.i("year", YOG_CompleteEditText.getText().toString());
+
+            patchDetails = new PatchDetails((name_EP.getText().toString()), college_EP.getText().toString(),
+                    bio_EP.getText().toString(), github_EP.getText().toString(), linkedIn_EP.getText().toString(),
+                    personal_website_EP.getText().toString(), username_EP.getText().toString(), 2024);
+            patchDetails.setName(name_EP.getText().toString());
+            patchDetails.setCollege(college_EP.getText().toString());
+            patchDetails.setBio(bio_EP.getText().toString());
+            patchDetails.setGithub(github_EP.getText().toString());
+            patchDetails.setLinkedIn(linkedIn_EP.getText().toString());
+            patchDetails.setWebsite(personal_website_EP.getText().toString());
+            patchDetails.setUsername(username_EP.getText().toString());
+            patchDetails.setGraduation_year(Integer.parseInt(YOG_CompleteEditText.getText().toString()));
+
+            Call<Response<Map<String, String>>> call11 = loginAPI.patchProfile("Bearer " +
+                    MainActivity.getIdToken(), patchDetails);
+            call11.enqueue(new Callback<Response<Map<String, String>>>() {
+                @Override
+                public void onResponse(Call<Response<Map<String, String>>> call11, Response<Response<Map<String, String>>> response) {
+
                 }
 
-                postSkills = new PostSkills(skill);
-                postSkills.setSkills(skill);
+                @Override
+                public void onFailure(Call<Response<Map<String, String>>> call11, Throwable t) {
+                    Toast.makeText(getActivity(), "Error! Please try again later", Toast.LENGTH_SHORT).show();
+                }
+            });
 
-                Log.i("skills", String.valueOf(skill));
+            Call<Void> call2 = loginAPI.postSkills("Bearer " +
+                    MainActivity.getIdToken(), postSkills);
+            call2.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call2, Response<Void> response) {
+                    Toast.makeText(getActivity(), "Changes saved !!!", Toast.LENGTH_SHORT).show();
+                }
 
-                Log.i("year", YOG_CompleteEditText.getText().toString());
+                @Override
+                public void onFailure(Call<Void> call2, Throwable t) {
+                    Toast.makeText(getActivity(), "Error! Please try again later", Toast.LENGTH_SHORT).show();
+                }
+            });
 
-                patchDetails = new PatchDetails((name_EP.getText().toString()), college_EP.getText().toString(),
-                        bio_EP.getText().toString(), github_EP.getText().toString(), linkedIn_EP.getText().toString(),
-                        personal_website_EP.getText().toString(), username_EP.getText().toString(),2024);
-                patchDetails.setName(name_EP.getText().toString());
-                patchDetails.setCollege(college_EP.getText().toString());
-                patchDetails.setBio(bio_EP.getText().toString());
-                patchDetails.setGithub(github_EP.getText().toString());
-                patchDetails.setLinkedIn(linkedIn_EP.getText().toString());
-                patchDetails.setWebsite(personal_website_EP.getText().toString());
-                patchDetails.setUsername(username_EP.getText().toString());
-                patchDetails.setGraduation_year(Integer.parseInt(YOG_CompleteEditText.getText().toString()));
-
-                Call<Response<Map<String, String>>> call1 = loginAPI.patchProfile("Bearer " +
-                        MainActivity.getIdToken(), patchDetails);
-                call1.enqueue(new Callback<Response<Map<String, String>>>() {
-                    @Override
-                    public void onResponse(Call<Response<Map<String, String>>> call1, Response<Response<Map<String, String>>> response) {
-
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<Response<Map<String, String>>> call1, Throwable t) {
-                        Toast.makeText(getActivity(), "Error! Please try again later", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                Call<Void> call2 = loginAPI.postSkills("Bearer " +
-                        MainActivity.getIdToken(), postSkills);
-                call2.enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call2, Response<Void> response) {
-                        Toast.makeText(getActivity(), "Changes saved !!!", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call2, Throwable t) {
-                        Toast.makeText(getActivity(), "Error! Please try again later", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-            }
         });
 
 
     }
-
 
 
     @Override
@@ -300,6 +319,7 @@ public class EditProfileFragment extends Fragment {
         saveButton = getView().findViewById(R.id.saveChangeButton);
         bottomNavigation = getActivity().findViewById(R.id.bottom_nav_bar);
         YOG_CompleteEditText = getView().findViewById(R.id.year_of_graduation_edit);
+        YOG_CompleteEditText.setDropDownBackgroundResource(R.color.field_fill);
         projects_recyclerView = getView().findViewById(R.id.projects_recyclerView_EP);
         profile_pic_EP = getView().findViewById(R.id.profile_pic_EP);
         name_EP = getView().findViewById(R.id.name_EP);
@@ -311,6 +331,7 @@ public class EditProfileFragment extends Fragment {
         linkedIn_EP = getView().findViewById(R.id.linkedIn_EP);
         personal_website_EP = getView().findViewById(R.id.personal_website_EP);
         chipGroup = getView().findViewById(R.id.chipGroup12);
+        progressBar = getView().findViewById(R.id.progressBarEP);
     }
 
 }

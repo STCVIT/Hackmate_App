@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,12 +57,11 @@ public class ProfileViewFragment extends Fragment {
     ChipGroup chipGroup;
     ImageView profile_pic;
     int GET_NAV_CODE = 0;
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    String idToken, id = "yash";
+    String id = "yash";
     private com.example.hackmate.JSONPlaceholders.loginAPI loginAPI;
-    Retrofit retrofit;
     TextView name_PV, username_PV, email_PV, college_PV, bio_PV,
             github_PV, linkedIn_PV, personal_website_PV, yog_PV;
+    ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,20 +98,20 @@ public class ProfileViewFragment extends Fragment {
         });
 
 
-        String[] team_domains = {"App Development", "UI/UX", "Machine Learning"};
+//        String[] team_domains = {"App Development", "UI/UX", "Machine Learning"};
+//
+//        for (int i = 0; i < team_domains.length; i++) {
+//            Chip chip = new Chip(getContext());
+//            chip.setText(team_domains[i]);
+//            chip.setChipStrokeColorResource(R.color.pill_color);
+//            chip.setChipBackgroundColor(getResources().getColorStateList(R.color.chip_background_color));
+//            chip.setTextColor(getResources().getColorStateList(R.color.chip_text_color));
+//            chip.setChipStrokeWidth(4);
+//            chip.setClickable(false);
+//            chipGroup.addView(chip);
+//        }
 
-        for (int i = 0; i < team_domains.length; i++) {
-            Chip chip = new Chip(getContext());
-            chip.setText(team_domains[i]);
-            chip.setChipStrokeColorResource(R.color.pill_color);
-            chip.setChipBackgroundColor(getResources().getColorStateList(R.color.chip_background_color));
-            chip.setTextColor(getResources().getColorStateList(R.color.chip_text_color));
-            chip.setChipStrokeWidth(4);
-            chip.setClickable(false);
-            chipGroup.addView(chip);
-        }
-
-        profile_pic.setImageResource(R.drawable.bhavik);
+//        profile_pic.setImageResource(R.drawable.bhavik);
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -135,6 +135,59 @@ public class ProfileViewFragment extends Fragment {
                 github_PV.setText(response.body().participant.getGithub());
                 linkedIn_PV.setText(response.body().participant.getLinkedIn());
                 id = String.valueOf(response.body().participant.get_id());
+
+                Call<List<Skill>> listCall = loginAPI.getSkillsP("Bearer " + MainActivity.getIdToken(),id);
+                listCall.enqueue(new Callback<List<Skill>>() {
+                    @Override
+                    public void onResponse(Call<List<Skill>> call, Response<List<Skill>> response) {
+                        if (response.body() != null) {
+                            List<Skill> skillList = response.body();
+                            for (int i = 0; i < skillList.size(); i++) {
+                                Log.i("SKILLS", skillList.get(i).getSkill());
+
+                                Chip chip = new Chip(getContext());
+                                if (skillList.get(i).getSkill().equals("ml")) {
+                                    chip.setText("Machine Learning");
+                                } else if (skillList.get(i).getSkill().equals("frontend")) {
+                                    chip.setText("Frontend");
+                                } else if (skillList.get(i).getSkill().equals("backend")) {
+                                    chip.setText("Backend");
+                                } else if (skillList.get(i).getSkill().equals("ui/ux")) {
+                                    chip.setText("UI/UX Design");
+                                } else if (skillList.get(i).getSkill().equals("management")) {
+                                    chip.setText("Management");
+                                } else if (skillList.get(i).getSkill().equals("appdev")) {
+                                    chip.setText("App Development");
+                                }
+//                                chip.setChipStrokeColorResource(R.color.pill_color);
+//                                chip.setChipBackgroundColor(getResources().getColorStateList(R.color.pill_color));
+//                                chip.setTextColor(getResources().getColorStateList(R.color.text));
+//                                chip.setChipStrokeWidth(4);
+//                                chip.setClickable(false);
+//                                chipGroup.addView(chip);
+
+                                chip.setChipStrokeColorResource(R.color.pill_color);
+                                chip.setChipBackgroundColor(getResources().getColorStateList(R.color.chip_background_color));
+                                chip.setTextColor(getResources().getColorStateList(R.color.chip_text_color));
+                                chip.setChipStrokeWidth(4);
+                                chip.setClickable(false);
+                                chipGroup.addView(chip);
+
+                                progressBar.setVisibility(View.GONE);
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Skill>> call, Throwable t) {
+                        Toast.makeText(getActivity(), "Failed To Fetch", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+
+                progressBar.setVisibility(View.VISIBLE);
+
                 Call<ProjectPOJO> caller = loginAPI.getProjectP("Bearer " + MainActivity.getIdToken(), id);//new route for this will be made
                 Log.i("tag", id);
                 caller.enqueue(new Callback<ProjectPOJO>() {
@@ -151,12 +204,16 @@ public class ProfileViewFragment extends Fragment {
                             ProjectAdapterP projectAdapterP = new ProjectAdapterP(getContext(), individualProjectsList, teamProjectsList);
                             projects_recyclerView.setAdapter(projectAdapterP);
                             projectAdapterP.setGetProjectP(individualProjectsList, teamProjectsList);
+                            progressBar.setVisibility(View.GONE);
                         }
+
                     }
 
                     @Override
                     public void onFailure(Call<ProjectPOJO> call, Throwable t) {
                         Log.i("error", t.getMessage());
+                        Toast.makeText(getActivity(), "Failed To Fetch", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
 
@@ -165,6 +222,8 @@ public class ProfileViewFragment extends Fragment {
             @Override
             public void onFailure(Call<GetParticipantPOJO> call, Throwable t) {
                 Log.i("error", t.getMessage());
+                Toast.makeText(getActivity(), "Failed To Fetch", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
         });
 
@@ -187,5 +246,6 @@ public class ProfileViewFragment extends Fragment {
         github_PV = getView().findViewById(R.id.github_PV);
         linkedIn_PV = getView().findViewById(R.id.linkedIn_PV);
         personal_website_PV = getView().findViewById(R.id.personal_website_PV);
+        progressBar = getView().findViewById(R.id.progressBarP);
     }
 }

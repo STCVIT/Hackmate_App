@@ -16,6 +16,11 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="AutoCompleteTextView" parent="Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:background">@color/field_fill</item>
+        <item name="backgroundColor">@color/field_fill</item>
+    </style>
+
     <style name="TextStyle">
         <item name="android:textSize">12dp</item>
         <item name="fontFamily">Roboto</item>

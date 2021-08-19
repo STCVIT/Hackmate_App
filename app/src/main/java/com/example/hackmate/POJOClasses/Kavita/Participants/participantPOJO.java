@@ -1,4 +1,4 @@
-package com.example.hackmate.POJOClasses.Kavita;
+package com.example.hackmate.POJOClasses.Kavita.Participants;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,10 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class participantPOJO {
-
-
-
-
 
 
 

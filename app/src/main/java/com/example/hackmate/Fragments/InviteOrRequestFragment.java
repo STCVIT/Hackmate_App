@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.hackmate.Adapters.InvitesAdapter;
@@ -51,11 +52,11 @@ public class InviteOrRequestFragment extends Fragment {
     private ImageView arrowDown_Invite, arrowDown_Req;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private String idToken = "Bearer ";
-
+    ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        //getChildFragmentManager().beginTransaction().replace(R.id.cpu_bottomNav_frame,new fragment()).commit();
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_invite_or_request, container, false);
 
@@ -75,7 +76,7 @@ public class InviteOrRequestFragment extends Fragment {
 
         InvitesArrayList = new ArrayList<>();
 
-
+        progressBar=view.findViewById(R.id.progressBar3);
         //InvitesArrayList.add(new InvitesModel.Invites_Model(R.drawable.imageholder,"Muhammad Muaazz Zuberi","GreenCoders"));
         //InvitesArrayList.add(new InvitesModel.Invites_Model(R.drawable.imageholder,"Muhammad Muaazz Zuberi","GreenCoders"));
 
@@ -96,11 +97,8 @@ public class InviteOrRequestFragment extends Fragment {
 
         idToken = MainActivity.getIdToken();
         JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
+        progressBar.setVisibility(VISIBLE);
 
-        // Send token to your backend via HTTPS
-        // ...
-        //inviteAPI inviteAPI = retrofit.create(inviteAPI.class);
-        //JSONPlaceHolderAPI jsonPlaceHolderAPI = retrofit.create(JSONPlaceHolderAPI.class);
 
         Log.i("callback problemInvite1", "errorIni1");
         Call<invitePOJO> call5 = jsonPlaceHolderAPI.getMyInvites(idToken);
@@ -116,7 +114,7 @@ public class InviteOrRequestFragment extends Fragment {
                 invitePOJO invitePOJOS = (invitePOJO) response5.body();
                 Log.i("Response body", invitePOJOS.toString());
                 List<Received> recieved_objs = invitePOJOS.getReceived();
-                Log.i("Response body1", String.valueOf(recieved_objs.get(0).getTeam().getId()));
+                Log.i("Response body1", String.valueOf(recieved_objs.get(0).getTeam()));
                 invitesAdapter.setMyInvites(recieved_objs,idToken);
                 Log.i("Response body3", "list sending to adapter sucessfull");
 
@@ -128,14 +126,16 @@ public class InviteOrRequestFragment extends Fragment {
                     public void onResponse(Call<RequestPOJO> call7, Response<RequestPOJO> response7) {
                         if (!response7.isSuccessful()) {
                             Log.i("not sucess6", "code: " + response7.code());
+                            progressBar.setVisibility(GONE);
                             return;
                         }
                         RequestPOJO requestPOJO = response7.body();
 
                         Log.i("Response body", requestPOJO.toString());
                         List<ReceivedRequest> req_objs = requestPOJO.getReceived();
-                        Log.i("Response body1", String.valueOf(req_objs.get(0).getParticipant().getName()));
-                        requestsAdapter.setMyRequests(req_objs);
+                        // Log.i("Response body1", String.valueOf(req_objs.get(0).getParticipant().getName()));
+                        requestsAdapter.setMyRequests(req_objs,idToken);
+                        progressBar.setVisibility(GONE);
                         Log.i("Response body3", "list sending to adapter sucessfull");
 
                     }
@@ -143,6 +143,7 @@ public class InviteOrRequestFragment extends Fragment {
                     @Override
                     public void onFailure(Call<RequestPOJO> call7, Throwable t) {
                         Log.i("failed5", t.getMessage());
+                        progressBar.setVisibility(GONE);
                     }
                 });
 
@@ -153,6 +154,7 @@ public class InviteOrRequestFragment extends Fragment {
             @Override
             public void onFailure(Call<invitePOJO> call5, Throwable t) {
                 Log.i("failed5", t.getMessage());
+                progressBar.setVisibility(GONE);
             }
         });
 
@@ -170,10 +172,32 @@ public class InviteOrRequestFragment extends Fragment {
             }
         });
 
-
+        arrowDown_Invite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (RVinvite.getVisibility() == VISIBLE) {
+                    RVinvite.setVisibility(View.GONE);
+                    arrowDown_Invite.setRotation(-90);
+                } else if (RVinvite.getVisibility() == GONE) {
+                    RVinvite.setVisibility(VISIBLE);
+                    arrowDown_Invite.setRotation(360);
+                }
+            }
+        });
         Requests = view.findViewById(R.id.Requests_tittleText_reqTally);
         arrowDown_Req = view.findViewById(R.id.arrowDown_request);
-
+        arrowDown_Req.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (RVrequest.getVisibility() == VISIBLE) {
+                    RVrequest.setVisibility(View.GONE);
+                    arrowDown_Req.setRotation(-90);
+                } else if (RVrequest.getVisibility() == GONE) {
+                    RVrequest.setVisibility(VISIBLE);
+                    arrowDown_Req.setRotation(+360);
+                }
+            }
+        });
 
         //RequestsArrayList.add(new RequestsModel.Requests_Model(R.drawable.imageholder,"Muhammad Muaazz Zuberi","GreenCoders"));
         //RequestsArrayList.add(new RequestsModel.Requests_Model(R.drawable.imageholder,"Muhammad Muaazz Zuberi","GreenCoders"));
@@ -194,6 +218,7 @@ public class InviteOrRequestFragment extends Fragment {
                 }
             }
         });
+
 
 
         //InvitesArrayList = (ArrayList<invitePOJO>) response5.body();

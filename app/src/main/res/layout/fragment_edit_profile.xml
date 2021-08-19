@@ -30,7 +30,6 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:background="@color/background"
-            android:text="Yash Jasani"
             android:inputType="textMultiLine"
             android:textColor="@color/text"
             android:textSize="24sp"
@@ -46,7 +45,6 @@
             android:layout_marginTop="8dp"
             android:background="@color/background"
             android:inputType="textMultiLine"
-            android:text="username"
             android:textColor="@color/text"
             app:layout_constraintStart_toEndOf="@+id/profile_pic_EP"
             app:layout_constraintTop_toBottomOf="@+id/name_EP" />
@@ -68,7 +66,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="20dp"
-            android:text="jasaniyash13@gmail.com"
             android:textColor="@color/text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView116"
@@ -194,7 +191,6 @@
                     android:layout_marginBottom="15dp"
                     android:background="@color/field_fill"
                     android:inputType="textMultiLine"
-                    android:text="VIT"
                     android:textColor="@color/text"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -261,6 +257,7 @@
                         android:inputType="none"
                         android:textColor="@color/text"
                         android:textColorHint="@color/field_fill"
+                        style="@style/AutoCompleteTextView"
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -306,7 +303,6 @@
                     android:layout_marginBottom="15dp"
                     android:background="@color/field_fill"
                     android:inputType="textMultiLine"
-                    android:text="www.github.com"
                     android:textColor="@color/text"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -356,7 +352,6 @@
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="15dp"
                     android:background="@color/field_fill"
-                    android:text="www.linkedin.in"
                     android:textColor="@color/text"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -407,7 +402,6 @@
                     android:layout_marginBottom="15dp"
                     android:background="@color/field_fill"
                     android:inputType="textMultiLine"
-                    android:text="---"
                     android:textColor="@color/text"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -456,7 +450,6 @@
                     android:layout_marginBottom="16dp"
                     android:background="@color/field_fill"
                     android:inputType="textMultiLine"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus phasellus elit, ullamcorper sed rutrum nulla sagittis odio nisl. Pretium sit nibh a non. Diam amet lacus sit fermentum urna augue. Ac tempor id tortor, pellentesque lacus, sit a vulputate."
                     android:textColor="@color/text"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -514,6 +507,18 @@
             android:src="@drawable/ic_edit_your_profile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressBarEP"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.144" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

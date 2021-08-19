@@ -3,9 +3,8 @@ package com.example.hackmate.POJOClasses.Kavita.Invites;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
 
-
+/*
 public class Team1 {
 
     @SerializedName("_id")
@@ -84,6 +83,35 @@ public class Team1 {
 
     public void setV(Integer v) {
         this.v = v;
+    }
+
+}
+*/
+
+
+public class Team1 {
+
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("_id")
+    @Expose
+    private String id;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
 }

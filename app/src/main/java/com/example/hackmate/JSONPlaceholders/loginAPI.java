@@ -21,6 +21,7 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -33,10 +34,6 @@ public interface loginAPI {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("participant/login")
     Call<Response<Void>> getLoginStatus(@Header("Authorization") String token);
-
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("login")
-    Call<Response<Void>> NewAccount(@Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("participant/login")
@@ -84,7 +81,7 @@ public interface loginAPI {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("skills/mySkills")
-    Call<List<Skill>> getSkillsP(@Header("Authorization") String token, @Query("id") String id);
+    Call<List<Skill>> getSkillsP(@Header("Authorization") String token, @Query("participant_id") String id);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @PATCH("DN_Team/update/{id}")
@@ -93,6 +90,9 @@ public interface loginAPI {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("requests/request/{id}")
-    Call<PatchTeamDetails> postTeamCode(@Header("Authorization") String token, @Path("id") String id);
+    Call<Map<String,Object>> postTeamCode(@Header("Authorization") String token, @Path("id") String id);
 
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @DELETE("projects/delete/{id}")
+    Call<Map<String,Object>> delProject(@Header("Authorization") String token, @Path("id") String id);
 }

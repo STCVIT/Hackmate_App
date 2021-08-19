@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class TeamProject {
+    @SerializedName("_id")
+    @Expose
     public String _idp;
     @SerializedName("name")
     @Expose

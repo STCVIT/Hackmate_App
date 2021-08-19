@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,6 +16,7 @@
             android:id="@+id/requestJoinTeam"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:foreground="?android:attr/selectableItemBackground"
             android:layout_gravity="center|top"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
@@ -79,7 +81,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="24dp"
-                    android:text="Technicia, Code2Create"
                     android:textColor="@color/text"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -92,12 +93,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Desiderata"
                     android:textColor="@color/text"
                     android:textSize="24sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ProgressBar
+                    android:id="@+id/progressBarTPPV"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
@@ -159,7 +171,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="16dp"
-                    android:text="Project Name"
                     android:textColor="@color/text"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -173,7 +184,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="12dp"
-                    android:text="Description:"
                     android:textColor="@color/text_secondary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -187,7 +197,6 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tristique mauris, nec vitae cursus phasellus a proin et. Sit in velit duis iaculis est. At odio sociis venenatis ut commodo. Aliquet eget morbi faucibus nisl nec quis suscipit ut. Mus vestibulum risus at ante lorem volutpat. In vitae vitae, tortor a ipsum ipsum. Ipsum cras eu odio natoque blandit commodo aliquam. "
                     android:textColor="@color/text"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -200,7 +209,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="12dp"
-                    android:text="www.projectwebsite.com"
                     android:textColor="@color/link"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -214,7 +222,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="4dp"
-                    android:text="www.projectwebsite.com"
                     android:textColor="@color/link"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -229,7 +236,6 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="16dp"
-                    android:text="www.projectwebsite.com"
                     android:textColor="@color/link"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"

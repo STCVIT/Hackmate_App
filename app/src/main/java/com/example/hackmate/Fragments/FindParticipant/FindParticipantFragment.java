@@ -62,6 +62,7 @@ public class FindParticipantFragment extends Fragment {
     private List<String> ptId;
     private String hackID, name = "", skill = "", teamId;
     private FindParticipantViewModel viewModel;
+    private List<String> invited_names;
 
     public FindParticipantFragment(String hackID, String teamId, List<String> ptId) {
         this.hackID = hackID;
@@ -93,6 +94,9 @@ public class FindParticipantFragment extends Fragment {
         chips = view.findViewById(R.id.chips);
         recyclerView = view.findViewById(R.id.inviteList);
 
+        api = RetrofitInstance.getRetrofitInstance().create(API.class);
+        Trial();
+
         /*hackID = "null";
 
         teamId = "60fe92283dc96e001575ee3a";
@@ -104,11 +108,12 @@ public class FindParticipantFragment extends Fragment {
         teamId = "60f647fd7aa44d77a0dc2805";
         ptId = new ArrayList<>();
         ptId.add("60f13062ce79400015732284");*/
+        Log.i("IDs", hackID + " " + teamId + " " + ptId);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        inviteAdapter = new InviteAdapter(getContext(), new ArrayList<>(), teamId, ptId);
+        inviteAdapter = new InviteAdapter(getContext(), new ArrayList<>(), teamId, ptId, invited_names);
         recyclerView.setAdapter(inviteAdapter);
-        api = RetrofitInstance.getRetrofitInstance().create(API.class);
+
 
         /*if (frontend.isChecked() || backend.isChecked() || ml.isChecked() || ui_ux.isChecked() ||
                 management.isChecked() || appdev.isChecked() || cybersecurity.isChecked()) {
@@ -278,9 +283,8 @@ public class FindParticipantFragment extends Fragment {
                 if (swipeRefreshLayout.isRefreshing())
                     swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful()) {
-                    if(response.body().getFinal().size()<12)
+                    if (response.body().getFinal().size() < 12)
                         isLastPage = true;
-                    Trial(response.body().getFinal());
                     inviteAdapter.addItems(response.body().getFinal(), skill);
                     isLoading = false;
                 }
@@ -315,9 +319,8 @@ public class FindParticipantFragment extends Fragment {
                     Functions.fetchToken(requireActivity(), () -> sendInvite(page));
                 if (swipeRefreshLayout.isRefreshing()) swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful()) {
-                    if(response.body().getFinal().size()<12)
+                    if (response.body().getFinal().size() < 12)
                         isLastPage = true;
-                    Trial(response.body().getFinal());
                     inviteAdapter.addItems(response.body().getFinal(), "");
                     isLoading = false;
                 }
@@ -335,37 +338,31 @@ public class FindParticipantFragment extends Fragment {
     }
 
 
-    public void Trial(List<FinalPt> list)
-    {
-        List<String> invited_names = new ArrayList<>();
+    public void Trial() {
+        invited_names = new ArrayList<>();
         Call<Invites> call = api.inviteSent(MainActivity.getIdToken());
         call.enqueue(new Callback<Invites>() {
             @Override
             public void onResponse(Call<Invites> call, Response<Invites> response) {
-                if(response.isSuccessful() && response.code()==200)
-                {
-                    for(int i=0;i<list.size();i++) {
-                        for (int j = 0; j < response.body().getSent().size(); j++) {
-                            if (teamId.equals(response.body().getSent().get(j).getInv().getTeamId()))
-                                if (list.get(i).getParticipant().get_id().equals(response.body().getSent().get(j).getInv().getParticipantId())) {
-                                    invited_names.add(list.get(i).getParticipant().get_id());
-                                    Log.i("PARTICIPANT_CHECK",list.get(i).getParticipant().getName());
-                                    break;
-                                }
-                        }
+                if (response.isSuccessful() && response.code() == 200) {
+                    for (int i = 0; i < response.body().getSent().size(); i++) {
+
+                        if (teamId.equals(response.body().getSent().get(i).getTeam().getId()))
+                            invited_names.add(response.body().getSent().get(i).getParticipant().getId());
+
+
                     }
-                }
-                else
+                    Log.i("PARTICIPANT_CHEK", String.valueOf(invited_names));
+                } else
                     Log.i("PARTICIPANT_CHECH", String.valueOf(response.code()));
             }
 
             @Override
             public void onFailure(Call<Invites> call, Throwable t) {
-                Log.i("PARTICIPANT_CHECH",t.getMessage());
+                Log.i("PARTICIPANT_CHECH", t.getMessage());
             }
         });
     }
-
 
 
     public void searchPtByName(String name, int page2) {
@@ -383,12 +380,10 @@ public class FindParticipantFragment extends Fragment {
                 if (swipeRefreshLayout.isRefreshing())
                     swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful()) {
-                    if(response.body().getFinal().size()<12)
+                    if (response.body().getFinal().size() < 12)
                         isLastPage = true;
-                    Trial(response.body().getFinal());
                     inviteAdapter.addItems(response.body().getFinal(), "");
                     isLoading = false;
-
                 }
 
             }

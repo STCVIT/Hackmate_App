@@ -4,6 +4,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class IndividualProject {
+    @SerializedName("_id")
+    @Expose
     public String _ids;
     @SerializedName("name")
     @Expose

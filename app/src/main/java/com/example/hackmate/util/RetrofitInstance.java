@@ -1,5 +1,8 @@
 package com.example.hackmate.util;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -19,11 +22,13 @@ public class RetrofitInstance {
                 //.addInterceptor(loggingInterceptor)
                 .addNetworkInterceptor(loggingInterceptor)
                 .build();
-
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .client(okHttpClient)
                     .build();
         }

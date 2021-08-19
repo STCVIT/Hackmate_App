@@ -1,6 +1,7 @@
 package com.example.hackmate.Adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,12 +15,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.hackmate.Fragments.FindTeams.JoinAdapter;
+import com.bumptech.glide.Glide;
 import com.example.hackmate.Fragments.HackProfile.HackProfileFragment;
 import com.example.hackmate.MainActivity;
-import com.example.hackmate.POJOClasses.Kavita.Final;
+import com.example.hackmate.POJOClasses.Kavita.Hacks.Final;
 import com.example.hackmate.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -32,8 +34,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private String id;
     private static final int VIEW_TYPE_ITEM = 0;
     private static final int VIEW_TYPE_LOADING = 1;
-
-
+    public  ImageView Profilephoto_home;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     public HomeAdapter(Context context, List<Final> homeArrayList) {
         this.context = context;
         HomeArrayList = homeArrayList;
@@ -83,11 +85,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.teamSizeMin.setText(String.valueOf(HomeArrayList.get(position).getMinTeamSize()));
         holder.startDate.setText(HomeArrayList.get(position).getStart().substring(0,10));
         holder.endDate.setText(HomeArrayList.get(position).getEnd().substring(0,10));
-        /*holder.Profilephoto_home.setImageResource(model.getHackphoto());
-        holder.HackName.setText(model.getHackName());
-        holder.teamSize.setText(model.getTeamSize());
-        holder.startDate.setText(model.getStartDate());
-        holder.endDate.setText(model.getEndDate());*/
+
+        Glide.with(context)
+                .load(HomeArrayList.get(position).getPoster())
+                .placeholder(Drawable.createFromPath("https://firebasestorage.googleapis.com/v0/b/hackportal-450d0.appspot.com/o/Organisers%2FHacks%2FBrew%202k21?alt=media&token=4314d03f-0c45-49df-a70b-75ed79bc7ae2"))
+                .into(Profilephoto_home);
+        //holder.Profilephoto_home.setImageResource(model.getHackphoto());
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,7 +147,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public class Viewholder extends RecyclerView.ViewHolder  {
 
 
-        private ImageView Profilephoto_home;
+
         private TextView HackName, teamSizeMin,teamSizeMax, startDate,endDate;
 
 

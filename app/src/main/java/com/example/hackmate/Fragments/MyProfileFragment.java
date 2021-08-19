@@ -15,7 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hackmate.Adapters.MemberAdapter;
 import com.example.hackmate.Adapters.ProjectAdapterMP;
@@ -62,7 +64,8 @@ public class MyProfileFragment extends Fragment {
     private RecyclerView projects_recyclerView;
     ChipGroup chipGroup;
     String id = "yash";
-    private loginAPI loginAPI;
+    loginAPI loginAPI;
+    ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,13 +117,18 @@ public class MyProfileFragment extends Fragment {
                 if (response.body().getWebsite() != null) {
                     personal_website_MP.setText(response.body().getWebsite());
                 }
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<loginPOJO> call, Throwable t) {
                 Log.i("error", t.getMessage());
+                Toast.makeText(getActivity(), "Failed To Fetch", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
         });
+
+        progressBar.setVisibility(View.VISIBLE);
 
         Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getIdToken());
         Log.i("tag", "tag");
@@ -138,55 +146,65 @@ public class MyProfileFragment extends Fragment {
                     projects_recyclerView.setAdapter(projectAdapterMP);
                     projectAdapterMP.setGetProjectMP(individualProjectsList, teamProjectsList);
                 }
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<ProjectPOJO> call, Throwable t) {
                 Log.i("error", t.getMessage());
+                Toast.makeText(getActivity(), "Failed To Fetch", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
         });
+
+        progressBar.setVisibility(View.VISIBLE);
 
         Call<List<Skill>> call1 = loginAPI.getSkills("Bearer " + MainActivity.getIdToken());
         call1.enqueue(new Callback<List<Skill>>() {
             @Override
             public void onResponse(Call<List<Skill>> call1, Response<List<Skill>> response) {
-                Log.i("skilssssss", response.body().toString());
                 if (response.body() != null) {
-                    List<Skill> skillList = response.body();
-                    for (int i = 0; i < skillList.size(); i++) {
-                        Log.i("SKILLS", skillList.get(i).getSkill());
+                    Log.i("skilssssss", response.body().toString());
+                    if (response.body() != null) {
+                        List<Skill> skillList = response.body();
+                        for (int i = 0; i < skillList.size(); i++) {
+                            Log.i("SKILLS", skillList.get(i).getSkill());
 
-                        Chip chip = new Chip(getContext());
-                        if (skillList.get(i).getSkill().equals("ml")) {
-                            chip.setText("Machine Learning");
-                        } else if (skillList.get(i).getSkill().equals("frontend")) {
-                            chip.setText("Frontend");
-                        } else if (skillList.get(i).getSkill().equals("backend")) {
-                            chip.setText("Backend");
-                        } else if (skillList.get(i).getSkill().equals("ui/ux")) {
-                            chip.setText("UI/UX Design");
-                        } else if (skillList.get(i).getSkill().equals("management")) {
-                            chip.setText("Management");
-                        } else if (skillList.get(i).getSkill().equals("appdev")) {
-                            chip.setText("App Development");
+                            Chip chip = new Chip(getContext());
+                            if (skillList.get(i).getSkill().equals("ml")) {
+                                chip.setText("Machine Learning");
+                            } else if (skillList.get(i).getSkill().equals("frontend")) {
+                                chip.setText("Frontend");
+                            } else if (skillList.get(i).getSkill().equals("backend")) {
+                                chip.setText("Backend");
+                            } else if (skillList.get(i).getSkill().equals("ui/ux")) {
+                                chip.setText("UI/UX Design");
+                            } else if (skillList.get(i).getSkill().equals("management")) {
+                                chip.setText("Management");
+                            } else if (skillList.get(i).getSkill().equals("appdev")) {
+                                chip.setText("App Development");
+                            }
+                            chip.setChipStrokeColorResource(R.color.pill_color);
+                            chip.setChipBackgroundColor(getResources().getColorStateList(R.color.pill_color));
+                            chip.setTextColor(getResources().getColorStateList(R.color.text));
+                            chip.setChipStrokeWidth(4);
+                            chip.setClickable(false);
+                            chipGroup.addView(chip);
                         }
-                        chip.setChipStrokeColorResource(R.color.pill_color);
-                        chip.setChipBackgroundColor(getResources().getColorStateList(R.color.pill_color));
-                        chip.setTextColor(getResources().getColorStateList(R.color.text));
-                        chip.setChipStrokeWidth(4);
-                        chip.setClickable(false);
-                        chipGroup.addView(chip);
                     }
+                    progressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Skill>> call1, Throwable t) {
                 Log.i("nhi hua", "nhi hua :((((");
+                Toast.makeText(getActivity(), "Failed To Fetch", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
         });
 
-        profile_pic.setImageResource(R.drawable.bhavik);
+//        profile_pic.setImageResource(R.drawable.bhavik);
     }
 
     public void initialise() {
@@ -210,6 +228,7 @@ public class MyProfileFragment extends Fragment {
         github_MP = getView().findViewById(R.id.github_MP);
         linkedIn_MP = getView().findViewById(R.id.linkedIn_MP);
         personal_website_MP = getView().findViewById(R.id.personal_website_MP);
+        progressBar = getView().findViewById(R.id.progressBarMP);
 
     }
 

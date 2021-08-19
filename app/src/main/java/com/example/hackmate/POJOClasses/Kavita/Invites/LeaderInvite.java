@@ -1,13 +1,15 @@
-package com.example.hackmate.POJOClasses.InvitationSent;
-
+package com.example.hackmate.POJOClasses.Kavita.Invites;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Team {
+public class LeaderInvite {
 
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("photo")
+    @Expose
+    private String photo;
     @SerializedName("_id")
     @Expose
     private String id;
@@ -20,6 +22,13 @@ public class Team {
         this.name = name;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
     public String getId() {
         return id;
     }

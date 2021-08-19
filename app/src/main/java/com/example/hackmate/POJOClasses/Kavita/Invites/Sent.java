@@ -58,6 +58,7 @@ public class Sent {
 }
 */
 
+/*
 public class Sent {
 
     @SerializedName("inv")
@@ -91,6 +92,45 @@ public class Sent {
     }
 
     public void setTeam2(Team1 team) {
+        this.team = team;
+    }
+
+}*/
+
+
+public class Sent {
+
+    @SerializedName("inv")
+    @Expose
+    private String inv;
+    @SerializedName("participant")
+    @Expose
+    private ParticipantInvite participant;
+    @SerializedName("team")
+    @Expose
+    private Team1 team;
+
+    public String getInv() {
+        return inv;
+    }
+
+    public void setInv(String inv) {
+        this.inv = inv;
+    }
+
+    public ParticipantInvite getParticipant() {
+        return participant;
+    }
+
+    public void setParticipant(ParticipantInvite participant) {
+        this.participant = participant;
+    }
+
+    public Team1 getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team1 team) {
         this.team = team;
     }
 

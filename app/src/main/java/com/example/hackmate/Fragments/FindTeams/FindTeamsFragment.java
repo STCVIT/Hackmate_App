@@ -277,7 +277,8 @@ public class FindTeamsFragment extends Fragment {
                     joinAdapter.addItems(response.body().getFinal());
                     isLoading = false;
                 } else if (response.code() == 404) {
-                    Toast.makeText(getContext(), "No Team to Join !!", Toast.LENGTH_SHORT).show();
+                    if(page3==1)
+                        Toast.makeText(getContext(), "No Team to Join !!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -329,7 +330,8 @@ public class FindTeamsFragment extends Fragment {
                     joinAdapter.addItems(response.body().getFinal());
                     isLoading = false;
                 } else if (response.code() == 404) {
-                    Toast.makeText(getContext(), "No Team to Join !!", Toast.LENGTH_SHORT).show();
+                    if(page == 1)
+                        Toast.makeText(getContext(), "No Team to Join !!", Toast.LENGTH_SHORT).show();
                 }
             }
 

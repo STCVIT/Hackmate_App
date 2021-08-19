@@ -5,22 +5,22 @@ import com.google.gson.annotations.SerializedName;
 
 public class Received {
 
-    @SerializedName("inv")
-    @Expose
-    private Inv inv;
-    @SerializedName("leader")
-    @Expose
-    private Leader leader;
     @SerializedName("team")
     @Expose
     private Team team;
+    @SerializedName("leader")
+    @Expose
+    private Leader leader;
+    @SerializedName("inv")
+    @Expose
+    private String inv;
 
-    public Inv getInv() {
-        return inv;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setInv(Inv inv) {
-        this.inv = inv;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     public Leader getLeader() {
@@ -31,12 +31,12 @@ public class Received {
         this.leader = leader;
     }
 
-    public Team getTeam() {
-        return team;
+    public String getInv() {
+        return inv;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setInv(String inv) {
+        this.inv = inv;
     }
 
 }

@@ -1,63 +1,55 @@
 package com.example.hackmate.Fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.hackmate.Adapters.MemberAdapter;
-import com.example.hackmate.Adapters.ProjectAdapterRT;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.MainActivity;
-import com.example.hackmate.Models.ProjectModel;
 import com.example.hackmate.POJOClasses.JoinTeamPOJO;
+import com.example.hackmate.POJOClasses.Member;
 import com.example.hackmate.POJOClasses.POST.PatchTeamDetails;
 import com.example.hackmate.POJOClasses.ProjectPOJO;
 import com.example.hackmate.POJOClasses.PtSkill;
-import com.example.hackmate.POJOClasses.Skill;
-import com.example.hackmate.POJOClasses.Team;
 import com.example.hackmate.R;
-import com.example.hackmate.Models.teamMember_Model;
 import com.example.hackmate.util.RetrofitInstance;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GetTokenResult;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TeamProfileParticipantViewFragment extends Fragment {
-
+    private static final String TAG = "TeamProfileParticipantV";
     Button requestJoin;
     int GET_NAV_CODE = 0;
     RecyclerView participants_recyclerView, projects_recyclerView;
     TextView team_name, hack_names, project_name, project_description, project_team_name, project_link1, project_link2,
             project_link3;
-    private loginAPI loginAPI;
-    String id, name = "";
+    String id, name = "", admin_id;
     PatchTeamDetails patchTeamDetails;
     JoinTeamPOJO joinTeamPOJO;
+    CardView cardView;
+    ProgressBar progressBar;
+    private loginAPI loginAPI;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,6 +70,7 @@ public class TeamProfileParticipantViewFragment extends Fragment {
         }
 
         initialise();
+        cardView.setVisibility(View.GONE);
 
         participants_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -89,11 +82,12 @@ public class TeamProfileParticipantViewFragment extends Fragment {
             public void onResponse(Call<JoinTeamPOJO> call, Response<JoinTeamPOJO> response) {
                 if (response.body() != null) {
                     joinTeamPOJO = response.body();
-                    Log.i("abc", joinTeamPOJO.getTeam().getName());
+                    Log.i(TAG, "onResponse =>" + joinTeamPOJO.getTeam().getName());
                     team_name.setText(joinTeamPOJO.getTeam().getName());
 
                     hack_names.setText(name);
                     if (joinTeamPOJO.getTeam().getProject_name() != null) {
+                        cardView.setVisibility(View.VISIBLE);
                         project_name.setText(joinTeamPOJO.getTeam().getProject_name());
                         project_team_name.setText(joinTeamPOJO.getTeam().getName());
                     } else
@@ -115,22 +109,37 @@ public class TeamProfileParticipantViewFragment extends Fragment {
                         project_link3.setText(joinTeamPOJO.getTeam().getDesign());
                     else
                         project_link3.setText("");
+
+                    List<Member> memberList = joinTeamPOJO.getTeam().getMembers();
+                    Log.i(TAG,"memberList"+ memberList);
+                    Log.i(TAG,"admin_id"+ joinTeamPOJO.getTeam().getAdmin_id());
+
+                    for (int i = 0; i < memberList.size(); i++) {
+                        if (memberList.get(i).uid.equals(joinTeamPOJO.getTeam().getAdmin_id())) {
+                            admin_id = memberList.get(i).getUid();
+                            Log.i(TAG, "uid" + memberList.get(i).getUid());
+                        }
+                    }
+
                     List<PtSkill> pt_skills = joinTeamPOJO.getPt_skills();
-                    Log.i("pt_skill", String.valueOf(pt_skills.get(0).getParticipant().getName()));
+                    Log.i(TAG, "pt_skill" + pt_skills.get(0).getParticipant().getName());
                     MemberAdapter memberAdapter = new MemberAdapter(getContext(), pt_skills);
                     participants_recyclerView.setAdapter(memberAdapter);
-                    memberAdapter.setJoinTeam(pt_skills);
+                    memberAdapter.setJoinTeam(pt_skills, admin_id);
                 }
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<JoinTeamPOJO> call, Throwable t) {
-                Log.i("error33", t.getMessage());
+                Log.i(TAG, t.getMessage());
+                Toast.makeText(getActivity(), "Failed To Fetch", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
         });
 
+        Log.i(TAG, "tag44");
         Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getIdToken());
-        Log.i("tag44", "tag44");
         caller.enqueue(new Callback<ProjectPOJO>() {
             @Override
             public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
@@ -147,26 +156,29 @@ public class TeamProfileParticipantViewFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+
                 patchTeamDetails = new PatchTeamDetails();
 
-                Call<PatchTeamDetails> call1 = loginAPI.postTeamCode("Bearer " + MainActivity.getIdToken(),
-                        "joinTeamPOJO.getTeam().get_id()");
+                Call<Map<String, Object>> call1 = loginAPI.postTeamCode("Bearer " + MainActivity.getIdToken(),
+                        joinTeamPOJO.getTeam().get_id());
                 Log.i("team id", joinTeamPOJO.getTeam().get_id());
-                call1.enqueue(new Callback<PatchTeamDetails>() {
+                call1.enqueue(new Callback<Map<String, Object>>() {
                     @Override
-                    public void onResponse(Call<PatchTeamDetails> call, Response<PatchTeamDetails> response) {
-                        if (response.code() == 400) {
+                    public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                        Log.i(TAG, "onClick: " + response.code());
+                        Log.i(TAG, "onClick: " + response.body());
+                        if (response.code() == 409) {
                             Toast.makeText(getActivity(), "Request has already been sent!", Toast.LENGTH_SHORT).show();
                         } else if (response.code() == 201) {
                             Toast.makeText(getActivity(), "Request Sent !!", Toast.LENGTH_SHORT).show();
-                            requestJoin.setBackground(getResources().getDrawable(R.drawable.ic_button_border_bg));
-                            requestJoin.setTextColor(getResources().getColor(R.color.green));
+                            requestJoin.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.ic_button_border_bg));
+                            requestJoin.setTextColor(ContextCompat.getColor(requireContext(), R.color.green));
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<PatchTeamDetails> call, Throwable t) {
-
+                    public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                        Log.e(TAG, "onFailure: ", t);
                     }
                 });
 
@@ -195,5 +207,7 @@ public class TeamProfileParticipantViewFragment extends Fragment {
         project_link1 = getView().findViewById(R.id.link1_textView_abc);
         project_link2 = getView().findViewById(R.id.link2_textView_abc);
         project_link3 = getView().findViewById(R.id.link3_textView_abc);
+        cardView = getView().findViewById(R.id.cardView8);
+        progressBar = getView().findViewById(R.id.progressBarTPPV);
     }
 }
