@@ -1,16 +1,18 @@
-package com.example.hackmate.POJOClasses.InvitationSent;
+package com.example.hackmate.POJOClasses.Kavita.Participants;
+
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Inv {
+
+public class Skill {
 
     @SerializedName("_id")
     @Expose
     private String id;
-    @SerializedName("team_id")
+    @SerializedName("skill")
     @Expose
-    private String teamId;
+    private String skill;
     @SerializedName("participant_id")
     @Expose
     private String participantId;
@@ -26,12 +28,12 @@ public class Inv {
         this.id = id;
     }
 
-    public String getTeamId() {
-        return teamId;
+    public String getSkill() {
+        return skill;
     }
 
-    public void setTeamId(String teamId) {
-        this.teamId = teamId;
+    public void setSkill(String skill) {
+        this.skill = skill;
     }
 
     public String getParticipantId() {

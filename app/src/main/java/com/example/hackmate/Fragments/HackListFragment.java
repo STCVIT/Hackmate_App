@@ -18,33 +18,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hackmate.Adapters.HomeAdapter;
-import com.example.hackmate.Fragments.FindTeams.FindTeamsViewModel;
 import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
 import com.example.hackmate.MainActivity;
-import com.example.hackmate.POJOClasses.Kavita.Final;
-import com.example.hackmate.POJOClasses.Kavita.hackListPOJO;
+import com.example.hackmate.POJOClasses.Kavita.Hacks.Final;
+import com.example.hackmate.POJOClasses.Kavita.Hacks.hackListPOJO;
 import com.example.hackmate.R;
 import com.example.hackmate.util.RetrofitInstance;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GetTokenResult;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HackListFragment extends Fragment {
     private RecyclerView HackRV;
@@ -126,7 +117,7 @@ public class HackListFragment extends Fragment {
                 if(linearLayoutManager!=null) {
                     int position = linearLayoutManager.findLastVisibleItemPosition();
                     if(!isLoading) {
-                        if(!isLastPage && ((position+1)%6==0)) {
+                        if(position == homeAdapter.getItemCount()-1 && !isLastPage && ((position+1)%6==0)) {
                             isLoading = true;
                             getHacks(status,++page);
                         }
@@ -190,6 +181,7 @@ public class HackListFragment extends Fragment {
                 hackListPOJO hackListPOJOS = (hackListPOJO) response5.body();
                 Log.i("Response body", hackListPOJOS.getLength().toString());
                 List<Final> final_objs = hackListPOJOS.getFinal();
+
                 if(final_objs.size()<6)
                     isLastPage = true;
                 Log.i("Response body1", final_objs.get(0).getName());

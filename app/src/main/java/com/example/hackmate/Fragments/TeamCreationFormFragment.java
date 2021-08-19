@@ -174,6 +174,8 @@ public class TeamCreationFormFragment extends Fragment {
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("Key", 1);
+                bundle.putInt("Team",1);
+                bundle.putString("teamID",id);
                 frag.setArguments(bundle);
 
 

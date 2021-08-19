@@ -33,7 +33,7 @@
             android:layout_marginTop="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
+            android:src="@drawable/download" />
 
         <TextView
             android:id="@+id/name_PV"
@@ -70,12 +70,13 @@
 
         <TextView
             android:id="@+id/email_PV"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:textColor="@color/text"
             app:layout_constraintStart_toEndOf="@+id/textView16"
-            app:layout_constraintTop_toBottomOf="@+id/username_PV" />
+            app:layout_constraintTop_toBottomOf="@+id/username_PV"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
             android:id="@+id/textView18"
@@ -397,6 +398,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:foreground="?android:attr/selectableItemBackground"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="40dp"

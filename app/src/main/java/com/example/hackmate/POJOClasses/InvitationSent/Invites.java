@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Invites {
 
+
     @SerializedName("received")
     @Expose
     private List<Received> received = null;
@@ -29,5 +30,8 @@ public class Invites {
     public void setSent(List<Sent> sent) {
         this.sent = sent;
     }
+
 }
+
+
 

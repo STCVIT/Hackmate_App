@@ -34,7 +34,7 @@
             android:layout_marginTop="55dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
+            android:src="@drawable/download" />
 
         <TextView
             android:id="@+id/name_MP"

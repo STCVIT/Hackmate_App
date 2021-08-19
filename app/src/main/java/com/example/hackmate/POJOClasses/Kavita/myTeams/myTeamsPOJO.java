@@ -1,6 +1,5 @@
-package com.example.hackmate.POJOClasses.Kavita;
+package com.example.hackmate.POJOClasses.Kavita.myTeams;
 
-import com.example.hackmate.POJOClasses.Kavita.myTeams.Final2;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

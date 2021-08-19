@@ -1,6 +1,7 @@
 package com.example.hackmate.Adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +13,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hackmate.Fragments.ProfileViewFragment;
+import com.example.hackmate.Fragments.TeamProfileParticipantViewFragment;
 import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
-import com.example.hackmate.POJOClasses.Kavita.Invites.AcceptPOJO;
+import com.example.hackmate.MainActivity;
+
 import com.example.hackmate.POJOClasses.Kavita.Invites.invitePOJO;
 import com.example.hackmate.POJOClasses.PtSkill;
 import com.example.hackmate.POJOClasses.Kavita.Invites.Received;
-import com.example.hackmate.POJOClasses.Kavita.teamIdPOJO;
+
 import com.example.hackmate.R;
 import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,7 +44,7 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
     private Context context;
     private List<Received> InvitesArrayList;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private String idToken = "Bearer ";
+    private String idToken ;
     public String UserName;
     public String ParticiapntName;
     public String adminID, adminID2;
@@ -53,6 +57,7 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
     public void setMyInvites(List<Received> recieved_objs, String idToken) {
         this.InvitesArrayList = recieved_objs;
         this.idToken = idToken;
+
         notifyDataSetChanged();
 
     }
@@ -76,12 +81,39 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
 
         holder.ParticipantName_invites.setText(recieveds.getLeader().getName());
         holder.InviteeTeamName_invites.setText(recieveds.getTeam().getName());
-        holder.Accept.setOnClickListener(new View.OnClickListener() {
+        JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
+        holder.Accept.setOnClickListener(v -> {
+
+            Call<Void> call5 = jsonPlaceHolderAPI.postInviteStatus( MainActivity.getIdToken(),"accepted",recieveds.getInv());
+            call5.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call5, Response<Void> response5) {
+
+                    if (!response5.isSuccessful()){
+                        Log.i("sucess", "sucess");
+                    }
+                    //AcceptPOJO acceptPOJO1 = response5.body();
+                    Log.i("inviteAdapter", String.valueOf(response5.code()));
+                    Log.i("inviteAdapter",String.valueOf(response5.body()));
+                    int newPosition = holder.getAdapterPosition();
+                    InvitesArrayList.remove(newPosition);
+                    notifyItemRemoved(newPosition);
+                    notifyItemRangeChanged(newPosition, InvitesArrayList.size());
+
+
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Log.i("error", t.getMessage());
+                }
+            });
+
+        });
+        holder.Reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //AcceptPOJO acceptPOJO = new AcceptPOJO(recieveds.getInv().getId().toString(),"accepted");
-                JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
-                Call<Void> call5 = jsonPlaceHolderAPI.postInviteStatus(idToken,recieveds.getInv().getId());
+                Call<Void> call5 = jsonPlaceHolderAPI.postInviteStatus(MainActivity.getIdToken(),"rejected",recieveds.getInv());
                 call5.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call5, Response<Void> response5) {
@@ -92,6 +124,10 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
                         //AcceptPOJO acceptPOJO1 = response5.body();
                         Log.i("inviteAdapter", String.valueOf(response5.code()));
                         Log.i("inviteAdapter",String.valueOf(response5.body()));
+                        int newPosition = holder.getAdapterPosition();
+                        InvitesArrayList.remove(newPosition);
+                        notifyItemRemoved(newPosition);
+                        notifyItemRangeChanged(newPosition, InvitesArrayList.size());
 
 
                     }
@@ -104,6 +140,45 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
 
             }
         });
+
+        holder.InviteeTeamName_invites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TeamProfileParticipantViewFragment frag3 = new TeamProfileParticipantViewFragment();
+                Log.i("IdCheck",InvitesArrayList.get(position).getTeam().getId());
+                Bundle bundle3 = new Bundle();
+                bundle3.putString("teamId",InvitesArrayList.get(position).getTeam().getId() );
+                frag3.setArguments(bundle3);
+
+                MainActivity activity = (MainActivity) v.getContext();
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, frag3)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        holder.ParticipantName_invites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileViewFragment frag3 = new ProfileViewFragment();
+                Log.i("IdCheck",InvitesArrayList.get(position).getLeader().getId());
+                Bundle bundle3 = new Bundle();
+                bundle3.putString("id", InvitesArrayList.get(position).getLeader().getId());
+                frag3.setArguments(bundle3);
+
+                MainActivity activity = (MainActivity) v.getContext();
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, frag3)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+
+
     }
 
 
@@ -127,10 +202,7 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
             Accept = itemView.findViewById(R.id.acceptButton);
             Reject = itemView.findViewById(R.id.rejectButton);
 
-           /* Accept.setOnClickListener(v ->
 
-                    Toast.makeText(context, "You have accepted this invite", Toast.LENGTH_SHORT).show());*/
-            Reject.setOnClickListener(v -> Toast.makeText(context, "You have rejected this invite", Toast.LENGTH_SHORT).show());
 
         }
     }

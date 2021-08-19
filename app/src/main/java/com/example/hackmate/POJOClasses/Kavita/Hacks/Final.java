@@ -1,4 +1,4 @@
-package com.example.hackmate.POJOClasses.Kavita;
+package com.example.hackmate.POJOClasses.Kavita.Hacks;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -88,6 +88,9 @@ public class Final {
     @SerializedName("end")
     @Expose
     private String end;
+    @SerializedName("poster")
+    @Expose
+    private String poster;
     @SerializedName("min_team_size")
     @Expose
     private int minTeamSize;
@@ -151,6 +154,14 @@ public class Final {
 
     public void setEnd(String end) {
         this.end = end;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
     }
 
     public int getMinTeamSize() {

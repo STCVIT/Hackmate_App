@@ -1,6 +1,8 @@
 package com.example.hackmate.Adapters;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +13,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hackmate.Fragments.ProfileViewFragment;
+import com.example.hackmate.Fragments.TeamProfileParticipantViewFragment;
+import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
+import com.example.hackmate.MainActivity;
 import com.example.hackmate.POJOClasses.Kavita.Requests.ReceivedRequest;
 import com.example.hackmate.R;
+import com.example.hackmate.util.RetrofitInstance;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Viewholder>{
 
@@ -30,8 +41,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Viewho
         this.context = context;
         RequestsArrayList = requestsArrayList;
     }
-    public void setMyRequests(List<ReceivedRequest> sent_objs) {
+    public void setMyRequests(List<ReceivedRequest> sent_objs,String idToken) {
         this.RequestsArrayList  =  sent_objs;
+        this.idToken = idToken;
         notifyDataSetChanged();
 
     }
@@ -52,6 +64,102 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Viewho
         UserName1=receivedRequest.getParticipant().getName();
         holder.ParticipantName_req.setText(UserName1);
         holder.InviteeTeamName_req.setText(receivedRequest.getTeam().getName());
+        JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
+        holder.Accept_req.setOnClickListener(v -> {
+
+            Call<Void> call5 = jsonPlaceHolderAPI.postRequestStatus(MainActivity.getIdToken(),"accepted",receivedRequest.getReq());
+            call5.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call5, Response<Void> response5) {
+
+                    if (!response5.isSuccessful()){
+                        Log.i("sucess", "sucess");
+                    }
+                    //AcceptPOJO acceptPOJO1 = response5.body();
+                    Log.i("requestAdapter", String.valueOf(response5.code()));
+                    Log.i("requestAdapter",String.valueOf(response5.body()));
+                    Toast.makeText(context, "You have accepted this request", Toast.LENGTH_SHORT).show();
+                    int newPosition = holder.getAdapterPosition();
+                    RequestsArrayList.remove(newPosition);
+                    notifyItemRemoved(newPosition);
+                    notifyItemRangeChanged(newPosition,RequestsArrayList.size());
+
+
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Log.i("error", t.getMessage());
+                }
+            });
+
+        });
+
+        holder.Remove_req.setOnClickListener(v -> {
+            Call<Void> call5 = jsonPlaceHolderAPI.postRequestStatus(MainActivity.getIdToken(),"rejected",receivedRequest.getReq());
+            call5.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call5, Response<Void> response5) {
+
+                    if (!response5.isSuccessful()){
+                        Log.i("sucess", "sucess");
+                    }
+
+                    Log.i("inviteAdapter", String.valueOf(response5.code()));
+                    Log.i("inviteAdapter",String.valueOf(response5.body()));
+                    Toast.makeText(context, "this request has been removed", Toast.LENGTH_SHORT).show();
+
+                    int newPosition = holder.getAdapterPosition();
+                    RequestsArrayList.remove(newPosition);
+                    notifyItemRemoved(newPosition);
+                    notifyItemRangeChanged(newPosition, RequestsArrayList.size());
+
+
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Log.i("error", t.getMessage());
+                }
+            });
+
+        });
+
+        holder.InviteeTeamName_req.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TeamProfileParticipantViewFragment frag3 = new TeamProfileParticipantViewFragment();
+                Log.i("IdCheck",RequestsArrayList.get(position).getTeam().getId());
+                Bundle bundle3 = new Bundle();
+                bundle3.putString("teamId",RequestsArrayList.get(position).getTeam().getId() );
+                frag3.setArguments(bundle3);
+
+                MainActivity activity = (MainActivity) v.getContext();
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, frag3)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        holder.ParticipantName_req.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileViewFragment frag3 = new ProfileViewFragment();
+                Log.i("IdCheck",RequestsArrayList.get(position).getParticipant().getId());
+                Bundle bundle3 = new Bundle();
+                bundle3.putString("id", RequestsArrayList.get(position).getParticipant().getId());
+                frag3.setArguments(bundle3);
+
+                MainActivity activity = (MainActivity) v.getContext();
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, frag3)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         //RequestsModel.Requests_Model model = ( RequestsModel.Requests_Model) RequestsArrayList.get(position);
         //holder.participantProfilePhoto_req.setImageResource(model.getParticipantphoto_req());
@@ -79,18 +187,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Viewho
             Accept_req=itemView.findViewById(R.id.acceptButton_req);
             Remove_req=itemView.findViewById(R.id.removeButton_req);
 
-            Accept_req.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "You have accepted this request", Toast.LENGTH_SHORT).show();
-                }
-            });
-            Remove_req.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "this request has been removed", Toast.LENGTH_SHORT).show();
-                }
-            });
+
 
         }
     }

@@ -1,5 +1,6 @@
 package com.example.hackmate.util;
 
+
 import android.content.Context;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -8,14 +9,14 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
+public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
     private final ClickListener clickListener;
     private final GestureDetector gestureDetector;
 
-    public RecyclerTouchListener(Context context,RecyclerView recyclerView,ClickListener clickListener) {
+    public RecyclerTouchListener(Context context, RecyclerView recyclerView, ClickListener clickListener) {
         this.clickListener = clickListener;
-        gestureDetector = new GestureDetector(context,new GestureDetector.SimpleOnGestureListener(){
+        gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
                 return true;

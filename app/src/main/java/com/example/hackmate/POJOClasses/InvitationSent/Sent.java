@@ -7,7 +7,7 @@ public class Sent {
 
     @SerializedName("inv")
     @Expose
-    private Inv__1 inv;
+    private String inv;
     @SerializedName("participant")
     @Expose
     private Participant participant;
@@ -15,11 +15,11 @@ public class Sent {
     @Expose
     private Team__1 team;
 
-    public Inv__1 getInv() {
+    public String getInv() {
         return inv;
     }
 
-    public void setInv(Inv__1 inv) {
+    public void setInv(String inv) {
         this.inv = inv;
     }
 
@@ -38,4 +38,5 @@ public class Sent {
     public void setTeam(Team__1 team) {
         this.team = team;
     }
+
 }
