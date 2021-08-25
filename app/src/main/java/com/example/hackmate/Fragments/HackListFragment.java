@@ -43,7 +43,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HackListFragment extends Fragment {
     private RecyclerView HackRV;
-    // Arraylist for storing data
+    //
     private List<Final> HomeArrayList;
     //Button hackInfo;
     BottomNavigationView bottomNavigation;
@@ -57,10 +57,8 @@ public class HackListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_hack_list, container, false);
 
-//inflate appbar for this particular fragment
+        View v = inflater.inflate(R.layout.fragment_hack_list, container, false);
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.HomeAppBar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         return v;
@@ -97,8 +95,21 @@ public class HackListFragment extends Fragment {
         HomeAdapter homeAdapter = new HomeAdapter(getContext(), HomeArrayList);
         HackRV.setAdapter(homeAdapter);
 
+<<<<<<< Updated upstream
         HttpLoggingInterceptor loggingInterceptor1 = new HttpLoggingInterceptor();
         loggingInterceptor1.setLevel(HttpLoggingInterceptor.Level.BODY);
+=======
+        idToken = MainActivity.getIdToken();
+        Log.i("xx", String.valueOf(idToken));
+        jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
+Log.i("HacKlist",String.valueOf(viewModel.getStatus()));
+        if(viewModel.getStatus() == null || viewModel.getStatus() == "all") {
+            status = "all";
+            
+            getHacks(status,page=1);
+
+        }
+>>>>>>> Stashed changes
 
         OkHttpClient okHttpClient1 = new OkHttpClient.Builder()
                 //.addInterceptor(loggingInterceptor)
@@ -115,6 +126,7 @@ public class HackListFragment extends Fragment {
                         if (task.isSuccessful()) {
                             idToken += task.getResult().getToken();
 
+<<<<<<< Updated upstream
          */
         idToken = MainActivity.getidToken();
         Log.i("xx", String.valueOf(idToken));
@@ -131,8 +143,51 @@ public class HackListFragment extends Fragment {
             @Override
             public void onResponse(Call<hackListPOJO> call5, Response<hackListPOJO> response5) {
                 Log.i("callback problem3", "error3");
+=======
+        Log.i("callback problem", "error");
+
+    }
+
+    public void chipsOnClick()
+    {
+        filterhacks.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(ChipGroup group, int checkedId) {
+                //status = "all";
+                switch (checkedId) {
+                    case R.id.POPULAR_Chip:
+                        status = "popularity";
+                        break;
+                    case R.id.ONGOING_Chip:
+                        status = "ongoing";
+                        break;
+                    case R.id.UPCOMING_Chip:
+                        status = "upcoming";
+                        break;
+                    default:
+                        status = "all";
+                }
+                homeAdapter.clearList();
+                HackRV.scrollToPosition(0);
+                isLastPage = false;
+                getHacks(status,page=1);
+
+            }
+        });
+    }
+
+    public void getHacks(String status,int page) {
+        homeAdapter.showProgress();
+
+        Call<hackListPOJO> call5 = jsonPlaceHolderAPI.getHacks(idToken,status, page);
+        call5.enqueue(new Callback<hackListPOJO>() {
+            @Override
+            public void onResponse(Call<hackListPOJO> call5, Response<hackListPOJO> response5) {
+
+                homeAdapter.removeProgress();
+>>>>>>> Stashed changes
                 if (!response5.isSuccessful()) {
-                    Log.i("not sucess5", "code: " + response5.code());
+                    Log.i("HackList", "code: " + response5.code());
                     return;
                 }
                 // hackListPOJO hackListPOJOS= (hackListPOJO) response5.body();
@@ -142,11 +197,21 @@ public class HackListFragment extends Fragment {
                 hackListPOJO hackListPOJOS = (hackListPOJO) response5.body();
                 Log.i("Response body", hackListPOJOS.getLength().toString());
                 List<Final> final_objs = hackListPOJOS.getFinal();
+<<<<<<< Updated upstream
                 Log.i("Response body1", final_objs.get(0).getName());
                 homeAdapter.setHackList(final_objs);
                 Log.i("Response body3", "list sending to adapter sucessfull");
                 //ArrayList<Final> HomeArrayList1 = (ArrayList<Final>) hackListPOJOS.getFinals();
                 //Log.i("RESPONSE", String.valueOf(HomeArrayList1));
+=======
+
+                if(final_objs.size()<6)
+                    isLastPage = true;
+                Log.i("HackList", final_objs.get(0).getName());
+                homeAdapter.setHackList(final_objs);
+                isLoading = false;
+                Log.i("HackList", "list sending to adapter sucessfull");
+>>>>>>> Stashed changes
 
             }
 

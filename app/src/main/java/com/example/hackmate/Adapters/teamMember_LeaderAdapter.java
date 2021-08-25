@@ -5,11 +5,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+<<<<<<< Updated upstream
+=======
+import com.bumptech.glide.Glide;
+import com.example.hackmate.Fragments.HackProfile.HackProfileFragment;
+import com.example.hackmate.Fragments.ProfileViewFragment;
+>>>>>>> Stashed changes
 import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
 import com.example.hackmate.POJOClasses.PtSkill;
 import com.example.hackmate.R;
@@ -68,6 +75,10 @@ public class teamMember_LeaderAdapter extends RecyclerView.Adapter<teamMember_Le
         holder.MemName.setText(ptSkills.getParticipant().getName());
         holder.MemEmail.setText(ptSkills.getParticipant().getEmail());
         holder.MemPosition.setText(id.equals(adminId) ? "Leader" : "");
+        Glide.with(context).
+                load(teamMemberLeaderArrayList.get(position).getParticipant().getPhoto()).
+                placeholder(R.drawable.download).
+                into(holder. Profilephoto);
         // holder.Profilephoto.setImageResource(model.getProfilephoto());
         holder.LeaveOption.setText(id.equals(adminId) ? "leave" : "Remove");
         if(holder.LeaveOption.getText().equals("Remove")){
@@ -123,15 +134,20 @@ public class teamMember_LeaderAdapter extends RecyclerView.Adapter<teamMember_Le
     public class Viewholder extends RecyclerView.ViewHolder {
 
         private TextView SerialNo, MemName, MemEmail, MemPosition, LeaveOption;
+<<<<<<< Updated upstream
         //private ImageView Profilephoto;
 
+=======
+         ImageView Profilephoto;
+        private CardView teamMembercard;
+>>>>>>> Stashed changes
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             SerialNo = itemView.findViewById(R.id.serialNo);
             MemName = itemView.findViewById(R.id.memberName);
             MemEmail = itemView.findViewById(R.id.memberEmail);
             MemPosition = itemView.findViewById(R.id.memberPosition);
-            //Profilephoto = itemView.findViewById(R.id.profilePhoto);
+            Profilephoto = itemView.findViewById(R.id.profilePhoto);
             LeaveOption = itemView.findViewById(R.id.leaveOption);
 
 

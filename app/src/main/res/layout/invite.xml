@@ -63,9 +63,9 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="119dp"
-                android:layout_marginEnd="153dp"
-                android:layout_marginBottom="103dp"
+                android:layout_marginStart="116dp"
+                android:layout_marginEnd="156dp"
+                android:layout_marginBottom="104dp"
                 android:text="invited you to"
                 android:textColor="#E7EFEF"
                 android:textSize="14dp" />
@@ -85,20 +85,25 @@
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/acceptButton"
                 android:layout_width="116dp"
                 android:layout_height="38dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
+<<<<<<< Updated upstream
+=======
+                android:background="@drawable/ic_vector"
+                android:foreground="?android:attr/selectableItemBackground"
+>>>>>>> Stashed changes
                 android:layout_marginStart="53dp"
                 android:layout_marginEnd="197dp"
                 android:layout_marginBottom="27dp"
-                android:backgroundTint="#1EA54C"
+                android:textColor="#FFFFFF"
                 android:text="ACCEPT" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/rejectButton"
                 android:layout_width="116dp"
                 android:layout_height="38dp"
@@ -108,7 +113,8 @@
                 android:layout_marginStart="213dp"
                 android:layout_marginEnd="30dp"
                 android:layout_marginBottom="27dp"
-                android:backgroundTint="@color/buttonBackground"
+
+                android:background="@drawable/ic_reject"
                 android:text="REJECT"
                 android:textColor="#1EA54C"
 

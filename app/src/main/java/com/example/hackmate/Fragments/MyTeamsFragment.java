@@ -68,11 +68,24 @@ public String id3;
         super.onViewCreated(view, savedInstanceState);
         bottomNavigation = getActivity().findViewById(R.id.bottom_nav_bar);
 
+<<<<<<< Updated upstream
         /*TeamsRV = view.findViewById(R.id.RVTeams);
         myTeamsArrayList = new ArrayList<>();
 
         myTeamsArrayList.add(new myTeamsModel("Desiderata","Code2Create","Leader","Frontend","Backend","Machine Laerning","Mobile Dev","Backend"));
         myTeamsArrayList.add(new myTeamsModel("Desiderata","Code2Create","Member","Frontend","Backend","Machine Laerning","Mobile Dev","Backend"));
+=======
+        bell.setOnClickListener(v -> {
+            bottomNavigationView.setVisibility(View.GONE);
+view.findViewById(R.id.imageView11).setVisibility(View.GONE);
+            //getChildFragmentManager()
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.nav_host_fragment, new InviteOrRequestFragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+>>>>>>> Stashed changes
 
 
 

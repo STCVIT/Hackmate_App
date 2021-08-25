@@ -11,6 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+<<<<<<< Updated upstream
+=======
+import com.bumptech.glide.Glide;
+import com.example.hackmate.Fragments.ProfileViewFragment;
+>>>>>>> Stashed changes
 import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
 import com.example.hackmate.POJOClasses.Kavita.teamIdPOJO;
 import com.example.hackmate.POJOClasses.PtSkill;
@@ -70,6 +75,10 @@ public class teamMemberAdapter extends RecyclerView.Adapter<teamMemberAdapter.Vi
         holder.MemName.setText(id.equals(UserID) ? "Me" : ptSkills1.getParticipant().getName());
         holder.MemEmail.setText(ptSkills1.getParticipant().getEmail());
         holder.MemPosition.setText(id.equals(adminId) ? "Leader" : "");
+        Glide.with(context).
+                load(teamMemberArrayList.get(position).getParticipant().getPhoto()).
+                placeholder(R.drawable.download).
+                into(holder. Profilephoto);
         // holder.Profilephoto.setImageResource(model.getProfilephoto());
         holder.LeaveOption.setText(id.equals(UserID) ? "Leave" : "");
         if (holder.LeaveOption.getText().equals("Leave")) {
@@ -116,8 +125,13 @@ public class teamMemberAdapter extends RecyclerView.Adapter<teamMemberAdapter.Vi
     public class Viewholder extends RecyclerView.ViewHolder {
 
         private TextView SerialNo, MemName, MemEmail, MemPosition, LeaveOption;
+<<<<<<< Updated upstream
         private ImageView Profilephoto;
 
+=======
+     ImageView Profilephoto;
+        private CardView teamMembercard;
+>>>>>>> Stashed changes
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             SerialNo = itemView.findViewById(R.id.serialNo);

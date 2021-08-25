@@ -51,15 +51,22 @@ public class InviteOrRequestFragment extends Fragment {
     private ImageView arrowDown_Invite, arrowDown_Req;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private String idToken = "Bearer ";
+<<<<<<< Updated upstream
+=======
+    ProgressBar progressBar;
+>>>>>>> Stashed changes
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+<<<<<<< Updated upstream
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_invite_or_request, container, false);
+=======
+>>>>>>> Stashed changes
 
-//inflate appbar for this particular fragment
+        View v = inflater.inflate(R.layout.fragment_invite_or_request, container, false);
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.InviteAppBar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         return v;
@@ -70,19 +77,19 @@ public class InviteOrRequestFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Invites = view.findViewById(R.id.Invites_tittleText_reqTally);
         arrowDown_Invite = view.findViewById(R.id.arrowDown_invite);
-
         RVinvite = view.findViewById(R.id.InviteRV);
-
         InvitesArrayList = new ArrayList<>();
+<<<<<<< Updated upstream
 
 
         //InvitesArrayList.add(new InvitesModel.Invites_Model(R.drawable.imageholder,"Muhammad Muaazz Zuberi","GreenCoders"));
         //InvitesArrayList.add(new InvitesModel.Invites_Model(R.drawable.imageholder,"Muhammad Muaazz Zuberi","GreenCoders"));
+=======
+        progressBar = view.findViewById(R.id.progressBar3);
+>>>>>>> Stashed changes
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-
-        // in below two lines we are setting layoutmanager and adapter to our recycler view.
         RVinvite.setLayoutManager(linearLayoutManager);
         InvitesAdapter invitesAdapter = new InvitesAdapter(getContext(), InvitesArrayList);
         RVinvite.setAdapter(invitesAdapter);
@@ -102,9 +109,8 @@ public class InviteOrRequestFragment extends Fragment {
         //inviteAPI inviteAPI = retrofit.create(inviteAPI.class);
         //JSONPlaceHolderAPI jsonPlaceHolderAPI = retrofit.create(JSONPlaceHolderAPI.class);
 
-        Log.i("callback problemInvite1", "errorIni1");
         Call<invitePOJO> call5 = jsonPlaceHolderAPI.getMyInvites(idToken);
-        Log.i("callback problemInvite2", "errorIni2");
+
         call5.enqueue(new Callback<invitePOJO>() {
             @Override
             public void onResponse(Call<invitePOJO> call5, Response<invitePOJO> response5) {
@@ -114,45 +120,70 @@ public class InviteOrRequestFragment extends Fragment {
                 }
 
                 invitePOJO invitePOJOS = (invitePOJO) response5.body();
-                Log.i("Response body", invitePOJOS.toString());
+
                 List<Received> recieved_objs = invitePOJOS.getReceived();
+<<<<<<< Updated upstream
                 Log.i("Response body1", String.valueOf(recieved_objs.get(0).getTeam().getId()));
                 invitesAdapter.setMyInvites(recieved_objs,idToken);
                 Log.i("Response body3", "list sending to adapter sucessfull");
+=======
+
+                invitesAdapter.setMyInvites(recieved_objs, idToken);
+>>>>>>> Stashed changes
 
 
                 Call<RequestPOJO> call7 = jsonPlaceHolderAPI.getMyRequests(idToken);
-                Log.i("callbackRequest2", "errorReq2");
+
                 call7.enqueue(new Callback<RequestPOJO>() {
                     @Override
                     public void onResponse(Call<RequestPOJO> call7, Response<RequestPOJO> response7) {
                         if (!response7.isSuccessful()) {
+<<<<<<< Updated upstream
                             Log.i("not sucess6", "code: " + response7.code());
+=======
+                            Log.i("InviteOrRequestFragment", "code: " + response7.code());
+                            progressBar.setVisibility(GONE);
+>>>>>>> Stashed changes
                             return;
                         }
                         RequestPOJO requestPOJO = response7.body();
 
                         Log.i("Response body", requestPOJO.toString());
                         List<ReceivedRequest> req_objs = requestPOJO.getReceived();
+<<<<<<< Updated upstream
                         Log.i("Response body1", String.valueOf(req_objs.get(0).getParticipant().getName()));
                         requestsAdapter.setMyRequests(req_objs);
                         Log.i("Response body3", "list sending to adapter sucessfull");
+=======
+                        requestsAdapter.setMyRequests(req_objs, idToken);
+                        progressBar.setVisibility(GONE);
+                        Log.i("InviteOrRequests", "list sending to adapter sucessfull");
+>>>>>>> Stashed changes
 
                     }
 
                     @Override
                     public void onFailure(Call<RequestPOJO> call7, Throwable t) {
+<<<<<<< Updated upstream
                         Log.i("failed5", t.getMessage());
+=======
+                        Log.i("Requests", t.getMessage());
+                        progressBar.setVisibility(GONE);
+>>>>>>> Stashed changes
                     }
                 });
-
 
 
             }
 
             @Override
             public void onFailure(Call<invitePOJO> call5, Throwable t) {
+<<<<<<< Updated upstream
                 Log.i("failed5", t.getMessage());
+=======
+                Log.i("Invites", t.getMessage());
+                progressBar.setVisibility(GONE);
+>>>>>>> Stashed changes
             }
         });
 
@@ -175,12 +206,6 @@ public class InviteOrRequestFragment extends Fragment {
         arrowDown_Req = view.findViewById(R.id.arrowDown_request);
 
 
-        //RequestsArrayList.add(new RequestsModel.Requests_Model(R.drawable.imageholder,"Muhammad Muaazz Zuberi","GreenCoders"));
-        //RequestsArrayList.add(new RequestsModel.Requests_Model(R.drawable.imageholder,"Muhammad Muaazz Zuberi","GreenCoders"));
-
-
-        // in below two lines we are setting layoutmanager and adapter to our recycler view.
-
 
         Requests.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,6 +221,7 @@ public class InviteOrRequestFragment extends Fragment {
         });
 
 
+<<<<<<< Updated upstream
         //InvitesArrayList = (ArrayList<invitePOJO>) response5.body();
 
 
@@ -204,6 +230,8 @@ public class InviteOrRequestFragment extends Fragment {
         //invitesAdapter.setMyInvites(InvitesArrayList);
 
 
+=======
+>>>>>>> Stashed changes
     }
 
 
