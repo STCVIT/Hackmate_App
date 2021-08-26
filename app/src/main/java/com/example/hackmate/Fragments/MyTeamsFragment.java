@@ -36,8 +36,24 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+<<<<<<< Updated upstream
 
 import static android.media.CamcorderProfile.get;
+=======
+import retrofit2.internal.EverythingIsNonNull;
+
+public class MyTeamsFragment extends Fragment {
+    private static final String TAG = "MyTeamsFragment";
+    public String id3;
+    MyTeamsAdapter adapter;
+    private ChipGroup chipGroup;
+    private boolean isLoading = false, isLastPage = false;
+    private int earlier_pos = 0, page = 1;
+ImageView imageView;
+    private BottomNavigationView bottomNavigationView;
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+>>>>>>> Stashed changes
 
 public class MyTeamsFragment extends Fragment implements myTeamsAdapter.OnTeamsListener {
     private RecyclerView TeamsRV;
@@ -66,6 +82,7 @@ public String id3;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+<<<<<<< Updated upstream
         bottomNavigation = getActivity().findViewById(R.id.bottom_nav_bar);
 
 <<<<<<< Updated upstream
@@ -75,6 +92,21 @@ public String id3;
         myTeamsArrayList.add(new myTeamsModel("Desiderata","Code2Create","Leader","Frontend","Backend","Machine Laerning","Mobile Dev","Backend"));
         myTeamsArrayList.add(new myTeamsModel("Desiderata","Code2Create","Member","Frontend","Backend","Machine Laerning","Mobile Dev","Backend"));
 =======
+=======
+        bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_bar);
+        TextView newTeams = view.findViewById(R.id.newTeam);
+        ImageView bell = view.findViewById(R.id.imageView10);
+        imageView=view.findViewById(R.id.imageView14);
+        chipGroup = view.findViewById(R.id.skillGrp);
+        recyclerView = view.findViewById(R.id.recyclerView);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new MyTeamsAdapter(getContext(), new ArrayList<>());
+        recyclerView.setAdapter(adapter);
+        imageView.setVisibility(View.GONE);
+>>>>>>> Stashed changes
         bell.setOnClickListener(v -> {
             bottomNavigationView.setVisibility(View.GONE);
 view.findViewById(R.id.imageView11).setVisibility(View.GONE);
@@ -225,7 +257,50 @@ view.findViewById(R.id.imageView11).setVisibility(View.GONE);
             }
         });
 
+<<<<<<< Updated upstream
 
+=======
+    public void getMyTeams(int page3) {
+        adapter.showProgress();
+        JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
+        Call<myTeamsPOJO> call1 = jsonPlaceHolderAPI.getmyTeams(MainActivity.getIdToken(), page3);
+        Log.i("callback problem m", "errorMyTeams");
+        call1.enqueue(new Callback<myTeamsPOJO>() {
+            @Override
+            @EverythingIsNonNull
+            public void onResponse(Call<myTeamsPOJO> call1, Response<myTeamsPOJO> response1) {
+                isLoading = false;
+                adapter.removeProgress();
+                swipeRefreshLayout.setRefreshing(false);
+                Log.i("callback problem3MT", "error3MT");
+                if (!response1.isSuccessful()) {
+                    Log.i(TAG, "code: " + response1.code());
+                    imageView.setVisibility(View.VISIBLE);
+                    return;
+                }
+                myTeamsPOJO myTeamsPOJOS = response1.body();
+                Log.i("Response body", myTeamsPOJOS.getLength().toString());
+                if(myTeamsPOJOS.getLength()<8)
+                    isLastPage = true;
+                List<Final2> final_objs2 = myTeamsPOJOS.getFinal2();
+
+                Log.i("Response body1", final_objs2.get(0).getHackName());
+                adapter.setmyTeams(final_objs2, id3);
+                /*if (final_objs2.size() == 0) {
+                    --page;
+                }*/
+            }
+
+            @Override
+            @EverythingIsNonNull
+            public void onFailure(Call<myTeamsPOJO> call1, Throwable t) {
+                isLoading = false;
+                adapter.removeProgress();
+                imageView.setVisibility(View.VISIBLE);
+                Log.i("failed1", t.getMessage());
+            }
+        });
+>>>>>>> Stashed changes
     }
 
 //}

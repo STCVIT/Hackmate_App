@@ -13,7 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 import com.bumptech.glide.Glide;
 import com.example.hackmate.Fragments.ProfileViewFragment;
 import com.example.hackmate.Fragments.TeamProfileParticipantViewFragment;
@@ -34,6 +37,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Viewho
     private String idToken = "Bearer ";
     public String UserName1;
     public String ParticiapntName1;
+
 
     public RequestsAdapter(Context context, List<ReceivedRequest> requestsArrayList) {
         this.context = context;
@@ -62,7 +66,10 @@ UserName1=receivedRequest.getParticipant().getName();
         holder.ParticipantName_req.setText(UserName1);
         holder.InviteeTeamName_req.setText(receivedRequest.getTeam().getName());
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
         Glide.with(context).
                 load(RequestsArrayList.get(position).getParticipant().getPhoto()).
                 placeholder(R.drawable.download).
@@ -178,13 +185,21 @@ UserName1=receivedRequest.getParticipant().getName();
 
     public class Viewholder extends RecyclerView.ViewHolder {
 
+<<<<<<< Updated upstream
         ImageView participantProfilePhoto_req;
+=======
+      ImageView participantProfilePhoto_req;
+>>>>>>> Stashed changes
         private TextView ParticipantName_req,InviteeTeamName_req;
         private Button Accept_req,Remove_req;
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 
+<<<<<<< Updated upstream
              participantProfilePhoto_req=itemView.findViewById(R.id.RequestPhoto);
+=======
+            participantProfilePhoto_req=itemView.findViewById(R.id.RequestPhoto);
+>>>>>>> Stashed changes
             ParticipantName_req=itemView.findViewById(R.id.RequestName);
 
             InviteeTeamName_req=itemView.findViewById(R.id.teamName_req);

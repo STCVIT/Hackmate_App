@@ -14,7 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 import com.bumptech.glide.Glide;
 import com.example.hackmate.Fragments.ProfileViewFragment;
 import com.example.hackmate.Fragments.TeamProfileParticipantViewFragment;
@@ -84,12 +87,19 @@ Log.i("Invites ",recieveds.getLeader().getPhoto());
         holder.ParticipantName_invites.setText(recieveds.getLeader().getName());
         holder.InviteeTeamName_invites.setText(recieveds.getTeam().getName());
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         holder.Accept.setOnClickListener(new View.OnClickListener() {
 =======
         Glide.with(context).
                 load( InvitesArrayList.get(position).getLeader().getPhoto()).
                 placeholder(R.drawable.download).
                 into(participantProfilePhoto_invites);
+=======
+        Glide.with(context).
+                load( InvitesArrayList.get(position).getLeader().getPhoto()).
+                placeholder(R.drawable.download).
+                into(holder.participantProfilePhoto_invites);
+>>>>>>> Stashed changes
         JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
         holder.Accept.setOnClickListener(v -> {
 
@@ -160,7 +170,7 @@ Log.i("Invites ",recieveds.getLeader().getPhoto());
 
         private TextView ParticipantName_invites, InviteeTeamName_invites;
         private Button Accept, Reject;
-
+        ImageView participantProfilePhoto_invites;
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 

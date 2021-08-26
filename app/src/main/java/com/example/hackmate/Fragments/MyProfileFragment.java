@@ -163,6 +163,100 @@ public class MyProfileFragment extends Fragment {
 
 
 
+<<<<<<< Updated upstream
+=======
+        Call<loginPOJO> call = loginAPI.getParticipant("Bearer " + MainActivity.getIdToken());
+        call.enqueue(new Callback<loginPOJO>() {
+            @Override
+            public void onResponse(Call<loginPOJO> call, Response<loginPOJO> response) {
+
+//                Log.i("response22", String.valueOf(response.body().getId()));
+                name_MP.setText(response.body().getName());
+                username_MP.setText(response.body().getUsername());
+                email_MP.setText(response.body().getEmail());
+                college_MP.setText(response.body().getCollege());
+                yog_MP.setText(String.valueOf(response.body().getGraduation_year()));
+                bio_MP.setText(response.body().getBio());
+                github_MP.setText(response.body().getGithub());
+                linkedIn_MP.setText(response.body().getLinkedIn());
+                id = String.valueOf(response.body().getId());
+                if (response.body().getWebsite() != null) {
+                    personal_website_MP.setText(response.body().getWebsite());
+                }
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<loginPOJO> call, Throwable t) {
+                Log.i("error", t.getMessage());
+                Toast.makeText(getActivity(), "Failed To Fetch", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        Call<ProjectPOJO> caller = loginAPI.getProject("Bearer " + MainActivity.getIdToken());
+        Log.i("tag", "tag");
+        caller.enqueue(new Callback<ProjectPOJO>() {
+            @Override
+            public void onResponse(Call<ProjectPOJO> call, Response<ProjectPOJO> response) {
+                Log.i("project_response", String.valueOf(response.body()));
+                if (response.body() != null) {
+                    ProjectPOJO projectPOJO = response.body();
+//                        Log.i("abc", projectPOJO.getTeam().getName().toString());
+                    List<IndividualProject> individualProjectsList = projectPOJO.getIndividualProjects();
+//                        Log.i("pt_skill", String.valueOf(pt_skills.get(0).getParticipant().getName()));
+                    List<TeamProject> teamProjectsList = projectPOJO.getTeams();
+                    ProjectAdapterMP projectAdapterMP = new ProjectAdapterMP(getContext(), individualProjectsList, teamProjectsList);
+                    projects_recyclerView.setAdapter(projectAdapterMP);
+                    projectAdapterMP.setGetProjectMP(individualProjectsList, teamProjectsList);
+                }
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<ProjectPOJO> call, Throwable t) {
+                Log.i("error", t.getMessage());
+                Toast.makeText(getActivity(), "Failed To Fetch", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        Call<List<Skill>> call1 = loginAPI.getSkills("Bearer " + MainActivity.getIdToken());
+        call1.enqueue(new Callback<List<Skill>>() {
+            @Override
+            public void onResponse(Call<List<Skill>> call1, Response<List<Skill>> response) {
+                if (response.body() != null) {
+                    Log.i("skilssssss", response.body().toString());
+                    if (response.body() != null) {
+                        List<Skill> skillList = response.body();
+                        for (int i = 0; i < skillList.size(); i++) {
+                            Log.i("SKILLS", skillList.get(i).getSkill());
+
+                            Chip chip = new Chip(getContext());
+                            if (skillList.get(i).getSkill().equals("ml")) {
+                                chip.setText("Machine Learning");
+                            } else if (skillList.get(i).getSkill().equals("frontend")) {
+                                chip.setText("Frontend");
+                            } else if (skillList.get(i).getSkill().equals("backend")) {
+                                chip.setText("Backend");
+                            } else if (skillList.get(i).getSkill().equals("ui/ux")) {
+                                chip.setText("UI/UX Design");
+                            } else if (skillList.get(i).getSkill().equals("management")) {
+                                chip.setText("Management");
+                            } else if (skillList.get(i).getSkill().equals("appdev")) {
+                                chip.setText("App Development");
+                            }
+                            chip.setChipStrokeColorResource(R.color.pill_color);
+                            chip.setChipBackgroundColor(getResources().getColorStateList(R.color.pill_color));
+                            chip.setTextColor(getResources().getColorStateList(R.color.text));
+                            chip.setChipStrokeWidth(4);
+                            chip.setClickable(false);
+                            chipGroup.addView(chip);
+>>>>>>> Stashed changes
                         }
                     }
                 });

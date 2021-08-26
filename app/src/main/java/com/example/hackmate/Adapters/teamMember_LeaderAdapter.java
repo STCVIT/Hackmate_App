@@ -12,7 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 import com.bumptech.glide.Glide;
 import com.example.hackmate.Fragments.HackProfile.HackProfileFragment;
 import com.example.hackmate.Fragments.ProfileViewFragment;
@@ -79,7 +82,11 @@ public class teamMember_LeaderAdapter extends RecyclerView.Adapter<teamMember_Le
                 load(teamMemberLeaderArrayList.get(position).getParticipant().getPhoto()).
                 placeholder(R.drawable.download).
                 into(holder. Profilephoto);
+<<<<<<< Updated upstream
         // holder.Profilephoto.setImageResource(model.getProfilephoto());
+=======
+
+>>>>>>> Stashed changes
         holder.LeaveOption.setText(id.equals(adminId) ? "leave" : "Remove");
         if(holder.LeaveOption.getText().equals("Remove")){
             holder.LeaveOption.setOnClickListener(v -> {
@@ -135,9 +142,12 @@ public class teamMember_LeaderAdapter extends RecyclerView.Adapter<teamMember_Le
 
         private TextView SerialNo, MemName, MemEmail, MemPosition, LeaveOption;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         //private ImageView Profilephoto;
 
 =======
+=======
+>>>>>>> Stashed changes
          ImageView Profilephoto;
         private CardView teamMembercard;
 >>>>>>> Stashed changes

@@ -12,7 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 import com.bumptech.glide.Glide;
 import com.example.hackmate.Fragments.ProfileViewFragment;
 >>>>>>> Stashed changes
@@ -126,10 +129,14 @@ public class teamMemberAdapter extends RecyclerView.Adapter<teamMemberAdapter.Vi
 
         private TextView SerialNo, MemName, MemEmail, MemPosition, LeaveOption;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         private ImageView Profilephoto;
 
 =======
      ImageView Profilephoto;
+=======
+      ImageView Profilephoto;
+>>>>>>> Stashed changes
         private CardView teamMembercard;
 >>>>>>> Stashed changes
         public Viewholder(@NonNull View itemView) {
