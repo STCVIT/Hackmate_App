@@ -18,12 +18,15 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.hackmate.JSONPlaceholders.API;
 
 import com.example.hackmate.MainActivity;
+import com.example.hackmate.POJOClasses.FindParticipant.FinalPt;
 import com.example.hackmate.POJOClasses.FindParticipant.invitePOJO;
 
+import com.example.hackmate.POJOClasses.InvitationSent.Invites;
 import com.example.hackmate.R;
 import com.example.hackmate.util.Functions;
 import com.example.hackmate.util.RetrofitInstance;
@@ -33,6 +36,7 @@ import com.google.android.material.chip.ChipGroup;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,13 +57,18 @@ public class FindParticipantFragment extends Fragment {
     private RecyclerView recyclerView;
     private EditText findPtByName;
     private InviteAdapter inviteAdapter;
-    private boolean isLoading = false;
+    private boolean isLoading = false, isLastPage = false;
     private int page = 1, page2 = 1, page3 = 1, earlier_pos = 0;
-    private String teamId;
-    ;
-    //private String skill;
-    private String hackID, name = "", skill = "";
+    private List<String> ptId;
+    private String hackID, name = "", skill = "", teamId;
     private FindParticipantViewModel viewModel;
+    private List<String> invited_names;
+
+    public FindParticipantFragment(String hackID, String teamId, List<String> ptId) {
+        this.hackID = hackID;
+        this.teamId = teamId;
+        this.ptId = ptId;
+    }
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -85,13 +94,25 @@ public class FindParticipantFragment extends Fragment {
         chips = view.findViewById(R.id.chips);
         recyclerView = view.findViewById(R.id.inviteList);
 
-        hackID = "null";
-        teamId = "61007dccfba98c0015f53e11";
+        api = RetrofitInstance.getRetrofitInstance().create(API.class);
+        Trial();
+
+        /*hackID = "null";
+
+        teamId = "60fe92283dc96e001575ee3a";
+        ptId = new ArrayList<>();
+        ptId.add("61124f06089dc90015a20844");
+        ptId.add("60f13063ce79400015732285");
+
+
+        teamId = "60f647fd7aa44d77a0dc2805";
+        ptId = new ArrayList<>();
+        ptId.add("60f13062ce79400015732284");*/
+        Log.i("IDs", hackID + " " + teamId + " " + ptId);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        inviteAdapter = new InviteAdapter(getContext(), new ArrayList<>(), teamId);
+        inviteAdapter = new InviteAdapter(getContext(), new ArrayList<>(), teamId, ptId, invited_names);
         recyclerView.setAdapter(inviteAdapter);
-        api = RetrofitInstance.getRetrofitInstance().create(API.class);
 
 
         /*if (frontend.isChecked() || backend.isChecked() || ml.isChecked() || ui_ux.isChecked() ||
@@ -133,6 +154,7 @@ public class FindParticipantFragment extends Fragment {
             inviteAdapter.clearList();
             recyclerView.scrollToPosition(0);
             earlier_pos = 0;
+            isLastPage = false;
             swipeRefreshLayout.setRefreshing(true);
             if (isSearch)
                 searchPtByName(findPtByName.getText().toString(), page2 = 1);
@@ -151,7 +173,7 @@ public class FindParticipantFragment extends Fragment {
                 if (linearLayoutManager != null) {
                     int curr_position = linearLayoutManager.findLastVisibleItemPosition();
                     if (!isLoading)
-                        if ((curr_position + 1) % 12 == 0 && curr_position != 0 && curr_position > earlier_pos) {
+                        if (!isLastPage && curr_position == inviteAdapter.getItemCount() - 1 && curr_position != 0 && curr_position > earlier_pos) {
                             earlier_pos = curr_position;
                             Log.i(TAG, "onScrolled: position => " + curr_position);
                             isLoading = true;
@@ -191,6 +213,7 @@ public class FindParticipantFragment extends Fragment {
                 inviteAdapter.clearList();
                 recyclerView.scrollToPosition(0);
                 earlier_pos = 0;
+                isLastPage = false;
                 name = findPtByName.getText().toString();
                 if (findPtByName.getText().length() == 0) {
                     isSearch = false;
@@ -213,6 +236,7 @@ public class FindParticipantFragment extends Fragment {
             inviteAdapter.clearList();
             recyclerView.scrollToPosition(0);
             earlier_pos = 0;
+            isLastPage = false;
             skill = "";
             if (checkedId != -1) {
                 skill = skillSelected(checkedId);
@@ -259,6 +283,8 @@ public class FindParticipantFragment extends Fragment {
                 if (swipeRefreshLayout.isRefreshing())
                     swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful()) {
+                    if (response.body().getFinal().size() < 12)
+                        isLastPage = true;
                     inviteAdapter.addItems(response.body().getFinal(), skill);
                     isLoading = false;
                 }
@@ -293,6 +319,8 @@ public class FindParticipantFragment extends Fragment {
                     Functions.fetchToken(requireActivity(), () -> sendInvite(page));
                 if (swipeRefreshLayout.isRefreshing()) swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful()) {
+                    if (response.body().getFinal().size() < 12)
+                        isLastPage = true;
                     inviteAdapter.addItems(response.body().getFinal(), "");
                     isLoading = false;
                 }
@@ -309,6 +337,34 @@ public class FindParticipantFragment extends Fragment {
         });
     }
 
+
+    public void Trial() {
+        invited_names = new ArrayList<>();
+        Call<Invites> call = api.inviteSent(MainActivity.getIdToken());
+        call.enqueue(new Callback<Invites>() {
+            @Override
+            public void onResponse(Call<Invites> call, Response<Invites> response) {
+                if (response.isSuccessful() && response.code() == 200) {
+                    for (int i = 0; i < response.body().getSent().size(); i++) {
+
+                        if (teamId.equals(response.body().getSent().get(i).getTeam().getId()))
+                            invited_names.add(response.body().getSent().get(i).getParticipant().getId());
+
+
+                    }
+                    Log.i("PARTICIPANT_CHEK", String.valueOf(invited_names));
+                } else
+                    Log.i("PARTICIPANT_CHECH", String.valueOf(response.code()));
+            }
+
+            @Override
+            public void onFailure(Call<Invites> call, Throwable t) {
+                Log.i("PARTICIPANT_CHECH", t.getMessage());
+            }
+        });
+    }
+
+
     public void searchPtByName(String name, int page2) {
         inviteAdapter.showProgress();
         Log.d(TAG, "searchPtByName() returned: " + name + " ,page =>" + page2);
@@ -324,9 +380,10 @@ public class FindParticipantFragment extends Fragment {
                 if (swipeRefreshLayout.isRefreshing())
                     swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful()) {
+                    if (response.body().getFinal().size() < 12)
+                        isLastPage = true;
                     inviteAdapter.addItems(response.body().getFinal(), "");
                     isLoading = false;
-
                 }
 
             }

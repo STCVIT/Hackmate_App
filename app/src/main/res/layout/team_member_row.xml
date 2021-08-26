@@ -38,7 +38,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="35dp"
-            android:text="1."
             android:textColor="@color/text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +48,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
-            android:text="Yash Jasani"
             android:textColor="@color/text"
             app:layout_constraintStart_toEndOf="@+id/cardView3"
             app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="24dp"
-            android:text="Leader"
             android:textColor="@color/pill_color"
             android:textSize="10sp"
             app:layout_constraintStart_toEndOf="@+id/nameTextView"
@@ -73,7 +70,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="20dp"
-            android:text="jasaniyash13@gmail.com"
             android:textColor="@color/text"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -84,11 +80,10 @@
             android:id="@+id/go_to_profile_imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="289dp"
+
             android:layout_marginEnd="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cardView3"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_arrow" />
     </androidx.constraintlayout.widget.ConstraintLayout>

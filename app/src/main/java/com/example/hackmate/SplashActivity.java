@@ -25,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
         FirebaseAuth.getInstance()
                 .getAccessToken(true)
                 .addOnSuccessListener(getTokenResult -> {
-                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                     intent.putExtra("idToken", getTokenResult.getToken());
                     startActivity(intent);
                     finish();

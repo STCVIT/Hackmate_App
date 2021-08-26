@@ -1,10 +1,13 @@
 package com.example.hackmate.Fragments.FindParticipant;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,13 +15,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.hackmate.Fragments.ProfileViewFragment;
 import com.example.hackmate.JSONPlaceholders.API;
 import com.example.hackmate.MainActivity;
 import com.example.hackmate.POJOClasses.FindParticipant.FinalPt;
 import com.example.hackmate.R;
+import com.example.hackmate.util.Functions;
 import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.gms.common.api.Api;
 import com.google.android.material.chip.Chip;
@@ -41,26 +47,36 @@ public class InviteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private Context context;
     private String name, teamId;
     private API api;
+    private List<String> ptId;
+    private List<String> invitedNames;
+    private boolean check;
 
-    public InviteAdapter(Context context, List<FinalPt> inviteArrayList, String teamId) {
+    public InviteAdapter(Context context, List<FinalPt> inviteArrayList, String teamId, List<String> ptId, List<String> invitedNames) {
         InviteArrayList = inviteArrayList;
         this.context = context;
         this.teamId = teamId;
-
+        this.ptId = ptId;
+        this.invitedNames = invitedNames;
     }
 
     public void addItems(List<FinalPt> list, String name) {
         int position = this.InviteArrayList.size();
+
+        List<FinalPt> list1 = list;
+        for (int i = 0; i < list1.size(); i++) {
+            for (int j = 0; j < ptId.size(); j++) {
+                if (list1.get(i).getParticipant().get_id().equals(ptId.get(j))) {
+                    list.remove(i);
+                    break;
+                }
+            }
+        }
+
         this.InviteArrayList.addAll(list);
         this.name = name;
         notifyItemRangeInserted(position, list.size());
     }
 
-    /*public List<FinalPt> getList() {
-        return this.InviteArrayList;
-    }
-
-     */
 
     @Override
     public int getItemViewType(int position) {
@@ -85,12 +101,15 @@ public class InviteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public void populateItem(ProgramViewHolder holder, int position) {
+
         holder.name.setText(InviteArrayList.get(position).getParticipant().getName());
+
+        //Glide.with(holder.imgIcon.getContext()).load().placeholder().into(holder.imgIcon);
 
         List<String> skills = new ArrayList<String>();
         int length_skills = InviteArrayList.get(position).getSkills().size();
         if (length_skills > 0) {
-            if(name.isEmpty())
+            if (name.isEmpty())
                 skills.add(InviteArrayList.get(position).getSkills().get(0).getSkill());
             else
                 skills.add(name);
@@ -110,8 +129,18 @@ public class InviteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.domainGrp.addView(chip);
         }
 
+        Glide.with(context).
+                load(InviteArrayList.get(position).getParticipant().getPhoto()).
+                placeholder(R.drawable.download).
+                into(holder.imgIcon);
+
         holder.itemView.setOnClickListener(v -> {
             ProfileViewFragment frag = new ProfileViewFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("id",InviteArrayList.get(position).getParticipant().get_id());
+            if(holder.invite.getText().equals("INVITED"))
+                bundle.putInt("invited",1);
+            frag.setArguments(bundle);
 
             MainActivity activity = (MainActivity) v.getContext();
             activity.getSupportFragmentManager()
@@ -121,33 +150,64 @@ public class InviteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     .commit();
         });
 
+        check =  false;
+
+        for(int i=0;i<invitedNames.size();i++) {
+            if (InviteArrayList.get(position).getParticipant().get_id().equals(invitedNames.get(i))) {
+                Log.i("PARTICIPANT_CHECK",InviteArrayList.get(position).getParticipant().getName());
+                holder.invite.setText("INVITED");
+                holder.invite.setTextColor(ContextCompat.getColor(context, R.color.pill_color));
+                holder.invite.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_invited));
+                check = true;
+                break;
+            }
+        }
+
+        if(!check) {
+            holder.invite.setText("INVITE");
+            holder.invite.setTextColor(ContextCompat.getColor(context, R.color.text));
+            holder.invite.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_buttongradient));
+        }
+
+
         holder.invite.setOnClickListener(v -> {
             if (holder.invite.getText().toString().matches("INVITE")) {
-                api = RetrofitInstance.getRetrofitInstance().create(API.class);
-                Log.i(TAG, "populateItem: ");
+                sendInvitation(v,holder,position);
 
-                Call<Response<Void>> call = api.sendInvitation(MainActivity.getIdToken(),teamId,InviteArrayList.get(position).getParticipant()._id);
-                call.enqueue(new Callback<Response<Void>>() {
-                    @Override
-                    public void onResponse(Call<Response<Void>> call, Response<Response<Void>> response) {
-                        Log.i(TAG, "onResponse: =>" + response.code());
-                        if(response.isSuccessful())
-                        {
-                            holder.invite.setText("INVITED");
-                            holder.invite.setTextColor(ContextCompat.getColor(v.getContext(), R.color.pill_color));
-                            holder.invite.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.ic_invited));
-                            Toast.makeText(context, "Invitation Sent !!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Response<Void>> call, Throwable t) {
-
-                    }
-                });
             }
         });
     }
+
+    public void sendInvitation(View v,ProgramViewHolder holder, int position)
+    {
+        api = RetrofitInstance.getRetrofitInstance().create(API.class);
+        Log.i(TAG, "populateItem: ");
+        FragmentActivity activity = new FragmentActivity();
+
+        Call<Void> calls = api.sendInvitation(MainActivity.getIdToken(), teamId, InviteArrayList.get(position).getParticipant()._id);
+        calls.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> calls, Response<Void> response) {
+                Log.i(TAG, "onResponse: =>" + response.code());
+                if(response.code()==401)
+                    Functions.fetchToken(activity, () -> sendInvitation(v,holder,position));
+                if (response.isSuccessful() && response.code() == 201) {
+                    holder.invite.setText("INVITED");
+                    holder.invite.setTextColor(ContextCompat.getColor(v.getContext(), R.color.pill_color));
+                    holder.invite.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.ic_invited));
+                    Toast.makeText(context, "Invitation Sent !!", Toast.LENGTH_SHORT).show();
+
+                    invitedNames.add(InviteArrayList.get(position).getParticipant().get_id());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> calls, Throwable t) {
+
+            }
+        });
+    }
+
 
     @Override
     public int getItemCount() {
@@ -182,14 +242,14 @@ public class InviteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public static class ProgramViewHolder extends RecyclerView.ViewHolder {
-        //ImageView imgIcon;
+        ImageView imgIcon;
         TextView name;
         ChipGroup domainGrp;
         AppCompatButton invite;
 
         public ProgramViewHolder(@NonNull View itemView) {
             super(itemView);
-            //imgIcon = itemView.findViewById(R.id.inviteImg);
+            imgIcon = itemView.findViewById(R.id.inviteImg);
             name = itemView.findViewById(R.id.inviteName);
             domainGrp = itemView.findViewById(R.id.chipGrp);
             invite = itemView.findViewById(R.id.sendInviteButton);

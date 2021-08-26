@@ -8,7 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="#23303D"
         tools:context=".Fragments.SettingsFragment"
 
@@ -78,8 +78,8 @@
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="867dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="wrap_content"
+
             android:background="#23303D"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +89,29 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/InviteRV"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <ImageView
+                android:id="@+id/InvitesIV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_invites"
+                android:padding="8dp"
+                android:layout_marginTop="8dp"
+                >
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No invites to show, try finding teams in “search”"
+                android:textAlignment="center"
+                android:textColor="#E7EFEF"
+                android:layout_marginBottom="8dp"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -100,57 +122,94 @@
                     android:id="@+id/Requests_tittleText_reqTally"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="22dp"
+
                     android:text="Requests"
                     android:textAlignment="center"
                     android:textColor=" #979797"
                     android:textSize="14dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/arrowDown_request"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="8dp"/>
 
                 <ImageView
                     android:id="@+id/arrowDown_request"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
+
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24_grey" />
+                    app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24_grey"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="8dp"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/RequestRV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp" />
+                >
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <ImageView
+                android:id="@+id/imageView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_group_267"
+                android:padding="8dp"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="342dp"
+                android:layout_height="77dp"
+                android:layout_marginStart="25dp"
+                android:text="No requests to show , to add someone, go to your team and find a teammate to add"
+                android:textAlignment="center"
+                android:textColor="#E7EFEF" />
+
+            <ProgressBar
+                android:id="@+id/progressBar3"
+
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_medium" />
+
         </LinearLayout>
 
         <TextView
             android:id="@+id/Invites_tittleText_reqTally"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
+
             android:text="Invites"
             android:textAlignment="center"
             android:textColor=" #979797"
             android:textSize="14dp"
             android:textStyle="bold"
+            android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/arrowDown_invite"
-            app:layout_constraintTop_toBottomOf="@+id/InviteAppBarLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/InviteAppBarLayout"
+            android:foreground="?android:attr/selectableItemBackground"/>
 
         <ImageView
             android:id="@+id/arrowDown_invite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+
+            android:padding="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/InviteAppBarLayout"
-            app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24_grey" />
+            app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24_grey"
+            android:foreground="?android:attr/selectableItemBackground"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

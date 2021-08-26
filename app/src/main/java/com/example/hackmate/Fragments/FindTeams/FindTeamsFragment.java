@@ -152,7 +152,7 @@ public class FindTeamsFragment extends Fragment {
                 if (linearLayoutManager != null) {
                     int curr_position = linearLayoutManager.findLastVisibleItemPosition();
                     if (!isLoading)
-                        if ((curr_position + 2) % 8 == 0 && curr_position != 0 && curr_position > earlier_pos) {
+                        if ((curr_position + 1) % 8 == 0 && curr_position != 0 && curr_position > earlier_pos) {
                             earlier_pos = curr_position;
                             Log.i(TAG, "onScrolled: position => " + curr_position);
                             isLoading = true;
@@ -277,7 +277,8 @@ public class FindTeamsFragment extends Fragment {
                     joinAdapter.addItems(response.body().getFinal());
                     isLoading = false;
                 } else if (response.code() == 404) {
-                    Toast.makeText(getContext(), "No Team to Join !!", Toast.LENGTH_SHORT).show();
+                    if(page3==1)
+                        Toast.makeText(getContext(), "No Team to Join !!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -329,7 +330,8 @@ public class FindTeamsFragment extends Fragment {
                     joinAdapter.addItems(response.body().getFinal());
                     isLoading = false;
                 } else if (response.code() == 404) {
-                    Toast.makeText(getContext(), "No Team to Join !!", Toast.LENGTH_SHORT).show();
+                    if(page == 1)
+                        Toast.makeText(getContext(), "No Team to Join !!", Toast.LENGTH_SHORT).show();
                 }
             }
 

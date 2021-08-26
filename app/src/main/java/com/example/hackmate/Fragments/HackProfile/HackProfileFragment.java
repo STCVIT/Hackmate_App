@@ -1,6 +1,7 @@
 package com.example.hackmate.Fragments.HackProfile;
 
 import android.app.AlertDialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,11 +15,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.hackmate.Fragments.AddFromExistingFragment;
 import com.example.hackmate.Fragments.FindTeams.FindTeamsFragment;
 import com.example.hackmate.Fragments.FindTeams.FindTeamsViewModel;
@@ -39,7 +42,8 @@ public class HackProfileFragment extends Fragment {
 
     private TextView hackName,start,end,min,max,venue,prize,description;
     private API hackProfileApi;
-    private String website;
+    private String website, imageString;
+    private ImageView imageView;
     private String hackID, hackNaming;
     private HackProfileViewModel viewModel;
 
@@ -69,6 +73,7 @@ public class HackProfileFragment extends Fragment {
         description = view.findViewById(R.id.aboutHack);
         min = view.findViewById(R.id.minMem);
         max = view.findViewById(R.id.maxMem);
+        imageView = view.findViewById(R.id.hackImage);
 
         hackProfileApi = RetrofitInstance.getRetrofitInstance().create(API.class);
         Bundle bundle = this.getArguments();
@@ -80,8 +85,6 @@ public class HackProfileFragment extends Fragment {
         else
             showData();
 
-
-        fetchData();
 
         view.findViewById(R.id.viewWebsite).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +124,7 @@ public class HackProfileFragment extends Fragment {
         viewModel.setVenue(venue.getText().toString());
         viewModel.setPrize(prize.getText().toString());
         viewModel.setDescription(description.getText().toString());
+        viewModel.setPoster(imageString);
     }
 
     public void fetchData()
@@ -137,19 +141,28 @@ public class HackProfileFragment extends Fragment {
                     Toast.makeText(getActivity(), "Error in retrieving the Data !!!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                getView().findViewById(R.id.hackProfileProgress).setVisibility(View.GONE);
-                getView().findViewById(R.id.hackProfileScroll).setVisibility(View.VISIBLE);
-                getView().findViewById(R.id.toolBar).setVisibility(View.VISIBLE);
-                hackNaming = response.body().name;
-                hackName.setText(response.body().name);
-                start.setText(response.body().start.substring(0,10));
-                end.setText(response.body().end.substring(0,10));
-                max.setText(response.body().max);
-                min.setText(response.body().min);
-                venue.setText(response.body().venue);
-                prize.setText(response.body().prize);
-                description.setText(response.body().description);
-                website = response.body().website;
+
+                if(response.body() != null) {
+                    getView().findViewById(R.id.hackProfileProgress).setVisibility(View.GONE);
+                    getView().findViewById(R.id.hackProfileScroll).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.toolBar).setVisibility(View.VISIBLE);
+                    Glide.with(getContext()).
+                            load(response.body().getPoster()).
+                            placeholder(R.drawable.download).
+                            into(imageView);
+                    //imageView.setImageDrawable(Drawable.createFromPath(response.body().getPoster()));
+                    imageString = response.body().getPoster();
+                    hackNaming = response.body().name;
+                    hackName.setText(response.body().name);
+                    start.setText(response.body().start.substring(0, 10));
+                    end.setText(response.body().end.substring(0, 10));
+                    max.setText(response.body().max);
+                    min.setText(response.body().min);
+                    venue.setText(response.body().venue);
+                    prize.setText(response.body().prize);
+                    description.setText(response.body().description);
+                    website = response.body().website;
+                }
             }
 
             @Override
@@ -162,6 +175,11 @@ public class HackProfileFragment extends Fragment {
 
     public void showData()
     {
+        Log.i("Show Data",viewModel.getPoster());
+        getView().findViewById(R.id.hackProfileProgress).setVisibility(View.GONE);
+        getView().findViewById(R.id.hackProfileScroll).setVisibility(View.VISIBLE);
+        getView().findViewById(R.id.toolBar).setVisibility(View.VISIBLE);
+        Glide.with(getContext()).load(imageString).placeholder(R.drawable.download).into(imageView);
         hackName.setText(viewModel.getHackName());
         start.setText(viewModel.getStart());
         end.setText(viewModel.getEnd());
@@ -192,7 +210,7 @@ public class HackProfileFragment extends Fragment {
             public void onClick(View v) {
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment,new AddFromExistingFragment())
+                        .replace(R.id.nav_host_fragment,new AddFromExistingFragment(hackID))
                         .addToBackStack(null)
                         .commit();
                 alertDialog.dismiss();

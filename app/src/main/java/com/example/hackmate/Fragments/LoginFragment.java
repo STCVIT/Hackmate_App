@@ -1,6 +1,8 @@
 package com.example.hackmate.Fragments;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,8 +26,11 @@ import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.LoginActivity;
 import com.example.hackmate.MainActivity;
 import com.example.hackmate.R;
+import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
@@ -46,16 +51,14 @@ public class LoginFragment extends Fragment {
 
     View view;
     private EditText email_login, password_login;
-    private TextView newAccount;
+    private TextView newAccount, forgot_password;
     private LoginActivity loginActivity;
     private FirebaseAuth mAuth;
     private Button login;
     private ProgressBar progressBar;
     private loginAPI loginAPI;
-    int responses = 0, ans;
-    String idToken;
-    Retrofit retrofit;
-    LoginActivity activity;
+    int ans;
+    String idToken, msg;
 
     @Override
     public void onStart() {
@@ -66,10 +69,20 @@ public class LoginFragment extends Fragment {
                 Toast.makeText(getContext(), "Please Verify your Email to continue", Toast.LENGTH_SHORT).show();
                 FirebaseAuth.getInstance().signOut();
 
-            } else if(activity.preferences.getInt("response", 0) == 200){
+            } else if (loginActivity.preferences.getInt("response", 0) == 200) {
                 Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("idToken", LoginActivity.getidToken());
                 startActivity(intent);
                 loginActivity.finish();
+            } else if (loginActivity.preferences.getInt("response", 0) == 404) {
+                Bundle args = new Bundle();
+                args.putString("response", LoginActivity.getidToken());
+                loginActivity.fragmentCreateAccount.setArguments(args);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.bodyFragment, loginActivity.fragmentCreateAccount)
+                        .addToBackStack(null)
+                        .commit();
             }
         }
         super.onStart();
@@ -89,10 +102,6 @@ public class LoginFragment extends Fragment {
 
         initialise();
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl("https://hackportalbackend.herokuapp.com/participant/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
         newAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,18 +128,15 @@ public class LoginFragment extends Fragment {
                     email_login.setError("Email Required");
                     email_login.requestFocus();
                     return;
-                }
-                else if (!Patterns.EMAIL_ADDRESS.matcher(email_login.getText().toString()).matches()) {
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(email_login.getText().toString()).matches()) {
                     email_login.setError("Valid Email Required");
                     email_login.requestFocus();
                     return;
-                }
-                else if (password_login.getText().toString().isEmpty()) {
+                } else if (password_login.getText().toString().isEmpty()) {
                     password_login.setError("Password Required");
                     password_login.requestFocus();
                     return;
-                }
-                else if (password_login.getText().toString().length() < 6) {
+                } else if (password_login.getText().toString().length() < 6) {
                     password_login.setError("Min 6 char required");
                     password_login.requestFocus();
                     return;
@@ -142,6 +148,34 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (email_login.getText().toString().trim().length() > 0) {
+                    mAuth.sendPasswordResetEmail(email_login.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful())
+                                        msg = "Reset link sent to your email !!!";
+                                    else
+                                        msg = "Unable to send reset link...Please try again later!!";
+
+                                    Snackbar.make(v, msg, Snackbar.LENGTH_SHORT)
+                                            .setAction("Action", null)
+                                            .setBackgroundTint(Color.parseColor("#DAED10"))
+                                            .setTextColor(Color.BLACK)
+                                            .show();
+                                }
+                            });
+                }
+                else{
+                    Toast.makeText(getActivity(), "Please Enter Email and click on Forgot Password Again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        });
+
     }
 
     public void initialise() {
@@ -149,9 +183,10 @@ public class LoginFragment extends Fragment {
         email_login = view.findViewById(R.id.email_login);
         password_login = view.findViewById(R.id.password_login);
         mAuth = FirebaseAuth.getInstance();
-        loginActivity = (LoginActivity) getActivity();
         login = view.findViewById(R.id.login_button);
-        activity = (LoginActivity) getActivity();
+        loginActivity = (LoginActivity) getActivity();
+        loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
+        forgot_password = view.findViewById(R.id.forgot_password);
     }
 
     public void loginUser(String email, String password) {
@@ -171,10 +206,25 @@ public class LoginFragment extends Fragment {
                                             idToken = task.getResult().getToken();
                                             Log.i("xx", idToken);
 
-                                            loginAPI = retrofit.create(loginAPI.class);
 
-                                            responses = getLoginStatus(email);
-                                            Log.i("response", String.valueOf(responses));
+                                            Call<Response<Void>> call = loginAPI.getLoginStatus("Bearer " + idToken);
+                                            call.enqueue(new Callback<Response<Void>>() {
+                                                @Override
+                                                public void onResponse(Call<Response<Void>> call, Response<Response<Void>> response) {
+
+                                                    ans = response.code();
+                                                    Log.i("response code", response.toString());
+                                                    Log.i("ans", String.valueOf(ans));
+                                                    checkIfEmailVerified(email, ans);
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<Response<Void>> call, Throwable t) {
+                                                    Log.i("error", t.getMessage());
+                                                    FirebaseAuth.getInstance().signOut();
+                                                    progressBar.setVisibility(View.GONE);
+                                                }
+                                            });
 
 
                                         }
@@ -189,23 +239,22 @@ public class LoginFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         if (user.isEmailVerified()) {
-            if(responses == 404) {
+            if (responses == 404) {
 
-                activity.preferences.edit().putInt("response" , responses).apply();
-                Log.i("responsesxx" , String.valueOf(activity.preferences.getInt("response", 0)));
+                loginActivity.preferences.edit().putInt("response", responses).apply();
+                Log.i("responsesxx", String.valueOf(loginActivity.preferences.getInt("response", 0)));
                 Bundle args = new Bundle();
-                args.putString("email" , email);
-                activity.fragmentCreateAccount.setArguments(args);
+                args.putString("email", email);
+                loginActivity.fragmentCreateAccount.setArguments(args);
                 assert getFragmentManager() != null;
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.bodyFragment, activity.fragmentCreateAccount)
+                        .replace(R.id.bodyFragment, loginActivity.fragmentCreateAccount)
                         .addToBackStack(null)
                         .commit();
-            }
-            else if(responses == 200){
-                activity.preferences.edit().putInt("response" , responses).apply();
-                Log.i("responsesxx" , String.valueOf(activity.preferences.getInt("response", 0)));
+            } else if (responses == 200) {
+                loginActivity.preferences.edit().putInt("response", responses).apply();
+                Log.i("responsesxx", String.valueOf(loginActivity.preferences.getInt("response", 0)));
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 intent.putExtra("idToken", idToken);
                 startActivity(intent);
@@ -218,33 +267,11 @@ public class LoginFragment extends Fragment {
             // NOTE: don't forget to log out the user.
             Toast.makeText(getContext(), "Please Verify your Email to continue", Toast.LENGTH_SHORT).show();
             FirebaseAuth.getInstance().signOut();
+            progressBar.setVisibility(View.GONE);
 
             //restart this activity
 
         }
-    }
-
-    public int getLoginStatus(String email){
-
-
-        Call<Response<Void>> call = loginAPI.getLoginStatus("Bearer " + idToken);
-        call.enqueue(new Callback<Response<Void>>() {
-            @Override
-            public void onResponse(Call<Response<Void>> call, Response<Response<Void>> response) {
-
-                    ans = response.code();
-                    Log.i("response code", response.toString());
-                    Log.i("ans" , String.valueOf(ans));
-                    checkIfEmailVerified(email, ans);
-            }
-
-            @Override
-            public void onFailure(Call<Response<Void>> call, Throwable t) {
-                Log.i("error", t.getMessage());
-            }
-        });
-
-        return ans;
     }
 
 

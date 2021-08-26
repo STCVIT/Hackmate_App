@@ -10,6 +10,27 @@
         android:layout_height="wrap_content"
         android:background="#23303D">
 
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="250dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/HomeAppBarLayout"
+            app:srcCompat="@drawable/ic_hacklist" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="339dp"
+            android:layout_height="90dp"
+            android:text="Its about time we get some hacks for you, till then try meeting new people :)"
+            android:textAlignment="center"
+            android:textColor="#E7EFEF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/HomeAppBarLayout"
             android:layout_width="match_parent"
@@ -84,6 +105,7 @@
                     android:layout_height="70dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="15dp"
+                    app:selectionRequired="true"
                     app:singleLine="true"
                     app:singleSelection="true">
 
@@ -92,13 +114,11 @@
                         style="@style/CustomChipStyle"
                         android:layout_width="85dp"
                         android:layout_height="50dp"
+                        android:checked="true"
                         android:text="All"
                         android:textAlignment="center"
                         app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp"
-                        android:checkable="true"
-                        android:checked="true"
-                        />
+                        app:chipStrokeWidth="2dp" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ONGOING_Chip"
@@ -108,8 +128,7 @@
                         android:text="Ongoing"
                         android:textAlignment="center"
                         app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp"
-                        android:checkable="true"/>
+                        app:chipStrokeWidth="2dp" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/UPCOMING_Chip"
@@ -119,8 +138,7 @@
                         android:text="Upcoming"
                         android:textAlignment="center"
                         app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp"
-                        android:checkable="true"/>
+                        app:chipStrokeWidth="2dp" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/POPULAR_Chip"
@@ -130,8 +148,7 @@
                         android:text="Popular"
                         android:textAlignment="center"
                         app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp"
-                        android:checkable="true"/>
+                        app:chipStrokeWidth="2dp" />
 
 
                 </com.google.android.material.chip.ChipGroup>
@@ -141,6 +158,7 @@
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/field_fill"
@@ -156,14 +174,16 @@
                 android:id="@+id/RVHack"
                 android:layout_width="match_parent"
                 android:layout_height="700dp"
-                android:background="@color/field_fill" />
+                android:background="@color/field_fill">
+
+            </androidx.recyclerview.widget.RecyclerView>
 
             <Button
                 android:id="@+id/hackInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="SHOW PARTICULAR HACK INFO"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
 
         </LinearLayout>

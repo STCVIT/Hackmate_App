@@ -8,13 +8,13 @@ import java.util.List;
 /*public class hackListPOJO {
 
 @SerializedName(("final"))
-    public  List<FinalPt> finals;
+    public  List<Final> finals;
 
-    public List<FinalPt> getFinals() {
+    public List<Final> getFinals() {
         return finals;
     }
 
-    public void setFinals(List<FinalPt> finals) {
+    public void setFinals(List<Final> finals) {
         this.finals = finals;
     }
 }

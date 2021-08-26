@@ -104,12 +104,15 @@ public class JoinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onClick(View v) {
                 TeamProfileParticipantViewFragment frag = new TeamProfileParticipantViewFragment();
-
-                if (GET_NAV_CODE == 1) {
-                    Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
+                if (GET_NAV_CODE == 1)
                     bundle.putInt("Key", 1);
-                    frag.setArguments(bundle);
-                }
+
+                if(hackName!=null)
+                    bundle.putString("hackName",hackName);
+                bundle.putString("teamId",joinArrayList.get(position).getTeam()._id);
+                frag.setArguments(bundle);
+
                 MainActivity activity = (MainActivity) v.getContext();
 
                 bottomNavigation = activity.findViewById(R.id.bottom_nav_bar);

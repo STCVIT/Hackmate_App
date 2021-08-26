@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:backgroundTint="@color/card_color"
-    android:layout_marginTop="1dp">
+    android:layout_marginTop="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/participantProfileButton"
@@ -17,7 +17,7 @@
 
         <ImageView
             android:id="@+id/inviteImg"
-            android:src="@drawable/bhavik"
+            android:src="@drawable/download"
             android:layout_width="67dp"
             android:scaleType="centerCrop"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -25,13 +25,14 @@
             android:layout_height="67dp" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             tools:layout_editor_absoluteX="104dp"
             android:layout_marginLeft="15dp"
             tools:layout_editor_absoluteY="0dp"
-            app:layout_constraintLeft_toRightOf="@id/inviteImg"
+            app:layout_constraintStart_toEndOf="@id/inviteImg"
+            app:layout_constraintEnd_toStartOf="@id/sendInviteButton"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView

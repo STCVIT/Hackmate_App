@@ -2,6 +2,7 @@ package com.example.hackmate.JSONPlaceholders;
 
 import com.example.hackmate.POJOClasses.AddSkill;
 import com.example.hackmate.POJOClasses.CreateTeamResponse;
+import com.example.hackmate.POJOClasses.InvitationSent.Invites;
 import com.example.hackmate.POJOClasses.JoinHackTeams.Final;
 import com.example.hackmate.POJOClasses.POST.Code;
 import com.example.hackmate.POJOClasses.FindParticipant.invitePOJO;
@@ -10,7 +11,6 @@ import com.example.hackmate.POJOClasses.POST.CreateTeam;
 import com.example.hackmate.POJOClasses.hackProfilePOJO;
 
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -57,6 +57,9 @@ public interface API {
                                          @Query("page") int pageNum,
                                          @Query("skill") String skill);
 
+    @GET("invites/myInvites")
+    Call<Invites> inviteSent(@Header("Authorization") String token);
+
     @POST("DN_Team/code/{hackID}")
     Call<Response<Void>> getTeam(@Header("Authorization") String token, @Body Code code, @Path("hackID") String hackId);
 
@@ -67,7 +70,7 @@ public interface API {
     Call<List<CreateTeamResponse>> addSkill(@Header("Authorization") String token, @Body AddSkill addSkill, @Path("teamId") String teamId);
 
     @POST("invites/invite/{teamId}/{ptId}")
-    Call<Response<Void>> sendInvitation(@Header("Authorization") String token, @Path("teamId") String teamId, @Path("ptId") String ptId);
+    Call<Void> sendInvitation(@Header("Authorization") String token, @Path("teamId") String teamId, @Path("ptId") String ptId);
 
     @DELETE("participant/deleteProfile")
     Call<Void> delete(@Header("Authorization") String token);

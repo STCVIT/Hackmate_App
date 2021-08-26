@@ -5,7 +5,15 @@ import android.widget.TextView;
 import androidx.lifecycle.ViewModel;
 
 public class HackProfileViewModel extends ViewModel {
-    private String hackName,start,end,min,max,venue,prize,description;
+    private String hackName,start,end,min,max,venue,prize,description,poster;
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
 
     public String getHackName() {
         return hackName;

@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 /*
-public class FinalPt{
+public class Final{
    @SerializedName("_id")
    public int Hackid;
    @SerializedName("name")
