@@ -40,7 +40,7 @@ import retrofit2.Response;
 public class TeamProfileParticipantViewFragment extends Fragment {
     private static final String TAG = "TeamProfileParticipantV";
     Button requestJoin;
-    int GET_NAV_CODE = 0;
+    int GET_NAV_CODE = 0, invited;
     RecyclerView participants_recyclerView, projects_recyclerView;
     TextView team_name, hack_names, project_name, project_description, project_team_name, project_link1, project_link2,
             project_link3;
@@ -67,10 +67,13 @@ public class TeamProfileParticipantViewFragment extends Fragment {
             GET_NAV_CODE = bundle.getInt("Key", 0);
             id = bundle.getString("teamId", id);
             name = bundle.getString("hackName", "");
+            invited = bundle.getInt("Invited",0);
         }
 
         initialise();
         cardView.setVisibility(View.GONE);
+        if(invited==1)
+            requestJoin.setVisibility(View.GONE);
 
         participants_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

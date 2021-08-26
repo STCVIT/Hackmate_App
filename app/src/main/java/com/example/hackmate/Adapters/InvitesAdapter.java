@@ -154,6 +154,8 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
                 Log.i("IdCheck",InvitesArrayList.get(position).getTeam().getId());
                 Bundle bundle3 = new Bundle();
                 bundle3.putString("teamId",InvitesArrayList.get(position).getTeam().getId() );
+                bundle3.putInt("Invited", 1);
+                bundle3.putInt("Key", 1);
                 frag3.setArguments(bundle3);
 
                 MainActivity activity = (MainActivity) v.getContext();

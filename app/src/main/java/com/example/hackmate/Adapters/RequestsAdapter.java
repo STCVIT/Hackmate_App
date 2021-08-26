@@ -130,7 +130,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Viewho
 
         });
 
-        holder.InviteeTeamName_req.setOnClickListener(new View.OnClickListener() {
+        /*holder.InviteeTeamName_req.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TeamProfileParticipantViewFragment frag3 = new TeamProfileParticipantViewFragment();
@@ -146,7 +146,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Viewho
                         .addToBackStack(null)
                         .commit();
             }
-        });
+        });*/
 
         holder.ParticipantName_req.setOnClickListener(new View.OnClickListener() {
             @Override
