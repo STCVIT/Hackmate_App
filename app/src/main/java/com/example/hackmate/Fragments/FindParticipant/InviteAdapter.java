@@ -129,10 +129,18 @@ public class InviteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.domainGrp.addView(chip);
         }
 
+        Glide.with(context).
+                load(InviteArrayList.get(position).getParticipant().getPhoto()).
+                placeholder(R.drawable.download).
+                into(holder.imgIcon);
+
         holder.itemView.setOnClickListener(v -> {
             ProfileViewFragment frag = new ProfileViewFragment();
             Bundle bundle = new Bundle();
             bundle.putString("id",InviteArrayList.get(position).getParticipant().get_id());
+            bundle.putString("TeamId",teamId);
+            if(holder.invite.getText().equals("INVITED"))
+                bundle.putInt("invited",1);
             frag.setArguments(bundle);
 
             MainActivity activity = (MainActivity) v.getContext();

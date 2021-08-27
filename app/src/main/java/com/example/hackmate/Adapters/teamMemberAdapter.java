@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.hackmate.Fragments.ProfileViewFragment;
 import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
 import com.example.hackmate.MainActivity;
@@ -76,6 +77,10 @@ public class teamMemberAdapter extends RecyclerView.Adapter<teamMemberAdapter.Vi
         holder.MemName.setText(id.equals(UserID) ? "Me" : ptSkills1.getParticipant().getName());
         holder.MemEmail.setText(ptSkills1.getParticipant().getEmail());
         holder.MemPosition.setText(id.equals(adminId) ? "Leader" : "");
+        Glide.with(context).
+                load(ptSkills1.getParticipant().getPhoto()).
+                placeholder(R.drawable.download).
+                into(holder. Profilephoto);
         // holder.Profilephoto.setImageResource(model.getProfilephoto());
         holder.LeaveOption.setText(id.equals(UserID) ? "Leave" : "");
         if (holder.LeaveOption.getText().equals("Leave")) {
@@ -109,6 +114,7 @@ public class teamMemberAdapter extends RecyclerView.Adapter<teamMemberAdapter.Vi
                 Log.i("IdCheck",id);
                 Bundle bundle3 = new Bundle();
                 bundle3.putString("id", teamMemberArrayList.get(position).getParticipant().get_id());
+                bundle3.putInt("Key",1);
                 frag3.setArguments(bundle3);
 
                 MainActivity activity = (MainActivity) v.getContext();
@@ -141,7 +147,7 @@ public class teamMemberAdapter extends RecyclerView.Adapter<teamMemberAdapter.Vi
     public class Viewholder extends RecyclerView.ViewHolder {
 
         private TextView SerialNo, MemName, MemEmail, MemPosition, LeaveOption;
-        private ImageView Profilephoto;
+        ImageView Profilephoto;
         private CardView teamMembercard;
         public Viewholder(@NonNull View itemView) {
             super(itemView);

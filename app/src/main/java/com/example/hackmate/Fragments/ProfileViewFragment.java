@@ -4,7 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.hackmate.Adapters.ProjectAdapterMP;
 import com.example.hackmate.Adapters.ProjectAdapterP;
+import com.example.hackmate.JSONPlaceholders.API;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.MainActivity;
 import com.example.hackmate.Models.ProjectModel;
@@ -30,6 +33,7 @@ import com.example.hackmate.POJOClasses.Skill;
 import com.example.hackmate.POJOClasses.TeamProject;
 import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
+import com.example.hackmate.util.Functions;
 import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -56,8 +60,8 @@ public class ProfileViewFragment extends Fragment {
     private RecyclerView projects_recyclerView;
     ChipGroup chipGroup;
     ImageView profile_pic;
-    int GET_NAV_CODE = 0;
-    String id = "yash";
+    int GET_NAV_CODE = 0, check;
+    String id = "yash", teamId = "yash";
     private com.example.hackmate.JSONPlaceholders.loginAPI loginAPI;
     TextView name_PV, username_PV, email_PV, college_PV, bio_PV,
             github_PV, linkedIn_PV, personal_website_PV, yog_PV;
@@ -78,40 +82,54 @@ public class ProfileViewFragment extends Fragment {
         if (bundle != null) {
             GET_NAV_CODE = bundle.getInt("Key", 0);
             id = bundle.getString("id", "yash");
+            check = bundle.getInt("invited",0);
+            teamId = bundle.getString("TeamId","yash");
         }
 
         initialise();
 
         if (GET_NAV_CODE == 1)
             invite.setVisibility(View.GONE);
-        else
+        else {
             invite.setVisibility(View.VISIBLE);
+            if(check==1)
+            {
+                invite.setText("INVITED");
+                invite.setBackground(getResources().getDrawable(R.drawable.ic_button_border_bg));
+                invite.setTextColor(getResources().getColor(R.color.green));
+            }
+        }
 
 
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                invite.setBackground(getResources().getDrawable(R.drawable.ic_button_border_bg));
-                invite.setTextColor(getResources().getColor(R.color.green));
-                Toast.makeText(getContext(), "Invite Sent!!", Toast.LENGTH_SHORT).show();
+                if(!invite.getText().equals("INVITED"))
+                {
+                    API api = RetrofitInstance.getRetrofitInstance().create(API.class);
+
+                    Call<Void> calls = api.sendInvitation(MainActivity.getIdToken(), teamId, id);
+                    calls.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> calls, Response<Void> response) {
+                            if (response.isSuccessful() && response.code() == 201) {
+                                invite.setText("INVITED");
+                                invite.setBackground(getResources().getDrawable(R.drawable.ic_button_border_bg));
+                                invite.setTextColor(getResources().getColor(R.color.green));
+                                Toast.makeText(getContext(), "Invite Sent!!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> calls, Throwable t) {
+
+                        }
+                    });
+                }
+                else
+                    Toast.makeText(getContext(), "Already Invited !!", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-//        String[] team_domains = {"App Development", "UI/UX", "Machine Learning"};
-//
-//        for (int i = 0; i < team_domains.length; i++) {
-//            Chip chip = new Chip(getContext());
-//            chip.setText(team_domains[i]);
-//            chip.setChipStrokeColorResource(R.color.pill_color);
-//            chip.setChipBackgroundColor(getResources().getColorStateList(R.color.chip_background_color));
-//            chip.setTextColor(getResources().getColorStateList(R.color.chip_text_color));
-//            chip.setChipStrokeWidth(4);
-//            chip.setClickable(false);
-//            chipGroup.addView(chip);
-//        }
-
-//        profile_pic.setImageResource(R.drawable.bhavik);
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -226,7 +244,6 @@ public class ProfileViewFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
             }
         });
-
 
     }
 

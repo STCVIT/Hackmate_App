@@ -51,7 +51,7 @@ public class MyTeamsFragment extends Fragment {
     private ChipGroup chipGroup;
     private boolean isLoading = false, isLastPage = false;
     private int earlier_pos = 0, page = 1;
-
+    ImageView imageView;
     private BottomNavigationView bottomNavigationView;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -74,16 +74,16 @@ public class MyTeamsFragment extends Fragment {
         bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_bar);
         TextView newTeams = view.findViewById(R.id.newTeam);
         ImageView bell = view.findViewById(R.id.imageView10);
+        imageView=view.findViewById(R.id.imageView14);
         chipGroup = view.findViewById(R.id.skillGrp);
         recyclerView = view.findViewById(R.id.recyclerView);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        /* String[][] domains = {{"App Dev","Frontend","Backend"},{"Frontend","Backend"}};
-        TeamsRV.setAdapter(new myTeamsAdapter(getContext(),team_name,hack_name,teamPosition,domains,this));*/
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new MyTeamsAdapter(getContext(), new ArrayList<>());
         recyclerView.setAdapter(adapter);
-
+        imageView.setVisibility(View.GONE);
         bell.setOnClickListener(v -> {
             bottomNavigationView.setVisibility(View.GONE);
 
@@ -220,6 +220,7 @@ public class MyTeamsFragment extends Fragment {
                 Log.i("callback problem3MT", "error3MT");
                 if (!response1.isSuccessful()) {
                     Log.i(TAG, "code: " + response1.code());
+                    imageView.setVisibility(View.VISIBLE);
                     return;
                 }
                 myTeamsPOJO myTeamsPOJOS = response1.body();
@@ -240,6 +241,7 @@ public class MyTeamsFragment extends Fragment {
             public void onFailure(Call<myTeamsPOJO> call1, Throwable t) {
                 isLoading = false;
                 adapter.removeProgress();
+                imageView.setVisibility(View.VISIBLE);
                 Log.i("failed1", t.getMessage());
             }
         });

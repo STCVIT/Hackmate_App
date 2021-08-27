@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/bhavi/Downloads/Hackmate_App/app/src/main/res/layout/fragment_edit_profile.xml" value="0.1816123188405797" />
+        <entry key="..\:/Users/bhavi/Downloads/Hackmate_App/app/src/main/res/layout/fragment_hack_profile.xml" value="0.2504528985507246" />
+        <entry key="..\:/Users/bhavi/Downloads/Hackmate_App/app/src/main/res/layout/fragment_profile_view.xml" value="0.2504528985507246" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
 </project>

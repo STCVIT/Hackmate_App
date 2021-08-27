@@ -96,7 +96,7 @@ public class MyTeamsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         innerlist=new ArrayList<Skill2>();
 
         outerList.addAll(myTeamsArrayList.get(position).getPtSkill());
-        Log.i("innerListdata",String.valueOf(outerList.get(0).getSkills().get(0).getSkill()));
+        //Log.i("innerListdata",String.valueOf(outerList.get(0).getSkills().get(0).getSkill()));
         Log.i("skillListSize",String.valueOf(outerList.get(0).getSkills().size()));
         for(int j =0;j<=outerList.size()-1;j++){
             for(int i =0;i<=outerList.get(j).getSkills().size()-1;i++){

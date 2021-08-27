@@ -28,6 +28,8 @@ import com.example.hackmate.POJOClasses.Kavita.Requests.ReceivedRequest;
 import com.example.hackmate.POJOClasses.Kavita.Requests.RequestPOJO;
 import com.example.hackmate.POJOClasses.Kavita.Invites.invitePOJO;
 import com.example.hackmate.R;
+import com.example.hackmate.util.ClickListener;
+import com.example.hackmate.util.RecyclerTouchListener;
 import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,19 +50,26 @@ public class InviteOrRequestFragment extends Fragment {
     private RecyclerView RVinvite, RVrequest;
     public List<Received> InvitesArrayList;
     private List<ReceivedRequest> RequestsArrayList;
-    private TextView Invites, Requests;
-    private ImageView arrowDown_Invite, arrowDown_Req;
+    private TextView Invites;
+    private TextView Requests;
+    private static TextView textView;
+    private static TextView textView1;
+    private ImageView arrowDown_Invite;
+    private ImageView arrowDown_Req;
+    private static ImageView imageView;
+    private static ImageView imageView1;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private String idToken = "Bearer ";
     ProgressBar progressBar;
+    public int myinvites, myrequests;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //getChildFragmentManager().beginTransaction().replace(R.id.cpu_bottomNav_frame,new fragment()).commit();
-        // Inflate the layout for this fragment
+
         View v = inflater.inflate(R.layout.fragment_invite_or_request, container, false);
 
-//inflate appbar for this particular fragment
+
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.InviteAppBar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         return v;
@@ -69,6 +78,10 @@ public class InviteOrRequestFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        imageView = view.findViewById(R.id.InvitesIV);
+        imageView1 = view.findViewById(R.id.imageView12);
+        textView = view.findViewById(R.id.textView5);
+        textView1 = view.findViewById(R.id.textView6);
         Invites = view.findViewById(R.id.Invites_tittleText_reqTally);
         arrowDown_Invite = view.findViewById(R.id.arrowDown_invite);
 
@@ -76,14 +89,12 @@ public class InviteOrRequestFragment extends Fragment {
 
         InvitesArrayList = new ArrayList<>();
 
-        progressBar=view.findViewById(R.id.progressBar3);
-        //InvitesArrayList.add(new InvitesModel.Invites_Model(R.drawable.imageholder,"Muhammad Muaazz Zuberi","GreenCoders"));
-        //InvitesArrayList.add(new InvitesModel.Invites_Model(R.drawable.imageholder,"Muhammad Muaazz Zuberi","GreenCoders"));
-
-
+        progressBar = view.findViewById(R.id.progressBar3);
+        imageView.setVisibility(GONE);
+        imageView1.setVisibility(GONE);
+        textView.setVisibility(GONE);
+        textView1.setVisibility(GONE);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-
-        // in below two lines we are setting layoutmanager and adapter to our recycler view.
         RVinvite.setLayoutManager(linearLayoutManager);
         InvitesAdapter invitesAdapter = new InvitesAdapter(getContext(), InvitesArrayList);
         RVinvite.setAdapter(invitesAdapter);
@@ -99,6 +110,30 @@ public class InviteOrRequestFragment extends Fragment {
         JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
         progressBar.setVisibility(VISIBLE);
 
+        RVrequest.addOnItemTouchListener(new RecyclerTouchListener(requireContext(), RVrequest, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                if(requestsAdapter.getItemCount()==0) {
+                    imageView1.setVisibility(VISIBLE);
+                    textView1.setVisibility(VISIBLE);
+                }
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+
+        /*if (InvitesArrayList.size() == 0) {
+            imageView.setVisibility(VISIBLE);
+            textView.setVisibility(VISIBLE);
+        }
+        if (RequestsArrayList.size() == 0) {
+            imageView1.setVisibility(VISIBLE);
+            textView1.setVisibility(VISIBLE);
+        }*/
 
         Log.i("callback problemInvite1", "errorIni1");
         Call<invitePOJO> call5 = jsonPlaceHolderAPI.getMyInvites(idToken);
@@ -108,46 +143,25 @@ public class InviteOrRequestFragment extends Fragment {
             public void onResponse(Call<invitePOJO> call5, Response<invitePOJO> response5) {
                 if (!response5.isSuccessful()) {
                     Log.i("not sucess6", "code: " + response5.code());
+                    imageView.setVisibility(VISIBLE);
+                    textView.setVisibility(VISIBLE);
                     return;
                 }
 
                 invitePOJO invitePOJOS = (invitePOJO) response5.body();
                 Log.i("Response body", invitePOJOS.toString());
                 List<Received> recieved_objs = invitePOJOS.getReceived();
-                Log.i("Response body1", String.valueOf(recieved_objs.get(0).getTeam()));
-                invitesAdapter.setMyInvites(recieved_objs,idToken);
+                //    Log.i("Response body1", String.valueOf(recieved_objs.get(0).getTeam()));
+                invitesAdapter.setMyInvites(recieved_objs, idToken);
                 Log.i("Response body3", "list sending to adapter sucessfull");
-
-
-                Call<RequestPOJO> call7 = jsonPlaceHolderAPI.getMyRequests(idToken);
-                Log.i("callbackRequest2", "errorReq2");
-                call7.enqueue(new Callback<RequestPOJO>() {
-                    @Override
-                    public void onResponse(Call<RequestPOJO> call7, Response<RequestPOJO> response7) {
-                        if (!response7.isSuccessful()) {
-                            Log.i("not sucess6", "code: " + response7.code());
-                            progressBar.setVisibility(GONE);
-                            return;
-                        }
-                        RequestPOJO requestPOJO = response7.body();
-
-                        Log.i("Response body", requestPOJO.toString());
-                        List<ReceivedRequest> req_objs = requestPOJO.getReceived();
-                        // Log.i("Response body1", String.valueOf(req_objs.get(0).getParticipant().getName()));
-                        requestsAdapter.setMyRequests(req_objs,idToken);
-                        progressBar.setVisibility(GONE);
-                        Log.i("Response body3", "list sending to adapter sucessfull");
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<RequestPOJO> call7, Throwable t) {
-                        Log.i("failed5", t.getMessage());
-                        progressBar.setVisibility(GONE);
-                    }
-                });
-
-
+                myinvites = recieved_objs.size();
+                if (recieved_objs.size() == 0) {
+                    imageView.setVisibility(VISIBLE);
+                    textView.setVisibility(VISIBLE);
+                } else {
+                    imageView.setVisibility(GONE);
+                    textView.setVisibility(GONE);
+                }
 
             }
 
@@ -155,19 +169,68 @@ public class InviteOrRequestFragment extends Fragment {
             public void onFailure(Call<invitePOJO> call5, Throwable t) {
                 Log.i("failed5", t.getMessage());
                 progressBar.setVisibility(GONE);
+                imageView.setVisibility(VISIBLE);
+                textView.setVisibility(VISIBLE);
             }
         });
 
+        Call<RequestPOJO> call7 = jsonPlaceHolderAPI.getMyRequests(idToken);
+        Log.i("callbackRequest2", "errorReq2");
+        call7.enqueue(new Callback<RequestPOJO>() {
+            @Override
+            public void onResponse(Call<RequestPOJO> call7, Response<RequestPOJO> response7) {
+                if (!response7.isSuccessful()) {
+                    Log.i("not sucess6", "code: " + response7.code());
+                    progressBar.setVisibility(GONE);
+                    imageView1.setVisibility(VISIBLE);
+                    textView1.setVisibility(VISIBLE);
+                    return;
+                }
+                RequestPOJO requestPOJO = response7.body();
 
+                Log.i("Response body", requestPOJO.toString());
+                List<ReceivedRequest> req_objs = requestPOJO.getReceived();
+                // Log.i("Response body1", String.valueOf(req_objs.get(0).getParticipant().getName()));
+                requestsAdapter.setMyRequests(req_objs, idToken);
+                progressBar.setVisibility(GONE);
+                myrequests = req_objs.size();
+                if (req_objs.size() == 0) {
+                    imageView1.setVisibility(VISIBLE);
+                    textView1.setVisibility(VISIBLE);
+                } else {
+                    imageView1.setVisibility(GONE);
+                    textView1.setVisibility(GONE);
+                }
+
+                Log.i("Response body3", "list sending to adapter sucessfull");
+
+            }
+
+            @Override
+            public void onFailure(Call<RequestPOJO> call7, Throwable t) {
+                Log.i("failed5", t.getMessage());
+                progressBar.setVisibility(GONE);
+                imageView1.setVisibility(VISIBLE);
+                textView1.setVisibility(VISIBLE);
+            }
+        });
         Invites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (RVinvite.getVisibility() == VISIBLE) {
                     RVinvite.setVisibility(View.GONE);
                     arrowDown_Invite.setRotation(-90);
+                    if (myinvites == 0) {
+                        imageView.setVisibility(GONE);
+                        textView.setVisibility(GONE);
+                    }
                 } else if (RVinvite.getVisibility() == GONE) {
                     RVinvite.setVisibility(VISIBLE);
                     arrowDown_Invite.setRotation(360);
+                    if (myinvites == 0) {
+                        imageView.setVisibility(VISIBLE);
+                        textView.setVisibility(VISIBLE);
+                    }
                 }
             }
         });
@@ -178,9 +241,18 @@ public class InviteOrRequestFragment extends Fragment {
                 if (RVinvite.getVisibility() == VISIBLE) {
                     RVinvite.setVisibility(View.GONE);
                     arrowDown_Invite.setRotation(-90);
+                    if (myinvites == 0) {
+                        imageView.setVisibility(GONE);
+                        textView.setVisibility(GONE);
+                    }
                 } else if (RVinvite.getVisibility() == GONE) {
                     RVinvite.setVisibility(VISIBLE);
                     arrowDown_Invite.setRotation(360);
+                    if (myinvites == 0) {
+                        imageView.setVisibility(VISIBLE);
+                        textView.setVisibility(VISIBLE);
+                    }
+
                 }
             }
         });
@@ -192,19 +264,20 @@ public class InviteOrRequestFragment extends Fragment {
                 if (RVrequest.getVisibility() == VISIBLE) {
                     RVrequest.setVisibility(View.GONE);
                     arrowDown_Req.setRotation(-90);
+                    if (myrequests == 0) {
+                        imageView1.setVisibility(GONE);
+                        textView1.setVisibility(GONE);
+                    }
                 } else if (RVrequest.getVisibility() == GONE) {
                     RVrequest.setVisibility(VISIBLE);
                     arrowDown_Req.setRotation(+360);
+                    if (myrequests == 0) {
+                        imageView1.setVisibility(VISIBLE);
+                        textView1.setVisibility(VISIBLE);
+                    }
                 }
             }
         });
-
-        //RequestsArrayList.add(new RequestsModel.Requests_Model(R.drawable.imageholder,"Muhammad Muaazz Zuberi","GreenCoders"));
-        //RequestsArrayList.add(new RequestsModel.Requests_Model(R.drawable.imageholder,"Muhammad Muaazz Zuberi","GreenCoders"));
-
-
-        // in below two lines we are setting layoutmanager and adapter to our recycler view.
-
 
         Requests.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,13 +285,20 @@ public class InviteOrRequestFragment extends Fragment {
                 if (RVrequest.getVisibility() == VISIBLE) {
                     RVrequest.setVisibility(View.GONE);
                     arrowDown_Req.setRotation(-90);
+                    if (myrequests == 0) {
+                        imageView1.setVisibility(GONE);
+                        textView1.setVisibility(GONE);
+                    }
                 } else if (RVrequest.getVisibility() == GONE) {
                     RVrequest.setVisibility(VISIBLE);
                     arrowDown_Req.setRotation(+360);
+                    if (myrequests == 0) {
+                        imageView1.setVisibility(VISIBLE);
+                        textView1.setVisibility(VISIBLE);
+                    }
                 }
             }
         });
-
 
 
         //InvitesArrayList = (ArrayList<invitePOJO>) response5.body();
@@ -229,6 +309,25 @@ public class InviteOrRequestFragment extends Fragment {
         //invitesAdapter.setMyInvites(InvitesArrayList);
 
 
+    }
+
+    public static void photo(int size, String type) {
+        switch (type) {
+            case "Request": {
+                if (size == 0) {
+                    imageView1.setVisibility(VISIBLE);
+                    textView1.setVisibility(VISIBLE);
+                }
+                break;
+            }
+            case "Invite": {
+                if (size == 0) {
+                    imageView.setVisibility(VISIBLE);
+                    textView.setVisibility(VISIBLE);
+                }
+                break;
+            }
+        }
     }
 
 
