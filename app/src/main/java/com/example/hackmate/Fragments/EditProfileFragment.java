@@ -42,11 +42,15 @@ import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
+
+import static com.example.hackmate.LoginActivity.URL_REGEX;
 
 public class EditProfileFragment extends Fragment {
     private static final String TAG = "EditProfileFragment";
@@ -235,25 +239,38 @@ public class EditProfileFragment extends Fragment {
                 Chip chip = view.findViewById(id);
                 skill.add(Constants.skills.get(chip.getText().toString()));
             }
-            /*for (int i=0; i<chipGroup.getChildCount();i++){
-                Chip chip = (Chip)chipGroup.getChildAt(i);
-                String chipText = chip.getText().toString();
-                if(chip.isChecked()){
-                    if(chipText.equals("Machine Learning")){
-                        skill.add("ml");
-                    }
-                    else if(chipText.equals("UI/UX Design")){
-                        skill.add("ui/ux");
-                    }
-                    else if(chipText.equals("App Development")){
-                        skill.add("appdev");
-                    }else{
-                        skill.add(chipText.toLowerCase());
-                    }
 
-                }
-                // Do something
-            }*/
+            Pattern p = Pattern.compile(URL_REGEX);
+            Matcher link = p.matcher(linkedIn_EP.getText().toString());//replace with string to compare
+            Matcher git = p.matcher(github_EP.getText().toString());
+            Matcher web = p.matcher(personal_website_EP.getText().toString());
+
+            if (linkedIn_EP.getText().toString().isEmpty() ) {
+                linkedIn_EP.setText("--");
+            }
+            if(!link.find()){
+                linkedIn_EP.setError("Please Enter Valid linkedIn link!!");
+                linkedIn_EP.requestFocus();
+                return;
+            }
+            if (github_EP.getText().toString().isEmpty()) {
+                github_EP.setError("Github Link is Required");
+                github_EP.requestFocus();
+                return;
+            }
+            if(!git.find()){
+                github_EP.setError("Please Enter Valid Github Link link!!");
+                github_EP.requestFocus();
+                return;
+            }
+            if (personal_website_EP.getText().toString().isEmpty()) {
+                personal_website_EP.setText("--");
+            }
+            if(!web.find()){
+                personal_website_EP.setError("Please Enter Valid website link!!");
+                personal_website_EP.requestFocus();
+                return;
+            }
 
             postSkills = new PostSkills(skill);
             postSkills.setSkills(skill);

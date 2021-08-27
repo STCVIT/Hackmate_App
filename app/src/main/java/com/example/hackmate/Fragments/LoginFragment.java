@@ -85,6 +85,8 @@ public class LoginFragment extends Fragment {
                         .commit();
             }
         }
+
+//        setEnableTrue();
         super.onStart();
     }
 
@@ -93,6 +95,7 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_login, container, false);
+//        setEnableTrue();
         return view;
     }
 
@@ -101,11 +104,11 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initialise();
-
-
         newAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                setEnableFalse();
 
                 FragmentManager fragmentManager = loginActivity.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -123,6 +126,8 @@ public class LoginFragment extends Fragment {
 
                 String emailText = email_login.getText().toString();
                 String passWord = password_login.getText().toString();
+
+                setEnableFalse();
 
                 if (email_login.getText().toString().isEmpty()) {
                     email_login.setError("Email Required");
@@ -151,26 +156,31 @@ public class LoginFragment extends Fragment {
         forgot_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                setEnableFalse();
                 if (email_login.getText().toString().trim().length() > 0) {
                     mAuth.sendPasswordResetEmail(email_login.getText().toString())
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful())
-                                        msg = "Reset link sent to your email !!!";
-                                    else
-                                        msg = "Unable to send reset link...Please try again later!!";
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    msg = "Reset link sent to your email !!!";
 
-                                    Snackbar.make(v, msg, Snackbar.LENGTH_SHORT)
-                                            .setAction("Action", null)
-                                            .setBackgroundTint(Color.parseColor("#DAED10"))
-                                            .setTextColor(Color.BLACK)
-                                            .show();
-                                }
+                                }else
+                                    msg = "Unable to send reset link...Please try again later!!";
+
+                                Snackbar.make(v, msg, Snackbar.LENGTH_SHORT)
+                                        .setAction("Action", null)
+                                        .setBackgroundTint(Color.parseColor("#DAED10"))
+                                        .setTextColor(Color.BLACK)
+                                        .show();
+
+                                progressBar.setVisibility(View.GONE);
+                                setEnableTrue();
                             });
                 }
                 else{
                     Toast.makeText(getActivity(), "Please Enter Email and click on Forgot Password Again!", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    setEnableTrue();
                 }
             }
 
@@ -197,6 +207,7 @@ public class LoginFragment extends Fragment {
                     if (!task.isSuccessful()) {
                         Toast.makeText(getContext(), "Invalid Email / Password", Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
+                        setEnableTrue();
 
                     } else {
                         mAuth.getCurrentUser().getIdToken(true)
@@ -223,6 +234,7 @@ public class LoginFragment extends Fragment {
                                                     Log.i("error", t.getMessage());
                                                     FirebaseAuth.getInstance().signOut();
                                                     progressBar.setVisibility(View.GONE);
+                                                    setEnableTrue();
                                                 }
                                             });
 
@@ -246,6 +258,7 @@ public class LoginFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString("email", email);
                 loginActivity.fragmentCreateAccount.setArguments(args);
+                setEnableTrue();
                 assert getFragmentManager() != null;
                 getFragmentManager()
                         .beginTransaction()
@@ -257,6 +270,7 @@ public class LoginFragment extends Fragment {
                 Log.i("responsesxx", String.valueOf(loginActivity.preferences.getInt("response", 0)));
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 intent.putExtra("idToken", idToken);
+                setEnableTrue();
                 startActivity(intent);
                 loginActivity.finish();
                 Toast.makeText(getContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
@@ -268,11 +282,27 @@ public class LoginFragment extends Fragment {
             Toast.makeText(getContext(), "Please Verify your Email to continue", Toast.LENGTH_SHORT).show();
             FirebaseAuth.getInstance().signOut();
             progressBar.setVisibility(View.GONE);
+            setEnableTrue();
 
             //restart this activity
 
         }
     }
 
+    public void setEnableFalse(){
+        email_login.setEnabled(false);
+        password_login.setEnabled(false);
+        login.setEnabled(false);
+        forgot_password.setEnabled(false);
+        newAccount.setEnabled(false);
+    }
+
+    public void setEnableTrue(){
+        email_login.setEnabled(true);
+        password_login.setEnabled(true);
+        login.setEnabled(true);
+        forgot_password.setEnabled(true);
+        newAccount.setEnabled(true);
+    }
 
 }

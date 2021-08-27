@@ -97,22 +97,6 @@ public class ProfileViewFragment extends Fragment {
             }
         });
 
-
-//        String[] team_domains = {"App Development", "UI/UX", "Machine Learning"};
-//
-//        for (int i = 0; i < team_domains.length; i++) {
-//            Chip chip = new Chip(getContext());
-//            chip.setText(team_domains[i]);
-//            chip.setChipStrokeColorResource(R.color.pill_color);
-//            chip.setChipBackgroundColor(getResources().getColorStateList(R.color.chip_background_color));
-//            chip.setTextColor(getResources().getColorStateList(R.color.chip_text_color));
-//            chip.setChipStrokeWidth(4);
-//            chip.setClickable(false);
-//            chipGroup.addView(chip);
-//        }
-
-//        profile_pic.setImageResource(R.drawable.bhavik);
-
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 

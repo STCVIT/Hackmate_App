@@ -37,10 +37,14 @@ import com.google.firebase.auth.GetTokenResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.example.hackmate.LoginActivity.URL_REGEX;
 
 
 public class CreateAccountFragment extends Fragment {
@@ -86,9 +90,10 @@ public class CreateAccountFragment extends Fragment {
         gender_CompleteTextView.setText(gender_arrayAdapter.getItem(0).toString(), false);
         gender_CompleteTextView.setAdapter(gender_arrayAdapter);
 
-
-
-
+        Pattern p = Pattern.compile(URL_REGEX);
+        Matcher link = p.matcher(linkedIn_link.getText().toString());//replace with string to compare
+        Matcher git = p.matcher(github_link.getText().toString());
+        Matcher web = p.matcher(website.getText().toString());
         create_profile.setOnClickListener(v -> {
 
             String year = YOG_CompleteTextView.getText().toString();
@@ -116,16 +121,31 @@ public class CreateAccountFragment extends Fragment {
                 university.requestFocus();
                 return;
             }
-            if (linkedIn_link.getText().toString().isEmpty()) {
+            if (linkedIn_link.getText().toString().isEmpty() ) {
                 linkedIn_link.setText("--");
+            }
+            if(!link.find()){
+                linkedIn_link.setError("Please Enter Valid linkedIn link!!");
+                linkedIn_link.requestFocus();
+                return;
             }
             if (github_link.getText().toString().isEmpty()) {
                 github_link.setError("Github Link is Required");
                 github_link.requestFocus();
                 return;
             }
+            if(!git.find()){
+                github_link.setError("Please Enter Valid Github Link link!!");
+                github_link.requestFocus();
+                return;
+            }
             if (website.getText().toString().isEmpty()) {
                 website.setText("--");
+            }
+            if(!web.find()){
+                website.setError("Please Enter Valid website link!!");
+                website.requestFocus();
+                return;
             }
             if (bio.getText().toString().isEmpty()) {
                 bio.setError("Bio is Required");
