@@ -7,12 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.hackmate.Fragments.InviteOrRequestFragment;
 import com.example.hackmate.Fragments.ProfileViewFragment;
 import com.example.hackmate.Fragments.TeamProfileParticipantViewFragment;
 import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
@@ -81,6 +84,10 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
 
         holder.ParticipantName_invites.setText(recieveds.getLeader().getName());
         holder.InviteeTeamName_invites.setText(recieveds.getTeam().getName());
+        Glide.with(context).
+                load( InvitesArrayList.get(position).getLeader().getPhoto()).
+                placeholder(R.drawable.download).
+                into(holder.participantProfilePhoto_invites);
         JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
         holder.Accept.setOnClickListener(v -> {
 
@@ -99,7 +106,7 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
                     InvitesArrayList.remove(newPosition);
                     notifyItemRemoved(newPosition);
                     notifyItemRangeChanged(newPosition, InvitesArrayList.size());
-
+                    InviteOrRequestFragment.photo(InvitesArrayList.size(),"Invite");
 
                 }
 
@@ -128,8 +135,7 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
                         InvitesArrayList.remove(newPosition);
                         notifyItemRemoved(newPosition);
                         notifyItemRangeChanged(newPosition, InvitesArrayList.size());
-
-
+                        InviteOrRequestFragment.photo(InvitesArrayList.size(),"Invite");
                     }
 
                     @Override
@@ -148,6 +154,8 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
                 Log.i("IdCheck",InvitesArrayList.get(position).getTeam().getId());
                 Bundle bundle3 = new Bundle();
                 bundle3.putString("teamId",InvitesArrayList.get(position).getTeam().getId() );
+                bundle3.putInt("Invited", 1);
+                bundle3.putInt("Key", 1);
                 frag3.setArguments(bundle3);
 
                 MainActivity activity = (MainActivity) v.getContext();
@@ -166,6 +174,7 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
                 Log.i("IdCheck",InvitesArrayList.get(position).getLeader().getId());
                 Bundle bundle3 = new Bundle();
                 bundle3.putString("id", InvitesArrayList.get(position).getLeader().getId());
+                bundle3.putInt("Key",1);
                 frag3.setArguments(bundle3);
 
                 MainActivity activity = (MainActivity) v.getContext();
@@ -188,14 +197,14 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
-        //private ImageView participantProfilePhoto_invites;
+
         private TextView ParticipantName_invites, InviteeTeamName_invites;
         private Button Accept, Reject;
-
+        ImageView participantProfilePhoto_invites;
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 
-            //participantProfilePhoto_invites=itemView.findViewById(R.id.inviteePhoto);
+            participantProfilePhoto_invites=itemView.findViewById(R.id.inviteePhoto);
             ParticipantName_invites = itemView.findViewById(R.id.InviteeName);
 
             InviteeTeamName_invites = itemView.findViewById(R.id.teamName_invite);

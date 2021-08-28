@@ -89,7 +89,29 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/InviteRV"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <ImageView
+                android:id="@+id/InvitesIV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_invites"
+                android:padding="8dp"
+                android:layout_marginTop="8dp"
+                >
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No invites to show, try finding teams in “search”"
+                android:textAlignment="center"
+                android:textColor="#E7EFEF"
+                android:layout_marginBottom="8dp"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -129,7 +151,26 @@
                 android:id="@+id/RequestRV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                >
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <ImageView
+                android:id="@+id/imageView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_group_267"
+                android:padding="8dp"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="342dp"
+                android:layout_height="77dp"
+                android:layout_marginStart="25dp"
+                android:text="No requests to show , to add someone, go to your team and find a teammate to add"
+                android:textAlignment="center"
+                android:textColor="#E7EFEF" />
 
             <ProgressBar
                 android:id="@+id/progressBar3"

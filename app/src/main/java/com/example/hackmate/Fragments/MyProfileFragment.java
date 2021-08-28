@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.hackmate.Adapters.MemberAdapter;
 import com.example.hackmate.Adapters.ProjectAdapterMP;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
@@ -103,6 +104,11 @@ public class MyProfileFragment extends Fragment {
         call.enqueue(new Callback<loginPOJO>() {
             @Override
             public void onResponse(Call<loginPOJO> call, Response<loginPOJO> response) {
+                Glide.with(getContext()).
+                        load(response.body().getPhoto()).
+                        placeholder(R.drawable.download).
+                        into(profile_pic);
+
 
                 Log.i("response22", String.valueOf(response.body().getId()));
                 name_MP.setText(response.body().getName());

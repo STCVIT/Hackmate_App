@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.hackmate.Fragments.ProfileViewFragment;
 import com.example.hackmate.MainActivity;
 import com.example.hackmate.POJOClasses.PtSkill;
@@ -49,6 +50,11 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.Viewholder
     public void onBindViewHolder(@NonNull MemberAdapter.Viewholder holder, int position) {
 
         PtSkill ptSkill = ptSkills.get(position);
+
+        Glide.with(context).
+                load(ptSkill.getParticipant().getPhoto()).
+                placeholder(R.drawable.download).
+                into(holder.profile_imageView);
         holder.number_textView.setText(String.valueOf(position+1));
         holder.nameTextView.setText(ptSkill.getParticipant().getName());
         holder.email_textView.setText(ptSkill.getParticipant().getEmail());

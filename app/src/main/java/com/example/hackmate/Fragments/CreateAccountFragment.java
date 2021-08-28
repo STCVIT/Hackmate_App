@@ -1,6 +1,9 @@
 package com.example.hackmate.Fragments;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.hackmate.JSONPlaceholders.loginAPI;
@@ -33,6 +38,8 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +62,26 @@ public class CreateAccountFragment extends Fragment {
     private EditText first_name, last_name, username, university, linkedIn_link, github_link, website, bio;
     LoginDetails loginDetails;
     private loginAPI loginAPI;
-    String idToken;
+    String idToken, downloadUrl;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     ChipGroup chipGroup;
     PostSkills postSkills;
+
+    private StorageReference storageReference;
+    private static int IMAGE_TASK = 1;
+    private Uri uri;
+    private ImageView profile_pic;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null && requestCode == IMAGE_TASK && resultCode == RESULT_OK) {
+            uri = data.getData();
+            profile_pic.setImageURI(uri);
+        } else if(data!=null){
+            Toast.makeText(getContext(), "Error...Try Again !!", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,6 +97,15 @@ public class CreateAccountFragment extends Fragment {
 
         initialise();
 //        String email = getArguments().getString("email");
+        storageReference = FirebaseStorage.getInstance().getReference("Participants/Profile");
+
+        profile_pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, IMAGE_TASK);
+            }
+        });
 
 
         AutoCompleteTextView YOG_CompleteTextView = view.findViewById(R.id.year_of_graduation);
@@ -168,10 +200,13 @@ public class CreateAccountFragment extends Fragment {
             loginDetails.setGithub(github_link.getText().toString());
             loginDetails.setLinkedIn(linkedIn_link.getText().toString());
             loginDetails.setWebsite(website.getText().toString());
-            loginDetails.setPhoto("---");
             loginDetails.setBio(bio.getText().toString());
             loginDetails.setGraduation_year(Integer.parseInt(year));
             loginDetails.setUsername(username.getText().toString());
+            if(downloadUrl!=null)
+                loginDetails.setPhoto(downloadUrl);
+            else
+                loginDetails.setPhoto("---");
 
             List<String> skill =  new ArrayList<>();
 

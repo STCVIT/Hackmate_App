@@ -2,7 +2,7 @@ package com.example.hackmate.POJOClasses.POST;
 
 public class PatchDetails {
 
-    String name, college, bio, github, linkedIn, website, username;
+    String name, college, bio, github, linkedIn, website, username, photo;
     int graduation_year;
 
     public PatchDetails(String name, String college, String bio, String github, String linkedIn,
@@ -15,6 +15,15 @@ public class PatchDetails {
         this.website = website;
         this.username = username;
         this.graduation_year = graduation_year;
+        this.photo = photo;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public String getName() {

@@ -6,12 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.hackmate.Fragments.HackProfile.HackProfileFragment;
 import com.example.hackmate.Fragments.ProfileViewFragment;
 import com.example.hackmate.JSONPlaceholders.JSONPlaceHolderAPI;
@@ -74,7 +76,11 @@ public class teamMember_LeaderAdapter extends RecyclerView.Adapter<teamMember_Le
         holder.MemName.setText(ptSkills.getParticipant().getName());
         holder.MemEmail.setText(ptSkills.getParticipant().getEmail());
         holder.MemPosition.setText(id.equals(adminId) ? "Leader" : "");
-        // holder.Profilephoto.setImageResource(model.getProfilephoto());
+        Glide.with(context).
+                load(ptSkills.getParticipant().getPhoto()).
+                placeholder(R.drawable.download).
+                into(holder. Profilephoto);
+
         holder.LeaveOption.setText(id.equals(adminId) ? "leave" : "Remove");
         if (holder.LeaveOption.getText().equals("Remove")) {
             holder.LeaveOption.setOnClickListener(v -> {
@@ -125,6 +131,7 @@ public class teamMember_LeaderAdapter extends RecyclerView.Adapter<teamMember_Le
                 Log.i("IdCheck",id);
                 Bundle bundle3 = new Bundle();
                 bundle3.putString("id", teamMemberLeaderArrayList.get(position).getParticipant().get_id());
+                bundle3.putInt("Key",1);
                 frag3.setArguments(bundle3);
 
                 MainActivity activity = (MainActivity) v.getContext();
@@ -150,7 +157,7 @@ public class teamMember_LeaderAdapter extends RecyclerView.Adapter<teamMember_Le
     public class Viewholder extends RecyclerView.ViewHolder {
 
         private TextView SerialNo, MemName, MemEmail, MemPosition, LeaveOption;
-        //private ImageView Profilephoto;
+        ImageView Profilephoto;
         private CardView teamMembercard;
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -158,7 +165,7 @@ public class teamMember_LeaderAdapter extends RecyclerView.Adapter<teamMember_Le
             MemName = itemView.findViewById(R.id.memberName);
             MemEmail = itemView.findViewById(R.id.memberEmail);
             MemPosition = itemView.findViewById(R.id.memberPosition);
-            //Profilephoto = itemView.findViewById(R.id.profilePhoto);
+            Profilephoto = itemView.findViewById(R.id.profilePhoto);
             LeaveOption = itemView.findViewById(R.id.leaveOption);
             teamMembercard=itemView.findViewById(R.id.TeamMember);
 
@@ -184,4 +191,3 @@ public class teamMember_LeaderAdapter extends RecyclerView.Adapter<teamMember_Le
 
     }
 }
-
