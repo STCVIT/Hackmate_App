@@ -162,12 +162,12 @@ public class TeamProfileParticipantViewFragment extends Fragment {
 
                 patchTeamDetails = new PatchTeamDetails();
 
-                Call<Map<String, Object>> call1 = loginAPI.postTeamCode("Bearer " + MainActivity.getIdToken(),
+                Call<String> call1 = loginAPI.postTeamCode("Bearer " + MainActivity.getIdToken(),
                         joinTeamPOJO.getTeam().get_id());
                 Log.i("team id", joinTeamPOJO.getTeam().get_id());
-                call1.enqueue(new Callback<Map<String, Object>>() {
+                call1.enqueue(new Callback<String>() {
                     @Override
-                    public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                    public void onResponse(Call<String> call, Response<String> response) {
                         Log.i(TAG, "onClick: " + response.code());
                         Log.i(TAG, "onClick: " + response.body());
                         if (response.code() == 409) {
@@ -180,7 +180,7 @@ public class TeamProfileParticipantViewFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                    public void onFailure(Call<String> call, Throwable t) {
                         Log.e(TAG, "onFailure: ", t);
                     }
                 });

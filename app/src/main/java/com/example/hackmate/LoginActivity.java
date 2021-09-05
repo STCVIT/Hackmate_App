@@ -19,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
     public SharedPreferences preferences;
     private static String idToken = null;
     public static final String URL_REGEX = "^((https?|ftp)://|(www|ftp)\\.)?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].*)?$";
+    public static final String EMAIL = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

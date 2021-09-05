@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +44,7 @@ public class AddFromExistingFragment extends Fragment {
     RecyclerView addHackToTeam;
     private loginAPI loginAPI;
     private String hackId;
-    TextView goingForHackTextView;
+    ImageView goingForHackImageView;
     ProgressBar progressBar;
 
     public AddFromExistingFragment(String hackId) {
@@ -64,7 +65,7 @@ public class AddFromExistingFragment extends Fragment {
 
         initialise();
 
-        goingForHackTextView.setVisibility(View.GONE);
+        goingForHackImageView.setVisibility(View.GONE);
 
         Log.i("HACKID_SDVSV",hackId);
         addHackToTeam.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -96,8 +97,7 @@ public class AddFromExistingFragment extends Fragment {
                             existingAdapter.setGetTeams(teamList, hackId);
 
                         } else{
-                            goingForHackTextView.setVisibility(View.VISIBLE);
-                            goingForHackTextView.setText("All teams are registered for a hack, please make a new team to register for this hack!!!");
+                            goingForHackImageView.setVisibility(View.VISIBLE);
 //                            Toast.makeText(getActivity(), "No teams exist which is not going for this hack!", Toast.LENGTH_SHORT).show();
                         }
                         progressBar.setVisibility(View.GONE);
@@ -123,7 +123,7 @@ public class AddFromExistingFragment extends Fragment {
     public void initialise() {
 
         addHackToTeam = getView().findViewById(R.id.addHackToTeam_recyclerView);
-        goingForHackTextView = getView().findViewById(R.id.going_for_hack_textView);
+        goingForHackImageView = getView().findViewById(R.id.going_for_hack_ImageView);
         progressBar = getView().findViewById(R.id.progressBar_AFE);
     }
 }

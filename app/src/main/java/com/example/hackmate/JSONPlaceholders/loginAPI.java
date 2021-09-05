@@ -90,7 +90,7 @@ public interface loginAPI {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("requests/request/{id}")
-    Call<Map<String,Object>> postTeamCode(@Header("Authorization") String token, @Path("id") String id);
+    Call<String> postTeamCode(@Header("Authorization") String token, @Path("id") String id);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @DELETE("projects/delete/{id}")

@@ -1,5 +1,7 @@
 package com.example.hackmate.Fragments;
 
+import static com.example.hackmate.LoginActivity.EMAIL;
+
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -36,6 +38,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -50,6 +54,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LoginFragment extends Fragment {
 
     View view;
+    int ans;
+    String idToken, msg;
     private EditText email_login, password_login;
     private TextView newAccount, forgot_password;
     private LoginActivity loginActivity;
@@ -57,8 +63,6 @@ public class LoginFragment extends Fragment {
     private Button login;
     private ProgressBar progressBar;
     private loginAPI loginAPI;
-    int ans;
-    String idToken, msg;
 
     @Override
     public void onStart() {
@@ -86,7 +90,6 @@ public class LoginFragment extends Fragment {
             }
         }
 
-//        setEnableTrue();
         super.onStart();
     }
 
@@ -95,7 +98,6 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_login, container, false);
-//        setEnableTrue();
         return view;
     }
 
@@ -104,86 +106,90 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initialise();
-        newAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                setEnableFalse();
+        newAccount.setOnClickListener(v -> {
 
-                FragmentManager fragmentManager = loginActivity.getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.bodyFragment, loginActivity.fragmentNewAccount)
-                        .addToBackStack(null)
-                        .commit();
+            setEnableFalse();
 
-            }
+            FragmentManager fragmentManager = loginActivity.getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.bodyFragment, loginActivity.fragmentNewAccount)
+                    .addToBackStack(null)
+                    .commit();
+
         });
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar = view.findViewById(R.id.progressBar);
+        login.setOnClickListener(v -> {
 
-                String emailText = email_login.getText().toString();
-                String passWord = password_login.getText().toString();
 
-                setEnableFalse();
+            String emailText = email_login.getText().toString();
+            String passWord = password_login.getText().toString();
 
-                if (email_login.getText().toString().isEmpty()) {
-                    email_login.setError("Email Required");
-                    email_login.requestFocus();
-                    return;
-                } else if (!Patterns.EMAIL_ADDRESS.matcher(email_login.getText().toString()).matches()) {
-                    email_login.setError("Valid Email Required");
-                    email_login.requestFocus();
-                    return;
-                } else if (password_login.getText().toString().isEmpty()) {
-                    password_login.setError("Password Required");
-                    password_login.requestFocus();
-                    return;
-                } else if (password_login.getText().toString().length() < 6) {
-                    password_login.setError("Min 6 char required");
-                    password_login.requestFocus();
-                    return;
-                }
-                progressBar.setVisibility(View.VISIBLE);
+            setEnableFalse();
 
-                loginUser(emailText, passWord);
-
+            if (email_login.getText().toString().isEmpty()) {
+                email_login.setError("Email Required");
+                email_login.requestFocus();
+                setEnableTrue();
+                return;
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email_login.getText().toString()).matches()) {
+                email_login.setError("Valid Email Required");
+                email_login.requestFocus();
+                setEnableTrue();
+                return;
+            } else if (password_login.getText().toString().isEmpty()) {
+                password_login.setError("Password Required");
+                password_login.requestFocus();
+                setEnableTrue();
+                return;
+            } else if (password_login.getText().toString().length() < 6) {
+                password_login.setError("Min 6 char required");
+                password_login.requestFocus();
+                setEnableTrue();
+                return;
             }
+            progressBar.setVisibility(View.VISIBLE);
+
+            loginUser(emailText, passWord);
+
         });
 
-        forgot_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        forgot_password.setOnClickListener(v -> {
                 progressBar.setVisibility(View.VISIBLE);
-                setEnableFalse();
-                if (email_login.getText().toString().trim().length() > 0) {
-                    mAuth.sendPasswordResetEmail(email_login.getText().toString())
-                            .addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-                                    msg = "Reset link sent to your email !!!";
+            setEnableFalse();
+            Pattern p = Pattern.compile(EMAIL);
+            Matcher link = p.matcher(email_login.getText().toString());
+            if(!link.find()){
+                email_login.setError("Please Enter Valid Email!!");
+                email_login.requestFocus();
+                setEnableTrue();
+                progressBar.setVisibility(View.GONE);
+                return;
+            }
+            if (email_login.getText().toString().trim().length() > 0) {
+                mAuth.sendPasswordResetEmail(email_login.getText().toString())
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                msg = "Reset link sent to your email !!!";
 
-                                }else
-                                    msg = "Unable to send reset link...Please try again later!!";
+                            }else
+                                msg = "Unable to send reset link...Please try again later!!";
 
-                                Snackbar.make(v, msg, Snackbar.LENGTH_SHORT)
-                                        .setAction("Action", null)
-                                        .setBackgroundTint(Color.parseColor("#DAED10"))
-                                        .setTextColor(Color.BLACK)
-                                        .show();
+                            Snackbar.make(v, msg, Snackbar.LENGTH_SHORT)
+                                    .setAction("Action", null)
+                                    .setBackgroundTint(Color.parseColor("#DAED10"))
+                                    .setTextColor(Color.BLACK)
+                                    .show();
 
                                 progressBar.setVisibility(View.GONE);
-                                setEnableTrue();
-                            });
-                }
-                else{
+                            setEnableTrue();
+                        });
+            }
+            else{
                     Toast.makeText(getActivity(), "Please Enter Email and click on Forgot Password Again!", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
-                    setEnableTrue();
-                }
+                setEnableTrue();
             }
-
         });
 
     }
@@ -197,6 +203,7 @@ public class LoginFragment extends Fragment {
         loginActivity = (LoginActivity) getActivity();
         loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
         forgot_password = view.findViewById(R.id.forgot_password);
+        progressBar = view.findViewById(R.id.progressBar);
     }
 
     public void loginUser(String email, String password) {
@@ -211,35 +218,33 @@ public class LoginFragment extends Fragment {
 
                     } else {
                         mAuth.getCurrentUser().getIdToken(true)
-                                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                                    public void onComplete(@NonNull Task<GetTokenResult> task) {
-                                        if (task.isSuccessful()) {
-                                            idToken = task.getResult().getToken();
-                                            Log.i("xx", idToken);
+                                .addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        idToken = task1.getResult().getToken();
+                                        Log.i("xx", idToken);
 
 
-                                            Call<Response<Void>> call = loginAPI.getLoginStatus("Bearer " + idToken);
-                                            call.enqueue(new Callback<Response<Void>>() {
-                                                @Override
-                                                public void onResponse(Call<Response<Void>> call, Response<Response<Void>> response) {
+                                        Call<Response<Void>> call = loginAPI.getLoginStatus("Bearer " + idToken);
+                                        call.enqueue(new Callback<Response<Void>>() {
+                                            @Override
+                                            public void onResponse(Call<Response<Void>> call, Response<Response<Void>> response) {
 
-                                                    ans = response.code();
-                                                    Log.i("response code", response.toString());
-                                                    Log.i("ans", String.valueOf(ans));
-                                                    checkIfEmailVerified(email, ans);
-                                                }
+                                                ans = response.code();
+                                                Log.i("response code", response.toString());
+                                                Log.i("ans", String.valueOf(ans));
+                                                checkIfEmailVerified(email, ans);
+                                            }
 
-                                                @Override
-                                                public void onFailure(Call<Response<Void>> call, Throwable t) {
-                                                    Log.i("error", t.getMessage());
-                                                    FirebaseAuth.getInstance().signOut();
-                                                    progressBar.setVisibility(View.GONE);
-                                                    setEnableTrue();
-                                                }
-                                            });
+                                            @Override
+                                            public void onFailure(Call<Response<Void>> call, Throwable t) {
+                                                Log.i("error", t.getMessage());
+                                                FirebaseAuth.getInstance().signOut();
+                                                progressBar.setVisibility(View.GONE);
+                                                setEnableTrue();
+                                            }
+                                        });
 
 
-                                        }
                                     }
                                 });
                     }

@@ -59,7 +59,7 @@ public class AddProjectFragment extends Fragment {
         if (bundle != null) {
             GET_NAV_CODE = bundle.getInt("Key", 0);
             teamID = bundle.getString("teamID", null);
-            Log.i("teamIDADDPROJECR", teamID);
+//            Log.i("teamIDADDPROJECR", teamID);
         }
         projectName = view.findViewById(R.id.projectName);
         projectDescription = view.findViewById(R.id.projectDescription);
