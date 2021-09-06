@@ -1,6 +1,5 @@
 package com.example.hackmate.Fragments;
 
-import static com.example.hackmate.LoginActivity.EMAIL;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -157,9 +156,8 @@ public class LoginFragment extends Fragment {
         forgot_password.setOnClickListener(v -> {
                 progressBar.setVisibility(View.VISIBLE);
             setEnableFalse();
-            Pattern p = Pattern.compile(EMAIL);
-            Matcher link = p.matcher(email_login.getText().toString());
-            if(!link.find()){
+
+            if(!Patterns.WEB_URL.matcher(email_login.getText().toString()).matches()){
                 email_login.setError("Please Enter Valid Email!!");
                 email_login.requestFocus();
                 setEnableTrue();

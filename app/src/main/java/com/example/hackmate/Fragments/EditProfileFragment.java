@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
-import static com.example.hackmate.LoginActivity.URL_REGEX;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -351,15 +351,11 @@ public class EditProfileFragment extends Fragment {
                 skill.add(Constants.skills.get(chip.getText().toString()));
             }
 
-            Pattern p = Pattern.compile(URL_REGEX);
-            Matcher link = p.matcher(linkedIn_EP.getText().toString());//replace with string to compare
-            Matcher git = p.matcher(github_EP.getText().toString());
-            Matcher web = p.matcher(personal_website_EP.getText().toString());
-
             if (linkedIn_EP.getText().toString().isEmpty() ) {
                 linkedIn_EP.setText("--");
-            }
-            if(!link.find()){
+            }else if(linkedIn_EP.getText().toString().equals("--")){
+                linkedIn_EP.setText("--");
+            }else if(!Patterns.WEB_URL.matcher(linkedIn_EP.getText().toString()).matches()){
                 linkedIn_EP.setError("Please Enter Valid linkedIn link!!");
                 linkedIn_EP.requestFocus();
                 return;
@@ -368,16 +364,16 @@ public class EditProfileFragment extends Fragment {
                 github_EP.setError("Github Link is Required");
                 github_EP.requestFocus();
                 return;
-            }
-            if(!git.find()){
+            }else if(!Patterns.WEB_URL.matcher(github_EP.getText().toString()).matches()){
                 github_EP.setError("Please Enter Valid Github Link link!!");
                 github_EP.requestFocus();
                 return;
             }
             if (personal_website_EP.getText().toString().isEmpty()) {
                 personal_website_EP.setText("--");
-            }
-            if(!web.find()){
+            }else if(personal_website_EP.getText().toString().equals("--")){
+                personal_website_EP.setText("--");
+            }else if(!Patterns.WEB_URL.matcher(personal_website_EP.getText().toString()).matches()){
                 personal_website_EP.setError("Please Enter Valid website link!!");
                 personal_website_EP.requestFocus();
                 return;

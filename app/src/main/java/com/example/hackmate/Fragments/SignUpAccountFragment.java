@@ -1,8 +1,5 @@
 package com.example.hackmate.Fragments;
 
-import static com.example.hackmate.LoginActivity.EMAIL;
-import static com.example.hackmate.LoginActivity.URL_REGEX;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -75,9 +72,6 @@ public class SignUpAccountFragment extends Fragment {
                 String password = password_create_your_account.getText().toString();
                 String password1 = password1_create_your_account.getText().toString();
 
-                loginEmail = new LoginEmail(emailText, password);
-                Pattern p = Pattern.compile(EMAIL);
-                Matcher link = p.matcher(emailText);
 
                 if (email_create_your_account.getText().toString().isEmpty()) {
                     email_create_your_account.setError("Email Required");
@@ -102,11 +96,6 @@ public class SignUpAccountFragment extends Fragment {
                 if (password1_create_your_account.getText().toString().isEmpty() || !password1_create_your_account.getText().toString().equals(password_create_your_account.getText().toString())) {
                     password1_create_your_account.setError("Password does not matches !!");
                     password1_create_your_account.requestFocus();
-                    return;
-                }
-                if(!link.find()) {
-                    email_create_your_account.setError("Please Enter Valid Email ID!!");
-                    email_create_your_account.requestFocus();
                     return;
                 }
 

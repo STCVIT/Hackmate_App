@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,31 +45,27 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.hackmate.LoginActivity.URL_REGEX;
 
 
 public class CreateAccountFragment extends Fragment {
 
+    private static int IMAGE_TASK = 1;
     View view;
     Button create_profile;
     LoginActivity loginActivity;
-    private EditText first_name, last_name, username, university, linkedIn_link, github_link, website, bio;
     LoginDetails loginDetails;
-    private loginAPI loginAPI;
     String idToken, downloadUrl;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     ChipGroup chipGroup;
     PostSkills postSkills;
-
+    private EditText first_name, last_name, username, university, linkedIn_link, github_link, website, bio;
+    private loginAPI loginAPI;
     private StorageReference storageReference;
-    private static int IMAGE_TASK = 1;
     private Uri uri;
     private ImageView profile_pic;
 
@@ -122,10 +119,6 @@ public class CreateAccountFragment extends Fragment {
         gender_CompleteTextView.setText(gender_arrayAdapter.getItem(0).toString(), false);
         gender_CompleteTextView.setAdapter(gender_arrayAdapter);
 
-        Pattern p = Pattern.compile(URL_REGEX);
-        Matcher link = p.matcher(linkedIn_link.getText().toString());//replace with string to compare
-        Matcher git = p.matcher(github_link.getText().toString());
-        Matcher web = p.matcher(website.getText().toString());
         create_profile.setOnClickListener(v -> {
 
             String year = YOG_CompleteTextView.getText().toString();
@@ -153,10 +146,11 @@ public class CreateAccountFragment extends Fragment {
                 university.requestFocus();
                 return;
             }
-            if (linkedIn_link.getText().toString().isEmpty() ) {
+            if (linkedIn_link.getText().toString().isEmpty()) {
                 linkedIn_link.setText("--");
-            }
-            if(!link.find()){
+            } else if(linkedIn_link.getText().toString().equals("--")){
+                linkedIn_link.setText("--");
+            } else if (!Patterns.WEB_URL.matcher(linkedIn_link.getText().toString()).matches()) {
                 linkedIn_link.setError("Please Enter Valid linkedIn link!!");
                 linkedIn_link.requestFocus();
                 return;
@@ -165,16 +159,18 @@ public class CreateAccountFragment extends Fragment {
                 github_link.setError("Github Link is Required");
                 github_link.requestFocus();
                 return;
-            }
-            if(!git.find()){
+            } else if(github_link.getText().toString().equals("--")){
+                github_link.setText("--");
+            }else if (!Patterns.WEB_URL.matcher(github_link.getText().toString()).matches()) {
                 github_link.setError("Please Enter Valid Github Link link!!");
                 github_link.requestFocus();
                 return;
             }
             if (website.getText().toString().isEmpty()) {
                 website.setText("--");
-            }
-            if(!web.find()){
+            }else if(website.getText().toString().equals("--")){
+                website.setText("--");
+            }else if(!Patterns.WEB_URL.matcher(website.getText().toString()).matches()){
                 website.setError("Please Enter Valid website link!!");
                 website.requestFocus();
                 return;
@@ -258,6 +254,7 @@ public class CreateAccountFragment extends Fragment {
         bio = view.findViewById(R.id.about);
         chipGroup = view.findViewById(R.id.chipGroup);
         loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
+        profile_pic = view.findViewById(R.id.imageView6);
     }
 
     public void checkIfEmailVerified() {
