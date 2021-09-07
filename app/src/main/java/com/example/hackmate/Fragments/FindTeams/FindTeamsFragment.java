@@ -53,7 +53,7 @@ public class FindTeamsFragment extends Fragment {
     private static final String TAG = "FindTeamsFragment";
 
     private LinearLayout filter;
-    private ImageView downArrow;
+    private ImageView downArrow, noTeamsToShow;
     private ChipGroup chips;
     private TextView joinUsingCode, appBarName;
     private CardView appBar;
@@ -101,6 +101,7 @@ public class FindTeamsFragment extends Fragment {
         filter = view.findViewById(R.id.domainFilterTeammate);
         downArrow = view.findViewById(R.id.downArrow);
         appBarName = view.findViewById(R.id.appBarName);
+        noTeamsToShow = view.findViewById(R.id.searchImage);
 
         searchTeam = view.findViewById(R.id.searchTeamJoin);
         chips = view.findViewById(R.id.chips);
@@ -126,7 +127,12 @@ public class FindTeamsFragment extends Fragment {
         if (viewModel.getList() == null || viewModel.getList().isEmpty()) {
             Log.e(TAG, "onViewCreated: fetching new data");
             isLoading = true;
-            getHackTeamsToJoin(page = 1);
+            if(viewModel.getName() == null && viewModel.getSkill() == null)
+                getHackTeamsToJoin(page = 1);
+            else {
+                noTeamsToShow.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            }
         } else {
             Log.e(TAG, "onViewCreated: getting stored data");
             joinAdapter.addItems(viewModel.getList());
@@ -265,6 +271,8 @@ public class FindTeamsFragment extends Fragment {
     }
 
     public void getDomainHackTeams(String domain,int page3) {
+        noTeamsToShow.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
         joinAdapter.showProgress();
         Call<JoinHackTeamPOJO> call = api.domainTeamHack(MainActivity.getIdToken(), hackId, page3, domain);
         call.enqueue(new Callback<JoinHackTeamPOJO>() {
@@ -277,8 +285,10 @@ public class FindTeamsFragment extends Fragment {
                     joinAdapter.addItems(response.body().getFinal());
                     isLoading = false;
                 } else if (response.code() == 404) {
-                    if(page3==1)
-                        Toast.makeText(getContext(), "No Team to Join !!", Toast.LENGTH_SHORT).show();
+                    if(page3==1) {
+                        noTeamsToShow.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    }
                 }
             }
 
@@ -291,6 +301,8 @@ public class FindTeamsFragment extends Fragment {
     }
 
     public void searchHackTeamToJoin(String name) {
+        noTeamsToShow.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
         joinAdapter.showProgress();
         Call<List<Final>> call = api.searchTeamHack(MainActivity.getIdToken(), hackId, name);
         call.enqueue(new Callback<List<Final>>() {
@@ -303,7 +315,8 @@ public class FindTeamsFragment extends Fragment {
                     joinAdapter.addItems(response.body());
                     isLoading = false;
                 } else if (response.code() == 404) {
-                    Toast.makeText(getContext(), "No Team with such Name !!", Toast.LENGTH_SHORT).show();
+                    noTeamsToShow.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
                 }
 
             }
@@ -317,6 +330,8 @@ public class FindTeamsFragment extends Fragment {
     }
 
     public void getHackTeamsToJoin(int page) {
+        noTeamsToShow.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
         joinAdapter.showProgress();
         Call<JoinHackTeamPOJO> call = api.getHackTeams(MainActivity.getIdToken(), hackId, page);
         call.enqueue(new Callback<JoinHackTeamPOJO>() {
@@ -331,7 +346,10 @@ public class FindTeamsFragment extends Fragment {
                     isLoading = false;
                 } else if (response.code() == 404) {
                     if(page == 1)
-                        Toast.makeText(getContext(), "No Team to Join !!", Toast.LENGTH_SHORT).show();
+                    {
+                        noTeamsToShow.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    }
                 }
             }
 

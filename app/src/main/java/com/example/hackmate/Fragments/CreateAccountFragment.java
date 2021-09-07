@@ -1,6 +1,7 @@
 package com.example.hackmate.Fragments;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -274,6 +275,36 @@ public class CreateAccountFragment extends Fragment {
                                 call.enqueue(new Callback<Response<Map<String, String>>>() {
                                     @Override
                                     public void onResponse(Call<Response<Map<String, String>>> call, Response<Response<Map<String, String>>> response) {
+                                        Log.e(TAG, "onResponse: " +response.code());
+                                        if(response.code() == 400){
+                                            Toast.makeText(getContext(), "username is taken", Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+                                        if (response.isSuccessful()) {
+
+                                            Call<Void> call2 = loginAPI.postSkills("Bearer " +
+                                                    idToken, postSkills);
+                                            call2.enqueue(new Callback<Void>() {
+                                                @Override
+                                                public void onResponse(Call<Void> call2, Response<Void> response) {
+//                                                    Log.e(TAG, "onResponse: " +response.body());
+                                                    if (response.isSuccessful()) {
+                                                        loginActivity.preferences.edit().putInt("response", 200).apply();
+                                                        Log.i("responsexx", String.valueOf(loginActivity.preferences.getInt("response", 0)));
+                                                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                                                        intent.putExtra("idToken", idToken);
+                                                        startActivity(intent);
+                                                        loginActivity.finish();
+                                                        Toast.makeText(getContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<Void> call2, Throwable t) {
+                                                    Toast.makeText(getActivity(), "Error! Please try again later", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
 
                                     }
 
@@ -283,28 +314,7 @@ public class CreateAccountFragment extends Fragment {
                                     }
                                 });
 
-                                Call<Void> call2 = loginAPI.postSkills("Bearer " +
-                                        idToken, postSkills);
-                                call2.enqueue(new Callback<Void>() {
-                                    @Override
-                                    public void onResponse(Call<Void> call2, Response<Void> response) {
 
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<Void> call2, Throwable t) {
-                                        Toast.makeText(getActivity(), "Error! Please try again later", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-
-                                loginActivity.preferences.edit().putInt("response", 200).apply();
-                                Log.i("responsexx", String.valueOf(loginActivity.preferences.getInt("response", 0)));
-                                Intent intent = new Intent(getActivity(), MainActivity.class);
-//                                intent.putExtra("Email", email);
-                                intent.putExtra("idToken", idToken);
-                                startActivity(intent);
-                                loginActivity.finish();
-                                Toast.makeText(getContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

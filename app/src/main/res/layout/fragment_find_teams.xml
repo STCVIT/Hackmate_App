@@ -218,6 +218,16 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <ImageView
+        android:id="@+id/searchImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_group_269"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/joinList"
         android:background="@color/background"

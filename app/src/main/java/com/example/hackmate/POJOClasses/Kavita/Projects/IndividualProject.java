@@ -32,6 +32,14 @@ public class IndividualProject {
     @Expose
     private String design;
 
+    public IndividualProject(String name, String description, String code,String design,String demonstration) {
+        this.name = name;
+        this.description = description;
+        this.code = code;
+        this.design = design;
+        this.demonstration = demonstration;
+    }
+
     public String getId() {
         return id;
     }

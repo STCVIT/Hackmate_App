@@ -91,4 +91,7 @@ public interface JSONPlaceHolderAPI {
 
     @PATCH("DN_Team/update/{id}")
     Call<addProjectPOJO> addProject(@Header("Authorization") String token,@Path("id") String id, @Body addProjectPOJO addProjectPOJO);
+
+    @POST("projects/create")
+    Call<IndividualProject> addMyProject(@Header("Authorization") String token, @Body IndividualProject individualProject);
 }

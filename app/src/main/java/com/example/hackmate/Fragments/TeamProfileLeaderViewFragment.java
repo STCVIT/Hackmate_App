@@ -137,16 +137,27 @@ public class TeamProfileLeaderViewFragment extends Fragment {
             teamModelArrayList.sort((o1, o2) -> (o1.getParticipant().get_id().equals(admin) ? "Leader" : "").compareTo((o2.getParticipant().get_id().equals(admin) ? "Leader" : "")));
         }
 
-        addProjectIcon.setOnClickListener(v -> getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.nav_host_fragment, new AddProjectFragment())
-                .addToBackStack(null)
-                .commit());
+        addProjectIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("teamID", teamID);
+                bundle1.putInt("ProjectType", 0);
+                AddProjectFragment addProjectFragment = new AddProjectFragment();
+                addProjectFragment.setArguments(bundle1);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, addProjectFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
         addProjectTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle1 = new Bundle();
                 bundle1.putString("teamID", teamID);
+                bundle1.putInt("ProjectType", 0);
                 AddProjectFragment addProjectFragment = new AddProjectFragment();
                 addProjectFragment.setArguments(bundle1);
                 getFragmentManager()

@@ -99,8 +99,8 @@ public class SignUpAccountFragment extends Fragment {
                     return;
                 }
 
-                loginEmail.setEmail(emailText);
-                loginEmail.setPassword(password);
+//                loginEmail.setEmail(emailText);
+//                loginEmail.setPassword(password);
 
 
                 registerUser(emailText, password);

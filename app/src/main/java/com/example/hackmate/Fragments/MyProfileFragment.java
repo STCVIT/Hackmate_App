@@ -263,6 +263,7 @@ public class MyProfileFragment extends Fragment {
 
         Bundle bundle = new Bundle();
         bundle.putInt("Key", 1);
+        bundle.putInt("ProjectType", 1);
         frag.setArguments(bundle);
 
         bottomNavigation.setVisibility(View.GONE);
