@@ -48,7 +48,7 @@ public class ProjectAdapterMP extends RecyclerView.Adapter<ProjectAdapterMP.View
         if(position - individualProjectsList.size() < 0) {
             IndividualProject individualProject = individualProjectsList.get(position);
             holder.project_nameTextView.setText(individualProject.getNames());
-            holder.descriptionTextView.setText("Individual Project");
+            holder.descriptionTextView.setText("Personal");
             holder.bio_textView.setText(individualProject.getDescriptions());
             holder.link1_textView.setText(individualProject.getCodes());
             holder.link2_textView.setText(individualProject.getDemonstration());
@@ -83,7 +83,7 @@ public class ProjectAdapterMP extends RecyclerView.Adapter<ProjectAdapterMP.View
             link1_textView = itemView.findViewById(R.id.link1_textView);
             link2_textView = itemView.findViewById(R.id.link2_textView);
             link3_textView = itemView.findViewById(R.id.link3_textView);
-
+            itemView.findViewById(R.id.deleteProject).setVisibility(View.GONE);
         }
     }
 }

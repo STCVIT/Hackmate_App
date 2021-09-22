@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ import retrofit2.Response;
 
 
 public class AddProjectFragment extends Fragment {
-    public String idToken, projectID, teamID;
+    public String idToken, teamID;
     public int ProjectType;
     Button submitProject;
     TextView projectName, projectDescription, gitHubLink, designLink, demoLink;
@@ -40,7 +41,6 @@ public class AddProjectFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
         View v = inflater.inflate(R.layout.fragment_add_project, container, false);
 
@@ -62,7 +62,6 @@ public class AddProjectFragment extends Fragment {
             GET_NAV_CODE = bundle.getInt("Key", 0);
             teamID = bundle.getString("teamID", null);
             ProjectType=bundle.getInt("ProjectType",0);
-//            Log.i("teamIDADDPROJECR", teamID);
         }
         projectName = view.findViewById(R.id.projectName);
         projectDescription = view.findViewById(R.id.projectDescription);
@@ -83,9 +82,29 @@ public class AddProjectFragment extends Fragment {
                     projectDescription.requestFocus();
                     return;
                 }
+                if(gitHubLink.getText().toString().trim().length() == 0){
+                    gitHubLink.setText("");
+                } else if(!Patterns.WEB_URL.matcher(gitHubLink.getText().toString()).matches()){
+                    gitHubLink.setError("Valid Github link required");
+                    gitHubLink.requestFocus();
+                    return;
+                }
+                if(designLink.getText().toString().trim().length() == 0){
+                    designLink.setText("");
+                } else if(!Patterns.WEB_URL.matcher(designLink.getText().toString()).matches()){
+                    designLink.setError("Valid Design link required");
+                    designLink.requestFocus();
+                    return;
+                }
+                if(demoLink.getText().toString().trim().length() == 0){
+                    demoLink.setText("");
+                } else if(!Patterns.WEB_URL.matcher(demoLink.getText().toString()).matches()){
+                    demoLink.setError("Valid Demo link required");
+                    demoLink.requestFocus();
+                    return;
+                }
                 addProject(teamID,ProjectType);
-                // Toast.makeText(getActivity(), "Project has been added successfully !!!", Toast.LENGTH_SHORT).show();
-            }
+                }
         });
 
 
@@ -97,16 +116,7 @@ public class AddProjectFragment extends Fragment {
         if(a!= null && b==0) {
 
             Call<addProjectPOJO> call = jsonPlaceHolderAPI.addProject(idToken, teamID, addProjectPOJO);
-      /*  if (projectName.getText().toString().isEmpty()) {
-            projectName.setError("Project Name  Required");
-            projectName.requestFocus();
-            return;
-        } else if (projectDescription.getText().toString().isEmpty()) {
-            projectDescription.setError("Project description required");
-            projectDescription.requestFocus();
-            return;
-        }
-          else {*/
+
             call.enqueue(new Callback<com.example.hackmate.POJOClasses.Kavita.Projects.addOReditProject.addProjectPOJO>() {
                 @Override
                 public void onResponse(Call<com.example.hackmate.POJOClasses.Kavita.Projects.addOReditProject.addProjectPOJO> call, Response<com.example.hackmate.POJOClasses.Kavita.Projects.addOReditProject.addProjectPOJO> response) {
@@ -117,27 +127,7 @@ public class AddProjectFragment extends Fragment {
                     com.example.hackmate.POJOClasses.Kavita.Projects.addOReditProject.addProjectPOJO addProjectPOJOResponse = response.body();
                     Log.i("addProject", String.valueOf(response.code()));
                     Toast.makeText(getContext(), "Project created !!!", Toast.LENGTH_LONG).show();
-                    /*Log.i("addproject2", addProjectPOJOResponse.getProjectName());
-                    Log.i("addproject3", addProjectPOJOResponse.getDescription());
-                    Log.i("addproject4", addProjectPOJOResponse.getGithubLink());
-                    Log.i("addproject5", addProjectPOJOResponse.getDesignLink());
-                    Log.i("addProject6", addProjectPOJO.getDemoLink());*/
-              /*projectID=addProjectPOJOResponse.getProjectID();
-              Log.i("addProject7","ProjectID:"+projectID);*/
-                   /* TeamProfileLeaderViewFragment frag = new TeamProfileLeaderViewFragment();
 
-
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("Keys", 1);
-
-                    bundle.putString("teamID", teamID);
-                    frag.setArguments(bundle);
-
-                    getFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.nav_host_fragment, frag)
-                            .addToBackStack(null)
-                            .commit();*/
                 }
 
                 @Override
@@ -167,7 +157,6 @@ public class AddProjectFragment extends Fragment {
                 }
             });
         }
-        //}
 
     }
 

@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -17,7 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hackmate.JSONPlaceholders.API;
@@ -56,6 +60,7 @@ public class FindParticipantFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private EditText findPtByName;
+    private ImageButton close_btn;
     private InviteAdapter inviteAdapter;
     private boolean isLoading = false, isLastPage = false;
     private int page = 1, page2 = 1, page3 = 1, earlier_pos = 0;
@@ -63,6 +68,7 @@ public class FindParticipantFragment extends Fragment {
     private String hackID, name = "", skill = "", teamId;
     private FindParticipantViewModel viewModel;
     private List<String> invited_names;
+    private TextView noPt;
 
     public FindParticipantFragment(String hackID, String teamId, List<String> ptId) {
         this.hackID = hackID;
@@ -90,6 +96,8 @@ public class FindParticipantFragment extends Fragment {
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         downArrow = view.findViewById(R.id.downArrow);
         findPtByName = view.findViewById(R.id.findPtByName);
+        close_btn = view.findViewById(R.id.close_btn);
+        noPt = view.findViewById(R.id.noPt);
 
         chips = view.findViewById(R.id.chips);
         recyclerView = view.findViewById(R.id.inviteList);
@@ -145,6 +153,53 @@ public class FindParticipantFragment extends Fragment {
                 }
             }
         }
+
+        //set on text change listener for edittext
+        findPtByName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!findPtByName.getText().toString().equals("")) {
+                    close_btn.setVisibility(View.VISIBLE);
+                    /*inviteAdapter.clearList();
+                    recyclerView.scrollToPosition(0);
+                    earlier_pos = 0;
+                    isLastPage = false;
+                    name = s.toString();
+                    isSearch = true;
+                    searchPtByName(s.toString(), page2 = 1);*/
+                }
+                else
+                {
+                    close_btn.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        //set event for clear button
+        close_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findPtByName.setText("");
+                inviteAdapter.clearList();
+                recyclerView.scrollToPosition(0);
+                earlier_pos = 0;
+                isLastPage = false;
+                name = "";
+                isSearch = false;
+                if (chips.getCheckedChipId() != -1)
+                    getPtBySkills(skillSelected(chips.getCheckedChipId()), page3 = 1);
+                else
+                    sendInvite(page = 1);
+            }
+        });
 
         chipsOnClick();
 
@@ -271,6 +326,11 @@ public class FindParticipantFragment extends Fragment {
     }
 
     public void getPtBySkills(String skill, int page3) {
+        if(noPt.getVisibility() == View.VISIBLE) {
+            noPt.setVisibility(View.GONE);
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+        }
+
         inviteAdapter.showProgress();
         Log.i(TAG, "getPtBySkills: " + skill + "=>" + page3);
         Call<invitePOJO> call = api.inviteBySkills(MainActivity.getIdToken(), hackID, page3, skill);
@@ -307,6 +367,11 @@ public class FindParticipantFragment extends Fragment {
     }
 
     public void sendInvite(int page) {
+        if(noPt.getVisibility() == View.VISIBLE) {
+            noPt.setVisibility(View.GONE);
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+        }
+
         inviteAdapter.showProgress();
         Call<invitePOJO> call = api.inviteParticipants(MainActivity.getIdToken(), hackID, page);
         call.enqueue(new Callback<invitePOJO>() {
@@ -366,6 +431,11 @@ public class FindParticipantFragment extends Fragment {
 
 
     public void searchPtByName(String name, int page2) {
+        if(noPt.getVisibility() == View.VISIBLE) {
+            noPt.setVisibility(View.GONE);
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+        }
+
         inviteAdapter.showProgress();
         Log.d(TAG, "searchPtByName() returned: " + name + " ,page =>" + page2);
         Call<invitePOJO> call = api.getPtByName(MainActivity.getIdToken(), hackID, name, page2);
@@ -379,6 +449,11 @@ public class FindParticipantFragment extends Fragment {
                     Functions.fetchToken(requireActivity(), () -> searchPtByName(name, page2));
                 if (swipeRefreshLayout.isRefreshing())
                     swipeRefreshLayout.setRefreshing(false);
+
+                if(response.code()==404 && page2==1) {
+                    noPt.setVisibility(View.VISIBLE);
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                }
                 if (response.isSuccessful()) {
                     if (response.body().getFinal().size() < 12)
                         isLastPage = true;

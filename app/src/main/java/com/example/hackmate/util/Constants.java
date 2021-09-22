@@ -18,6 +18,11 @@ public class Constants {
         put("Management","management");
         put("appdev","App Development");
         put("App Development","appdev");
+        put("blockchain", "Blockchain");
+        put("Blockchain", "blockchain");
+        put("Cyber Security", "cybersecurity");
+        put("cybersecurity", "Cyber Security");
+
     }};
 
 }

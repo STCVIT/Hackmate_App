@@ -1,39 +1,55 @@
 package com.example.hackmate;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GetTokenResult;
-
-import org.jetbrains.annotations.NotNull;
 
 public class SplashActivity extends AppCompatActivity {
     private static final String TAG = "SplashActivity";
+    boolean connected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        FirebaseAuth.getInstance()
-                .getAccessToken(true)
-                .addOnSuccessListener(getTokenResult -> {
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                    intent.putExtra("idToken", getTokenResult.getToken());
-                    startActivity(intent);
-                    finish();
-                })
-                .addOnFailureListener(e -> {
-                    //Log.e(TAG, "onCreate: ", e);
-                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-                    finish();
-                });
+
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        //we are connected to a network
+        connected = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
+
+        if(connected) {
+
+            FirebaseAuth.getInstance()
+                    .getAccessToken(true)
+                    .addOnSuccessListener(getTokenResult -> {
+                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                        intent.putExtra("idToken", getTokenResult.getToken());
+                        startActivity(intent);
+                        finish();
+                    })
+                    .addOnFailureListener(e -> {
+                        //Log.e(TAG, "onCreate: ", e);
+                        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                        finish();
+                    });
+        }
+        else
+        {
+            Snackbar.make(findViewById(android.R.id.content), "No internet connection !!", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null)
+                    .setBackgroundTint(Color.parseColor("#DAED10"))
+                    .setTextColor(Color.BLACK)
+                    .show();
+        }
     }
 }

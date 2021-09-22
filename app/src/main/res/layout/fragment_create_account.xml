@@ -13,6 +13,18 @@
         android:layout_height="match_parent"
         android:background="@color/background">
 
+        <ProgressBar
+            android:id="@+id/progressBar7"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.241" />
+
         <EditText
             android:id="@+id/about"
             android:layout_width="0dp"
@@ -253,6 +265,23 @@
                 app:chipStrokeColor="@color/green"
                 app:chipStrokeWidth="1dp" />
 
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip10"
+                style="@style/CustomChipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Blockchain"
+                app:chipStrokeColor="@color/green"
+                app:chipStrokeWidth="1dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip11"
+                style="@style/CustomChipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cyber Security"
+                app:chipStrokeColor="@color/green"
+                app:chipStrokeWidth="1dp" />
         </com.google.android.material.chip.ChipGroup>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -264,11 +293,11 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/ic_buttongradient"
+            android:foreground="?android:attr/selectableItemBackground"
             android:text="Create Profile"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:foreground="?android:attr/selectableItemBackground"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/about"
@@ -334,12 +363,12 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                app:boxStrokeWidth="0dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.6"
                 android:background="@drawable/ic_edit_text"
-                android:textColorHint="@color/text_secondary">
+                android:textColorHint="@color/text_secondary"
+                app:boxStrokeWidth="0dp">
 
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/year_of_graduation"
@@ -355,13 +384,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout1"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                app:boxStrokeWidth="0dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_weight="0.4"
                 android:background="@drawable/ic_edit_text"
-                android:textColorHint="@color/text_secondary">
+                android:textColorHint="@color/text_secondary"
+                app:boxStrokeWidth="0dp">
 
 
                 <AutoCompleteTextView

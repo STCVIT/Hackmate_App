@@ -65,7 +65,7 @@ public interface loginAPI {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("participant/signup")
-    Call<Response<Map<String, String>>> setClaim(@Header("Authorization") String token, @Body LoginEmail loginEmail);
+    Call<Response<Map<String, String>>> setClaim(@Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("participant/createProfile")
@@ -90,9 +90,13 @@ public interface loginAPI {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("requests/request/{id}")
-    Call<String> postTeamCode(@Header("Authorization") String token, @Path("id") String id);
+    Call<Void> postTeamCode(@Header("Authorization") String token, @Path("id") String id);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @DELETE("projects/delete/{id}")
     Call<Map<String,Object>> delProject(@Header("Authorization") String token, @Path("id") String id);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("{id}")
+    Call<Void> checkUsername(@Header("Authorization") String token, @Path("id") String id);
 }

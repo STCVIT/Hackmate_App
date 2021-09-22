@@ -47,10 +47,8 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
     private Context context;
     private List<Received> InvitesArrayList;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private String idToken ;
-    public String UserName;
-    public String ParticiapntName;
-    public String adminID, adminID2;
+    private String idToken;
+
 
     public InvitesAdapter(Context context, List<Received> invitesArrayList) {
         this.context = context;
@@ -68,45 +66,42 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // to inflate the layout for each item of recycler view.
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.invite, parent, false);
         return new Viewholder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        //InvitesModel.Invites_Model model = (InvitesModel.Invites_Model) InvitesArrayList.get(position);
 
-        //invitePOJO invitePOJO =InvitesArrayList.get(position);
-        //holder.participantProfilePhoto_invites.setImageResource(model.getParticipantphoto());
 
         Received recieveds = InvitesArrayList.get(position);
 
         holder.ParticipantName_invites.setText(recieveds.getLeader().getName());
         holder.InviteeTeamName_invites.setText(recieveds.getTeam().getName());
         Glide.with(context).
-                load( InvitesArrayList.get(position).getLeader().getPhoto()).
+                load(InvitesArrayList.get(position).getLeader().getPhoto()).
                 placeholder(R.drawable.download).
                 into(holder.participantProfilePhoto_invites);
         JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
         holder.Accept.setOnClickListener(v -> {
 
-            Call<Void> call5 = jsonPlaceHolderAPI.postInviteStatus( MainActivity.getIdToken(),"accepted",recieveds.getInv());
+            Call<Void> call5 = jsonPlaceHolderAPI.postInviteStatus(MainActivity.getIdToken(), "accepted", recieveds.getInv());
             call5.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call5, Response<Void> response5) {
 
-                    if (!response5.isSuccessful()){
+                    if (!response5.isSuccessful()) {
                         Log.i("sucess", "sucess");
                     }
-                    //AcceptPOJO acceptPOJO1 = response5.body();
+
                     Log.i("inviteAdapter", String.valueOf(response5.code()));
-                    Log.i("inviteAdapter",String.valueOf(response5.body()));
+
                     int newPosition = holder.getAdapterPosition();
                     InvitesArrayList.remove(newPosition);
                     notifyItemRemoved(newPosition);
                     notifyItemRangeChanged(newPosition, InvitesArrayList.size());
-                    InviteOrRequestFragment.photo(InvitesArrayList.size(),"Invite");
+                    InviteOrRequestFragment.photo(InvitesArrayList.size(), "Invite");
 
                 }
 
@@ -120,22 +115,22 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
         holder.Reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Call<Void> call5 = jsonPlaceHolderAPI.postInviteStatus(MainActivity.getIdToken(),"rejected",recieveds.getInv());
+                Call<Void> call5 = jsonPlaceHolderAPI.postInviteStatus(MainActivity.getIdToken(), "rejected", recieveds.getInv());
                 call5.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call5, Response<Void> response5) {
 
-                        if (!response5.isSuccessful()){
+                        if (!response5.isSuccessful()) {
                             Log.i("sucess", "sucess");
                         }
-                        //AcceptPOJO acceptPOJO1 = response5.body();
+
                         Log.i("inviteAdapter", String.valueOf(response5.code()));
-                        Log.i("inviteAdapter",String.valueOf(response5.body()));
+
                         int newPosition = holder.getAdapterPosition();
                         InvitesArrayList.remove(newPosition);
                         notifyItemRemoved(newPosition);
                         notifyItemRangeChanged(newPosition, InvitesArrayList.size());
-                        InviteOrRequestFragment.photo(InvitesArrayList.size(),"Invite");
+                        InviteOrRequestFragment.photo(InvitesArrayList.size(), "Invite");
                     }
 
                     @Override
@@ -151,9 +146,9 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
             @Override
             public void onClick(View v) {
                 TeamProfileParticipantViewFragment frag3 = new TeamProfileParticipantViewFragment();
-                Log.i("IdCheck",InvitesArrayList.get(position).getTeam().getId());
+                Log.i("IdCheck", InvitesArrayList.get(position).getTeam().getId());
                 Bundle bundle3 = new Bundle();
-                bundle3.putString("teamId",InvitesArrayList.get(position).getTeam().getId() );
+                bundle3.putString("teamId", InvitesArrayList.get(position).getTeam().getId());
                 bundle3.putInt("Invited", 1);
                 bundle3.putInt("Key", 1);
                 frag3.setArguments(bundle3);
@@ -171,10 +166,10 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
             @Override
             public void onClick(View v) {
                 ProfileViewFragment frag3 = new ProfileViewFragment();
-                Log.i("IdCheck",InvitesArrayList.get(position).getLeader().getId());
+                Log.i("IdCheck", InvitesArrayList.get(position).getLeader().getId());
                 Bundle bundle3 = new Bundle();
                 bundle3.putString("id", InvitesArrayList.get(position).getLeader().getId());
-                bundle3.putInt("Key",1);
+                bundle3.putInt("Key", 1);
                 frag3.setArguments(bundle3);
 
                 MainActivity activity = (MainActivity) v.getContext();
@@ -185,7 +180,6 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
                         .commit();
             }
         });
-
 
 
     }
@@ -201,16 +195,16 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.Viewhold
         private TextView ParticipantName_invites, InviteeTeamName_invites;
         private Button Accept, Reject;
         ImageView participantProfilePhoto_invites;
+
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 
-            participantProfilePhoto_invites=itemView.findViewById(R.id.inviteePhoto);
+            participantProfilePhoto_invites = itemView.findViewById(R.id.inviteePhoto);
             ParticipantName_invites = itemView.findViewById(R.id.InviteeName);
 
             InviteeTeamName_invites = itemView.findViewById(R.id.teamName_invite);
             Accept = itemView.findViewById(R.id.acceptButton);
             Reject = itemView.findViewById(R.id.rejectButton);
-
 
 
         }

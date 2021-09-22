@@ -65,7 +65,7 @@ public class ProfileViewFragment extends Fragment {
     String id = "yash", teamId = "yash";
     private com.example.hackmate.JSONPlaceholders.loginAPI loginAPI;
     TextView name_PV, username_PV, email_PV, college_PV, bio_PV,
-            github_PV, linkedIn_PV, personal_website_PV, yog_PV;
+            github_PV, linkedIn_PV, personal_website_PV, yog_PV, projects_availability_PV;
     ProgressBar progressBar;
 
     @Override
@@ -88,6 +88,7 @@ public class ProfileViewFragment extends Fragment {
         }
 
         initialise();
+        projects_availability_PV.setVisibility(View.GONE);
 
         if (GET_NAV_CODE == 1)
             invite.setVisibility(View.GONE);
@@ -101,10 +102,10 @@ public class ProfileViewFragment extends Fragment {
             }
         }
 
-
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
                 if(!invite.getText().equals("INVITED"))
                 {
                     API api = RetrofitInstance.getRetrofitInstance().create(API.class);
@@ -118,17 +119,20 @@ public class ProfileViewFragment extends Fragment {
                                 invite.setBackground(getResources().getDrawable(R.drawable.ic_button_border_bg));
                                 invite.setTextColor(getResources().getColor(R.color.green));
                                 Toast.makeText(getContext(), "Invite Sent!!", Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
                             }
                         }
 
                         @Override
                         public void onFailure(Call<Void> calls, Throwable t) {
-
+                            progressBar.setVisibility(View.GONE);
                         }
                     });
                 }
-                else
+                else {
                     Toast.makeText(getContext(), "Already Invited !!", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -182,6 +186,10 @@ public class ProfileViewFragment extends Fragment {
                                     chip.setText("Management");
                                 } else if (skillList.get(i).getSkill().equals("appdev")) {
                                     chip.setText("App Development");
+                                } else if (skillList.get(i).getSkill().equals("blockchain")) {
+                                    chip.setText("Blockchain");
+                                } else if (skillList.get(i).getSkill().equals("cybersecurity")) {
+                                    chip.setText("Cyber Security");
                                 }
 //                                chip.setChipStrokeColorResource(R.color.pill_color);
 //                                chip.setChipBackgroundColor(getResources().getColorStateList(R.color.pill_color));
@@ -229,6 +237,9 @@ public class ProfileViewFragment extends Fragment {
                             projects_recyclerView.setAdapter(projectAdapterP);
                             projectAdapterP.setGetProjectP(individualProjectsList, teamProjectsList);
                             progressBar.setVisibility(View.GONE);
+                        } else{
+                            projects_availability_PV.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.GONE);
                         }
 
                     }
@@ -238,6 +249,7 @@ public class ProfileViewFragment extends Fragment {
                         Log.i("error", t.getMessage());
                         Toast.makeText(getActivity(), "Failed To Fetch", Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
+                        projects_availability_PV.setVisibility(View.VISIBLE);
                     }
                 });
 
@@ -270,5 +282,6 @@ public class ProfileViewFragment extends Fragment {
         linkedIn_PV = getView().findViewById(R.id.linkedIn_PV);
         personal_website_PV = getView().findViewById(R.id.personal_website_PV);
         progressBar = getView().findViewById(R.id.progressBarP);
+        projects_availability_PV = getView().findViewById(R.id.projects_availability_PV);
     }
 }

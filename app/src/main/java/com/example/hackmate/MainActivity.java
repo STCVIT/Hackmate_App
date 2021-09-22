@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -25,11 +26,12 @@ public class MainActivity extends AppCompatActivity {
     private Fragment activeFragment;
     private HackListFragment homeFragment = new HackListFragment();
     private MyTeamsFragment myTeamsFragment = new MyTeamsFragment();
-    private FindTeamsFragment findTeamsFragment = new FindTeamsFragment();
     private MyProfileFragment myProfileFragment = new MyProfileFragment();
+    private FindTeamsFragment findTeamsFragment = new FindTeamsFragment();
 
 
     BadgeDrawable badge;
+    int value;
 
     public static void setIdToken(String token) {
         idToken = token;
@@ -39,7 +41,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        idToken = getIntent().getStringExtra("idToken");
+
+        if(getIntent().getStringExtra("idToken")!=null)
+            idToken = getIntent().getStringExtra("idToken");
+
+        if(getIntent().getIntExtra("Frag",0)!=0) {
+            value = getIntent().getIntExtra("Frag",0);
+        }
+
+        if(value==2)
+            activeFragment = myTeamsFragment;
+        else if(value==3)
+            activeFragment = myProfileFragment;
+        else
+            activeFragment = homeFragment;
+
         bottomNavigation = findViewById(R.id.bottom_nav_bar);
         bottomNavigation.setVisibility(View.VISIBLE);
         badge = bottomNavigation.getOrCreateBadge(R.id.nav_myTeams);
@@ -55,10 +71,18 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().add(R.id.nav_host_fragment, myTeamsFragment).hide(myTeamsFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.nav_host_fragment, findTeamsFragment).hide(findTeamsFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.nav_host_fragment, myProfileFragment).hide(myProfileFragment).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.nav_host_fragment, homeFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.nav_host_fragment, homeFragment).hide(homeFragment).commit();
 
-        activeFragment = homeFragment;
-        bottomNavigation.setSelectedItemId(R.id.nav_home);
+
+        getSupportFragmentManager().beginTransaction().show(activeFragment).commit();
+        //activeFragment = homeFragment;
+        if(value==2)
+            bottomNavigation.setSelectedItemId(R.id.nav_myTeams);
+        else if(value==3)
+            bottomNavigation.setSelectedItemId(R.id.nav_profile);
+        else
+            bottomNavigation.setSelectedItemId(R.id.nav_home);
+
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

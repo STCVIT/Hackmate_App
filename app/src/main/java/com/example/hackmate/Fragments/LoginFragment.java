@@ -37,6 +37,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,7 +63,7 @@ public class LoginFragment extends Fragment {
     private Button login;
     private ProgressBar progressBar;
     private loginAPI loginAPI;
-
+    private static final String TAG = "Cannot invoke method length() on null object";
     @Override
     public void onStart() {
         mAuth = FirebaseAuth.getInstance();
@@ -86,7 +87,7 @@ public class LoginFragment extends Fragment {
                         .replace(R.id.bodyFragment, loginActivity.fragmentCreateAccount)
                         .addToBackStack(null)
                         .commit();
-            }
+            } 
         }
 
         super.onStart();
@@ -157,7 +158,7 @@ public class LoginFragment extends Fragment {
                 progressBar.setVisibility(View.VISIBLE);
             setEnableFalse();
 
-            if(!Patterns.WEB_URL.matcher(email_login.getText().toString()).matches()){
+            if(!Patterns.EMAIL_ADDRESS.matcher(email_login.getText().toString()).matches()){
                 email_login.setError("Please Enter Valid Email!!");
                 email_login.requestFocus();
                 setEnableTrue();
@@ -277,7 +278,6 @@ public class LoginFragment extends Fragment {
                 startActivity(intent);
                 loginActivity.finish();
                 Toast.makeText(getContext(), "Successfully logged in", Toast.LENGTH_SHORT).show();
-
             }
         } else {
             // email is not verified, so just prompt the message to the user and restart this activity.

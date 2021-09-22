@@ -59,7 +59,7 @@ public class MyProfileFragment extends Fragment {
     BottomNavigationView bottomNavigation;
     ImageView settingsImageView, addImageView, profile_pic;
     TextView editProfileTextView, addProjectTextView, name_MP, username_MP, email_MP, college_MP, bio_MP,
-            github_MP, linkedIn_MP, personal_website_MP, yog_MP;
+            github_MP, linkedIn_MP, personal_website_MP, yog_MP, project_availability_MP;
     ConstraintLayout add_project_constraint;
     CardView add_project_card;
     private RecyclerView projects_recyclerView;
@@ -80,6 +80,7 @@ public class MyProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initialise();
+        project_availability_MP.setVisibility(View.GONE);
 
         settingsImageView.setOnClickListener(v -> settingsFrag());
 
@@ -151,6 +152,8 @@ public class MyProfileFragment extends Fragment {
                     ProjectAdapterMP projectAdapterMP = new ProjectAdapterMP(getContext(), individualProjectsList, teamProjectsList);
                     projects_recyclerView.setAdapter(projectAdapterMP);
                     projectAdapterMP.setGetProjectMP(individualProjectsList, teamProjectsList);
+                } else{
+                    project_availability_MP.setVisibility(View.VISIBLE);
                 }
                 progressBar.setVisibility(View.GONE);
             }
@@ -160,6 +163,7 @@ public class MyProfileFragment extends Fragment {
                 Log.i("error", t.getMessage());
                 Toast.makeText(getActivity(), "Failed To Fetch", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
+                project_availability_MP.setVisibility(View.VISIBLE);
             }
         });
 
@@ -189,6 +193,10 @@ public class MyProfileFragment extends Fragment {
                                 chip.setText("Management");
                             } else if (skillList.get(i).getSkill().equals("appdev")) {
                                 chip.setText("App Development");
+                            } else if (skillList.get(i).getSkill().equals("blockchain")) {
+                                chip.setText("Blockchain");
+                            }else if (skillList.get(i).getSkill().equals("cybersecurity")) {
+                                chip.setText("Cyber Security");
                             }
                             chip.setChipStrokeColorResource(R.color.pill_color);
                             chip.setChipBackgroundColor(getResources().getColorStateList(R.color.pill_color));
@@ -215,7 +223,6 @@ public class MyProfileFragment extends Fragment {
 
     public void initialise() {
         settingsImageView = getView().findViewById(R.id.settings_image);
-        //editProfileImageView = getView().findViewById(R.id.edit_profile_image);
         addImageView = getView().findViewById(R.id.add_image);
         editProfileTextView = getView().findViewById(R.id.edit_profile_click);
         addProjectTextView = getView().findViewById(R.id.add_a_project);
@@ -235,7 +242,7 @@ public class MyProfileFragment extends Fragment {
         linkedIn_MP = getView().findViewById(R.id.linkedIn_MP);
         personal_website_MP = getView().findViewById(R.id.personal_website_MP);
         progressBar = getView().findViewById(R.id.progressBarMP);
-
+        project_availability_MP = getView().findViewById(R.id.project_availability);
     }
 
     public void editProfileFrag() {

@@ -54,7 +54,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Viewho
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // to inflate the layout for each item of recycler view.
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.request, parent, false);
         return new Viewholder(view);
     }
@@ -63,7 +63,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Viewho
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         ReceivedRequest receivedRequest = RequestsArrayList.get(position);
-        //Sent sents = RequestsArrayList.get(position);
+
         UserName1=receivedRequest.getParticipant().getName();
         holder.ParticipantName_req.setText(UserName1);
         holder.InviteeTeamName_req.setText(receivedRequest.getTeam().getName());
@@ -82,7 +82,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Viewho
                     if (!response5.isSuccessful()){
                         Log.i("sucess", "sucess");
                     }
-                    //AcceptPOJO acceptPOJO1 = response5.body();
+
                     Log.i("requestAdapter", String.valueOf(response5.code()));
                     Log.i("requestAdapter",String.valueOf(response5.body()));
                     Toast.makeText(context, "You have accepted this request", Toast.LENGTH_SHORT).show();
@@ -130,23 +130,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Viewho
 
         });
 
-        /*holder.InviteeTeamName_req.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TeamProfileParticipantViewFragment frag3 = new TeamProfileParticipantViewFragment();
-                Log.i("IdCheck",RequestsArrayList.get(position).getTeam().getId());
-                Bundle bundle3 = new Bundle();
-                bundle3.putString("teamId",RequestsArrayList.get(position).getTeam().getId() );
-                frag3.setArguments(bundle3);
 
-                MainActivity activity = (MainActivity) v.getContext();
-                activity.getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, frag3)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });*/
 
         holder.ParticipantName_req.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,10 +151,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Viewho
             }
         });
 
-        //RequestsModel.Requests_Model model = ( RequestsModel.Requests_Model) RequestsArrayList.get(position);
-        //holder.participantProfilePhoto_req.setImageResource(model.getParticipantphoto_req());
-        //holder.ParticipantName_req.setText(model.getParticipantName_req());
-        //holder.InviteeTeamName_req.setText(model.getTeamName_req());
+
     }
 
     @Override

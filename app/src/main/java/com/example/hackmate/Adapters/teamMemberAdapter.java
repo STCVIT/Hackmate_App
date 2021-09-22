@@ -1,6 +1,7 @@
 package com.example.hackmate.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,15 +58,12 @@ public class teamMemberAdapter extends RecyclerView.Adapter<teamMemberAdapter.Vi
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // to inflate the layout for each item of recycler view.
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.particularteam_team_member_rv_layout, parent, false);
         return new Viewholder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        // to set data to textview and imageview of each card layout
-        // Get the data model based on position
         PtSkill ptSkills1 = teamMemberArrayList.get(position);
 
 
@@ -81,7 +79,6 @@ public class teamMemberAdapter extends RecyclerView.Adapter<teamMemberAdapter.Vi
                 load(ptSkills1.getParticipant().getPhoto()).
                 placeholder(R.drawable.download).
                 into(holder. Profilephoto);
-        // holder.Profilephoto.setImageResource(model.getProfilephoto());
         holder.LeaveOption.setText(id.equals(UserID) ? "Leave" : "");
         if (holder.LeaveOption.getText().equals("Leave")) {
             holder.LeaveOption.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +91,11 @@ public class teamMemberAdapter extends RecyclerView.Adapter<teamMemberAdapter.Vi
                         public void onResponse(Call<JoinTeamPOJO> call, Response<JoinTeamPOJO> response) {
                             Log.i("teamMemberAdapter", "code: " + response.code());
                             Log.i("teamMemberAdapter", "body: " + response.body());
-                            Toast.makeText(context, "Leave successful !!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(context,MainActivity.class);
+                            intent.putExtra("Frag",2);
+                            context.startActivity(intent);
+                            ((MainActivity) context).finish();
+                            Toast.makeText(context, "You left the team", Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -125,25 +126,13 @@ public class teamMemberAdapter extends RecyclerView.Adapter<teamMemberAdapter.Vi
                         .commit();
             }
         });
-        //holder.LeaveOption.setText(id.equals(adminId)? "":"leave");
-        //teamMember_Model.TeamMemberModel model = (teamMember_Model.TeamMemberModel) teamMemberArrayList.get(position);
-       /* holder.SerialNo.setText(model.getSerialNo());
-        holder.MemName.setText(model.getMemName());
-        holder.MemEmail.setText(model.getMemEmail());
-        holder.MemPosition.setText(model.getMemPosition());
-        holder.Profilephoto.setImageResource(model.getProfilephoto());
-        holder.LeaveOption.setVisibility(model.isMember() ? View.GONE:View.VISIBLE);*/
     }
 
     @Override
     public int getItemCount() {
-        // this method is used for showing number of card items in recycler view.
         return teamMemberArrayList.size();
     }
 
-
-    // View holder class for initializing of
-    // your views such as TextView and Imageview.
     public class Viewholder extends RecyclerView.ViewHolder {
 
         private TextView SerialNo, MemName, MemEmail, MemPosition, LeaveOption;
@@ -158,24 +147,6 @@ public class teamMemberAdapter extends RecyclerView.Adapter<teamMemberAdapter.Vi
             Profilephoto = itemView.findViewById(R.id.profilePhoto);
             LeaveOption = itemView.findViewById(R.id.leaveOption);
             teamMembercard=itemView.findViewById(R.id.TeamMember);
-            /*////////////Uncomment once mauth is is universal or is delecraled in mainactivity///////////////
-            MemName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ProfileViewFragment frag1 = new ProfileViewFragment();
-                    Log.i("participant id", String.valueOf(id));
-                    Bundle bundle = new Bundle();
-                    bundle.putString("ID", String.valueOf(id));
-                    frag1.setArguments(bundle);
-
-                    MainActivity activity = (MainActivity) itemView.getContext();
-                    activity.getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.nav_host_fragment, frag1)
-                            .addToBackStack(null)
-                            .commit();
-                }
-            });*/
         }
     }
 }

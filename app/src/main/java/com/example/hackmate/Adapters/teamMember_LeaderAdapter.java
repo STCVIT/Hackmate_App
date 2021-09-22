@@ -1,6 +1,7 @@
 package com.example.hackmate.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -55,17 +57,16 @@ public class teamMember_LeaderAdapter extends RecyclerView.Adapter<teamMember_Le
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // to inflate the layout for each item of recycler view.
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.particularteam_team_member_rv_layout, parent, false);
         return new teamMember_LeaderAdapter.Viewholder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        // to set data to textview and imageview of each card layout
-        // Get the data model based on position
+
         PtSkill ptSkills = teamMemberLeaderArrayList.get(position);
-        //teamMember_Model.TeamMemberModel model = (teamMember_Model.TeamMemberModel) teamMemberLeaderArrayList.get(position);
+
 
 
         Log.i("ConditionCheck", ptSkills.getParticipant().get_id());
@@ -94,7 +95,7 @@ public class teamMember_LeaderAdapter extends RecyclerView.Adapter<teamMember_Le
                         teamMemberLeaderArrayList.remove(newPosition);
                         notifyItemRemoved(newPosition);
                         notifyItemRangeChanged(newPosition, teamMemberLeaderArrayList.size());
-
+                        Toast.makeText(context, "Participant removed!!", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -105,14 +106,18 @@ public class teamMember_LeaderAdapter extends RecyclerView.Adapter<teamMember_Le
             });
         } else {
             holder.LeaveOption.setOnClickListener(v -> {
-                //JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
+
                 Call<JoinTeamPOJO> call = jsonPlaceHolderAPI.leaveTeam(MainActivity.getIdToken(), teamID);
                 call.enqueue(new Callback<JoinTeamPOJO>() {
                     @Override
                     public void onResponse(Call<JoinTeamPOJO> call, Response<JoinTeamPOJO> response) {
                         Log.i("teamLeaderAdapter3", "code: " + response.code());
                         Log.i("teamLeaderAdapter4", "body: " + response.body());
-
+                        Toast.makeText(context, "You left the team", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context,MainActivity.class);
+                        intent.putExtra("Frag",2);
+                        context.startActivity(intent);
+                        ((MainActivity) context).finish();
                     }
 
                     @Override
@@ -146,14 +151,12 @@ public class teamMember_LeaderAdapter extends RecyclerView.Adapter<teamMember_Le
 
     @Override
     public int getItemCount() {
-        // this method is used for showing number
-        // of card items in recycler view.
+
         return teamMemberLeaderArrayList.size();
     }
 
 
-    // View holder class for initializing of
-    // your views such as TextView and Imageview.
+
     public class Viewholder extends RecyclerView.ViewHolder {
 
         private TextView SerialNo, MemName, MemEmail, MemPosition, LeaveOption;
@@ -169,24 +172,7 @@ public class teamMember_LeaderAdapter extends RecyclerView.Adapter<teamMember_Le
             LeaveOption = itemView.findViewById(R.id.leaveOption);
             teamMembercard=itemView.findViewById(R.id.TeamMember);
 
-/*////////////Uncomment once mauth is is universal or is delecraled in mainactivity///////////////
-            MemName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ProfileViewFragment frag1 = new ProfileViewFragment();
-                    Log.i("participant id", String.valueOf(id));
-                    Bundle bundle = new Bundle();
-                    bundle.putString("ID", String.valueOf(id));
-                    frag1.setArguments(bundle);
 
-                    MainActivity activity = (MainActivity) itemView.getContext();
-                    activity.getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.nav_host_fragment, frag1)
-                            .addToBackStack(null)
-                            .commit();
-                }
-            });*/
         }
 
     }

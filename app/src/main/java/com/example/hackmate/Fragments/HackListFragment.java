@@ -120,14 +120,14 @@ public class HackListFragment extends Fragment {
 
         idToken = MainActivity.getIdToken();
         Log.i("xx", String.valueOf(idToken));
-        // jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
+
 
         if(viewModel.getStatus() == null || viewModel.getStatus() == "all") {
 
             status = "all";
             caching();
 
-            // getHacks(status,page=1);
+
         }
 
         HackRV.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -233,17 +233,14 @@ public class HackListFragment extends Fragment {
 
     public void getHacks(String status,int page) {
         homeAdapter.showProgress();
-        Log.i("allhacks", "this chip was clicked");
-        //hackListAPI hackListAPI1 = retrofit1.create(hackListAPI.class);
 
-        Log.i("callback problem", "error");
+
         Call<hackListPOJO> call5 = jsonPlaceHolderAPI.getHacks(idToken,status, page);
-        //Call<hackListPOJO> call5 = hackListAPI1.getHacks(idToken, Integer.parseInt("2"));
-        Log.i("callback problem2", "error2");
+
         call5.enqueue(new Callback<hackListPOJO>() {
             @Override
             public void onResponse(Call<hackListPOJO> call5, Response<hackListPOJO> response5) {
-                Log.i("callback problem3", "error3");
+
                 homeAdapter.removeProgress();
                 if (!response5.isSuccessful()) {
                     Log.i("not sucess5", "code: " + response5.code());
@@ -253,15 +250,15 @@ public class HackListFragment extends Fragment {
                 }
 
                 hackListPOJO hackListPOJOS = (hackListPOJO) response5.body();
-                Log.i("Response body", hackListPOJOS.getLength().toString());
+
                 List<Final> final_objs = hackListPOJOS.getFinal();
 
                 if(final_objs.size()<6)
                     isLastPage = true;
-                Log.i("Response body1", final_objs.get(0).getName());
+
                 homeAdapter.setHackList(final_objs);
                 isLoading = false;
-                Log.i("Response body3", "list sending to adapter sucessfull");
+
 
             }
 

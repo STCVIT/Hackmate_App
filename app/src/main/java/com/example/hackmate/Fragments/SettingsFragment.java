@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class SettingsFragment extends Fragment {
     LinearLayout signOut;
     private FirebaseAuth mAuth;
     private String email, msg;
+    private ProgressBar progressBar;
 
     public SettingsFragment(String email) {
         this.email = email;
@@ -51,6 +53,7 @@ public class SettingsFragment extends Fragment {
         signOut = view.findViewById(R.id.signOutButton);
         delete = view.findViewById(R.id.deleteAccountButton);
         reset = view.findViewById(R.id.resetPasswordButton);
+        progressBar = view.findViewById(R.id.progressBar);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -121,7 +124,7 @@ public class SettingsFragment extends Fragment {
                 sign_out.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        progressBar.setVisibility(View.VISIBLE);
                         mAuth.sendPasswordResetEmail(email)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
@@ -131,6 +134,7 @@ public class SettingsFragment extends Fragment {
                                         else
                                             msg = "Unable to send reset link...Please try again later!!";
 
+                                        progressBar.setVisibility(View.GONE);
                                         Snackbar.make(v, msg, Snackbar.LENGTH_SHORT)
                                                 .setAction("Action", null)
                                                 .setBackgroundTint(Color.parseColor("#DAED10"))

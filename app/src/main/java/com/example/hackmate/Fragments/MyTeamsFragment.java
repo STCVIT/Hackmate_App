@@ -59,10 +59,10 @@ public class MyTeamsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View v = inflater.inflate(R.layout.fragment_my_teams, container, false);
 
-//inflate appbar for this particular fragment
+
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.myTeamsAppBar);
         ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
         return v;
@@ -87,7 +87,7 @@ public class MyTeamsFragment extends Fragment {
         bell.setOnClickListener(v -> {
             bottomNavigationView.setVisibility(View.GONE);
 
-            //getChildFragmentManager()
+
             getFragmentManager()
                     .beginTransaction()
                     .replace(R.id.nav_host_fragment, new InviteOrRequestFragment())
@@ -176,8 +176,7 @@ public class MyTeamsFragment extends Fragment {
         }));
 
 
-        /*JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
-        loginAPI loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);*/
+
         loginAPI loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
         Call<loginPOJO> call2 = loginAPI.getParticipant(MainActivity.getIdToken());
         call2.enqueue(new Callback<loginPOJO>() {
@@ -247,35 +246,7 @@ public class MyTeamsFragment extends Fragment {
         });
     }
 
-   /* public void OnTeamsClick(int position, String a, String teamId) {
-        get(position);
 
-        if (a == "Leader") {
-            bottomNavigationView.setVisibility(View.GONE);
-            TeamProfileLeaderViewFragment frag = new TeamProfileLeaderViewFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("teamID", String.valueOf(teamId));
-            frag.setArguments(bundle);
-            getChildFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.nav_host_fragment, frag)
-                    .addToBackStack(null)
-                    .commit();
-        } else if (a == "Member") {
-            //Log.i("MyTeams", "Member");
-            bottomNavigationView.setVisibility(View.GONE);
-            TeamProfileMemberViewFragment frag1 = new TeamProfileMemberViewFragment();
-            Bundle bundle1 = new Bundle();
-            bundle1.putString("teamID", String.valueOf(teamId));
-            frag1.setArguments(bundle1);
-            getChildFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.nav_host_fragment, frag1)
-                    .addToBackStack(null)
-                    .commit();
-        }
-
-    }*/
 
 
 }

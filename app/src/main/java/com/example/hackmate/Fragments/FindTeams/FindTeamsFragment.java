@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -64,6 +67,7 @@ public class FindTeamsFragment extends Fragment {
     private RecyclerView recyclerView;
     public String hackId, hackName, team_name="", domain="";
     private EditText searchTeam;
+    private ImageButton close_btn;
     private boolean isLoading = false, isSearch = false;
     private FindTeamsViewModel viewModel;
 
@@ -104,6 +108,7 @@ public class FindTeamsFragment extends Fragment {
         noTeamsToShow = view.findViewById(R.id.searchImage);
 
         searchTeam = view.findViewById(R.id.searchTeamJoin);
+        close_btn = view.findViewById(R.id.close_btn);
         chips = view.findViewById(R.id.chips);
         joinUsingCode = view.findViewById(R.id.joinTeamCode);
         recyclerView = view.findViewById(R.id.joinList);
@@ -147,6 +152,45 @@ public class FindTeamsFragment extends Fragment {
                 }
             }
         }
+
+        //set on text change listener for edittext
+        searchTeam.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!searchTeam.getText().toString().equals("")) {
+                    close_btn.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    close_btn.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        //set event for clear button
+        close_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchTeam.setText("");
+                joinAdapter.clearList();
+                recyclerView.scrollToPosition(0);
+                earlier_pos = 0;
+                team_name = "";
+                isSearch = false;
+                if(chips.getCheckedChipId() != -1)
+                    getDomainHackTeams(skillSelected(chips.getCheckedChipId()), page3=1);
+                else
+                    getHackTeamsToJoin(page=1);
+            }
+        });
 
         chipOnClick();
 

@@ -43,7 +43,7 @@ public class TeamProfileParticipantViewFragment extends Fragment {
     int GET_NAV_CODE = 0, invited;
     RecyclerView participants_recyclerView, projects_recyclerView;
     TextView team_name, hack_names, project_name, project_description, project_team_name, project_link1, project_link2,
-            project_link3;
+            project_link3, projects_availability_TP;
     String id, name = "", admin_id;
     PatchTeamDetails patchTeamDetails;
     JoinTeamPOJO joinTeamPOJO;
@@ -91,6 +91,7 @@ public class TeamProfileParticipantViewFragment extends Fragment {
                     hack_names.setText(name);
                     if (joinTeamPOJO.getTeam().getProject_name() != null) {
                         cardView.setVisibility(View.VISIBLE);
+                        projects_availability_TP.setVisibility(View.GONE);
                         project_name.setText(joinTeamPOJO.getTeam().getProject_name());
                         project_team_name.setText(joinTeamPOJO.getTeam().getName());
                     } else
@@ -125,7 +126,7 @@ public class TeamProfileParticipantViewFragment extends Fragment {
                     }
 
                     List<PtSkill> pt_skills = joinTeamPOJO.getPt_skills();
-                    Log.i(TAG, "pt_skill" + pt_skills.get(0).getParticipant().getName());
+//                    Log.i(TAG, "pt_skill" + pt_skills.get(0).getParticipant().getName());
                     MemberAdapter memberAdapter = new MemberAdapter(getContext(), pt_skills);
                     participants_recyclerView.setAdapter(memberAdapter);
                     memberAdapter.setJoinTeam(pt_skills, admin_id);
@@ -162,12 +163,12 @@ public class TeamProfileParticipantViewFragment extends Fragment {
 
                 patchTeamDetails = new PatchTeamDetails();
 
-                Call<String> call1 = loginAPI.postTeamCode("Bearer " + MainActivity.getIdToken(),
+                Call<Void> call1 = loginAPI.postTeamCode("Bearer " + MainActivity.getIdToken(),
                         joinTeamPOJO.getTeam().get_id());
                 Log.i("team id", joinTeamPOJO.getTeam().get_id());
-                call1.enqueue(new Callback<String>() {
+                call1.enqueue(new Callback<Void>() {
                     @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
+                    public void onResponse(Call<Void> call, Response<Void> response) {
                         Log.i(TAG, "onClick: " + response.code());
                         Log.i(TAG, "onClick: " + response.body());
                         if (response.code() == 409) {
@@ -180,7 +181,7 @@ public class TeamProfileParticipantViewFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<String> call, Throwable t) {
+                    public void onFailure(Call<Void> call, Throwable t) {
                         Log.e(TAG, "onFailure: ", t);
                     }
                 });
@@ -212,5 +213,6 @@ public class TeamProfileParticipantViewFragment extends Fragment {
         project_link3 = getView().findViewById(R.id.link3_textView_abc);
         cardView = getView().findViewById(R.id.cardView8);
         progressBar = getView().findViewById(R.id.progressBarTPPV);
+        projects_availability_TP = getView().findViewById(R.id.projects_availability_TP);
     }
 }

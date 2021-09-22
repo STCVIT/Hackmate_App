@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.hackmate.JSONPlaceholders.loginAPI;
@@ -48,7 +49,8 @@ public class SignUpAccountFragment extends Fragment {
     private loginAPI loginAPI;
     String idToken;
     LoginEmail loginEmail;
-
+    private static final String TAG = "Sign Up account Fragment";
+    ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,7 +65,7 @@ public class SignUpAccountFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initialise();
-
+        progressBar.setVisibility(View.GONE);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +74,8 @@ public class SignUpAccountFragment extends Fragment {
                 String password = password_create_your_account.getText().toString();
                 String password1 = password1_create_your_account.getText().toString();
 
+                progressBar.setVisibility(View.VISIBLE);
+                login.setEnabled(false);
 
                 if (email_create_your_account.getText().toString().isEmpty()) {
                     email_create_your_account.setError("Email Required");
@@ -118,6 +122,7 @@ public class SignUpAccountFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         loginActivity = (LoginActivity) getActivity();
         login = view.findViewById(R.id.login);
+        progressBar = view.findViewById(R.id.progressBar6);
     }
 
     public void registerUser(String email, String password) {
@@ -131,7 +136,6 @@ public class SignUpAccountFragment extends Fragment {
                         user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-//                                Toast.makeText(getContext(), "Please verify email to continue", Toast.LENGTH_SHORT).show();
 
                                 mAuth.getCurrentUser().getIdToken(true)
                                         .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
@@ -141,30 +145,33 @@ public class SignUpAccountFragment extends Fragment {
                                                     Log.i("xx", idToken);
 
                                                     loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
-                                                    Call<Response<Map<String, String>>> call = loginAPI.setClaim("Bearer " + idToken, loginEmail);
+                                                    Call<Response<Map<String, String>>> call = loginAPI.setClaim("Bearer " + idToken);
 
                                                     call.enqueue(new Callback<Response<Map<String, String>>>() {
                                                         @Override
                                                         public void onResponse(Call<Response<Map<String, String>>> call, Response<Response<Map<String, String>>> response) {
+                                                            Log.e(TAG, "onResponse: "+response.code());
+                                                            progressBar.setVisibility(View.GONE);
+                                                            login.setEnabled(true);
+                                                            FragmentManager fragmentManager = loginActivity.getSupportFragmentManager();
+                                                            Bundle args = new Bundle();
+                                                            args.putString("email", email_create_your_account.getText().toString());
+                                                            loginActivity.fragmentLogin.setArguments(args);
+                                                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                                            fragmentTransaction.replace(R.id.bodyFragment, loginActivity.fragmentLogin).commit();
 
+                                                            email_create_your_account.setText("");
+                                                            password_create_your_account.setText("");
+                                                            password1_create_your_account.setText("");
                                                         }
 
                                                         @Override
                                                         public void onFailure(Call<Response<Map<String, String>>> call, Throwable t) {
-
+                                                            Log.e(TAG, "onFailure: " + t.getMessage());
                                                         }
                                                     });
 
-                                                    FragmentManager fragmentManager = loginActivity.getSupportFragmentManager();
-                                                    Bundle args = new Bundle();
-                                                    args.putString("email", email_create_your_account.getText().toString());
-                                                    loginActivity.fragmentLogin.setArguments(args);
-                                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                                    fragmentTransaction.replace(R.id.bodyFragment, loginActivity.fragmentLogin).commit();
 
-                                                    email_create_your_account.setText("");
-                                                    password_create_your_account.setText("");
-                                                    password1_create_your_account.setText("");
                                                 }
                                             }
                                         });

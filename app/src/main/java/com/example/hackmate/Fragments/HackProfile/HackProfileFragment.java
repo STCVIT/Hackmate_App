@@ -1,7 +1,9 @@
 package com.example.hackmate.Fragments.HackProfile;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -89,10 +91,10 @@ public class HackProfileFragment extends Fragment {
         view.findViewById(R.id.viewWebsite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "You will be directed to the hack website", Toast.LENGTH_SHORT).show();
-                //Uri uri = Uri.parse(website); // missing 'http://' will cause crashed
-                //Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                //startActivity(intent);
+                //Toast.makeText(getActivity(), "You will be directed to the hack website", Toast.LENGTH_SHORT).show();
+                Uri uri = Uri.parse("http://google.com/"); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
             }
         });
 

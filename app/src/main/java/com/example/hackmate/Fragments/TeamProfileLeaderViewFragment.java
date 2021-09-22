@@ -1,8 +1,10 @@
 package com.example.hackmate.Fragments;
 
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -10,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -19,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -33,14 +37,17 @@ import com.example.hackmate.MainActivity;
 
 import com.example.hackmate.POJOClasses.JoinTeamPOJO;
 import com.example.hackmate.POJOClasses.Kavita.Projects.TeamProject;
+import com.example.hackmate.POJOClasses.Kavita.Projects.addOReditProject.editProjectPOJO;
 import com.example.hackmate.POJOClasses.PtSkill;
 import com.example.hackmate.POJOClasses.Kavita.Hacks.hackByIdPOJO;
 
 
+import com.example.hackmate.POJOClasses.Team;
 import com.example.hackmate.R;
 import com.example.hackmate.Adapters.teamMember_LeaderAdapter;
 import com.example.hackmate.util.RetrofitInstance;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -55,30 +62,29 @@ import static android.view.View.VISIBLE;
 
 public class TeamProfileLeaderViewFragment extends Fragment {
     private RecyclerView team_LeaderRV, projectRV;
-    // Arraylist for storing data
-    //private ArrayList<teamMember_Model> teamModelArrayList;
+
     private List<PtSkill> teamModelArrayList;
-    //private ArrayList<ProjectModel> projectModelArrayList;
-    private List<TeamProject> projectModelArrayList;
+
+
     ImageView editProject, addProjectIcon;
     TextView addProjectTV, InviteParticpant, TeamName_Leader, Hackname_Leader, teamCode_Leader, deleteTeam, Remove;
-    TextView project_nameTextView_Leader, bio_textView_Leader, link1_textView_Leader, link2_textView_Leader, link3_textView_Leader,projectsTitle_Leader,teamMembersTitle_Leader;
-    int GET_NAV_CODE = 0,team;
+    TextView project_nameTextView_Leader, bio_textView_Leader, link1_textView_Leader, link2_textView_Leader, link3_textView_Leader, projectsTitle_Leader, teamMembersTitle_Leader;
+    int GET_NAV_CODE = 0, team;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private String idToken = "Bearer ";
-    public String admin, hackID, id3, teamID, TeamName, name , ProjectIDLeader, displayStatus;
+    public String admin, hackID, id3, teamID, TeamName, name, ProjectIDLeader, displayStatus;
     private List<String> members;
-    private CardView cardview3,cardView_Leader,cardView2_Leader,inviteParticipantCard,cardView4_Leader;
+    private CardView cardview3, cardView_Leader, cardView2_Leader, inviteParticipantCard, cardView4_Leader;
     ProgressBar progressBar;
-    public boolean isLoading=false;
+    public boolean isLoading = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View v = inflater.inflate(R.layout.fragment_team_profile_leader_view, container, false);
 
-//inflate appbar for this particular fragment
+
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.particularTeamAppBar_Leader);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         return v;
@@ -93,27 +99,23 @@ public class TeamProfileLeaderViewFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             GET_NAV_CODE = bundle.getInt("Key", 0);
-            // ProjectIDLeader = bundle.getString("ProjectId", "");
-            //displayStatus = bundle.getString("display", "no");
-            team=bundle.getInt("Team",0);
+
+            team = bundle.getInt("Team", 0);
             teamID = bundle.getString("teamID", null);
-//            Log.i("teamID",teamID);
-            // Log.i("ProjectIDLeader", ProjectIDLeader);
-            // Log.i("displayStatus", displayStatus);
 
         }
-        if(team==1){
+        if (team == 1) {
             Toast.makeText(getContext(), "Team Created !!!", Toast.LENGTH_LONG).show();
         }
-        projectsTitle_Leader=view.findViewById(R.id.projectsTitle_Leader);
-        teamMembersTitle_Leader=view.findViewById(R.id.teamMembersTitle_Leader);
-        cardView_Leader=view.findViewById(R.id.cardView_Leader);
-        cardView2_Leader=view.findViewById(R.id.cardView2_Leader);
-        inviteParticipantCard=view.findViewById(R.id.inviteParticipantCard);
-        cardView4_Leader=view.findViewById(R.id.cardView4_Leader);
-        progressBar=view.findViewById(R.id.progressBar2);
+        projectsTitle_Leader = view.findViewById(R.id.projectsTitle_Leader);
+        teamMembersTitle_Leader = view.findViewById(R.id.teamMembersTitle_Leader);
+        cardView_Leader = view.findViewById(R.id.cardView_Leader);
+        cardView2_Leader = view.findViewById(R.id.cardView2_Leader);
+        inviteParticipantCard = view.findViewById(R.id.inviteParticipantCard);
+        cardView4_Leader = view.findViewById(R.id.cardView4_Leader);
+        progressBar = view.findViewById(R.id.progressBar2);
         team_LeaderRV = view.findViewById(R.id.rvTeam_Leader);
-        editProject=view.findViewById(R.id.editProject_Leader);
+        editProject = view.findViewById(R.id.editProject_Leader);
         addProjectIcon = view.findViewById(R.id.addProject_Icon);
         addProjectTV = view.findViewById(R.id.addProject_TextView);
         InviteParticpant = view.findViewById(R.id.inviteparticipant_textView);
@@ -133,39 +135,33 @@ public class TeamProfileLeaderViewFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         team_LeaderRV.setLayoutManager(linearLayoutManager);
         team_LeaderRV.setAdapter(teamMember_LeaderAdapter);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            teamModelArrayList.sort((o1, o2) -> (o1.getParticipant().get_id().equals(admin) ? "Leader" : "").compareTo((o2.getParticipant().get_id().equals(admin) ? "Leader" : "")));
-        }
 
-        addProjectIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle1 = new Bundle();
-                bundle1.putString("teamID", teamID);
-                bundle1.putInt("ProjectType", 0);
-                AddProjectFragment addProjectFragment = new AddProjectFragment();
-                addProjectFragment.setArguments(bundle1);
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, addProjectFragment)
-                        .addToBackStack(null)
-                        .commit();
-            }
+        teamModelArrayList.sort((o1, o2) -> (((o1.getParticipant().get_id()).equals(admin) ? "Leader" : "").compareTo((o2.getParticipant().get_id()).equals(admin) ? "Leader" : "")));
+
+
+        addProjectIcon.setOnClickListener(v -> {
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("teamID", teamID);
+            bundle1.putInt("ProjectType", 0);
+            AddProjectFragment addProjectFragment = new AddProjectFragment();
+            addProjectFragment.setArguments(bundle1);
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.nav_host_fragment, addProjectFragment)
+                    .addToBackStack(null)
+                    .commit();
         });
-        addProjectTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle1 = new Bundle();
-                bundle1.putString("teamID", teamID);
-                bundle1.putInt("ProjectType", 0);
-                AddProjectFragment addProjectFragment = new AddProjectFragment();
-                addProjectFragment.setArguments(bundle1);
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, addProjectFragment)
-                        .addToBackStack(null)
-                        .commit();
-            }
+        addProjectTV.setOnClickListener(v -> {
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("teamID", teamID);
+            bundle1.putInt("ProjectType", 0);
+            AddProjectFragment addProjectFragment = new AddProjectFragment();
+            addProjectFragment.setArguments(bundle1);
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.nav_host_fragment, addProjectFragment)
+                    .addToBackStack(null)
+                    .commit();
         });
 
         InviteParticpant.setOnClickListener(v -> getFragmentManager()
@@ -181,21 +177,21 @@ public class TeamProfileLeaderViewFragment extends Fragment {
             Toast.makeText(getActivity(), "Team Code copied to clipboard", Toast.LENGTH_LONG).show();
         });
 
-        editProject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle2 = new Bundle();
-                // bundle2.putString("ProjectID", ProjectIDLeader);
-                bundle2.putString("teamID", teamID);
-                EditProjectFragment editProjectFragment = new EditProjectFragment();
-                editProjectFragment.setArguments(bundle2);
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, editProjectFragment)
-                        .addToBackStack(null)
-                        .commit();
-            }
+        editProject.setOnClickListener(v -> {
+            Bundle bundle2 = new Bundle();
+
+            bundle2.putString("teamID", teamID);
+            EditProjectFragment editProjectFragment = new EditProjectFragment();
+            editProjectFragment.setArguments(bundle2);
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.nav_host_fragment, editProjectFragment)
+                    .addToBackStack(null)
+                    .commit();
         });
+       /* TeamName_Leader.setOnClickListener(v -> {
+            showDialogBox();
+        });*/
         idToken = MainActivity.getIdToken();
         Visibility(1);
         JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
@@ -214,12 +210,12 @@ public class TeamProfileLeaderViewFragment extends Fragment {
                     TeamName_Leader.setText(joinTeamPOJO.getTeam().getName());
                     teamCode_Leader.setText(joinTeamPOJO.getTeam().getTeam_code());
 
-                    hackID=joinTeamPOJO.getTeam().getHack_id();
+                    hackID = joinTeamPOJO.getTeam().getHack_id();
                     if (hackID == null)
                         hackID = "null";
 
                     else {
-                        Call<hackByIdPOJO> call7 = jsonPlaceHolderAPI.getHackById( MainActivity.getIdToken(), hackID);
+                        Call<hackByIdPOJO> call7 = jsonPlaceHolderAPI.getHackById(MainActivity.getIdToken(), hackID);
                         call7.enqueue(new Callback<hackByIdPOJO>() {
                             @Override
                             public void onResponse(Call<hackByIdPOJO> call7, Response<hackByIdPOJO> response7) {
@@ -290,9 +286,7 @@ public class TeamProfileLeaderViewFragment extends Fragment {
         });
 
 
-
-
-        deleteTeam.setOnClickListener(new View.OnClickListener() {
+        deleteTeam.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -316,7 +310,10 @@ public class TeamProfileLeaderViewFragment extends Fragment {
                             return;
 
                         }
-
+                        Intent intent = new Intent(getContext(),MainActivity.class);
+                        intent.putExtra("Frag",2);
+                        startActivity(intent);
+                        getActivity().finish();
                         Log.i("deleteTeam", "delete Team works");
                         Log.i("Response body3", String.valueOf(response8.body()));
                         Toast.makeText(getContext(), "Team deleted successfully !!!", Toast.LENGTH_SHORT).show();
@@ -333,25 +330,9 @@ public class TeamProfileLeaderViewFragment extends Fragment {
 
             }
         });
-        //}
 
-            /*@Override
-            public void onFailure(Call<teamIdPOJO> call1, Throwable t) {
-                Log.i("failed1", t.getMessage());
-            }
-        });*/
 
-        /*Remove.setOnClickListener(v -> {
-            if(Remove.getText()=="Remove")
-            {
-
-//                removeParticipant(teamID,participantID);}
-        });*/
-        //}
-        //}
-        //});
-        ////////////Uncomment once mauth is is universal or is delecraled in mainactivity///////////////
-        Hackname_Leader.setOnClickListener(new View.OnClickListener() {
+        Hackname_Leader.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 HackProfileFragment frag3 = new HackProfileFragment();
@@ -370,34 +351,41 @@ public class TeamProfileLeaderViewFragment extends Fragment {
         });
 
 
-
     }
 
-    /*private void removeParticipant(String TeamID, String participantID) {
-        com.example.hackmate.POJOClasses.Kavita.Remove remove1 = new Remove(teamID,);
-        //addProjectPOJO addProjectPOJO = new addProjectPOJO(projectName.getText().toString(),projectDescription.getText().toString(),gitHubLink.getText().toString(),designLink.getText().toString(),demoLink.getText().toString());
+   /* private void showDialogBox() {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        View mView = getLayoutInflater().inflate(R.layout.custom_teamname_dialog_box, null);
+        TextView text = mView.findViewById(R.id.editTeamNameText);
+        AppCompatButton submit =  mView.findViewById(R.id.editTeamName);
 
-        JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
-        Call<Remove> call= jsonPlaceHolderAPI.removeMember(idToken,remove1);
+        alert.setView(mView);
 
-        call.enqueue(new Callback<Remove>() {
-            @Override
-            public void onResponse(Call<Remove> call, Response<Remove> response) {
-
-                if (!response.isSuccessful()){
-                    Log.i("sucess", "sucess");
+        final AlertDialog alertDialog = alert.create();
+        alertDialog.show();
+        submit.setOnClickListener(v -> {
+            com.example.hackmate.POJOClasses.Team team= new com.example.hackmate.POJOClasses.Team(text.getText().toString());
+            JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
+            Call< com.example.hackmate.POJOClasses.Team> call= jsonPlaceHolderAPI.updateTeamName(idToken, teamID, team);
+            call.enqueue(new Callback<Team>() {
+                @Override
+                public void onResponse(Call<Team> call, Response<Team> response) {
+                    if (!response.isSuccessful()) {
+                        Log.i("sucess", "sucess");
+                    }
+                    com.example.hackmate.POJOClasses.Team teamNameResponse=response.body();
+                    Log.i("TeamName", String.valueOf(response.code()));
+                    Toast.makeText(getContext(), "Team Name changed!!!", Toast.LENGTH_SHORT).show();
                 }
-                Remove remove = response.body();
-                Log.i("remove", String.valueOf(response.code()));
 
-            }
-
-            @Override
-            public void onFailure(Call<Remove> call, Throwable t) {
-                Log.i("error", t.getMessage());
-            }
-        });*/
-
+                @Override
+                public void onFailure(Call<Team> call, Throwable t) {
+                    Log.i("error", t.getMessage());
+                }
+            });
+        });
+    }
+*/
 
     @Override
     public void onDestroy() {
@@ -408,9 +396,10 @@ public class TeamProfileLeaderViewFragment extends Fragment {
             bottomNavigation.setVisibility(View.VISIBLE);
         }
     }
-    public void Visibility(int a){
-        switch (a){
-            case 1 :
+
+    public void Visibility(int a) {
+        switch (a) {
+            case 1:
                 progressBar.setVisibility(VISIBLE);
                 cardView_Leader.setVisibility(GONE);
                 cardView2_Leader.setVisibility(GONE);

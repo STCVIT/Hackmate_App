@@ -46,7 +46,7 @@ import static android.view.View.VISIBLE;
 
 public class InviteOrRequestFragment extends Fragment {
 
-    Button request, accept, reject;
+
     private RecyclerView RVinvite, RVrequest;
     public List<Received> InvitesArrayList;
     private List<ReceivedRequest> RequestsArrayList;
@@ -126,14 +126,6 @@ public class InviteOrRequestFragment extends Fragment {
         }));
 
 
-        /*if (InvitesArrayList.size() == 0) {
-            imageView.setVisibility(VISIBLE);
-            textView.setVisibility(VISIBLE);
-        }
-        if (RequestsArrayList.size() == 0) {
-            imageView1.setVisibility(VISIBLE);
-            textView1.setVisibility(VISIBLE);
-        }*/
 
         Log.i("callback problemInvite1", "errorIni1");
         Call<invitePOJO> call5 = jsonPlaceHolderAPI.getMyInvites(idToken);
@@ -151,7 +143,7 @@ public class InviteOrRequestFragment extends Fragment {
                 invitePOJO invitePOJOS = (invitePOJO) response5.body();
                 Log.i("Response body", invitePOJOS.toString());
                 List<Received> recieved_objs = invitePOJOS.getReceived();
-                //    Log.i("Response body1", String.valueOf(recieved_objs.get(0).getTeam()));
+
                 invitesAdapter.setMyInvites(recieved_objs, idToken);
                 Log.i("Response body3", "list sending to adapter sucessfull");
                 myinvites = recieved_objs.size();
@@ -190,7 +182,7 @@ public class InviteOrRequestFragment extends Fragment {
 
                 Log.i("Response body", requestPOJO.toString());
                 List<ReceivedRequest> req_objs = requestPOJO.getReceived();
-                // Log.i("Response body1", String.valueOf(req_objs.get(0).getParticipant().getName()));
+
                 requestsAdapter.setMyRequests(req_objs, idToken);
                 progressBar.setVisibility(GONE);
                 myrequests = req_objs.size();
@@ -301,12 +293,7 @@ public class InviteOrRequestFragment extends Fragment {
         });
 
 
-        //InvitesArrayList = (ArrayList<invitePOJO>) response5.body();
 
-
-        // Log.d("problem5",InvitesArrayList.toString());
-
-        //invitesAdapter.setMyInvites(InvitesArrayList);
 
 
     }

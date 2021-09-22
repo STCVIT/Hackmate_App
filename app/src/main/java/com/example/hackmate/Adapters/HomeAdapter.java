@@ -50,7 +50,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void setHackList(List<Final> final_objs) {
-        //ArrayList HomeArrayList1 = (ArrayList) HomeAL.finals;
+
         int position = this.HomeArrayList.size();
         this.HomeArrayList.addAll(final_objs);
         notifyItemRangeInserted(position, final_objs.size());
@@ -58,7 +58,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // to inflate the layout for each item of recycler view.
+
         if(viewType == VIEW_TYPE_ITEM)
             return new Viewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.home_hack_info_rv_layout, parent, false));
         else
@@ -74,11 +74,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void populateItem(Viewholder holder, int position) {
         Final  finals = HomeArrayList.get(position);
-//FinalPt FinalPt = HomeArrayList.get(position);
-//HomeModel.home_Model model = (HomeModel.home_Model) HomeArrayList.get(position);
 
-        //int photo=Integer.parseInt(HomeArrayList.get(position).getHackPhoto());
-        //holder.Profilephoto_home.setImageResource(photo);
 
         holder.HackName.setText(HomeArrayList.get(position).getName());
         holder.teamSizeMax.setText(String.valueOf(HomeArrayList.get(position).getMaxTeamSize()));
@@ -90,38 +86,34 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 .load(HomeArrayList.get(position).getPoster())
                 .placeholder(Drawable.createFromPath("https://firebasestorage.googleapis.com/v0/b/hackportal-450d0.appspot.com/o/Organisers%2FHacks%2FBrew%202k21?alt=media&token=4314d03f-0c45-49df-a70b-75ed79bc7ae2"))
                 .into(Profilephoto_home);
-        //holder.Profilephoto_home.setImageResource(model.getHackphoto());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                id = HomeArrayList.get(position).getId();
-                HackProfileFragment frag = new HackProfileFragment();
-                Log.i("hackId", id);
-                Bundle bundle = new Bundle();
-                bundle.putString("ID", id);
-                frag.setArguments(bundle);
 
-                MainActivity activity = (MainActivity) v.getContext();
+        holder.itemView.setOnClickListener(v -> {
+            id = HomeArrayList.get(position).getId();
+            HackProfileFragment frag = new HackProfileFragment();
+            Log.i("hackId", id);
+            Bundle bundle = new Bundle();
+            bundle.putString("ID", id);
+            frag.setArguments(bundle);
 
-                BottomNavigationView bottomNavigation = activity.findViewById(R.id.bottom_nav_bar);;
-                bottomNavigation.setVisibility(View.GONE);
+            MainActivity activity = (MainActivity) v.getContext();
 
-                activity.getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, frag)
-                        .addToBackStack(null)
-                        .commit();
+            BottomNavigationView bottomNavigation = activity.findViewById(R.id.bottom_nav_bar);;
+            bottomNavigation.setVisibility(View.GONE);
 
-            }
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.nav_host_fragment, frag)
+                    .addToBackStack(null)
+                    .commit();
+
         });
     }
 
     @NonNull
     @Override
     public int getItemCount() {
-        // this method is used for showing number
-        // of card items in recycler view.
+
         return HomeArrayList.size();
     }
 
@@ -161,7 +153,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             startDate=itemView.findViewById(R.id.startDate_input);
             endDate=itemView.findViewById(R.id.endDate_input);
 
-            //Profilephoto_home.setImageResource(R.drawable.hackimage);
+
         }
     }
 
@@ -174,12 +166,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    /*
-    public interface OnHackListerner{
-        void OnHackClick(int position); //using this interface to interpret the click and then send  to fragment to get position of that clicked item
-    }
 
-     */
 
 
 }

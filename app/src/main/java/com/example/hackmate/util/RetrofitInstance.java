@@ -10,6 +10,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.hackmate.util.Constants.BASE_URL;
 
+import java.util.concurrent.TimeUnit;
+
 public class RetrofitInstance {
     private static Retrofit retrofit;
 
@@ -20,6 +22,8 @@ public class RetrofitInstance {
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 //.addInterceptor(loggingInterceptor)
+                .connectTimeout(100, TimeUnit.SECONDS)
+                .readTimeout(100, TimeUnit.SECONDS)
                 .addNetworkInterceptor(loggingInterceptor)
                 .build();
         Gson gson = new GsonBuilder()

@@ -65,26 +65,42 @@
             android:orientation="vertical"
             android:paddingBottom="16dp">
 
-            <EditText
-                android:id="@+id/searchTeamJoin"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|left"
-                android:background="@color/field_fill"
-                android:fontFamily="@font/roboto"
-                android:inputType="textAutoComplete"
                 android:padding="@dimen/margin_medium"
-                android:drawablePadding="@dimen/margin_small"
-                android:drawableStart="@drawable/ic_baseline_search_24"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginHorizontal="20dp"
-                android:hint="Search for teams"
-                android:textColor="@color/text"
-                android:textColorHint="@color/text"
-                android:textSize="14dp" />
+                android:background="@color/field_fill">
 
+                <EditText
+                    android:id="@+id/searchTeamJoin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|left"
+                    android:fontFamily="@font/roboto"
+                    android:background="@color/field_fill"
+                    android:inputType="textAutoCorrect"
+                    android:singleLine="true"
+                    android:drawablePadding="@dimen/margin_small"
+                    android:drawableStart="@drawable/ic_baseline_search_24"
+                    android:hint="Search for teams"
+                    android:textColor="@color/text"
+                    android:textColorHint="@color/text"
+                    android:textSize="14dp"/>
 
+                <ImageButton
+                    android:id="@+id/close_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_baseline_close_24"
+                    android:background="@android:color/transparent"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:paddingHorizontal="5dp"/>
 
+            </FrameLayout>
 
 
             <androidx.constraintlayout.widget.ConstraintLayout

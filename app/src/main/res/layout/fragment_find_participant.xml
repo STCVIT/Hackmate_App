@@ -1,161 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/searchMate"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
 
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/searchMate"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:background="@color/card_color"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/margin_medium">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/card_color"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/margin_medium">
-
+                android:padding="@dimen/margin_medium"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/field_fill">
 
                 <EditText
                     android:id="@+id/findPtByName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|left"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="@dimen/margin_large"
                     android:background="@color/field_fill"
                     android:drawableStart="@drawable/ic_baseline_search_24"
                     android:drawablePadding="@dimen/margin_small"
                     android:fontFamily="@font/roboto"
                     android:hint="Search for teammates"
-                    android:inputType="textAutoComplete"
-                    android:padding="@dimen/margin_medium"
+                    android:inputType="textAutoCorrect"
                     android:textColor="@color/text"
                     android:textColorHint="@color/text"
                     android:textSize="14dp" />
 
-
-                <LinearLayout
-                    android:id="@+id/domainFilterTeammate"
+                <ImageButton
+                    android:id="@+id/close_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="12dp"
-                    android:backgroundTint="@color/background"
-                    android:padding="@dimen/margin_small">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Filter"
-                        android:textColor="@color/pill_color" />
-
-                    <ImageView
-                        android:id="@+id/downArrow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="8dp"
-                        android:src="@drawable/ic_down_arrow" />
-
-                </LinearLayout>
-
-
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chips"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="16dp"
-                    app:singleSelection="true"
+                    android:layout_gravity="end|center_vertical"
+                    android:src="@drawable/ic_baseline_close_24"
+                    android:background="@android:color/transparent"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:visibility="gone"
-                    >
+                    android:paddingHorizontal="5dp"/>
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipDomain1"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Frontend"
-                        app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipDomain2"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Backend"
-                        app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipDomain3"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ML/DS"
-                        app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipDomain4"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="UI/UX Design"
-                        app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipDomain5"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Management"
-                        app:chipStrokeColor="@color/green"
-                        app:chipStrokeWidth="2dp" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipDomain6"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="App Dev"
-                        app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipDomain7"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cybersecurity"
-                        app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipDomain8"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Blockchain"
-                        app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp" />
+            </FrameLayout>
 
 
-                </com.google.android.material.chip.ChipGroup>
+            <LinearLayout
+                android:id="@+id/domainFilterTeammate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="@color/background"
+                android:padding="@dimen/margin_small">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Filter"
+                    android:textColor="@color/pill_color" />
+
+                <ImageView
+                    android:id="@+id/downArrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:src="@drawable/ic_down_arrow" />
 
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="16dp"
+                app:singleSelection="true"
+                android:visibility="gone"
+                >
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipDomain1"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Frontend"
+                    app:chipStrokeColor="@color/pill_color"
+                    app:chipStrokeWidth="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipDomain2"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Backend"
+                    app:chipStrokeColor="@color/pill_color"
+                    app:chipStrokeWidth="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipDomain3"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ML/DS"
+                    app:chipStrokeColor="@color/pill_color"
+                    app:chipStrokeWidth="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipDomain4"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UI/UX Design"
+                    app:chipStrokeColor="@color/pill_color"
+                    app:chipStrokeWidth="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipDomain5"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Management"
+                    app:chipStrokeColor="@color/green"
+                    app:chipStrokeWidth="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipDomain6"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="App Dev"
+                    app:chipStrokeColor="@color/pill_color"
+                    app:chipStrokeWidth="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipDomain7"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cybersecurity"
+                    app:chipStrokeColor="@color/pill_color"
+                    app:chipStrokeWidth="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipDomain8"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Blockchain"
+                    app:chipStrokeColor="@color/pill_color"
+                    app:chipStrokeWidth="2dp" />
+
+
+            </com.google.android.material.chip.ChipGroup>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/noPt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No participant with such name !!"
+        android:textColor="@color/text"
+        android:textSize="20dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchMate" />
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"

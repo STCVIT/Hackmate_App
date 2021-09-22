@@ -24,6 +24,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.hackmate.JSONPlaceholders.loginAPI;
@@ -69,6 +70,7 @@ public class CreateAccountFragment extends Fragment {
     private StorageReference storageReference;
     private Uri uri;
     private ImageView profile_pic;
+    ProgressBar progressBar;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
@@ -94,6 +96,7 @@ public class CreateAccountFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initialise();
+        progressBar.setVisibility(View.GONE);
 //        String email = getArguments().getString("email");
         storageReference = FirebaseStorage.getInstance().getReference("Participants/Profile");
 
@@ -121,11 +124,13 @@ public class CreateAccountFragment extends Fragment {
         gender_CompleteTextView.setAdapter(gender_arrayAdapter);
 
         create_profile.setOnClickListener(v -> {
-
+//            progressBar.setVisibility(View.VISIBLE);
+//            create_profile.setEnabled(false);
             String year = YOG_CompleteTextView.getText().toString();
             String gen = gender_CompleteTextView.getText().toString();
             Log.i("YOG", year);
             Log.i("gender", gen);
+
 
             if (first_name.getText().toString().isEmpty()) {
                 first_name.setError("First Name is Required");
@@ -187,6 +192,7 @@ public class CreateAccountFragment extends Fragment {
                 return;
             }
 
+
             loginDetails = new LoginDetails(first_name.getText().toString() + " " + last_name.getText().toString(),
                     university.getText().toString(), github_link.getText().toString(), linkedIn_link.getText().toString(),
                     website.getText().toString(), "---", bio.getText().toString(), 2024,
@@ -211,31 +217,42 @@ public class CreateAccountFragment extends Fragment {
                 Chip chip = (Chip)chipGroup.getChildAt(i);
                 String chipText = chip.getText().toString();
                 if(chip.isChecked()){
-                    if(chipText.equals("Machine Learning")){
-                        skill.add("ml");
+                    switch (chipText) {
+                        case "Machine Learning":
+                            skill.add("ml");
+                            break;
+                        case "Frontend":
+                            skill.add("frontend");
+                            break;
+                        case "Backend":
+                            skill.add("backend");
+                            break;
+                        case "UI/UX Design":
+                            skill.add("ui/ux");
+                            break;
+                        case "Management":
+                            skill.add("management");
+                            break;
+                        case "App Development":
+                            skill.add("appdev");
+                            break;
+                        case "Blockchain":
+                            skill.add("blockchain");
+                            break;
+                        case "Cyber Security":
+                            skill.add("cybersecurity");
+                            break;
+                        default:
+                            skill.add("none");
+                            break;
                     }
-                    else if(chipText.equals("Frontend")){
-                        skill.add("frontend");
-                    }
-                    else if(chipText.equals("Backend")){
-                        skill.add("backend");
-                    }
-                    else if(chipText.equals("UI/UX Design")){
-                        skill.add("ui/ux");
-                    }
-                    else if(chipText.equals("Management")){
-                        skill.add("management");
-                    }
-                    else if(chipText.equals("App Development")){
-                        skill.add("appdev");
-                    }
+
                 }
                 // Do something
             }
 
             postSkills = new PostSkills(skill);
             postSkills.setSkills(skill);
-
             checkIfEmailVerified();
 
         });
@@ -256,6 +273,7 @@ public class CreateAccountFragment extends Fragment {
         chipGroup = view.findViewById(R.id.chipGroup);
         loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
         profile_pic = view.findViewById(R.id.imageView6);
+        progressBar = view.findViewById(R.id.progressBar7);
     }
 
     public void checkIfEmailVerified() {
@@ -270,18 +288,33 @@ public class CreateAccountFragment extends Fragment {
                                 idToken = task.getResult().getToken();
                                 Log.i("xx", idToken);
 
+//                                Call<Void> caller = loginAPI.checkUsername("Bearer " + idToken, username.getText().toString().trim());
+//                                caller.enqueue(new Callback<Void>() {
+//                                    @Override
+//                                    public void onResponse(Call<Void> call, Response<Void> response) {
+//                                        Log.e(TAG, "onResponse: check username "+response.code());
+//                                        if(response.code() == 404){
+//                                            progressBar.setVisibility(View.GONE);
+//                                            create_profile.setEnabled(true);
+//                                            Toast.makeText(getContext(), "Username is Taken! Please choose a new one!", Toast.LENGTH_SHORT).show();
+//                                        }
+//                                    }
+//
+//                                    @Override
+//                                    public void onFailure(Call<Void> call, Throwable t) {
+//                                        Toast.makeText(getContext(), "Error please try again!", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
 
                                 Call<Response<Map<String, String>>> call = loginAPI.setLoginDetails("Bearer " + idToken, loginDetails);
                                 call.enqueue(new Callback<Response<Map<String, String>>>() {
                                     @Override
                                     public void onResponse(Call<Response<Map<String, String>>> call, Response<Response<Map<String, String>>> response) {
                                         Log.e(TAG, "onResponse: " +response.code());
-                                        if(response.code() == 400){
-                                            Toast.makeText(getContext(), "username is taken", Toast.LENGTH_SHORT).show();
-                                            return;
-                                        }
-                                        if (response.isSuccessful()) {
 
+                                        if (response.isSuccessful()) {
+//                                            progressBar.setVisibility(View.GONE);
+//                                            create_profile.setEnabled(true);
                                             Call<Void> call2 = loginAPI.postSkills("Bearer " +
                                                     idToken, postSkills);
                                             call2.enqueue(new Callback<Void>() {
@@ -321,7 +354,7 @@ public class CreateAccountFragment extends Fragment {
         } else {
             // email is not verified, so just prompt the message to the user and restart this activity.
             // NOTE: don't forget to log out the user.
-//            Toast.makeText(getContext(), "Please Verify your Email to continue", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Please Verify your Email to continue", Toast.LENGTH_SHORT).show();
             FragmentManager fragmentManager = loginActivity.getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.bodyFragment, loginActivity.fragmentLogin)

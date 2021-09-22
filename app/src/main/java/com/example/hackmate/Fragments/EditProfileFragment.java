@@ -57,8 +57,6 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -74,7 +72,8 @@ public class EditProfileFragment extends Fragment {
     BottomNavigationView bottomNavigation;
     AutoCompleteTextView YOG_CompleteEditText;
     ImageView profile_pic_EP;
-    TextView name_EP, username_EP, email_EP, college_EP, bio_EP, github_EP, linkedIn_EP, personal_website_EP;
+    TextView name_EP, username_EP, email_EP, college_EP, bio_EP, github_EP, linkedIn_EP, personal_website_EP,
+            projects_availability_EP;
     String id, name, downloadUrl, url;
     PatchDetails patchDetails;
     ChipGroup chipGroup;
@@ -100,6 +99,7 @@ public class EditProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initialise();
+        projects_availability_EP.setVisibility(View.GONE);
         String[] years1 = {"2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"};
         YOG_arrayAdapter1 = new ArrayAdapter<String>(requireContext(), R.layout.option_item, years1);
         YOG_CompleteEditText.setAdapter(YOG_arrayAdapter1);
@@ -225,7 +225,7 @@ public class EditProfileFragment extends Fragment {
                     List<TeamProject> teamProjectsList = projectPOJO.getTeams();
                     ProjectAdapterEP projectAdapterEP = new ProjectAdapterEP(getContext(), individualProjectsList, teamProjectsList);
                     projects_recyclerView.setAdapter(projectAdapterEP);
-                    projects_recyclerView.addOnItemTouchListener(new RecyclerTouchListener(requireContext(), projects_recyclerView, new ClickListener() {
+                    /*projects_recyclerView.addOnItemTouchListener(new RecyclerTouchListener(requireContext(), projects_recyclerView, new ClickListener() {
                         @Override
                         public void onClick(View view, int position) {
                             Log.e(TAG, "onClick: single tap");
@@ -290,7 +290,11 @@ public class EditProfileFragment extends Fragment {
                         }
 
                     }));
+                    
+                     */
                     projectAdapterEP.setGetProjectEP(individualProjectsList, teamProjectsList);
+                } else{
+                    projects_availability_EP.setVisibility(View.VISIBLE);
                 }
                 progressBar.setVisibility(View.GONE);
 
@@ -302,6 +306,7 @@ public class EditProfileFragment extends Fragment {
                 Log.i("error", t.getMessage());
                 progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Failed To Fetch!", Toast.LENGTH_SHORT).show();
+                projects_availability_EP.setVisibility(View.VISIBLE);
             }
         });
 
@@ -423,6 +428,10 @@ public class EditProfileFragment extends Fragment {
                 @Override
                 public void onResponse(Call<Void> call2, Response<Void> response) {
                     Toast.makeText(getActivity(), "Changes saved !!!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(),MainActivity.class);
+                    intent.putExtra("Frag",3);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
 
                 @Override
@@ -461,6 +470,7 @@ public class EditProfileFragment extends Fragment {
         personal_website_EP = getView().findViewById(R.id.personal_website_EP);
         chipGroup = getView().findViewById(R.id.chipGroup12);
         progressBar = getView().findViewById(R.id.progressBarEP);
+        projects_availability_EP = getView().findViewById(R.id.projects_availability_EP);
     }
 
 }
