@@ -92,9 +92,14 @@ public class HackProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getActivity(), "You will be directed to the hack website", Toast.LENGTH_SHORT).show();
-                Uri uri = Uri.parse("http://google.com/"); // missing 'http://' will cause crashed
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+                try {
+                    Uri uri = Uri.parse(website); // missing 'http://' will cause crashed
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                }catch (Exception e) {
+                    Toast.makeText(getContext(), "Website not provided ", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

@@ -394,6 +394,7 @@ Diam feugiat auctor varius est cursus. Arcu id sed egestas pellentesque eget sit
         android:id="@+id/hackProfileProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:indeterminateTint="@color/pill_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

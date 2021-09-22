@@ -107,7 +107,7 @@ public class DeleteAccountFragment extends Fragment {
                                         call.enqueue(new Callback<Void>() {
                                             @Override
                                             public void onResponse(Call<Void> call, Response<Void> response) {
-                                                if(response.isSuccessful() && response.code()==200) {
+                                                if(response.code()==200 || response.code()==503) {
                                                     mAuth.signOut();
                                                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                                                     startActivity(intent);

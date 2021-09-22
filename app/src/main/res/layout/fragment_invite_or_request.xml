@@ -174,8 +174,8 @@
 
             <ProgressBar
                 android:id="@+id/progressBar3"
-
                 style="?android:attr/progressBarStyle"
+                android:indeterminateTint="@color/pill_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/margin_medium" />

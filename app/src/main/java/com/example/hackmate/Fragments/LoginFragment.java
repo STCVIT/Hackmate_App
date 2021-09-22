@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -176,8 +177,8 @@ public class LoginFragment extends Fragment {
 
                             Snackbar.make(v, msg, Snackbar.LENGTH_SHORT)
                                     .setAction("Action", null)
-                                    .setBackgroundTint(Color.parseColor("#DAED10"))
-                                    .setTextColor(Color.BLACK)
+                                    .setBackgroundTint(ContextCompat.getColor(getContext(),R.color.pill_color ))
+                                    .setTextColor(ContextCompat.getColor(getContext(),R.color.background))
                                     .show();
 
                                 progressBar.setVisibility(View.GONE);

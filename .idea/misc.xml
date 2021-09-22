@@ -3,6 +3,45 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/activity_splash.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/add_hack_to_team_row.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/custom_dialog_box.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_add_from_esisting.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_add_project.xml" value="0.12360688956433637" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_create_account.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_delete_account.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_edit_profile.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_edit_project.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_find_participant.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_find_teams.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_hack_list.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_hack_profile.xml" value="0.1" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_invite_or_request.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_login.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_my_profile.xml" value="0.264" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_my_teams.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_profile_view.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_settings.xml" value="0.1" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_sign_up_account.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_team_creation_form.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_team_profile_leader_view.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_team_profile_member_view.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/fragment_team_profile_participant_view.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/home_hack_info_rv_layout.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/invit_list_invite.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/invite.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/invite_list.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/item_loading.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/join_search_team_list.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/myteams_rv_layout.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/option_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/particularteam_team_member_rv_layout.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/projects_row.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/projects_row_leader.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/request.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/bhavi/Desktop/Hackmate/app/src/main/res/layout/team_member_row.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/drawable/ic__add_team_to_hack_.xml" value="0.12129629629629629" />
         <entry key="app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.24537037037037038" />
         <entry key="app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.24259259259259258" />
@@ -36,5 +75,5 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
 </project>

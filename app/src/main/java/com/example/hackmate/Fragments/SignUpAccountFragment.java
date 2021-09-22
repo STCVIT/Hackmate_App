@@ -74,7 +74,6 @@ public class SignUpAccountFragment extends Fragment {
                 String password = password_create_your_account.getText().toString();
                 String password1 = password1_create_your_account.getText().toString();
 
-                progressBar.setVisibility(View.VISIBLE);
                 login.setEnabled(false);
 
                 if (email_create_your_account.getText().toString().isEmpty()) {
@@ -106,7 +105,7 @@ public class SignUpAccountFragment extends Fragment {
 //                loginEmail.setEmail(emailText);
 //                loginEmail.setPassword(password);
 
-
+                progressBar.setVisibility(View.VISIBLE);
                 registerUser(emailText, password);
 
 

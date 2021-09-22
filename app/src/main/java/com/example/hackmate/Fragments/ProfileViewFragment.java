@@ -1,5 +1,7 @@
 package com.example.hackmate.Fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,6 +105,37 @@ public class ProfileViewFragment extends Fragment {
             }
         }
 
+        github_PV.setOnClickListener(v -> {
+            try {
+                Uri uri = Uri.parse(github_PV.getText().toString()); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }catch (Exception e) {
+                Toast.makeText(getContext(), "Github link not provided !!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        linkedIn_PV.setOnClickListener(v -> {
+            try {
+                Uri uri = Uri.parse(linkedIn_PV.getText().toString()); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }catch (Exception e) {
+                Toast.makeText(getContext(), "LinkedIn link not provided !!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        personal_website_PV.setOnClickListener(v -> {
+            try {
+                Uri uri = Uri.parse(personal_website_PV.getText().toString()); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }catch (Exception e) {
+                Toast.makeText(getContext(), "Personal Website link not provided !!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,9 +194,12 @@ public class ProfileViewFragment extends Fragment {
                 college_PV.setText(response.body().participant.getCollege());
                 yog_PV.setText(String.valueOf(response.body().participant.getGraduation_year()));
                 bio_PV.setText(response.body().participant.getBio());
-                github_PV.setText(response.body().participant.getGithub());
-                linkedIn_PV.setText(response.body().participant.getLinkedIn());
+                github_PV.setText(Html.fromHtml("<u>" + response.body().participant.getGithub() + "</u>"));
+                linkedIn_PV.setText(Html.fromHtml("<u>" + response.body().participant.getLinkedIn() + "</u>"));
                 id = String.valueOf(response.body().participant.get_id());
+                if (response.body().participant.getWebsite() != null) {
+                    personal_website_PV.setText(Html.fromHtml("<u>" + response.body().participant.getWebsite() + "</u>"));
+                }
 
                 Call<List<Skill>> listCall = loginAPI.getSkillsP("Bearer " + MainActivity.getIdToken(),id);
                 listCall.enqueue(new Callback<List<Skill>>() {

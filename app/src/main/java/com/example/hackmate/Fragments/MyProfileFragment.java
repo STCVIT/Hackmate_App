@@ -1,5 +1,7 @@
 package com.example.hackmate.Fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +62,7 @@ public class MyProfileFragment extends Fragment {
     BottomNavigationView bottomNavigation;
     ImageView settingsImageView, addImageView, profile_pic;
     TextView editProfileTextView, addProjectTextView, name_MP, username_MP, email_MP, college_MP, bio_MP,
-            github_MP, linkedIn_MP, personal_website_MP, yog_MP, project_availability_MP;
+            github_MP, linkedIn_MP, personal_website_MP, yog_MP;
     ConstraintLayout add_project_constraint;
     CardView add_project_card;
     private RecyclerView projects_recyclerView;
@@ -80,7 +83,6 @@ public class MyProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initialise();
-        project_availability_MP.setVisibility(View.GONE);
 
         settingsImageView.setOnClickListener(v -> settingsFrag());
 
@@ -95,6 +97,36 @@ public class MyProfileFragment extends Fragment {
         addProjectTextView.setOnClickListener(v -> addProjectFrag());
 
         addImageView.setOnClickListener(v -> addProjectFrag());
+
+        github_MP.setOnClickListener(v -> {
+            try {
+                Uri uri = Uri.parse(github_MP.getText().toString()); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }catch (Exception e) {
+                Toast.makeText(getContext(), "Github link not provided !!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        linkedIn_MP.setOnClickListener(v -> {
+            try {
+                Uri uri = Uri.parse(linkedIn_MP.getText().toString()); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }catch (Exception e) {
+                Toast.makeText(getContext(), "LinkedIn link not provided !!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        personal_website_MP.setOnClickListener(v -> {
+            try {
+                Uri uri = Uri.parse(personal_website_MP.getText().toString()); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }catch (Exception e) {
+                Toast.makeText(getContext(), "Personal Website link not provided !!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
@@ -118,11 +150,11 @@ public class MyProfileFragment extends Fragment {
                 college_MP.setText(response.body().getCollege());
                 yog_MP.setText(String.valueOf(response.body().getGraduation_year()));
                 bio_MP.setText(response.body().getBio());
-                github_MP.setText(response.body().getGithub());
-                linkedIn_MP.setText(response.body().getLinkedIn());
+                github_MP.setText(Html.fromHtml("<u>" + response.body().getGithub() + "</u>"));
+                linkedIn_MP.setText(Html.fromHtml("<u>" + response.body().getLinkedIn() + "</u>"));
                 id = String.valueOf(response.body().getId());
                 if (response.body().getWebsite() != null) {
-                    personal_website_MP.setText(response.body().getWebsite());
+                    personal_website_MP.setText(Html.fromHtml("<u>" + response.body().getWebsite() + "</u>"));
                 }
                 progressBar.setVisibility(View.GONE);
             }
@@ -152,8 +184,6 @@ public class MyProfileFragment extends Fragment {
                     ProjectAdapterMP projectAdapterMP = new ProjectAdapterMP(getContext(), individualProjectsList, teamProjectsList);
                     projects_recyclerView.setAdapter(projectAdapterMP);
                     projectAdapterMP.setGetProjectMP(individualProjectsList, teamProjectsList);
-                } else{
-                    project_availability_MP.setVisibility(View.VISIBLE);
                 }
                 progressBar.setVisibility(View.GONE);
             }
@@ -163,7 +193,6 @@ public class MyProfileFragment extends Fragment {
                 Log.i("error", t.getMessage());
                 Toast.makeText(getActivity(), "Failed To Fetch", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
-                project_availability_MP.setVisibility(View.VISIBLE);
             }
         });
 
@@ -193,10 +222,6 @@ public class MyProfileFragment extends Fragment {
                                 chip.setText("Management");
                             } else if (skillList.get(i).getSkill().equals("appdev")) {
                                 chip.setText("App Development");
-                            } else if (skillList.get(i).getSkill().equals("blockchain")) {
-                                chip.setText("Blockchain");
-                            }else if (skillList.get(i).getSkill().equals("cybersecurity")) {
-                                chip.setText("Cyber Security");
                             }
                             chip.setChipStrokeColorResource(R.color.pill_color);
                             chip.setChipBackgroundColor(getResources().getColorStateList(R.color.pill_color));
@@ -223,6 +248,7 @@ public class MyProfileFragment extends Fragment {
 
     public void initialise() {
         settingsImageView = getView().findViewById(R.id.settings_image);
+        //editProfileImageView = getView().findViewById(R.id.edit_profile_image);
         addImageView = getView().findViewById(R.id.add_image);
         editProfileTextView = getView().findViewById(R.id.edit_profile_click);
         addProjectTextView = getView().findViewById(R.id.add_a_project);
@@ -242,7 +268,7 @@ public class MyProfileFragment extends Fragment {
         linkedIn_MP = getView().findViewById(R.id.linkedIn_MP);
         personal_website_MP = getView().findViewById(R.id.personal_website_MP);
         progressBar = getView().findViewById(R.id.progressBarMP);
-        project_availability_MP = getView().findViewById(R.id.project_availability);
+
     }
 
     public void editProfileFrag() {
