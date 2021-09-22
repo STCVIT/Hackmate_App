@@ -15,7 +15,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:liftOnScroll="true">
 
-
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/myTeamsAppBar"
             android:layout_width="match_parent"
@@ -24,6 +23,43 @@
             app:title=" "
             tools:layout_editor_absoluteX="6dp"
             tools:layout_editor_absoluteY="244dp">
+
+            <TextView
+                android:id="@+id/addProject_title1_Leader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:text="@string/first"
+                android:textColor="#1EA54C"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/addProject_title2_Leader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="16dp"
+                android:text="My Teams"
+                android:textColor="#E7EFEF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/addProject_title3_Leader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="16dp"
+                android:text=">"
+                android:textColor="#1EA54C"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
         </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -93,6 +129,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="48dp"
+                android:visibility="gone"
                 android:layout_marginBottom="33dp"
                 android:src="@drawable/ic_baseline_circle_24" />
         </RelativeLayout>

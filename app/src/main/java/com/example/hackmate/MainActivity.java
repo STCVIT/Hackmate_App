@@ -29,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private MyProfileFragment myProfileFragment = new MyProfileFragment();
     private FindTeamsFragment findTeamsFragment = new FindTeamsFragment();
 
-
-    BadgeDrawable badge;
     int value;
 
     public static void setIdToken(String token) {
@@ -58,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigation = findViewById(R.id.bottom_nav_bar);
         bottomNavigation.setVisibility(View.VISIBLE);
-        badge = bottomNavigation.getOrCreateBadge(R.id.nav_myTeams);
-        badge.setVisible(true);
         bottomNavigation();
 
     }
