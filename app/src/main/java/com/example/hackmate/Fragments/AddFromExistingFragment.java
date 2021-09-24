@@ -14,30 +14,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hackmate.Adapters.AddFromExistingAdapter;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.MainActivity;
-import com.example.hackmate.Models.AddFromExistingModel;
 import com.example.hackmate.POJOClasses.JoinTeamPOJO;
-import com.example.hackmate.POJOClasses.Team;
 
 
 import com.example.hackmate.POJOClasses.loginPOJO;
 import com.example.hackmate.R;
 import com.example.hackmate.util.RetrofitInstance;
-import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class AddFromExistingFragment extends Fragment {
 

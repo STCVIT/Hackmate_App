@@ -1,192 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="@color/field_fill">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/HomeAppBarLayout"
+        app:srcCompat="@drawable/ic_hacklist"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="339dp"
+        android:layout_height="90dp"
+        android:text="Its about time we get some hacks for you, till then try meeting new people :)"
+        android:textAlignment="center"
+        android:textColor="#E7EFEF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView7"
+        android:visibility="gone"/>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/HomeAppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#23303D">
+        android:background="#1D2833"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/FilterChipsHolder"
+        tools:ignore="MissingConstraints">
 
-        <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="250dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/HomeAppBarLayout"
-            app:srcCompat="@drawable/ic_hacklist" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="339dp"
-            android:layout_height="90dp"
-            android:text="Its about time we get some hacks for you, till then try meeting new people :)"
-            android:textAlignment="center"
-            android:textColor="#E7EFEF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView7" />
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/HomeAppBarLayout"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/HomeAppBar"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="?attr/actionBarSize"
             android:background="#1D2833"
-            app:liftOnScroll="true"
-            tools:ignore="MissingConstraints">
+            app:title=" "
+            tools:layout_editor_absoluteX="6dp"
+            tools:layout_editor_absoluteY="244dp">
 
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/HomeAppBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="#1D2833"
-                app:title=" "
-                tools:layout_editor_absoluteX="6dp"
-                tools:layout_editor_absoluteY="244dp">
-
-                <TextView
-                    android:id="@+id/Home_title1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:text="@string/first"
-                    android:textColor="#1EA54C"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/Home_title2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="Search for hacks"
-                    android:textColor="#E7EFEF"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/Home_title3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text=">"
-                    android:textColor="#1EA54C"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </com.google.android.material.appbar.MaterialToolbar>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/FilterChipsHolder"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:backgroundTint="#1D2833"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/HomeAppBarLayout"
-            tools:ignore="MissingConstraints">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/Home_title1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:text="@string/first"
+                android:textColor="#1EA54C"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/FilterGroupChipGroup"
-                    android:layout_width="399dp"
-                    android:layout_height="70dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="15dp"
-                    app:selectionRequired="true"
-                    app:singleLine="true"
-                    app:singleSelection="true">
+            <TextView
+                android:id="@+id/Home_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Search for hacks"
+                android:textColor="#E7EFEF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ALL_Chip"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="85dp"
-                        android:layout_height="50dp"
-                        android:checked="true"
-                        android:text="All"
-                        android:textAlignment="center"
-                        app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp" />
+            <TextView
+                android:id="@+id/Home_title3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text=">"
+                android:textColor="#1EA54C"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </com.google.android.material.appbar.MaterialToolbar>
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ONGOING_Chip"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:text="Ongoing"
-                        android:textAlignment="center"
-                        app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/UPCOMING_Chip"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:text="Upcoming"
-                        android:textAlignment="center"
-                        app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/FilterChipsHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#1D2833"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/HomeAppBarLayout"
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/POPULAR_Chip"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:text="Popular"
-                        android:textAlignment="center"
-                        app:chipStrokeColor="@color/pill_color"
-                        app:chipStrokeWidth="2dp" />
-
-
-                </com.google.android.material.chip.ChipGroup>
-
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
-            android:id="@+id/linearLayout3"
+            android:id="@+id/domaingroupLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/field_fill"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/FilterChipsHolder"
-            tools:ignore="MissingConstraints">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/RVHack"
-                android:layout_width="match_parent"
-                android:layout_height="700dp"
-                android:background="@color/field_fill">
-
-            </androidx.recyclerview.widget.RecyclerView>
-
-            <Button
-                android:id="@+id/hackInfo"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/FilterGroupChipGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SHOW PARTICULAR HACK INFO"
-                android:visibility="gone" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                app:selectionRequired="true"
+                app:singleLine="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/ALL_Chip"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="85dp"
+                    android:layout_height="50dp"
+                    android:checked="true"
+                    android:text="All"
+                    android:textAlignment="center"
+                    app:chipStrokeColor="@color/pill_color"
+                    app:chipStrokeWidth="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/ONGOING_Chip"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text="Ongoing"
+                    android:textAlignment="center"
+                    app:chipStrokeColor="@color/pill_color"
+                    app:chipStrokeWidth="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/UPCOMING_Chip"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text="Upcoming"
+                    android:textAlignment="center"
+                    app:chipStrokeColor="@color/pill_color"
+                    app:chipStrokeWidth="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/POPULAR_Chip"
+                    style="@style/CustomChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text="Popular"
+                    android:textAlignment="center"
+                    app:chipStrokeColor="@color/pill_color"
+                    app:chipStrokeWidth="2dp" />
+
+
+            </com.google.android.material.chip.ChipGroup>
 
 
         </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="130dp"
+        android:background="@color/field_fill"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/FilterChipsHolder">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RVHack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/field_fill">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+    </LinearLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

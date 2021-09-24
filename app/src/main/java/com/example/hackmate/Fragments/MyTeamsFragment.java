@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -59,14 +60,21 @@ public class MyTeamsFragment extends Fragment {
     private ChipGroup chipGroup;
     private boolean isLoading = false, isLastPage = false;
     private int earlier_pos = 0, page = 1;
-    ImageView imageView;
+    ImageView imageView, bell;
     BottomNavigationView bottomNavigationView;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    public int before1=0,before2=0,myinvites=1,myrequests=1;
-    ImageView dot;
-    public boolean status=false;
-    BadgeDrawable badge;
+    public int before1 = 0, before2 = 0, myinvites = 1, myrequests = 1;
+    public ImageView dot;
+    public boolean status;
+    public BadgeDrawable badge;
+
+    public void onStart() {
+        super.onStart();
+
+        notifications(1);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,12 +92,12 @@ public class MyTeamsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_bar);
         TextView newTeams = view.findViewById(R.id.newTeam);
-        ImageView bell = view.findViewById(R.id.imageView10);
-        imageView=view.findViewById(R.id.imageView14);
+        bell = view.findViewById(R.id.imageView10);
+        imageView = view.findViewById(R.id.imageView14);
         chipGroup = view.findViewById(R.id.skillGrp);
         recyclerView = view.findViewById(R.id.recyclerView);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        dot=view.findViewById(R.id.imageView11);
+        dot = view.findViewById(R.id.imageView11);
 //notifications();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -97,7 +105,7 @@ public class MyTeamsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         imageView.setVisibility(View.GONE);
 
-        badge =   bottomNavigationView.getOrCreateBadge(R.id.nav_myTeams);
+        badge = bottomNavigationView.getOrCreateBadge(R.id.nav_myTeams);
 
         bell.setOnClickListener(v -> {
             bottomNavigationView.setVisibility(View.GONE);
@@ -134,7 +142,7 @@ public class MyTeamsFragment extends Fragment {
                     if (!isLoading) {
                         Log.i(TAG, "onScrolled: curr_position->" + curr_position + " => " + ((curr_position + 1) % 8 == 0) + " earlier -> " + earlier_pos);
                         //if (curr_position == adapter.getItemCount() - 1) {
-                        if (curr_position == adapter.getItemCount() - 1 && !isLastPage && ((curr_position + 1) % 8 == 0) ) {
+                        if (curr_position == adapter.getItemCount() - 1 && !isLastPage && ((curr_position + 1) % 8 == 0)) {
                             earlier_pos = curr_position;
                             Log.i(TAG, "onScrolled: position => " + curr_position);
                             isLoading = true;
@@ -149,6 +157,10 @@ public class MyTeamsFragment extends Fragment {
             isLoading = true;
             recyclerView.scrollToPosition(0);
             earlier_pos = 0;
+            if (dot.getVisibility() == VISIBLE)
+                notifications(0);
+            else if (dot.getVisibility() == GONE)
+                notifications(1);
             getMyTeams(page = 1);
         });
 
@@ -156,19 +168,18 @@ public class MyTeamsFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Log.e(TAG, adapter.getList().get(position).getTeam().getId());
-                if((adapter.getList().get(position).getTeam().getAdminId()).equals(id3))
-                { bottomNavigationView.setVisibility(View.GONE);
+                if ((adapter.getList().get(position).getTeam().getAdminId()).equals(id3)) {
+                    bottomNavigationView.setVisibility(View.GONE);
                     TeamProfileLeaderViewFragment frag = new TeamProfileLeaderViewFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putString("teamID", String.valueOf( adapter.getList().get(position).getTeam().getId()));
+                    bundle.putString("teamID", String.valueOf(adapter.getList().get(position).getTeam().getId()));
                     frag.setArguments(bundle);
                     getFragmentManager()
                             .beginTransaction()
                             .replace(R.id.nav_host_fragment, frag)
                             .addToBackStack(null)
-                            .commit();}
-
-                else{
+                            .commit();
+                } else {
                     bottomNavigationView.setVisibility(View.GONE);
                     TeamProfileMemberViewFragment frag1 = new TeamProfileMemberViewFragment();
                     Bundle bundle1 = new Bundle();
@@ -189,7 +200,6 @@ public class MyTeamsFragment extends Fragment {
                 Log.e(TAG, adapter.getList().get(position).getTeam().getId());
             }
         }));
-
 
 
         loginAPI loginAPI = RetrofitInstance.getRetrofitInstance().create(loginAPI.class);
@@ -220,7 +230,7 @@ public class MyTeamsFragment extends Fragment {
     }
 
     public void getMyTeams(int page3) {
-        notifications();
+        //notifications();
         adapter.showProgress();
         JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
         Call<myTeamsPOJO> call1 = jsonPlaceHolderAPI.getmyTeams(MainActivity.getIdToken(), page3);
@@ -235,12 +245,14 @@ public class MyTeamsFragment extends Fragment {
                 Log.i("callback problem3MT", "error3MT");
                 if (!response1.isSuccessful()) {
                     Log.i(TAG, "code: " + response1.code());
-                    imageView.setVisibility(View.VISIBLE);
+                    if (page3 == 1) {
+                        imageView.setVisibility(View.VISIBLE);
+                    }
                     return;
                 }
                 myTeamsPOJO myTeamsPOJOS = response1.body();
                 Log.i("Response body", myTeamsPOJOS.getLength().toString());
-                if(myTeamsPOJOS.getLength()<8)
+                if (myTeamsPOJOS.getLength() < 8)
                     isLastPage = true;
                 List<Final2> final_objs2 = myTeamsPOJOS.getFinal2();
 
@@ -257,118 +269,125 @@ public class MyTeamsFragment extends Fragment {
             public void onFailure(Call<myTeamsPOJO> call1, Throwable t) {
                 isLoading = false;
                 adapter.removeProgress();
-                imageView.setVisibility(View.VISIBLE);
+                if (page3 == 1) {
+                    imageView.setVisibility(View.VISIBLE);
+                }
                 Log.i("failed1", t.getMessage());
             }
         });
     }
 
-    public void notifications(){
+    public void notifications(int a) {
 
-        JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
-        Call<invitePOJO> call5 = jsonPlaceHolderAPI.getMyInvites(MainActivity.getIdToken());
-        Log.i("callback problemInvite2", "errorIni2");
-        call5.enqueue(new Callback<invitePOJO>() {
-            @Override
-            public void onResponse(Call<invitePOJO> call5, Response<invitePOJO> response5) {
-                if (!response5.isSuccessful()) {
-                    Log.i("not sucess6", "code: " + response5.code());
-                    myinvites=0;
-                    if(before1!=myinvites  || before2!=myrequests) {
-                        dot.setVisibility(VISIBLE);
-                        before1=myinvites;
-                        before2=myrequests;
-                        badge.setVisible(true);
+        switch (a) {
+            case 0:
+                Toast.makeText(getContext(), "You have unchecked notifications!!!", Toast.LENGTH_SHORT).show();
+                break;
+            case 1:
+                JSONPlaceHolderAPI jsonPlaceHolderAPI = RetrofitInstance.getRetrofitInstance().create(JSONPlaceHolderAPI.class);
+                Call<invitePOJO> call5 = jsonPlaceHolderAPI.getMyInvites(MainActivity.getIdToken());
+                Log.i("callback problemInvite2", "errorIni2");
+                call5.enqueue(new Callback<invitePOJO>() {
+                    @Override
+                    public void onResponse(Call<invitePOJO> call5, Response<invitePOJO> response5) {
+                        if (!response5.isSuccessful()) {
+                            Log.i("not sucess6", "code: " + response5.code());
+                            myinvites = 0;
+                            if (before1 != myinvites || before2 != myrequests) {
+                                dot.setVisibility(VISIBLE);
+                                before1 = myinvites;
+                                before2 = myrequests;
+                                badge.setVisible(true);
+                            } else {
+                                dot.setVisibility(GONE);
+                                badge.setVisible(false);
+                            }
+                            return;
+                        }
+
+                        invitePOJO invitePOJOS = (invitePOJO) response5.body();
+                        Log.i("Response body", invitePOJOS.toString());
+                        List<Received> recieved_objs = invitePOJOS.getReceived();
+
+
+                        Log.i("Response body3", "list sending to adapter sucessfull");
+                        myinvites = recieved_objs.size();
+
+                        if (before1 != myinvites || before2 != myrequests) {
+                            dot.setVisibility(VISIBLE);
+                            before1 = myinvites;
+                            before2 = myrequests;
+
+                            badge.setVisible(true);
+
+                        } else {
+                            dot.setVisibility(GONE);
+                            badge.setVisible(false);
+                        }
                     }
-                    else{
-                        dot.setVisibility(GONE);
-                        badge.setVisible(false);}
-                    return;
-                }
 
-                invitePOJO invitePOJOS = (invitePOJO) response5.body();
-                Log.i("Response body", invitePOJOS.toString());
-                List<Received> recieved_objs = invitePOJOS.getReceived();
+                    @Override
+                    public void onFailure(Call<invitePOJO> call5, Throwable t) {
+                        Log.i("failed5", t.getMessage());
 
-
-                Log.i("Response body3", "list sending to adapter sucessfull");
-                myinvites = recieved_objs.size();
-
-                if(before1!=myinvites  || before2!=myrequests) {
-                    dot.setVisibility(VISIBLE);
-                    before1=myinvites;
-                    before2=myrequests;
-
-                    badge.setVisible(true);
-
-                }
-                else {
-                    dot.setVisibility(GONE);
-                    badge.setVisible(false);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<invitePOJO> call5, Throwable t) {
-                Log.i("failed5", t.getMessage());
-
-            }
-
-        });
-
-
-
-        Call<RequestPOJO> call7 = jsonPlaceHolderAPI.getMyRequests(MainActivity.getIdToken());
-        Log.i("callbackRequest2", "errorReq2");
-        call7.enqueue(new Callback<RequestPOJO>() {
-            @Override
-            public void onResponse(Call<RequestPOJO> call7, Response<RequestPOJO> response7) {
-                if (!response7.isSuccessful()) {
-                    Log.i("not sucess6", "code: " + response7.code());
-                    myrequests=0;
-                    if(before1!=myinvites  || before2!=myrequests) {
-                        dot.setVisibility(VISIBLE);
-                        before1=myinvites;
-                        before2=myrequests;
-                        badge.setVisible(true);
                     }
-                    else{
-                        dot.setVisibility(GONE);
-                        badge.setVisible(false);}
-                    return;
-                }
-                RequestPOJO requestPOJO = response7.body();
 
-                Log.i("Response body", requestPOJO.toString());
-                List<ReceivedRequest> req_objs = requestPOJO.getReceived();
+                });
 
 
-                myrequests = req_objs.size();
+                Call<RequestPOJO> call7 = jsonPlaceHolderAPI.getMyRequests(MainActivity.getIdToken());
+                Log.i("callbackRequest2", "errorReq2");
+                call7.enqueue(new Callback<RequestPOJO>() {
+                    @Override
+                    public void onResponse(Call<RequestPOJO> call7, Response<RequestPOJO> response7) {
+                        if (!response7.isSuccessful()) {
+                            Log.i("not sucess6", "code: " + response7.code());
+                            myrequests = 0;
+                            if (before1 != myinvites || before2 != myrequests) {
+                                dot.setVisibility(VISIBLE);
+                                before1 = myinvites;
+                                before2 = myrequests;
+                                badge.setVisible(true);
+                            } else {
+                                dot.setVisibility(GONE);
+                                badge.setVisible(false);
+                            }
+                            return;
+                        }
+                        RequestPOJO requestPOJO = response7.body();
 
-                if(before1!=myinvites  || before2!=myrequests) {
-                    dot.setVisibility(VISIBLE);
-                    before1=myinvites;
-                    before2=myrequests;
-                    badge.setVisible(true);
-                }
-                else{
-                    dot.setVisibility(GONE);
-                    badge.setVisible(false);}
-                Log.i("Response body3", "list sending to adapter sucessfull");
-
-            }
-
-            @Override
-            public void onFailure(Call<RequestPOJO> call7, Throwable t) {
+                        Log.i("Response body", requestPOJO.toString());
+                        List<ReceivedRequest> req_objs = requestPOJO.getReceived();
 
 
-                Log.i("failed5", t.getMessage());
-            }
-        });
-        Log.i("invitecount","before:"+before1+"inviteList:"+myinvites);
+                        myrequests = req_objs.size();
+
+                        if (before1 != myinvites || before2 != myrequests) {
+                            dot.setVisibility(VISIBLE);
+                            before1 = myinvites;
+                            before2 = myrequests;
+                            badge.setVisible(true);
+                        } else {
+                            dot.setVisibility(GONE);
+                            badge.setVisible(false);
+                        }
+                        Log.i("Response body3", "list sending to adapter sucessfull");
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<RequestPOJO> call7, Throwable t) {
+
+
+                        Log.i("failed5", t.getMessage());
+                    }
+                });
+                Log.i("invitecount", "before:" + before1 + "inviteList:" + myinvites);
+
+                break;
+
+        }
 
     }
-
-
 
 }

@@ -2,6 +2,7 @@ package com.example.hackmate;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
@@ -47,8 +48,8 @@ public class SplashActivity extends AppCompatActivity {
         {
             Snackbar.make(findViewById(android.R.id.content), "No internet connection !!", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null)
-                    .setBackgroundTint(Color.parseColor("#DAED10"))
-                    .setTextColor(Color.BLACK)
+                    .setBackgroundTint(ContextCompat.getColor(getBaseContext(),R.color.pill_color ))
+                    .setTextColor(ContextCompat.getColor(getBaseContext(),R.color.background))
                     .show();
         }
     }

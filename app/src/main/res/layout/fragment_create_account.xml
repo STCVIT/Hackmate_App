@@ -149,7 +149,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/ic_edit_text"
             android:ems="10"
-            android:hint="GIthub Link"
+            android:hint="Github Link"
             android:inputType="textPersonName"
             android:padding="10dp"
             android:textColor="@color/text"

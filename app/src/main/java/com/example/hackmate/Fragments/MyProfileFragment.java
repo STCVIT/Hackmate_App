@@ -27,7 +27,6 @@ import com.example.hackmate.Adapters.MemberAdapter;
 import com.example.hackmate.Adapters.ProjectAdapterMP;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.MainActivity;
-import com.example.hackmate.Models.ProjectModel;
 import com.example.hackmate.POJOClasses.IndividualProject;
 import com.example.hackmate.POJOClasses.JoinTeamPOJO;
 import com.example.hackmate.POJOClasses.ProjectPOJO;
@@ -222,6 +221,10 @@ public class MyProfileFragment extends Fragment {
                                 chip.setText("Management");
                             } else if (skillList.get(i).getSkill().equals("appdev")) {
                                 chip.setText("App Development");
+                            } else if(skillList.get(i).getSkill().equals("blockchain")){
+                                chip.setText("Blockchain");
+                            } else if(skillList.get(i).getSkill().equals("cybersecurity")){
+                                chip.setText("Cyber Security");
                             }
                             chip.setChipStrokeColorResource(R.color.pill_color);
                             chip.setChipBackgroundColor(getResources().getColorStateList(R.color.pill_color));

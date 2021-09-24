@@ -19,62 +19,60 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="#1D2833"
-            app:liftOnScroll="true"
+
+            app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="2dp">
 
 
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/InviteAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="#1D2833"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title=" ">
+
+                <TextView
+                    android:id="@+id/Invite_title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:text="@string/first"
+                    android:textColor="#1EA54C"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/Invite_title2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginLeft="16dp"
+                    android:text="Invites/Requests"
+                    android:textColor="#E7EFEF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/Invite_title3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginLeft="16dp"
+                    android:text=">"
+                    android:textColor="#1EA54C"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/InviteAppBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#1D2833"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title=" ">
-
-            <TextView
-                android:id="@+id/Invite_title1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:text="@string/first"
-                android:textColor="#1EA54C"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/Invite_title2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="1dp"
-                android:layout_marginLeft="16dp"
-                android:text="Invites/Requests"
-                android:textColor="#E7EFEF"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/Invite_title3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="1dp"
-                android:layout_marginLeft="16dp"
-                android:text=">"
-                android:textColor="#1EA54C"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-        </com.google.android.material.appbar.MaterialToolbar>
-
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
@@ -174,8 +172,8 @@
 
             <ProgressBar
                 android:id="@+id/progressBar3"
-                style="?android:attr/progressBarStyle"
                 android:indeterminateTint="@color/pill_color"
+                style="?android:attr/progressBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/margin_medium" />

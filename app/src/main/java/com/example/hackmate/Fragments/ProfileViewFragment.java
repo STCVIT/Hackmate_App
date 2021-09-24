@@ -29,7 +29,6 @@ import com.example.hackmate.Adapters.ProjectAdapterP;
 import com.example.hackmate.JSONPlaceholders.API;
 import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.MainActivity;
-import com.example.hackmate.Models.ProjectModel;
 import com.example.hackmate.POJOClasses.GetParticipantPOJO;
 import com.example.hackmate.POJOClasses.IndividualProject;
 import com.example.hackmate.POJOClasses.ProjectPOJO;

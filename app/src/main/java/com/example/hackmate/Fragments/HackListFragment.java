@@ -50,6 +50,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.example.hackmate.Fragments.MyTeamsFragment.*;
+
 public class HackListFragment extends Fragment {
     private RecyclerView HackRV;
 
@@ -65,10 +67,11 @@ public class HackListFragment extends Fragment {
     private String status;
     private HackListViewModel viewModel;
     private boolean isLoading = false, isLastPage = false;
-    private int page=1;
+    private int page = 1;
     ImageView imageView;
     TextView textView;
-    int cacheSize= 10*1024*1024;
+    int cacheSize = 10 * 1024 * 1024;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -89,6 +92,7 @@ public class HackListFragment extends Fragment {
     public void onStart() {
         super.onStart();
         idToken = MainActivity.getIdToken();
+
     }
 
     @Override
@@ -106,11 +110,9 @@ public class HackListFragment extends Fragment {
         List<Integer> checkedChipId = filterhacks.getCheckedChipIds();
         Log.i("chipID", String.valueOf(checkedChipId));
         HomeArrayList = new ArrayList<>();
-        imageView=view.findViewById(R.id.imageView7);
-        textView=view.findViewById(R.id.textView2);
+        imageView = view.findViewById(R.id.imageView7);
+        textView = view.findViewById(R.id.textView2);
 
-        imageView.setVisibility(View.GONE);
-        textView.setVisibility(View.GONE);
 
         HackRV = view.findViewById(R.id.RVHack);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -122,7 +124,7 @@ public class HackListFragment extends Fragment {
         Log.i("xx", String.valueOf(idToken));
 
 
-        if(viewModel.getStatus() == null || viewModel.getStatus() == "all") {
+        if (viewModel.getStatus() == null || viewModel.getStatus() == "all") {
 
             status = "all";
             caching();
@@ -135,12 +137,12 @@ public class HackListFragment extends Fragment {
             public void onScrolled(@NonNull @NotNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) HackRV.getLayoutManager();
-                if(linearLayoutManager!=null) {
+                if (linearLayoutManager != null) {
                     int position = linearLayoutManager.findLastVisibleItemPosition();
-                    if(!isLoading) {
-                        if(position == homeAdapter.getItemCount()-1 && !isLastPage && ((position+1)%6==0)) {
+                    if (!isLoading) {
+                        if (position == homeAdapter.getItemCount() - 1 && !isLastPage && ((position + 1) % 6 == 0)) {
                             isLoading = true;
-                            getHacks(status,++page);
+                            getHacks(status, ++page);
                         }
                     }
                 }
@@ -152,6 +154,7 @@ public class HackListFragment extends Fragment {
         Log.i("callback problem", "error");
 
     }
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -176,7 +179,8 @@ public class HackListFragment extends Fragment {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .cache(cache)
                 .addInterceptor(new Interceptor() {
-                    @Override public okhttp3.Response intercept(Interceptor.Chain chain)
+                    @Override
+                    public okhttp3.Response intercept(Interceptor.Chain chain)
                             throws IOException {
                         Request request = chain.request();
                         if (!isNetworkAvailable()) {
@@ -199,13 +203,12 @@ public class HackListFragment extends Fragment {
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson));
         Retrofit retrofit = builder.build();
-        jsonPlaceHolderAPI=retrofit.create(JSONPlaceHolderAPI.class);
-        getHacks(status,page=1);
+        jsonPlaceHolderAPI = retrofit.create(JSONPlaceHolderAPI.class);
+        getHacks(status, page = 1);
 
     }
 
-    public void chipsOnClick()
-    {
+    public void chipsOnClick() {
         filterhacks.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
@@ -226,16 +229,16 @@ public class HackListFragment extends Fragment {
                 homeAdapter.clearList();
                 HackRV.scrollToPosition(0);
                 isLastPage = false;
-                getHacks(status,page=1);
+                getHacks(status, page = 1);
             }
         });
     }
 
-    public void getHacks(String status,int page) {
+    public void getHacks(String status, int page) {
         homeAdapter.showProgress();
 
 
-        Call<hackListPOJO> call5 = jsonPlaceHolderAPI.getHacks(idToken,status, page);
+        Call<hackListPOJO> call5 = jsonPlaceHolderAPI.getHacks(idToken, status, page);
 
         call5.enqueue(new Callback<hackListPOJO>() {
             @Override
@@ -244,8 +247,10 @@ public class HackListFragment extends Fragment {
                 homeAdapter.removeProgress();
                 if (!response5.isSuccessful()) {
                     Log.i("not sucess5", "code: " + response5.code());
-                    imageView.setVisibility(View.VISIBLE);
-                    textView.setVisibility(View.VISIBLE);
+                    if (page == 1) {
+                        imageView.setVisibility(View.VISIBLE);
+                        textView.setVisibility(View.VISIBLE);
+                    }
                     return;
                 }
 
@@ -253,7 +258,7 @@ public class HackListFragment extends Fragment {
 
                 List<Final> final_objs = hackListPOJOS.getFinal();
 
-                if(final_objs.size()<6)
+                if (final_objs.size() < 6)
                     isLastPage = true;
 
                 homeAdapter.setHackList(final_objs);
@@ -267,8 +272,10 @@ public class HackListFragment extends Fragment {
                 Log.i("failed5", t.getMessage());
                 isLoading = false;
                 homeAdapter.removeProgress();
-                imageView.setVisibility(View.VISIBLE);
-                textView.setVisibility(View.VISIBLE);
+                if (page == 1) {
+                    imageView.setVisibility(View.VISIBLE);
+                    textView.setVisibility(View.VISIBLE);
+                }
             }
         });
     }

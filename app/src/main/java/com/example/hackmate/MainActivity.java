@@ -2,7 +2,9 @@ package com.example.hackmate;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +18,8 @@ import com.example.hackmate.Fragments.MyProfileFragment;
 import com.example.hackmate.Fragments.FindTeams.FindTeamsFragment;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -141,4 +145,42 @@ public class MainActivity extends AppCompatActivity {
     }
     */
 
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentByTag("Create");
+        if(fragment==null)
+        {
+            if(fm.getBackStackEntryCount()==0)
+            {
+                if(bottomNavigation.getSelectedItemId() ==  R.id.nav_home) {
+                    count++;
+                    if(count==1)
+                    {
+                        Snackbar.make(findViewById(android.R.id.content), "Press back again to exit", BaseTransientBottomBar.LENGTH_SHORT)
+                                .addCallback(new Snackbar.Callback() {
+                                    @Override
+                                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                                        count = 0;
+                                    }
+                                })
+                                .setBackgroundTint(ContextCompat.getColor(getBaseContext(),R.color.pill_color ))
+                                .setTextColor(ContextCompat.getColor(getBaseContext(),R.color.background))
+                                .show();
+                    }else
+                        super.onBackPressed();
+                }
+                else
+                    bottomNavigation.setSelectedItemId(R.id.nav_home);
+            }
+            else
+                super.onBackPressed();
+        }
+        else if(fm.findFragmentByTag("Invite")==null && fm.findFragmentByTag("Add")==null){
+            fm.popBackStack();
+            fm.popBackStack();
+        }
+        else
+            super.onBackPressed();
+    }
 }

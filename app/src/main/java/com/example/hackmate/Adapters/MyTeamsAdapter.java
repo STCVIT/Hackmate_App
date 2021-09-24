@@ -82,7 +82,7 @@ public class MyTeamsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         id1 = myTeamsArrayList.get(position).getTeam().getAdminId();
         holder.TeamName_myTeams.setText(myTeamsArrayList.get(position).getTeam().getName());
-        holder.HackName_myTeams.setText(myTeamsArrayList.get(position).getHackName());
+        holder.HackName_myTeams.setText((myTeamsArrayList.get(position).getHackName()).equals("")?"(Not in a Hack)":myTeamsArrayList.get(position).getHackName());
 
 
         holder.Position_myTeams.setText(id1.equals(id2) ? "Leader" : "Member");

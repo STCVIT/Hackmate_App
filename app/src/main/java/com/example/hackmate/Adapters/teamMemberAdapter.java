@@ -23,11 +23,8 @@ import com.example.hackmate.MainActivity;
 import com.example.hackmate.POJOClasses.JoinTeamPOJO;
 import com.example.hackmate.POJOClasses.PtSkill;
 import com.example.hackmate.R;
-import com.example.hackmate.Models.teamMember_Model;
 import com.example.hackmate.util.RetrofitInstance;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;

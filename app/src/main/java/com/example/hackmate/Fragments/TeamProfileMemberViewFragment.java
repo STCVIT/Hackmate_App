@@ -3,6 +3,8 @@ package com.example.hackmate.Fragments;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -121,6 +123,36 @@ public class TeamProfileMemberViewFragment extends Fragment {
             Toast.makeText(getActivity(), "Team Code copied to clipboard", Toast.LENGTH_LONG).show();
         });
 
+        link1_textView.setOnClickListener(v -> {
+            try {
+                Uri uri = Uri.parse(link1_textView.getText().toString()); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }catch (Exception e) {
+                Toast.makeText(getContext(), "Github link not provided !!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        link2_textView.setOnClickListener(v -> {
+            try {
+                Uri uri = Uri.parse(link2_textView.getText().toString()); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }catch (Exception e) {
+                Toast.makeText(getContext(), "Design link not provided !!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        link3_textView.setOnClickListener(v -> {
+            try {
+                Uri uri = Uri.parse(link3_textView.getText().toString()); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }catch (Exception e) {
+                Toast.makeText(getContext(), "Demo link not provided !!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         idToken = MainActivity.getIdToken();
 
         teamID = getArguments().getString("teamID");
@@ -179,7 +211,7 @@ public class TeamProfileMemberViewFragment extends Fragment {
                             } else {
                                 ProjectCard.setVisibility(GONE);
                                 project_nameTextView.setText("");
-
+                                view.findViewById(R.id.project_availability_member).setVisibility(VISIBLE);
                             }
                             if (joinTeamPOJO.getTeam().getProject_description() != null)
                                 bio_textView.setText(joinTeamPOJO.getTeam().getProject_description());

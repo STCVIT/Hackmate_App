@@ -1,15 +1,17 @@
 package com.example.hackmate.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hackmate.Models.ProjectModel;
 import com.example.hackmate.POJOClasses.IndividualProject;
 import com.example.hackmate.POJOClasses.PtSkill;
 import com.example.hackmate.POJOClasses.TeamProject;
@@ -63,6 +65,49 @@ public class ProjectAdapterMP extends RecyclerView.Adapter<ProjectAdapterMP.View
             holder.link2_textView.setText(teamProject.getDemonstration());
             holder.link3_textView.setText(teamProject.getDesign());
         }
+
+        holder.link1_textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getActivity(), "You will be directed to the hack website", Toast.LENGTH_SHORT).show();
+                try {
+                    Uri uri = Uri.parse(holder.link1_textView.getText().toString().trim()); // missing 'http://' will cause crashed
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    context.startActivity(intent);
+                }catch (Exception e) {
+                    Toast.makeText(context, "Website not provided ", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        holder.link2_textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getActivity(), "You will be directed to the hack website", Toast.LENGTH_SHORT).show();
+                try {
+                    Uri uri = Uri.parse(holder.link2_textView.getText().toString().trim()); // missing 'http://' will cause crashed
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    context.startActivity(intent);
+                }catch (Exception e) {
+                    Toast.makeText(context, "Website not provided ", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        holder.link3_textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getActivity(), "You will be directed to the hack website", Toast.LENGTH_SHORT).show();
+                try {
+                    Uri uri = Uri.parse(holder.link3_textView.getText().toString().trim()); // missing 'http://' will cause crashed
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    context.startActivity(intent);
+                }catch (Exception e) {
+                    Toast.makeText(context, "Website not provided ", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
 
     }
 

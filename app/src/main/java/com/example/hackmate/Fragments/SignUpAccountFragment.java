@@ -48,7 +48,6 @@ public class SignUpAccountFragment extends Fragment {
     private FirebaseAuth mAuth;
     private loginAPI loginAPI;
     String idToken;
-    LoginEmail loginEmail;
     private static final String TAG = "Sign Up account Fragment";
     ProgressBar progressBar;
 
@@ -69,6 +68,12 @@ public class SignUpAccountFragment extends Fragment {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                progressBar.setVisibility(View.VISIBLE);
+                login.setEnabled(false);
+                email_create_your_account.setEnabled(false);
+                password_create_your_account.setEnabled(false);
+                password1_create_your_account.setEnabled(false);
 
                 String emailText = email_create_your_account.getText().toString();
                 String password = password_create_your_account.getText().toString();
@@ -162,11 +167,23 @@ public class SignUpAccountFragment extends Fragment {
                                                             email_create_your_account.setText("");
                                                             password_create_your_account.setText("");
                                                             password1_create_your_account.setText("");
+
+                                                            progressBar.setVisibility(View.GONE);
+                                                            login.setEnabled(true);
+                                                            email_create_your_account.setEnabled(true);
+                                                            password_create_your_account.setEnabled(true);
+                                                            password1_create_your_account.setEnabled(true);
                                                         }
 
                                                         @Override
                                                         public void onFailure(Call<Response<Map<String, String>>> call, Throwable t) {
                                                             Log.e(TAG, "onFailure: " + t.getMessage());
+                                                            Toast.makeText(loginActivity, "Could Not Create Account", Toast.LENGTH_SHORT).show();
+                                                            progressBar.setVisibility(View.GONE);
+                                                            login.setEnabled(true);
+                                                            email_create_your_account.setEnabled(true);
+                                                            password_create_your_account.setEnabled(true);
+                                                            password1_create_your_account.setEnabled(true);
                                                         }
                                                     });
 
@@ -177,7 +194,12 @@ public class SignUpAccountFragment extends Fragment {
                             }
                         });
                     } else {
-                        Toast.makeText(loginActivity, "Couldn't create account!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(loginActivity, "Email ID exits", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                        login.setEnabled(true);
+                        email_create_your_account.setEnabled(true);
+                        password_create_your_account.setEnabled(true);
+                        password1_create_your_account.setEnabled(true);
                     }
                 });
     }

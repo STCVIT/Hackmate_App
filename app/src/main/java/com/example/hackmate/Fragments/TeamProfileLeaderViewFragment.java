@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -147,7 +148,7 @@ public class TeamProfileLeaderViewFragment extends Fragment {
             addProjectFragment.setArguments(bundle1);
             getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.nav_host_fragment, addProjectFragment)
+                    .replace(R.id.nav_host_fragment, addProjectFragment, "Add")
                     .addToBackStack(null)
                     .commit();
         });
@@ -159,14 +160,14 @@ public class TeamProfileLeaderViewFragment extends Fragment {
             addProjectFragment.setArguments(bundle1);
             getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.nav_host_fragment, addProjectFragment)
+                    .replace(R.id.nav_host_fragment, addProjectFragment, "Add")
                     .addToBackStack(null)
                     .commit();
         });
 
         InviteParticpant.setOnClickListener(v -> getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.nav_host_fragment, new FindParticipantFragment(hackID, teamID, members))
+                .replace(R.id.nav_host_fragment, new FindParticipantFragment(hackID, teamID, members),"Invite")
                 .addToBackStack(null)
                 .commit());
         teamCode_Leader.setOnClickListener(v -> {
@@ -188,6 +189,36 @@ public class TeamProfileLeaderViewFragment extends Fragment {
                     .replace(R.id.nav_host_fragment, editProjectFragment)
                     .addToBackStack(null)
                     .commit();
+        });
+
+        link1_textView_Leader.setOnClickListener(v -> {
+            try {
+                Uri uri = Uri.parse(link1_textView_Leader.getText().toString()); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }catch (Exception e) {
+                Toast.makeText(getContext(), "Github link not provided !!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        link2_textView_Leader.setOnClickListener(v -> {
+            try {
+                Uri uri = Uri.parse(link2_textView_Leader.getText().toString()); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }catch (Exception e) {
+                Toast.makeText(getContext(), "Design link not provided !!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        link3_textView_Leader.setOnClickListener(v -> {
+            try {
+                Uri uri = Uri.parse(link3_textView_Leader.getText().toString()); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }catch (Exception e) {
+                Toast.makeText(getContext(), "Demo link not provided !!", Toast.LENGTH_SHORT).show();
+            }
         });
        /* TeamName_Leader.setOnClickListener(v -> {
             showDialogBox();

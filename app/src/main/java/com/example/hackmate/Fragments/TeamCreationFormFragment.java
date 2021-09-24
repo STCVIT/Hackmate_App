@@ -181,7 +181,7 @@ public class TeamCreationFormFragment extends Fragment {
 
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment,frag)
+                        .replace(R.id.nav_host_fragment,frag,"Create")
                         .addToBackStack(null)
                         .commit();
             }

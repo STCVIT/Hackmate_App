@@ -6,13 +6,6 @@ import static android.content.ContentValues.TAG;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Patterns;
@@ -26,6 +19,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hackmate.JSONPlaceholders.loginAPI;
 import com.example.hackmate.LoginActivity;
@@ -53,7 +52,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-
 public class CreateAccountFragment extends Fragment {
 
     private static int IMAGE_TASK = 1;
@@ -65,12 +63,13 @@ public class CreateAccountFragment extends Fragment {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     ChipGroup chipGroup;
     PostSkills postSkills;
+    ProgressBar progressBar;
+    boolean usernameCheck = false;
     private EditText first_name, last_name, username, university, linkedIn_link, github_link, website, bio;
     private loginAPI loginAPI;
     private StorageReference storageReference;
     private Uri uri;
     private ImageView profile_pic;
-    ProgressBar progressBar;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
@@ -78,7 +77,7 @@ public class CreateAccountFragment extends Fragment {
         if (data != null && requestCode == IMAGE_TASK && resultCode == RESULT_OK) {
             uri = data.getData();
             profile_pic.setImageURI(uri);
-        } else if(data!=null){
+        } else if (data != null) {
             Toast.makeText(getContext(), "Error...Try Again !!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -124,8 +123,22 @@ public class CreateAccountFragment extends Fragment {
         gender_CompleteTextView.setAdapter(gender_arrayAdapter);
 
         create_profile.setOnClickListener(v -> {
-//            progressBar.setVisibility(View.VISIBLE);
-//            create_profile.setEnabled(false);
+            progressBar.setVisibility(View.VISIBLE);
+            create_profile.setEnabled(false);
+
+            Call<Void> caller = loginAPI.checkUsername("Bearer " + idToken, username.getText().toString().trim());
+            caller.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    Log.e(TAG, "onResponse: check username " + response.code());
+                    usernameCheck = response.code() != 404;
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(getContext(), "Error please try again!", Toast.LENGTH_SHORT).show();
+                }
+            });
             String year = YOG_CompleteTextView.getText().toString();
             String gen = gender_CompleteTextView.getText().toString();
             Log.i("YOG", year);
@@ -154,7 +167,7 @@ public class CreateAccountFragment extends Fragment {
             }
             if (linkedIn_link.getText().toString().isEmpty()) {
                 linkedIn_link.setText("--");
-            } else if(linkedIn_link.getText().toString().equals("--")){
+            } else if (linkedIn_link.getText().toString().equals("--")) {
                 linkedIn_link.setText("--");
             } else if (!Patterns.WEB_URL.matcher(linkedIn_link.getText().toString()).matches()) {
                 linkedIn_link.setError("Please Enter Valid linkedIn link!!");
@@ -165,18 +178,18 @@ public class CreateAccountFragment extends Fragment {
                 github_link.setError("Github Link is Required");
                 github_link.requestFocus();
                 return;
-            } else if(github_link.getText().toString().equals("--")){
+            } else if (github_link.getText().toString().equals("--")) {
                 github_link.setText("--");
-            }else if (!Patterns.WEB_URL.matcher(github_link.getText().toString()).matches()) {
+            } else if (!Patterns.WEB_URL.matcher(github_link.getText().toString()).matches()) {
                 github_link.setError("Please Enter Valid Github Link link!!");
                 github_link.requestFocus();
                 return;
             }
             if (website.getText().toString().isEmpty()) {
                 website.setText("--");
-            }else if(website.getText().toString().equals("--")){
+            } else if (website.getText().toString().equals("--")) {
                 website.setText("--");
-            }else if(!Patterns.WEB_URL.matcher(website.getText().toString()).matches()){
+            } else if (!Patterns.WEB_URL.matcher(website.getText().toString()).matches()) {
                 website.setError("Please Enter Valid website link!!");
                 website.requestFocus();
                 return;
@@ -206,17 +219,17 @@ public class CreateAccountFragment extends Fragment {
             loginDetails.setBio(bio.getText().toString());
             loginDetails.setGraduation_year(Integer.parseInt(year));
             loginDetails.setUsername(username.getText().toString());
-            if(downloadUrl!=null)
+            if (downloadUrl != null)
                 loginDetails.setPhoto(downloadUrl);
             else
                 loginDetails.setPhoto("---");
 
-            List<String> skill =  new ArrayList<>();
+            List<String> skill = new ArrayList<>();
 
-            for (int i=0; i<chipGroup.getChildCount();i++){
-                Chip chip = (Chip)chipGroup.getChildAt(i);
+            for (int i = 0; i < chipGroup.getChildCount(); i++) {
+                Chip chip = (Chip) chipGroup.getChildAt(i);
                 String chipText = chip.getText().toString();
-                if(chip.isChecked()){
+                if (chip.isChecked()) {
                     switch (chipText) {
                         case "Machine Learning":
                             skill.add("ml");
@@ -253,7 +266,15 @@ public class CreateAccountFragment extends Fragment {
 
             postSkills = new PostSkills(skill);
             postSkills.setSkills(skill);
-            checkIfEmailVerified();
+            if (usernameCheck) {
+                progressBar.setVisibility(View.GONE);
+                create_profile.setEnabled(true);
+                checkIfEmailVerified();
+            } else {
+                progressBar.setVisibility(View.GONE);
+                create_profile.setEnabled(true);
+                Toast.makeText(getContext(), "Username is Taken! Please choose a new one!", Toast.LENGTH_SHORT).show();
+            }
 
         });
 
@@ -288,39 +309,21 @@ public class CreateAccountFragment extends Fragment {
                                 idToken = task.getResult().getToken();
                                 Log.i("xx", idToken);
 
-//                                Call<Void> caller = loginAPI.checkUsername("Bearer " + idToken, username.getText().toString().trim());
-//                                caller.enqueue(new Callback<Void>() {
-//                                    @Override
-//                                    public void onResponse(Call<Void> call, Response<Void> response) {
-//                                        Log.e(TAG, "onResponse: check username "+response.code());
-//                                        if(response.code() == 404){
-//                                            progressBar.setVisibility(View.GONE);
-//                                            create_profile.setEnabled(true);
-//                                            Toast.makeText(getContext(), "Username is Taken! Please choose a new one!", Toast.LENGTH_SHORT).show();
-//                                        }
-//                                    }
-//
-//                                    @Override
-//                                    public void onFailure(Call<Void> call, Throwable t) {
-//                                        Toast.makeText(getContext(), "Error please try again!", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                });
 
                                 Call<Response<Map<String, String>>> call = loginAPI.setLoginDetails("Bearer " + idToken, loginDetails);
                                 call.enqueue(new Callback<Response<Map<String, String>>>() {
                                     @Override
                                     public void onResponse(Call<Response<Map<String, String>>> call, Response<Response<Map<String, String>>> response) {
-                                        Log.e(TAG, "onResponse: " +response.code());
+                                        Log.e(TAG, "onResponse: " + response.code());
 
                                         if (response.isSuccessful()) {
-//                                            progressBar.setVisibility(View.GONE);
-//                                            create_profile.setEnabled(true);
+
                                             Call<Void> call2 = loginAPI.postSkills("Bearer " +
                                                     idToken, postSkills);
                                             call2.enqueue(new Callback<Void>() {
                                                 @Override
                                                 public void onResponse(Call<Void> call2, Response<Void> response) {
-//                                                    Log.e(TAG, "onResponse: " +response.body());
+
                                                     if (response.isSuccessful()) {
                                                         loginActivity.preferences.edit().putInt("response", 200).apply();
                                                         Log.i("responsexx", String.valueOf(loginActivity.preferences.getInt("response", 0)));
